@@ -135,6 +135,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -159,35 +160,20 @@
     <Compile Include="Models\DICT_TESTS.cs">
       <DependentUpon>BBS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\LMDLAB.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LMDLAB.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\LMDLAB.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LMDLAB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\LMDLAB.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LMDLAB.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\PATIENT.cs">
-      <DependentUpon>LMDLAB.tt</DependentUpon>
+      <DependentUpon>BBS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PRODUCT.cs">
       <DependentUpon>BBS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\REQUEST.cs">
-      <DependentUpon>LMDLAB.tt</DependentUpon>
+      <DependentUpon>BBS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\REQUEST_PRODUCT.cs">
       <DependentUpon>BBS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TEST.cs">
-      <DependentUpon>LMDLAB.tt</DependentUpon>
+      <DependentUpon>BBS.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -210,25 +196,8 @@
       <DependentUpon>BBS.edmx</DependentUpon>
       <LastGenOutput>BBS.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\LMDLAB.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LMDLAB.edmx</DependentUpon>
-      <LastGenOutput>LMDLAB.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\LMDLAB.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LMDLAB.edmx</DependentUpon>
-      <LastGenOutput>LMDLAB.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\LMDLAB.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>LMDLAB.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\LMDLAB.edmx.diagram">
-      <DependentUpon>LMDLAB.edmx</DependentUpon>
-    </Content>
     <EntityDeploy Include="Models\BBS.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BBS.Designer.cs</LastGenOutput>
@@ -261,6 +230,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Patient\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
