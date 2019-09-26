@@ -154,34 +154,60 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BBS.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\BBSPATIENT.cs">
+      <DependentUpon>BBS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BBSREQUEST.cs">
+      <DependentUpon>BBS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BBSTEST.cs">
+      <DependentUpon>BBS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DICT_PRODUCTS.cs">
       <DependentUpon>BBS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DICT_TESTS.cs">
       <DependentUpon>BBS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LMD.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LMD.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LMD.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LMD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LMD.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LMD.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\PATIENT.cs">
-      <DependentUpon>BBS.tt</DependentUpon>
+      <DependentUpon>LMD.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PRODUCT.cs">
       <DependentUpon>BBS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\REQUEST.cs">
-      <DependentUpon>BBS.tt</DependentUpon>
+      <DependentUpon>LMD.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\REQUEST_PRODUCT.cs">
       <DependentUpon>BBS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TEST.cs">
-      <DependentUpon>BBS.tt</DependentUpon>
+      <DependentUpon>LMD.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\PatientDetailViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\w3.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -196,6 +222,16 @@
       <DependentUpon>BBS.edmx</DependentUpon>
       <LastGenOutput>BBS.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\LMD.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LMD.edmx</DependentUpon>
+      <LastGenOutput>LMD.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\LMD.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LMD.edmx</DependentUpon>
+      <LastGenOutput>LMD.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\BBS.edmx">
@@ -204,6 +240,13 @@
     </EntityDeploy>
     <Content Include="Models\BBS.edmx.diagram">
       <DependentUpon>BBS.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\LMD.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LMD.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\LMD.edmx.diagram">
+      <DependentUpon>LMD.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -231,6 +274,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Patient\Index.cshtml" />
+    <Content Include="Views\Patient\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

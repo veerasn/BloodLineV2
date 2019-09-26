@@ -395,7 +395,7 @@
           <Property Name="SSMA_TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="TESTS" Relationship="Self.FK_Dict_Tests" FromRole="DICT_TESTS" ToRole="TESTS" />
         </EntityType>
-        <EntityType Name="PATIENT">
+        <EntityType Name="BBSPATIENT">
           <Key>
             <PropertyRef Name="PATNUMBER" />
           </Key>
@@ -527,7 +527,7 @@
           <NavigationProperty Name="PRODUCT" Relationship="Self.FK_Products" FromRole="REQUEST_PRODUCT" ToRole="PRODUCTS" />
           <NavigationProperty Name="REQUEST" Relationship="Self.FK_Request_Product" FromRole="REQUEST_PRODUCT" ToRole="REQUESTS" />
         </EntityType>
-        <EntityType Name="REQUEST">
+        <EntityType Name="BBSREQUEST">
           <Key>
             <PropertyRef Name="ACCESSNUMBER" />
             <PropertyRef Name="REQCREATIONDATE" />
@@ -558,7 +558,7 @@
           <NavigationProperty Name="REQUEST_PRODUCT" Relationship="Self.FK_Request_Product" FromRole="REQUESTS" ToRole="REQUEST_PRODUCT" />
           <NavigationProperty Name="TESTS" Relationship="Self.FK_Tests" FromRole="REQUESTS" ToRole="TESTS" />
         </EntityType>
-        <EntityType Name="TEST">
+        <EntityType Name="BBSTEST">
           <Key>
             <PropertyRef Name="TESTID" />
             <PropertyRef Name="ACCESSNUMBER" />
@@ -597,7 +597,7 @@
         </Association>
         <Association Name="FK_Dict_Tests">
           <End Role="DICT_TESTS" Type="Self.DICT_TESTS" Multiplicity="0..1" />
-          <End Role="TESTS" Type="Self.TEST" Multiplicity="*" />
+          <End Role="TESTS" Type="BBSModel.BBSTEST" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DICT_TESTS">
               <PropertyRef Name="TESTCODE" />
@@ -610,8 +610,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Requests">
-          <End Role="PATIENTS" Type="Self.PATIENT" Multiplicity="0..1" />
-          <End Role="REQUESTS" Type="Self.REQUEST" Multiplicity="*" />
+          <End Role="PATIENTS" Type="BBSModel.BBSPATIENT" Multiplicity="0..1" />
+          <End Role="REQUESTS" Type="BBSModel.BBSREQUEST" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PATIENTS">
               <PropertyRef Name="PATNUMBER" />
@@ -634,7 +634,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Request_Product">
-          <End Role="REQUESTS" Type="Self.REQUEST" Multiplicity="1" />
+          <End Role="REQUESTS" Type="BBSModel.BBSREQUEST" Multiplicity="1" />
           <End Role="REQUEST_PRODUCT" Type="Self.REQUEST_PRODUCT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="REQUESTS">
@@ -648,8 +648,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Tests">
-          <End Role="REQUESTS" Type="Self.REQUEST" Multiplicity="1" />
-          <End Role="TESTS" Type="Self.TEST" Multiplicity="*" />
+          <End Role="REQUESTS" Type="BBSModel.BBSREQUEST" Multiplicity="1" />
+          <End Role="TESTS" Type="BBSModel.BBSTEST" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="REQUESTS">
               <PropertyRef Name="ACCESSNUMBER" />
@@ -664,11 +664,11 @@
         <EntityContainer Name="BBSEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="DICT_PRODUCTS" EntityType="Self.DICT_PRODUCTS" />
           <EntitySet Name="DICT_TESTS" EntityType="Self.DICT_TESTS" />
-          <EntitySet Name="PATIENTS" EntityType="Self.PATIENT" />
+          <EntitySet Name="PATIENTS" EntityType="BBSModel.BBSPATIENT" />
           <EntitySet Name="PRODUCTS" EntityType="Self.PRODUCT" />
           <EntitySet Name="REQUEST_PRODUCT" EntityType="Self.REQUEST_PRODUCT" />
-          <EntitySet Name="REQUESTS" EntityType="Self.REQUEST" />
-          <EntitySet Name="TESTS" EntityType="Self.TEST" />
+          <EntitySet Name="REQUESTS" EntityType="BBSModel.BBSREQUEST" />
+          <EntitySet Name="TESTS" EntityType="BBSModel.BBSTEST" />
           <AssociationSet Name="FK_Dict_Products" Association="Self.FK_Dict_Products">
             <End Role="DICT_PRODUCTS" EntitySet="DICT_PRODUCTS" />
             <End Role="PRODUCTS" EntitySet="PRODUCTS" />
@@ -748,7 +748,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PATIENTS">
-            <EntityTypeMapping TypeName="BBSModel.PATIENT">
+            <EntityTypeMapping TypeName="BBSModel.BBSPATIENT">
               <MappingFragment StoreEntitySet="PATIENTS">
                 <ScalarProperty Name="PATNUMBER" ColumnName="PATNUMBER" />
                 <ScalarProperty Name="PATCREATIONDATE" ColumnName="PATCREATIONDATE" />
@@ -876,7 +876,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="REQUESTS">
-            <EntityTypeMapping TypeName="BBSModel.REQUEST">
+            <EntityTypeMapping TypeName="BBSModel.BBSREQUEST">
               <MappingFragment StoreEntitySet="REQUESTS">
                 <ScalarProperty Name="ACCESSNUMBER" ColumnName="ACCESSNUMBER" />
                 <ScalarProperty Name="REQCREATIONDATE" ColumnName="REQCREATIONDATE" />
@@ -904,7 +904,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TESTS">
-            <EntityTypeMapping TypeName="BBSModel.TEST">
+            <EntityTypeMapping TypeName="BBSModel.BBSTEST">
               <MappingFragment StoreEntitySet="TESTS">
                 <ScalarProperty Name="TESTID" ColumnName="TESTID" />
                 <ScalarProperty Name="ACCESSNUMBER" ColumnName="ACCESSNUMBER" />

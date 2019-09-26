@@ -7,11 +7,11 @@
       <Diagram DiagramId="f84553e34d16431587429f5ab3af8ca9" Name="Diagram1">
         <EntityTypeShape EntityType="BBSModel.DICT_PRODUCTS" Width="1.5" PointX="0.75" PointY="16.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BBSModel.DICT_TESTS" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BBSModel.PATIENT" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBSModel.BBSPATIENT" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="BBSModel.PRODUCT" Width="1.5" PointX="3" PointY="15" IsExpanded="true" />
         <EntityTypeShape EntityType="BBSModel.REQUEST_PRODUCT" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BBSModel.REQUEST" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BBSModel.TEST" Width="1.5" PointX="8.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBSModel.BBSREQUEST" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBSModel.BBSTEST" Width="1.5" PointX="8.25" PointY="7.5" IsExpanded="true" />
         <AssociationConnector Association="BBSModel.FK_Dict_Products" ManuallyRouted="false" />
         <AssociationConnector Association="BBSModel.FK_Dict_Tests" ManuallyRouted="false" />
         <AssociationConnector Association="BBSModel.FK_Requests" ManuallyRouted="false" />
