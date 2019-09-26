@@ -48,7 +48,7 @@ namespace BloodLineV2.ViewModels
         public string ANTIBODIES { get; set; }
         public string ABSHORT
         {
-            get { return ANTIBODIES != null ? ANTIBODIES.Substring(0, 5) : ""; }
+            get { return ANTIBODIES != null ? ANTIBODIES.Substring(0, 5) : "AB:NEG"; }
         }
         public string REQUIREMENTS { get; set; }
         public string REFDOCTOR { get; set; }
@@ -60,6 +60,21 @@ namespace BloodLineV2.ViewModels
         public Nullable<byte> BGRPSTATUS { get; set; }
         public Nullable<System.DateTime> BGRPSTATUSDATE { get; set; }
         public Nullable<byte> MANDATORYXMATCH { get; set; }
+        public string EI
+        {
+            get
+            {
+                switch (MANDATORYXMATCH.ToString())
+                {
+                    case "0":
+                        { return MANDATORYXMATCH != null ? "EI Eligible" : "Damn"; }
+                    case "2":
+                        { return MANDATORYXMATCH != null ? "EI Forbidden" : "Damn again"; }
+                    default:
+                        { return MANDATORYXMATCH != null ? "12" : "34"; }
+                }
+            }
+        }
         public Nullable<byte> SAFETYMEASURES { get; set; }
         public Nullable<byte> BGRPSTATUSTMP { get; set; }
 

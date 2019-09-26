@@ -75,7 +75,7 @@ namespace BloodLineV2.Controllers
             ViewBag.TestCount = ireq;
 
             string abo = "", rh = "", reqvaliddate = "none";
-            int aboerr = 0, rherr = 0, abserr = 0, abonum = 0, reqvalid = 0;
+            int aboerr = 0, rherr = 0, abserr = 0, abonum = 0, absnum = 0, reqvalid = 0;
 
             if (ireq > 0)
             {
@@ -140,8 +140,13 @@ namespace BloodLineV2.Controllers
                             break;
                         case "ABS":
                             res[j, 6] = testrequests[i].TestResult;
+                            //Count number of abs with neg results
+                            if (testrequests[i].TestResult != null && testrequests[i].TestResult.Contains("ABNEG"))
+                            {
+                                absnum = absnum + 1;
+                            }
                             //Check for any abs positives
-                            if (testrequests[i].TestResult != null && testrequests[i].TestResult.Contains("POS"))
+                            if (testrequests[i].TestResult != null && testrequests[i].TestResult.Contains("ABPOS"))
                             {
                                 abserr = abserr + 1;
                             }
@@ -152,7 +157,7 @@ namespace BloodLineV2.Controllers
                     }
                 }
                 ViewData["TestResults"] = res;
-                ViewBag.AboErr = aboerr; ViewBag.RhErr = rherr; ViewBag.AbsErr = abserr; ViewBag.Abonum = abonum;
+                ViewBag.AboErr = aboerr; ViewBag.RhErr = rherr; ViewBag.AbsErr = abserr; ViewBag.Abonum = abonum; ViewBag.Absnum = absnum;
                 ViewBag.ReqValid = reqvalid; ViewBag.ReqValidDate = reqvaliddate;
             }
 
