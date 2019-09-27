@@ -128,7 +128,7 @@
                 </div>
             </div>
             <!--Notifications and alerts-->
-            <div class="w3-container w3-gray">
+            <div class="w3-container w3-light-gray">
                 <p><b>Current status of patient and ongoing testing</b></p>
                 <div>
                     @if (ViewBag.RhErr > 0 || ViewBag.AboErr > 0)
@@ -167,13 +167,324 @@
                     }
                 </div>
             </div>
-
-
-
-
-
-
         </div>
+        <!-- Review results and transfusions -->
+        <div class="w3-container">
+            <div class="panel-group" id="accordion-review">
+                <!-- Requests and results -->
+                <div class="w3-panel w3-gray panel-default">
+                    <div class="panel-heading">
+                        <h5 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse1">Requests and results (@ViewBag.TestCount)</a>
+                        </h5>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body w3-light-gray">
+                            @if (ViewBag.TestCount > 0)
+                            {
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Date </th>
+                                            <th></th>
+                                            <th>ABO</th>
+                                            <th>Rh</th>
+                                            <th>DAT</th>
+                                            <th>Ab screen</th>
+                                            <th>Ab ID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{var res = ViewData["TestResults"] as string[,];
+                                            for (int row = 0; row < res.GetLength(0); row++)
+                                            {
+                                                <tr>
+                                                    @for (int column = 0; column < res.GetLength(1); column++)
+                                                    {
+                                                        switch (column)
+                                                        {
+                                                            case 2:
+                                                                if (res[row, column] != null)
+                                                                {
+                                                                    <td><i class="fa fa-vial"></i><sup>@res[row, column]</sup></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>@res[row, column]</td>
+                                                                };
+                                                                break;
+
+                                                            case 6:
+                                                                if (res[row, column] != null && res[row, column].Contains("POS"))
+                                                                {
+                                                                    <td><b><font color="red">@res[row, column]</font></b></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>@res[row, column]</td>
+                                                                };
+                                                                break;
+
+                                                            case 7:
+                                                                if (res[row, column] != null)
+                                                                {
+                                                                    <td><i class="fa fa-exclamation"></i></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>@res[row, column]</td>
+                                                                };
+                                                                break;
+
+                                                            default:
+                                                                <td>@res[row, column]</td>
+                                                                break;
+                                                        }
+                                                    }
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- Red Cells -->
+                <div class="w3-panel w3-gray panel-default">
+                    <div class="panel-heading">
+                        <h5 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse2">Red blood cells (@ViewBag.Rccount)  </a>
+                            @if (ViewBag.Rccount > 0)
+                            {
+                                <i class="fa fa-vial"></i> @ViewBag.Reserved
+                                <i class="fa fa-clipboard-check"></i> @ViewBag.Issued
+                                <i class="fa fa-procedures"></i> @ViewBag.Transfused
+                                <i class="fa fa-tag"></i> @ViewBag.Returned
+                                <i class="fa fa-allergies"></i> @ViewBag.Reaction
+                            }
+                        </h5>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse">
+                        <div class="panel-body w3-light-gray">
+                            @if (ViewBag.Rccount > 0)
+                            {
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Request Time & Date</th>
+                                            <th>RC Type</th>
+                                            <th>Pack ID</th>
+                                            <th>History</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.PRODNUM != null && item.PRODCODE.Substring(0, 2) == "RC")
+                                            {
+                                                <tr>
+                                                    <td>@item.ACCESSNUMBER</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
+                                                    <td>@item.PRODCODE</td>
+                                                    <td>@item.PRODNUM</td>
+                                                    <td>
+                                                        @if (item.RESERVDATE != null && item.ReservIntDay < 8)
+                                                        {
+                                                            <i class="fa fa-file-prescription"></i>
+                                                            <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
+                                                        }
+                                                        @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
+                                                        {
+                                                            <i class="fa fa-vials"></i>
+                                                            <sup>@item.XMATCHDATE.Value.ToString("HH:mm") d:@item.XmatchIntDay</sup>
+                                                        }
+                                                        @if (item.ISSUEDATE != null && item.IssueIntDay < 8)
+                                                        {
+                                                            <i class="fa fa-clipboard-check"></i>
+                                                            <sup>@item.ISSUEDATE.Value.ToString("HH:mm") d:@item.IssueIntDay</sup>
+                                                        }
+                                                        @if (item.RETURNDATE != null && item.ReturnIntDay < 8)
+                                                        {
+                                                            <i class="fa fa-tag"></i>
+                                                            <sup>@item.RETURNDATE.Value.ToString("HH:mm") d:@item.ReturnIntDay</sup>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (item.TRANSREACTION != null)
+                                                        {
+                                                            <i class="fa fa-allergies"></i>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- Platelets -->
+                <div class="w3-panel w3-gray panel-default">
+                    <div class="panel-heading">
+                        <h5 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse3">Platelets (@ViewBag.Plcount)</a>
+                            @if (ViewBag.Plcount > 0)
+                            {
+                                <i class="fa fa-clipboard-check"></i> @ViewBag.PlIssued
+                                <i class="fa fa-procedures"></i> @ViewBag.PlTransfused
+                                <i class="fa fa-tag"></i> @ViewBag.PlReturned
+                                <i class="fa fa-allergies"></i> @ViewBag.Reaction
+                            }
+                        </h5>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse">
+                        <div class="panel-body w3-light-gray">
+                            @if (ViewBag.Plcount > 0)
+                            {
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Request Date</th>
+                                            <th>Time</th>
+                                            <th>RC Type</th>
+                                            <th>Pack ID</th>
+                                            <th>History</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.PRODNUM != null && item.PRODCODE.Substring(0, 2) == "PL")
+                                            {
+                                                <tr>
+                                                    <td>@item.ACCESSNUMBER</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
+                                                    <td>@item.PRODCODE</td>
+                                                    <td>@item.PRODNUM</td>
+                                                    <td>
+                                                        @if (item.RESERVDATE != null && item.ReservIntDay < 8)
+                                                        {
+                                                            <i class="fa fa-file-prescription"></i>
+                                                            <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
+                                                        }
+                                                        @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
+                                                        {
+                                                            <i class="fa fa-vials"></i>
+                                                            <sup>@item.XMATCHDATE.Value.ToString("HH:mm") d:@item.XmatchIntDay</sup>
+                                                        }
+                                                        @if (item.ISSUEDATE != null && item.IssueIntDay < 8)
+                                                        {
+                                                            <i class="fa fa-clipboard-check"></i>
+                                                            <sup>@item.ISSUEDATE.Value.ToString("HH:mm") d:@item.IssueIntDay</sup>
+                                                        }
+                                                        @if (item.RETURNDATE != null && item.ReturnIntDay < 8)
+                                                        {
+                                                            <i class="fa fa-tag"></i>
+                                                            <sup>@item.RETURNDATE.Value.ToString("HH:mm") d:@item.ReturnIntDay</sup>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (item.TRANSREACTION != null)
+                                                        {
+                                                            <i class="fa fa-allergies"></i>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- Plasma products -->
+                <div class="w3-panel w3-gray panel-default">
+                    <div class="panel-heading">
+                        <h5 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse4">Plasma products (@ViewBag.Fpcount)</a>
+                            @if (ViewBag.Fpcount > 0)
+                            {
+                                <i class="fa fa-clipboard-check"></i> @ViewBag.FpIssued
+                                <i class="fa fa-procedures"></i> @ViewBag.FpTransfused
+                                <i class="fa fa-tag"></i> @ViewBag.FpReturned
+                                <i class="fa fa-allergies"></i> @ViewBag.Reaction
+                            }
+                        </h5>
+                    </div>
+                    <div id="collapse4" class="panel-collapse collapse">
+                        <div class="panel-body w3-light-gray">
+                            @if (ViewBag.Fpcount > 0)
+                            {
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Request Date</th>
+                                            <th>Time</th>
+                                            <th>RC Type</th>
+                                            <th>Pack ID</th>
+                                            <th>History</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.PRODNUM != null && (item.PRODCODE.Substring(0, 2) == "FF" || item.PRODCODE.Substring(0, 2) == "CR"))
+                                            {
+                                                <tr>
+                                                    <td>@item.ACCESSNUMBER</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
+                                                    <td>@item.PRODCODE</td>
+                                                    <td>@item.PRODNUM</td>
+                                                    <td>
+                                                        @if (item.RESERVDATE != null && item.ReservIntDay < 8)
+                                                        {
+                                                            <i class="fa fa-file-prescription"></i>
+                                                            <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
+                                                        }
+                                                        @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
+                                                        {
+                                                            <i class="fa fa-vials"></i>
+                                                            <sup>@item.XMATCHDATE.Value.ToString("HH:mm") d:@item.XmatchIntDay</sup>
+                                                        }
+                                                        @if (item.ISSUEDATE != null && item.IssueIntDay < 8)
+                                                        {
+                                                            <i class="fa fa-clipboard-check"></i>
+                                                            <sup>@item.ISSUEDATE.Value.ToString("HH:mm") d:@item.IssueIntDay</sup>
+                                                        }
+                                                        @if (item.RETURNDATE != null && item.ReturnIntDay < 8)
+                                                        {
+                                                            <<i class="fa fa-tag"></i>
+                                                            <sup>@item.RETURNDATE.Value.ToString("HH:mm") d:@item.ReturnIntDay</sup>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (item.TRANSREACTION != null)
+                                                        {
+                                                            <i class="fa fa-allergies"></i>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
     </div>
 
 
