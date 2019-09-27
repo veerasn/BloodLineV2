@@ -453,6 +453,14 @@ namespace BloodLineV2.Controllers
                 ViewBag.yApt = y;
             }
 
+            //Create table for choosing blood products
+            ProductInfoModel productInfoModel = new ProductInfoModel();
+            ViewBag.ProductInfo = productInfoModel.ProductInfoAll();
+
+            //Create dropdown for indications
+            ProductInfoModel IndicationModel = new ProductInfoModel();
+            ViewBag.Indications = new SelectList(IndicationModel.IndicationAll(), "Id", "Caption");
+
             //return View("Details",Patient);
             return View("Details", prodrequests);
         }
