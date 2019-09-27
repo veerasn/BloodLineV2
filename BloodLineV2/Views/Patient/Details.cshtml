@@ -876,16 +876,48 @@
                     </div>
                 </div>
                 <!--End of Red cell requests-->
-
+                <!--Platelet requests-->
+                <div id="Platelet" class="w3-container request" style="display:none">
+                    @Html.Partial("Shared/_ChooseProductPlt")
+                    @Html.Partial("Shared/_ChooseProductHla")
+                </div>
+                <!--Plasma products and derivatives requests-->
+                <div id="Plasma" class="w3-container request" style="display:none">
+                    <h6>
+                        Select suitable products and required quantity. Refer to <a href="#"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
+                    </h6>
+                    @Html.Partial("Shared/_ChooseProductFfp")
+                    @Html.Partial("Shared/_ChooseProductCpt")
+                    @Html.Partial("Shared/_ChooseProductCsp")
+                    @Html.Partial("Shared/_ChooseProductRh")
+                    @Html.Partial("Shared/_ChooseProductCC3")
+                    @Html.Partial("Shared/_ChooseProductCC4")
+                    @Html.Partial("Shared/_ChooseProductF8")
+                    @Html.Partial("Shared/_ChooseProductF7a")
+                </div>
             </div>
         </div>
-
-
-
+        <!--Terminating messages and alerts-->
+        <br>
+        <div class="w3-container w3-dark-grey w3-padding-32">
+            <div class="w3-row">
+                <div class="w3-container w3-third">
+                    <h5 class="w3-bottombar w3-border-green">Messages & Alerts</h5>
+                </div>
+                <div class="w3-container w3-third">
+                    <h5 class="w3-bottombar w3-border-red">Blood Stock Levels</h5>
+                </div>
+                <div class="w3-container w3-third">
+                    <h5 class="w3-bottombar w3-border-orange">Guidelines</h5>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer class="w3-container w3-padding-16 w3-light-grey">
+            <h4>USE BLOOD WISELY</h4>
+        </footer>
+        <!-- End page content -->
     </div>
-
-
-
 
     <script>
         // Get the Sidebar

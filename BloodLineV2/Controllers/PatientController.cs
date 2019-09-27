@@ -265,7 +265,7 @@ namespace BloodLineV2.Controllers
                     on rq.PATID equals pt.PATID
                     where pt.PATNUMBER == id && (tst.CHAPID == 36 | tst.CHAPID == 40)
                         && tst.RESVALUE != null && rq.COLLECTIONDATE != null
-                    orderby rq.COLLECTIONDATE descending
+                    orderby rq.COLLECTIONDATE ascending
                     select new
                     {
                         Interval = DbFunctions.DiffDays(DateTime.Now, rq.COLLECTIONDATE),

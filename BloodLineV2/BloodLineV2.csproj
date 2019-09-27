@@ -284,6 +284,16 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Patient\Index.cshtml" />
     <Content Include="Views\Patient\Details.cshtml" />
+    <Content Include="Views\Patient\Shared\_ChooseProductCc3.cshtml" />
+    <Content Include="Views\Patient\Shared\_ChooseProductCc4.cshtml" />
+    <Content Include="Views\Patient\Shared\_ChooseProductCpt.cshtml" />
+    <Content Include="Views\Patient\Shared\_ChooseProductCsp.cshtml" />
+    <Content Include="Views\Patient\Shared\_ChooseProductF7a.cshtml" />
+    <Content Include="Views\Patient\Shared\_ChooseProductF8.cshtml" />
+    <Content Include="Views\Patient\Shared\_ChooseProductFfp.cshtml" />
+    <Content Include="Views\Patient\Shared\_ChooseProductHla.cshtml" />
+    <Content Include="Views\Patient\Shared\_ChooseProductPlt.cshtml" />
+    <Content Include="Views\Patient\Shared\_ChooseProductRh.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
