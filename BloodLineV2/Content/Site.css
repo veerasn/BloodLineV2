@@ -40,7 +40,7 @@ button.custaccordion {
         background-color: #ddd;
     }
 
-div.custpanel {
+.custpanel {
     padding: 0 18px;
     background-color: white;
     display: none;
@@ -114,11 +114,10 @@ div.custpanel {
 
 .arrow {
     float: right;
-    width: 0px;
-    height: 0px;
+    width: 0;
+    height: 0;
     margin-top: 20px;
     border: 10px solid transparent;
-    margin-top: 18px;
     border-top-color: #F3F3F3;
 }
 
@@ -130,4 +129,57 @@ div.custpanel {
 
 .result {
     display: none;
+}
+
+/*Shopping Cart*/
+.shopping-cart {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    min-height: 50px;
+    margin-right: 20px;
+    margin-top: 10px;
+    padding: 20px;
+    background: wheat;
+}
+
+.shopping-cart-head {
+    background: steelblue;
+    color: white;
+    padding: 5px;
+}
+
+.shopping-cart,
+.shopping-cart-head {
+    border-radius: 5px;
+}
+
+.empty-cart-btn,
+.cart-checkout {
+    display: none;
+}
+
+.empty-cart-btn {
+    margin-bottom: 5px;
+}
+
+.cart-checkout {
+    background: limegreen;
+}
+
+.button {
+    padding: 6px;
+    border-radius: 5px;
+    display: inline-block;
+    background: steelblue;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.add-to-cart {
+    overflow: hidden;
+    clear: both;
+    margin-top: 2px;
 }
