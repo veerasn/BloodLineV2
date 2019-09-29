@@ -794,7 +794,44 @@
                 </a>
                 <!--Test requests-->
                 <div id="Test" class="w3-container request" style="display:none">
-                    <h4>Panel for tests</h4>
+                    <h6>Panel for tests</h6>
+                    <div class="products">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Code</th>
+                                    <th>Test Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
+                                {
+                                    if (bloodProduct.Id.Substring(0, 2).Contains("T-") &&
+                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="#0" class="button add-to-cart" data-id=@bloodProduct.Id>Request</a>
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Id
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Name
+                                                @if (bloodProduct.Filelocation != "none")
+                                                {
+                                                    <a href="@bloodProduct.Filelocation" target="_blank">
+                                                        <sup><i class="fa fa-info"></i></sup>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!--Red cell requests-->
                 <div id="Rbc" class="w3-container request" style="display:none">
@@ -828,7 +865,7 @@
                                            })
                                             </td>
                                             <td>
-                                                <a href="#0" class="button add-to-cart" data-id=@bloodProduct.Id>Add to cart</a>
+                                                <a href="#0" class="button add-to-cart" data-id=@bloodProduct.Id>Request</a>
                                             </td>
                                             <td>
                                                 @bloodProduct.Id
@@ -926,17 +963,6 @@
                 </div>
             </div>
         </div>
-        <!--Shopping cart-->
-        <div class="shopping-cart">
-            <div class="shopping-cart-head">
-                <span class="product-quantity">0</span> Product(s) in Cart
-            </div>
-            <ul class="shopping-cart-list"></ul>
-            <div class="cart-buttons">
-                <a href="#0" class="button empty-cart-btn">Empty</a>
-                <a href="#0" class="button cart-checkout">Checkout - <span class="total-price">$0</span></a>
-            </div>
-        </div>
         <!-- Footer -->
         <footer class="w3-container w3-padding-16 w3-light-grey">
             <h4>USE BLOOD WISELY</h4>
@@ -1026,85 +1052,6 @@
             }
         }
     </script>
-    <script>
-        //Shopping cart
-        var ShoppingCart = (function ($) {
-            var productsEl = document.querySelector(".products"),
-                cartEl = document.querySelector(".shopping-cart-list"),
-                productQuantityEl = document.querySelector(".product-quantity"),
-                emptyCartEl = document.querySelector(".empty-cart-btn"),
-                cartCheckoutEl = document.querySelector(".cart-checkout");
-            var productsInCart = [];
-            var generateCartList = function () {
-                cartEl.innerHTML = "";
-                productsInCart.forEach(function (item) {
-                    var li = document.createElement("li");
-                    li.innerHTML = `${item.quantity} ${item.product.name}`;
-                    cartEl.appendChild(li);
-                });
-                productQuantityEl.innerHTML = productsInCart.length;
-                generateCartButtons()
-            }
-            var generateCartButtons = function () {
-                if (productsInCart.length > 0) {
-                    emptyCartEl.style.display = "block";
-                    cartCheckoutEl.style.display = "block";
-                } else {
-                    emptyCartEl.style.display = "none";
-                    cartCheckoutEl.style.display = "none";
-                }
-            }
-            var setupListeners = function () {
-                productsEl.addEventListener("click", function (event) {
-                    var el = event.target;
-                    if (el.classList.contains("form-control")) {
-                        var elId = el.dataset.id;
-                        addToCart(elId);
-                    }
-                });
-
-                emptyCartEl.addEventListener("click", function (event) {
-                    if (confirm("Are you sure?")) {
-                        productsInCart = [];
-                    }
-                    generateCartList();
-                });
-            }
-            var addToCart = function (id) {
-                var obj = products[id];
-                if (productsInCart.length === 0 || productFound(obj.id) === undefined) {
-                    productsInCart.push({ product: obj, quantity: 1 });
-                } else {
-                    productsInCart.forEach(function (item) {
-                        if (item.product.id === obj.id) {
-                            item.quantity++;
-                        }
-                    });
-                }
-                generateCartList();
-            }
-            var productFound = function (productId) {
-                return productsInCart.find(function (item) {
-                    return item.product.id === productId;
-                });
-            }
-
-            var calculateTotalPrice = function () {
-                return productsInCart.reduce(function (total, item) {
-                    return total + (item.product.price * item.quantity);
-                }, 0);
-            }
-            var init = function () {
-                setupListeners();
-            }
-            return {
-                init: init
-            };
-        });
-        ShoppingCart.init();
-    </script>
-
-
 </body>
 </html>
 

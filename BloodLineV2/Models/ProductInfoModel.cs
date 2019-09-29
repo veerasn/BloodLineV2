@@ -266,6 +266,83 @@ namespace BloodLineV2.Models
                     Filelocation = "a",
                     Comments = ""
                 },
+                new ProductInfo{
+                    Id = "T-ABD",
+                    Name = "ABO and RhD typing",
+                    Charge = 230,
+                    Leucodeplete = 0,
+                    Irradiate = 0,
+                    Upperage = 99999,
+                    Lowerage = 0,
+                    Filelocation = "a",
+                    Comments = ""
+                },
+                new ProductInfo{
+                    Id = "T-ANC",
+                    Name = "Antenatal Screen",
+                    Charge = 230,
+                    Leucodeplete = 0,
+                    Irradiate = 0,
+                    Upperage = 99999,
+                    Lowerage = 0,
+                    Filelocation = "a",
+                    Comments = ""
+                },
+                new ProductInfo{
+                    Id = "T-GSH",
+                    Name = "Group Screen & Hold",
+                    Charge = 230,
+                    Leucodeplete = 0,
+                    Irradiate = 0,
+                    Upperage = 99999,
+                    Lowerage = 0,
+                    Filelocation = "a",
+                    Comments = ""
+                },
+                new ProductInfo{
+                    Id = "T-DAT",
+                    Name = "Direct Antiglobulin Test",
+                    Charge = 230,
+                    Leucodeplete = 0,
+                    Irradiate = 0,
+                    Upperage = 99999,
+                    Lowerage = 0,
+                    Filelocation = "a",
+                    Comments = ""
+                },
+                new ProductInfo{
+                    Id = "T-TIT-AB",
+                    Name = "Anti-A/B Titration",
+                    Charge = 230,
+                    Leucodeplete = 0,
+                    Irradiate = 0,
+                    Upperage = 99999,
+                    Lowerage = 0,
+                    Filelocation = "a",
+                    Comments = ""
+                },
+                new ProductInfo{
+                    Id = "T-TIT-D",
+                    Name = "Anti-D Titration",
+                    Charge = 230,
+                    Leucodeplete = 0,
+                    Irradiate = 0,
+                    Upperage = 99999,
+                    Lowerage = 0,
+                    Filelocation = "a",
+                    Comments = ""
+                },
+                new ProductInfo{
+                    Id = "T-TIT-O",
+                    Name = "Antibody Titration (Others)",
+                    Charge = 230,
+                    Leucodeplete = 0,
+                    Irradiate = 0,
+                    Upperage = 99999,
+                    Lowerage = 0,
+                    Filelocation = "a",
+                    Comments = ""
+                },
             };
 
 
