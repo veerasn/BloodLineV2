@@ -11,6 +11,7 @@
         <thead>
             <tr>
                 <th>Quantity</th>
+                <th></th>
                 <th>Code</th>
                 <th>Product Name</th>
             </tr>
@@ -26,6 +27,9 @@
                     @Html.Editor(bloodProduct.Id, new {
                    htmlAttributes = new { @Name = "PL", onchange = "showIndication('PL')", type = "number", min = "0", max = "6", @Value = "0", @class = "form-control" }
                })
+                </td>
+                <td>
+                    <a href="#0" class="button add-to-cart" onclick="showIndicationTest('PL')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
                 </td>
                 <td>
                     @bloodProduct.Id

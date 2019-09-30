@@ -869,7 +869,7 @@
                                            })
                                             </td>
                                             <td>
-                                                <a href="#0" class="button add-to-cart" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                                <a href="#0" class="button add-to-cart" onclick="showIndicationTest('RC')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
                                             </td>
                                             <td>
                                                 @bloodProduct.Id
@@ -1055,6 +1055,13 @@
         }
     </script>
     <script>
+        //Show indication
+        function showIndicationTest(val) {
+            var vis = 'block'
+            document.getElementById(val).style.display = vis;
+        }
+    </script>
+    <script>
         //Validate radio-button for red cell indications
         function checkIndication(a, b, c) {
             var radios = document.getElementsByName(c);
@@ -1169,7 +1176,7 @@
                 saveCart();
             }
 
-            // Count cart 
+            // Count cart
             obj.totalCount = function () {
                 var totalCount = 0;
                 for (var item in cart) {
@@ -1220,7 +1227,7 @@
 
         // *****************************************
         // Triggers / Events
-        // ***************************************** 
+        // *****************************************
         // Add item
         $('.add-to-cart').click(function (event) {
             event.preventDefault();
@@ -1246,7 +1253,7 @@
                     + "<td>" + cartArray[i].id + "</td>"
                     + "<td>" + cartArray[i].name + "</td>"
                     + "<td>(" + cartArray[i].price + ")</td>"
-                    + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-name=" + cartArray[i].id + ">-</button>"
+                    + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-id=" + cartArray[i].id + ">-</button>"
                     + "<input type='number' class='item-count form-control' data-id='" + cartArray[i].id + "' value='" + cartArray[i].count + "'>"
                     + "<button class='plus-item btn btn-primary input-group-addon' data-id=" + cartArray[i].id + ">+</button></div></td>"
                     + "<td><button class='delete-item btn btn-danger' data-id=" + cartArray[i].id + ">X</button></td>"
