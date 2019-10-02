@@ -285,10 +285,9 @@ namespace BloodLineV2.Controllers
             {
                 double[] y = new double[iHgb];
                 string[] x = new string[iHgb];
-                double temp;
                 for (int i = 0; i < iHgb; i++)
                 {
-                    if (double.TryParse(hgb[i].Resvalue, out temp))
+                    if (double.TryParse(hgb[i].Resvalue, out double temp))
                     {
                         y[i] = temp;
                         x[i] = hgb[i].Interval.ToString();
@@ -298,18 +297,21 @@ namespace BloodLineV2.Controllers
                 ViewBag.xHb = x;
                 ViewBag.yHb = y;
 
-                switch (x[0])
+                int UHgb = x.GetUpperBound(0);
+                ViewBag.UHgb = UHgb;
+
+                switch (x[UHgb])
                 {
                     case "0":
-                        cHgb = "The patient's last Hb result was " + y[0] + "g/L checked today.";
+                        cHgb = "The patient's last Hb result was " + y[UHgb] + "g/L checked today.";
                         break;
                     case "1":
                     case "2":
                     case "3":
-                        cHgb = "The patient's last Hb result was " + y[0] + " g/L checked " + x[0] + " days ago.";
+                        cHgb = "The patient's last Hb result was " + y[UHgb] + " g/L checked " + x[UHgb] + " days ago.";
                         break;
                     default:
-                        cHgb = "The patient's last Hb result was " + y[0] + " g/L checked " + x[0] + " days ago. " +
+                        cHgb = "The patient's last Hb result was " + y[UHgb] + " g/L checked " + x[UHgb] + " days ago. " +
                                 "Please ensure a recent Hb level has been determined " +
                                 "before proceeding to order red cells.";
                         break;
@@ -321,6 +323,7 @@ namespace BloodLineV2.Controllers
                         "before proceeding to order red cells.";
                 double[] y = { 0 };
                 ViewBag.yHb = y;
+                ViewBag.UHgb = 0;
             }
 
             ViewBag.cHgb = cHgb;
@@ -336,10 +339,9 @@ namespace BloodLineV2.Controllers
             {
                 int[] y = new int[iMcv];
                 string[] x = new string[iMcv];
-                int temp;
                 for (int i = 0; i < iMcv; i++)
                 {
-                    if (int.TryParse(mcv[i].Resvalue, out temp))
+                    if (int.TryParse(mcv[i].Resvalue, out int temp))
                     {
                         y[i] = temp;
                         x[i] = mcv[i].Interval.ToString();
@@ -369,10 +371,9 @@ namespace BloodLineV2.Controllers
             {
                 double[] y = new double[iPlt];
                 string[] x = new string[iPlt];
-                double temp;
                 for (int i = 0; i < iPlt; i++)
                 {
-                    if (double.TryParse(plt[i].Resvalue, out temp))
+                    if (double.TryParse(plt[i].Resvalue, out double temp))
                     {
                         y[i] = temp;
                         x[i] = plt[i].Interval.ToString();
@@ -382,16 +383,19 @@ namespace BloodLineV2.Controllers
                 ViewBag.xPlt = x;
                 ViewBag.yPlt = y;
 
-                switch (x[0])
+                int UPlt = x.GetUpperBound(0);
+                ViewBag.UPlt = UPlt;
+
+                switch (x[UPlt])
                 {
                     case "0":
-                        cPlt = "The patient's last platelet count was " + y[0] + " x 10^9/L checked today.";
+                        cPlt = "The patient's last platelet count was " + y[UPlt] + " x 10^9/L checked today.";
                         break;
                     case "1":
-                        cPlt = "The patient's last platelet count was " + y[0] + " x 10^9/L checked yesterday.";
+                        cPlt = "The patient's last platelet count was " + y[UPlt] + " x 10^9/L checked yesterday.";
                         break;
                     default:
-                        cPlt = "The patient's last platelet count was " + y[0] + " x 10^9/L checked " + x[0] + " days ago. " +
+                        cPlt = "The patient's last platelet count was " + y[UPlt] + " x 10^9/L checked " + x[UPlt] + " days ago. " +
                                 "Please ensure a recent platelet count has been determined " +
                                 "before proceeding to order platelets.";
                         break;
@@ -403,6 +407,7 @@ namespace BloodLineV2.Controllers
                         "before proceeding to order platelets.";
                 double[] y = { 0 };
                 ViewBag.yPlt = y;
+                ViewBag.UPlt = 0;
             }
 
             ViewBag.cPlt = cPlt;
@@ -416,10 +421,9 @@ namespace BloodLineV2.Controllers
             {
                 double[] y = new double[iInr];
                 string[] x = new string[iInr];
-                double temp;
                 for (int i = 0; i < iInr; i++)
                 {
-                    if (double.TryParse(inr[i].Resvalue, out temp))
+                    if (double.TryParse(inr[i].Resvalue, out double temp))
                     {
                         y[i] = temp;
                         x[i] = inr[i].Interval.ToString();
@@ -439,10 +443,9 @@ namespace BloodLineV2.Controllers
             {
                 double[] y = new double[iApt];
                 string[] x = new string[iApt];
-                double temp;
                 for (int i = 0; i < iApt; i++)
                 {
-                    if (double.TryParse(apt[i].Resvalue, out temp))
+                    if (double.TryParse(apt[i].Resvalue, out double temp))
                     {
                         y[i] = temp;
                         x[i] = apt[i].Interval.ToString();

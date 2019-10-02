@@ -850,7 +850,6 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Quantity</th>
                                     <th></th>
                                     <th>Code</th>
                                     <th>Product Name</th>
@@ -863,11 +862,6 @@
                                         (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
                                     {
                                         <tr>
-                                            <td>
-                                                @Html.Editor(bloodProduct.Id, new {
-                                               htmlAttributes = new { @Name = "RC", onchange = "showIndication('RC')", type = "number", min = "0", max = "6", @Value = "0", @class = "form-control" }
-                                           })
-                                            </td>
                                             <td>
                                                 <a href="#0" class="button add-to-cart" onclick="showIndicationTest('RC')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
                                             </td>
@@ -902,27 +896,27 @@
                         <div class="w3-container w3-white">
                             <table class="table">
                                 <tr>
-                                    <td><input type="radio" name="redcell" value="RC1" onchange="checkIndication(75, @ViewBag.yHb[0], 'redcell')" /></td>
+                                    <td><input type="radio" name="redcell" value="RC1" onchange="checkIndication(70, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
                                     <td>Hb &#8804 70g/L in a hemodynamically stable ICU patient.</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="radio" name="redcell" value="RC2" onchange="checkIndication(85, @ViewBag.yHb[0], 'redcell')" /></td>
+                                    <td><input type="radio" name="redcell" value="RC2" onchange="checkIndication(80, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
                                     <td>Hb &#8804 80g/L in a non- ICU patient with symptomatic anaemia.</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="radio" name="redcell" value="RC3" onchange="checkIndication(105, @ViewBag.yHb[0], 'redcell')" /></td>
+                                    <td><input type="radio" name="redcell" value="RC3" onchange="checkIndication(100, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
                                     <td>Hb &#8804 100g/L in a patient experiencing acute ischaemiac cardiovascular disease (e.g. angina pectoris, acute myocardial infarction).</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="radio" name="redcell" value="RC4" onchange="checkIndication(150, @ViewBag.yHb[0], 'redcell')" /></td>
+                                    <td><input type="radio" name="redcell" value="RC4" onchange="checkIndication(150, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
                                     <td>Acute bleeding with hemodynamic instability requiring urgent RBC transfusion.</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="radio" name="redcell" value="RC5" onchange="checkIndication(150, @ViewBag.yHb[0], 'redcell')" /></td>
+                                    <td><input type="radio" name="redcell" value="RC5" onchange="checkIndication(150, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
                                     <td>Regular red cell transfusion in a transfusion dependant patient (e.g. thalassaemia major).</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="radio" name="redcell" value="RC6" onchange="checkIndication(150, @ViewBag.yHb[0], 'redcell')" /></td>
+                                    <td><input type="radio" name="redcell" value="RC6" onchange="checkIndication(150, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
                                     <td>Others</td>
                                 </tr>
                             </table>
@@ -965,6 +959,9 @@
                     <div class="modal-body">
                         <table class="show-cart table"></table>
                         <div>Total estimate: RM<span class="total-cart"></span></div>
+                    </div>
+                    <div>
+                        <ul id="modal-alert"></ul>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -1055,7 +1052,7 @@
         }
     </script>
     <script>
-        //Show indication
+        //Show indication when Add Request btn is clicked
         function showIndicationTest(val) {
             var vis = 'block'
             document.getElementById(val).style.display = vis;
@@ -1067,15 +1064,28 @@
             var radios = document.getElementsByName(c);
             var fback;
             for (var i = 0; i < radios.length; i++) {
-                if (b > a) {
-                    fback = "You have chosen to transfuse at a target Hb of " + a + " but the patient's last Hb was " + b + " g/L.";
+                if (c == 'redcell') {
+                    if (b == 0) {
+                        fback = "Red cell request has been made with no prior Hb results."
+                    }
+                    else if (b > 1.1 * a) {
+                        fback = "You have chosen to transfuse at a target Hb of " + a + " but the patient's last Hb was " + b + " g/L."
+                    }
+                    else {
+                        fback = ""
+                    };
                 }
-                else {
-                    fback = "";
-                }
-                if (b == 0) {
-                    fback = "Red cell request has been made with no prior Hb results."
-                }
+                else if (c == 'platelet') {
+                    if (b == 0) {
+                        fback = "Platelet request has been made with no prior platelet count results."
+                    }
+                    else if (b > 1.1 * a) {
+                        fback = "You have chosen to transfuse at a target platelet count of " + a + " but the patient's last count was " + b + " g/L."
+                    }
+                    else {
+                        fback = ""
+                    };
+                };
             }
             if (c == "redcell") {
                 document.getElementById("alert_redcell").innerHTML = fback;
@@ -1083,6 +1093,12 @@
             else if (c == "platelet") {
                 document.getElementById("alert_platelet").innerHTML = fback;
             }
+
+            //Copy red cell alert to modal form
+            var node = document.createElement("LI");
+            var textnode = document.createTextNode(fback);
+            node.appendChild(textnode);
+            document.getElementById("modal-alert").appendChild(node);
         }
     </script>
     <script>
