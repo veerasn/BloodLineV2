@@ -863,7 +863,7 @@
                                     {
                                         <tr>
                                             <td>
-                                                <a href="#0" class="button add-to-cart" onclick="showIndicationTest('RC')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="showIndicationTest('RC')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
                                             </td>
                                             <td>
                                                 @bloodProduct.Id
@@ -946,7 +946,7 @@
             </div>
         </div>
 
-        <!--Modal form-->
+        <!--Modal form - Request-->
         <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -966,6 +966,36 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary">Confirm request</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal form - Indication-->
+        <div class="modal fade" id="pick-indication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                        <h4 class="modal-title" id="pick-indication-label">Clinical indication</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h6>Select the most important indication for this transfusion</h6>
+                        <table class="table table-striped">
+                            <tbody>
+                                @foreach (Indication indication in ViewBag.Indications)
+                                {
+                                    <tr>
+                                        <td><input type="radio" id=@indication.Id name=@indication.Parameter value="@indication.Parameter" onchange="checkIndication(@indication.Level, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
+                                        <td>@indication.Caption</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>

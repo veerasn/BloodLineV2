@@ -462,7 +462,7 @@ namespace BloodLineV2.Controllers
 
             //Create dropdown for indications
             ProductInfoModel IndicationModel = new ProductInfoModel();
-            ViewBag.Indications = new SelectList(IndicationModel.IndicationAll(), "Id", "Caption");
+            ViewBag.Indications = IndicationModel.IndicationAll();
 
             //return View("Details",Patient);
             return View("Details", prodrequests);
