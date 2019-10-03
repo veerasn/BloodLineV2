@@ -863,7 +863,7 @@
                                     {
                                         <tr>
                                             <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('Hb')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('Hb','redcell')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
                                             </td>
                                             <td>
                                                 @bloodProduct.Id
@@ -1090,12 +1090,16 @@
     </script>
     <script>
         //Update table for indication specific to each product type
-        function updateIndication(val) {
+        function updateIndication(val, prod) {
             var output = "Hello!";
             var jsonObj = @Html.Raw(Json.Encode(ViewBag.Indications));
             for (var i in jsonObj) {
                 if (jsonObj[i].Parameter == val) {
                     output += "<tr>"
+                        + "<td><input type='radio' id=" + jsonObj[i].Id 
+                        + " name= '" + jsonObj[i].Parameter + "'"
+                        + " value= '" + jsonObj[i].Parameter + "'"
+                        + " onchange = \"checkIndication(" + jsonObj[i].Level + "," + @ViewBag.yHb[ViewBag.UHgb] + ",\'" + prod + "\')\">" + "</td >"
                         + "<td>" + jsonObj[i].Caption + "</td>"
                         + "<td>" + jsonObj[i].Parameter + "</td>"
                         + "<td>" + jsonObj[i].Id + "</td>"
@@ -1109,7 +1113,7 @@
         }
     </script>
     <script>
-        //Validate radio-button for red cell indications
+        //Validate radio-button for product indications
         function checkIndication(a, b, c) {
             var radios = document.getElementsByName(c);
             var fback;
