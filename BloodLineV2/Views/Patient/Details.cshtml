@@ -575,7 +575,7 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Request Time & Date</th>
-                                            <th>RC Type</th>
+                                            <th>Type</th>
                                             <th>Pack ID</th>
                                             <th>History</th>
                                         </tr>
@@ -649,9 +649,8 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Request Date</th>
-                                            <th>Time</th>
-                                            <th>RC Type</th>
+                                            <th>Request Time & Date</th>
+                                            <th>Type</th>
                                             <th>Pack ID</th>
                                             <th>History</th>
                                         </tr>
@@ -725,9 +724,8 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Request Date</th>
-                                            <th>Time</th>
-                                            <th>RC Type</th>
+                                            <th>Request Time & Date</th>
+                                            <th>Type</th>
                                             <th>Pack ID</th>
                                             <th>History</th>
                                         </tr>
@@ -864,7 +862,7 @@
                                     {
                                         <tr>
                                             <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('redcell')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
                                             </td>
                                             <td>
                                                 @bloodProduct.Id
@@ -896,22 +894,104 @@
                 <!--End of Red cell requests-->
                 <!--Platelet requests-->
                 <div id="Platelet" class="w3-container request" style="display:none">
-                    @Html.Partial("Shared/_ChooseProductPlt")
-                    @Html.Partial("Shared/_ChooseProductHla")
+                    <h6>
+                        Select suitable products and required quantity. Refer to <a href="~/Content/pdf/PLT_recommendation.pdf" target="_blank"><b>Guidelines for Platelet Use</b></a> to aid your transfusion decision.
+                    </h6>
+                    <p id="alert_platelet" style="color: orangered"></p>
+                    <p id="platelet" style="color: orangered"></p>
+                    <p id="notice_platelet" style="color: red">@ViewBag.cPlt</p>
+                    <div class="products">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Code</th>
+                                    <th>Product Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
+                                {
+                                    if (bloodProduct.Id.Substring(0, 2).Contains("PL") &&
+                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Id
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Name
+                                                @if (bloodProduct.Filelocation != "none")
+                                                {
+                                                    <a href="@bloodProduct.Filelocation" target="_blank">
+                                                        <sup><i class="fa fa-info"></i></sup>
+                                                    </a>
+                                                }
+                                                @if (bloodProduct.Irradiate == 1)
+                                                {
+                                                    <i class="fa fa-radiation"></i>
+                                                }
+                                                @if (bloodProduct.Leucodeplete == 1)
+                                                {
+                                                    <i class="fa fa-filter"></i>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!--Plasma products and derivatives requests-->
                 <div id="Plasma" class="w3-container request" style="display:none">
                     <h6>
                         Select suitable products and required quantity. Refer to <a href="#"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
                     </h6>
-                    @Html.Partial("Shared/_ChooseProductFfp")
-                    @Html.Partial("Shared/_ChooseProductCpt")
-                    @Html.Partial("Shared/_ChooseProductCsp")
-                    @Html.Partial("Shared/_ChooseProductRh")
-                    @Html.Partial("Shared/_ChooseProductCC3")
-                    @Html.Partial("Shared/_ChooseProductCC4")
-                    @Html.Partial("Shared/_ChooseProductF8")
-                    @Html.Partial("Shared/_ChooseProductF7a")
+                    <p id="alert_ffp" style="color: orangered"></p>
+                    <p id="ffp" style="color: orangered"></p>
+                    <p id="notice_ffp" style="color: red">@ViewBag.cPlt</p>
+                    <div class="products">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Code</th>
+                                    <th>Product Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
+                                {
+                                    if (bloodProduct.Id.Substring(0, 2).Contains("PP") &&
+                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication"
+                                                   onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Id
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Name
+                                                @if (bloodProduct.Filelocation != "none")
+                                                {
+                                                    <a href="@bloodProduct.Filelocation" target="_blank">
+                                                        <sup><i class="fa fa-info"></i></sup>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -953,16 +1033,7 @@
                         <h6>Select the most important indication for this transfusion</h6>
                         <table class="table table-striped" id="list-indication-product">
                             <tbody>
-                                @foreach (Indication indication in ViewBag.Indications)
-                                {
-                                    <tr>
-                                        <td>
-                                            <input type="radio" id=@indication.Id name=@indication.Parameter value="@indication.Id"
-                                                   onchange="checkIndication(@indication.Level, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" />
-                                        </td>
-                                        <td>@indication.Caption</td>
-                                    </tr>
-                                }
+                                <!--Insert table using updateIndication js function-->
                             </tbody>
                         </table>
                     </div>
@@ -1037,44 +1108,31 @@
         }
     </script>
     <script>
-        //Show indication
-        function showIndication(val) {
-            var vis = "none";
-            var cnt = 0;
-            var inp = document.getElementsByName(val);
-            for (i = 0; i < inp.length; i++) {
-                cnt = cnt + parseInt(inp[i].value);
-            }
-            if (cnt != 0) {
-                vis = "block"
-            }
-            else {
-                vis = "none";
-            }
-            document.getElementById(val).style.display = vis;
-        }
-    </script>
-    <script>
-        //Show indication when Add Request btn is clicked
-        function showIndicationTest(val) {
-            var vis = 'block'
-            document.getElementById(val).style.display = vis;
-        }
-    </script>
-    <script>
         //Update table for indication specific to each product type
         function updateIndication(val) {
-            var output = "Hello!";
+            var output = "";
+            var threshold = "";
+            if (val == 'redcell') {
+                threshold = @ViewBag.yHb[ViewBag.UHgb];
+            }
+            else if (val == 'platelet') {
+                threshold = @ViewBag.yPlt[ViewBag.UPlt];
+            }
+            else if (val == 'ffp') {
+                threshold = @ViewBag.yInr[ViewBag.UInr];
+            }
+            else {
+                threshold = 0;
+            }
             var jsonObj = @Html.Raw(Json.Encode(ViewBag.Indications));
             for (var i in jsonObj) {
                 if (jsonObj[i].Parameter == val) {
                     output += "<tr>"
                         + "<td><input type='radio' id=" + jsonObj[i].Id 
                         + " name= '" + jsonObj[i].Parameter + "'"
-                        + " value= '" + jsonObj[i].Parameter + "'"
-                        + " onchange = \"checkIndication(" + jsonObj[i].Level + "," + @ViewBag.yHb[ViewBag.UHgb] + ",\'" + val + "\', '" + jsonObj[i].Caption +  "\')\">" + "</td >"
+                        + " value= '" + jsonObj[i].Caption + "'"
+                        + " onchange = \"checkIndication(" + jsonObj[i].Level + "," + threshold + ",\'" + val + "\', '" + jsonObj[i].Caption +  "\')\">" + "</td >"
                         + "<td>" + jsonObj[i].Caption + "</td>"
-                        + "<td>" + jsonObj[i].Id + "</td>"
                         + "</tr>";
                 }
                 else {
@@ -1113,6 +1171,17 @@
                     else {
                         fback = ""
                     };
+                }
+                else if (c == 'ffp') {
+                    if (b == 0) {
+                        fback = "FFP request has been made with no prior INR results."
+                    }
+                    else if (b > 1.1 * a) {
+                        fback = "You have chosen to transfuse at a target INR of " + a + " but the patient's last INR was " + b +"."
+                    }
+                    else {
+                        fback = ""
+                    };
                 };
             }
             if (c == "redcell") {
@@ -1121,27 +1190,18 @@
             else if (c == "platelet") {
                 document.getElementById("alert_platelet").innerHTML = fback;
             }
+            else if (c == "ffp") {
+                document.getElementById("alert_ffp").innerHTML = fback;
+            }
 
             //Update indication for product
-            document.getElementById(c).innerHTML = d;
+            document.getElementById(c).innerHTML = "Indication: " + d;
 
             //Copy red cell alert to modal form
             var node = document.createElement("LI");
             var textnode = document.createTextNode(fback);
             node.appendChild(textnode);
             document.getElementById("modal-alert").appendChild(node);
-        }
-    </script>
-    <script>
-        //Update indication for product
-        function productIndication(val) {
-            var radios = document.getElementsByName(val);
-            for (var i = 0, length = radios.length; i < length; i++) {
-                if (radios[i].checked) {
-                    document.getElementById("redcell").innerHTML = radios[i].value;
-                    break;
-                }
-            }
         }
     </script>
     <script>

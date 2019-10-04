@@ -415,6 +415,7 @@ namespace BloodLineV2.Controllers
             //INR
             var inr = result.Where(i => i.TestId == 2761).ToList();
             int iInr = inr.Count;
+            string cInr = "";
             ViewBag.iInr = iInr;
 
             if (iInr > 0)
@@ -432,7 +433,35 @@ namespace BloodLineV2.Controllers
 
                 ViewBag.xInr = x;
                 ViewBag.yInr = y;
+
+                int UInr = x.GetUpperBound(0);
+                ViewBag.UInr = UInr;
+
+                switch (x[UInr])
+                {
+                    case "0":
+                        cPlt = "The patient's last platelet count was " + y[UInr] + " checked today.";
+                        break;
+                    case "1":
+                        cPlt = "The patient's last platelet count was " + y[UInr] + " checked yesterday.";
+                        break;
+                    default:
+                        cPlt = "The patient's last platelet count was " + y[UInr] + " checked " + x[UInr] + " days ago. " +
+                                "Please ensure a recent INR has been determined " +
+                                "before proceeding to order ffp or plasma derivatives.";
+                        break;
+                }
             }
+            else
+            {
+                cInr = "No INR results available for this patient. Please ensure that the INR has been determined " +
+                        "before proceeding to order FFP or plasma derivatives.";
+                double[] y = { 0 };
+                ViewBag.yInr = y;
+                ViewBag.UInr = 0;
+            }
+
+            ViewBag.cInr = cInr;
 
             //APTT
             var apt = result.Where(i => i.TestId == 2704).ToList();

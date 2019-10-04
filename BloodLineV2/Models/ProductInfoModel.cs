@@ -16,6 +16,7 @@ namespace BloodLineV2.Models
         public int Lowerage { get; set; }
         public string Filelocation { get; set; }
         public string Comments { get; set; }
+        public string Parameter { get; set; }
         public int Quantity { get; set; }
     }
 
@@ -45,7 +46,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "redcell"
                 },
                 new ProductInfo{
                     Id = "RCSAG",
@@ -56,7 +58,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 120,
                     Filelocation = "RCSAG.pdf",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "redcell"
                 },
                 new ProductInfo{
                     Id = "RCSAG-LD",
@@ -67,7 +70,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 120,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "redcell"
                 },
                 new ProductInfo{
                     Id = "RCSAG-PP",
@@ -78,7 +82,8 @@ namespace BloodLineV2.Models
                     Upperage = 120,
                     Lowerage = 0,
                     Filelocation = "none",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "redcell"
                 },
                 new ProductInfo{
                     Id = "RCWB-ET",
@@ -89,7 +94,8 @@ namespace BloodLineV2.Models
                     Upperage = 30,
                     Lowerage = 0,
                     Filelocation = "none",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "redcell"
                 },
                 new ProductInfo{
                     Id = "RCWB-LV",
@@ -100,7 +106,8 @@ namespace BloodLineV2.Models
                     Upperage = 120,
                     Lowerage = 0,
                     Filelocation = "none",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "redcell"
                 },
                 new ProductInfo{
                     Id = "PLTRD",
@@ -111,10 +118,11 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "platelet"
                 },
                 new ProductInfo{
-                    Id = "HLA-PLRD",
+                    Id = "PLRD-HLA",
                     Name = "HLA-compatible Platelet from Random Donors, Unpooled",
                     Charge = 230,
                     Leucodeplete = 1,
@@ -122,7 +130,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "platelet"
                 },
                 new ProductInfo{
                     Id = "PLTPL-LD",
@@ -132,7 +141,9 @@ namespace BloodLineV2.Models
                     Irradiate = 0,
                     Upperage = 99999,
                     Lowerage = 120,
-                    Filelocation = "a"
+                    Filelocation = "a",
+                    Comments = "",
+                    Parameter = "platelet"
                 },
                 new ProductInfo{
                     Id = "PLTLR",
@@ -143,10 +154,11 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 120,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "platelet"
                 },
                 new ProductInfo{
-                    Id = "HLA-PLLR",
+                    Id = "PLLR-HLA",
                     Name = "HLA-compatible Single Donor Apheresis Platelet, Leucodepleted",
                     Charge = 230,
                     Leucodeplete = 1,
@@ -154,7 +166,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 120,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "platelet"
                 },
                 new ProductInfo{
                     Id = "PLTLR-PP",
@@ -165,10 +178,11 @@ namespace BloodLineV2.Models
                     Upperage = 365,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "platelet"
                 },
                 new ProductInfo{
-                    Id = "HLA-PLLR-PP",
+                    Id = "PLLR-PP-HLA",
                     Name = "HLA-compatible Pedi-pack, Single Donor Apheresis Platelet, Leucodepleted",
                     Charge = 230,
                     Leucodeplete = 1,
@@ -176,7 +190,8 @@ namespace BloodLineV2.Models
                     Upperage = 365,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "platelet"
                 },
                 new ProductInfo{
                     Id = "PPFFP",
@@ -187,7 +202,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "ffp"
                 },
                 new ProductInfo{
                     Id = "PPCPT",
@@ -198,7 +214,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "cryoprecipitate"
                 },
                 new ProductInfo{
                     Id = "PPCSP",
@@ -209,10 +226,11 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "cryosupernatant"
                 },
                 new ProductInfo{
-                    Id = "RHD",
+                    Id = "PPRHD",
                     Name = "Anti-D Immunoglobulin (WinRho)",
                     Charge = 230,
                     Leucodeplete = 0,
@@ -220,10 +238,11 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "anti-D"
                 },
                 new ProductInfo{
-                    Id = "PDCC3",
+                    Id = "PPCC3",
                     Name = "Prothrombin Complex Concentrate, 3-Factor (Prothrombinex)",
                     Charge = 230,
                     Leucodeplete = 0,
@@ -231,10 +250,11 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "3F-PCC"
                 },
                 new ProductInfo{
-                    Id = "PDCC4",
+                    Id = "PPCC4",
                     Name = "Prothrombin Complex Concentrate, 4-Factor (Octaplex)",
                     Charge = 230,
                     Leucodeplete = 0,
@@ -242,10 +262,11 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "4F-PCC"
                 },
                 new ProductInfo{
-                    Id = "PDF8",
+                    Id = "PPF8",
                     Name = "Factor 8 Concentrate, Plasma-derived, Intermediate Purity",
                     Charge = 230,
                     Leucodeplete = 0,
@@ -253,10 +274,11 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "F8"
                 },
                 new ProductInfo{
-                    Id = "PDF7a",
+                    Id = "PPF7a",
                     Name = "Recombinant Factor VIIa (NovoSeven)",
                     Charge = 230,
                     Leucodeplete = 0,
@@ -264,7 +286,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = "FVIIa"
                 },
                 new ProductInfo{
                     Id = "T-ABD",
@@ -275,7 +298,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = ""
                 },
                 new ProductInfo{
                     Id = "T-ANC",
@@ -286,7 +310,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = ""
                 },
                 new ProductInfo{
                     Id = "T-GSH",
@@ -297,7 +322,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = ""
                 },
                 new ProductInfo{
                     Id = "T-DAT",
@@ -308,7 +334,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = ""
                 },
                 new ProductInfo{
                     Id = "T-TIT-AB",
@@ -319,7 +346,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = ""
                 },
                 new ProductInfo{
                     Id = "T-TIT-D",
@@ -330,7 +358,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = ""
                 },
                 new ProductInfo{
                     Id = "T-TIT-O",
@@ -341,7 +370,8 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = ""
+                    Comments = "",
+                    Parameter = ""
                 },
             };
 
@@ -400,120 +430,120 @@ namespace BloodLineV2.Models
                 new Indication
                 {
                     Id= 2001,
-                    Caption = "Prophylactic transfusion to prevent spontaneous bleeding in a stable patient with platelet count <10 x 10^9/L",
-                    Parameter = "Plt",
+                    Caption = "Prophylactic transfusion to prevent spontaneous bleeding in a stable patient with platelet count less than 10 x 10^9/L",
+                    Parameter = "platelet",
                     Level = 10
                 },
                 new Indication
                 {
                     Id= 2002,
-                    Caption = "Prophylactic transfusion to prevent spontaneous bleeding in patient with consumptive state (e.g. high fever, sepsis, DIC, splenomegaly) and platelet count <20 x 10^9/L",
-                    Parameter = "Plt",
+                    Caption = "Prophylactic transfusion to prevent spontaneous bleeding in patient with consumptive state (e.g. high fever, sepsis, DIC, splenomegaly) and platelet count less than 20 x 10^9/L",
+                    Parameter = "platelet",
                     Level = 20
                 },
                 new Indication
                 {
                     Id= 2003,
-                    Caption = "Active bleeding or pre-procedure with platelet count <50 x 10^9/L",
-                    Parameter = "Plt",
+                    Caption = "Active bleeding or pre-procedure with platelet count less than 50 x 10^9/L",
+                    Parameter = "platelet",
                     Level = 50
                 },
                 new Indication
                 {
                     Id= 2004,
-                    Caption = "Active bleeding or pre-procedure involving an enclosed space (e.g. intracranial, opthalmic) with platelet count <100 x 10^9/L",
-                    Parameter = "Plt",
+                    Caption = "Active bleeding or pre-procedure involving an enclosed space (e.g. intracranial, opthalmic) with platelet count less than 100 x 10^9/L",
+                    Parameter = "platelet",
                     Level = 100
                 },
                 new Indication
                 {
                     Id= 2005,
                     Caption = "Pre-procedure or bleeding patient who has taken a recent dose of anti-platelet medications, or with documented platelet dysfunction.",
-                    Parameter = "Plt",
+                    Parameter = "platelet",
                     Level = 150
                 },
                 new Indication
                 {
                     Id= 2006,
                     Caption = "Massive bleeding requiring multiple blood transfusions",
-                    Parameter = "Plt",
+                    Parameter = "platelet",
                     Level = 150
                 },
                 new Indication
                 {
                     Id= 2009,
                     Caption = "Other",
-                    Parameter = "Plt",
+                    Parameter = "platelet",
                     Level = 150
                 },
                 new Indication
                 {
                     Id= 3001,
                     Caption = "INR >1.6 and the patient is currently bleeding or pre-procedure and NOT a candidate for vitamin K",
-                    Parameter = "INR",
+                    Parameter = "ffp",
                     Level = 1.6
                 },
                 new Indication
                 {
                     Id= 3002,
                     Caption = "Massive bleeding requiring multiple RBC transfusion",
-                    Parameter = "INR",
+                    Parameter = "ffp",
                     Level = 0.9
                 },
                 new Indication
                 {
                     Id= 3003,
                     Caption = "Plasma required for therapeutic plasma exchange",
-                    Parameter = "INR",
+                    Parameter = "ffp",
                     Level = 0.9
                 },
                 new Indication
                 {
                     Id= 3004,
                     Caption = "Congenital deficiency of coagulation factor not routinely replaceable with factor concentrates (e.g. FXI)",
-                    Parameter = "INR",
+                    Parameter = "ffp",
                     Level = 0.9
                 },
                 new Indication
                 {
                     Id= 3009,
                     Caption = "Other",
-                    Parameter = "INR",
+                    Parameter = "ffp",
                     Level = 0.9
                 },
                 new Indication
                 {
                     Id= 4001,
                     Caption = "Fibrinogen < 1.5g/L and active bleeding or pre-procedure",
-                    Parameter = "FBG",
+                    Parameter = "cryoprecipitate",
                     Level = 1.5
                 },
                 new Indication
                 {
                     Id= 4002,
                     Caption = "Congenital deficiency of von Willebrand Factor, Fibrinogen or FXIII",
-                    Parameter = "FBG",
+                    Parameter = "cryoprecipitate",
                     Level = 6
                 },
                 new Indication
                 {
                     Id= 4009,
                     Caption = "Other",
-                    Parameter = "FBG",
+                    Parameter = "cryoprecipitate",
                     Level = 6
                 },
                 new Indication
                 {
                     Id= 5001,
                     Caption = "Thrombotic thrombocytopenic purpura. Cryo-poor plasma required for therapeutic plasma exchange",
-                    Parameter = "INR",
+                    Parameter = "cryosupernatant",
                     Level = 0.9
                 },
                 new Indication
                 {
                     Id= 5009,
                     Caption = "Other",
-                    Parameter = "INR",
+                    Parameter = "cryosupernatant",
                     Level = 0.9
                 }
             };
