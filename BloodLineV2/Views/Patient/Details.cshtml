@@ -844,6 +844,7 @@
                         achieve the desired response. Refer to <a href="~/Content/pdf/RBC_recommendation.pdf" target="_blank"><b>Guidelines for Red Cell Use</b></a> to aid your transfusion decision.
                     </h6>
                     <p id="alert_redcell" style="color: orangered"></p>
+                    <p id="redcell" style="color: orangered"></p>
                     <p id="notice_hb" style="color: red">@ViewBag.cHgb</p>
                     <p id="notice_mcv" style="color: red">@ViewBag.cMcv</p>
                     <div class="products">
@@ -863,7 +864,7 @@
                                     {
                                         <tr>
                                             <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('Hb','redcell')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('redcell')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
                                             </td>
                                             <td>
                                                 @bloodProduct.Id
@@ -890,37 +891,6 @@
                                 }
                             </tbody>
                         </table>
-                    </div>
-                    <div id="RC" style="display:none">
-                        <h6>Please provide the most appropriate indication for the red cell request</h6>
-                        <div class="w3-container w3-white">
-                            <table class="table">
-                                <tr>
-                                    <td><input type="radio" name="redcell" value="RC1" onchange="checkIndication(70, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
-                                    <td>Hb &#8804 70g/L in a hemodynamically stable ICU patient.</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="radio" name="redcell" value="RC2" onchange="checkIndication(80, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
-                                    <td>Hb &#8804 80g/L in a non- ICU patient with symptomatic anaemia.</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="radio" name="redcell" value="RC3" onchange="checkIndication(100, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
-                                    <td>Hb &#8804 100g/L in a patient experiencing acute ischaemiac cardiovascular disease (e.g. angina pectoris, acute myocardial infarction).</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="radio" name="redcell" value="RC4" onchange="checkIndication(150, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
-                                    <td>Acute bleeding with hemodynamic instability requiring urgent RBC transfusion.</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="radio" name="redcell" value="RC5" onchange="checkIndication(150, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
-                                    <td>Regular red cell transfusion in a transfusion dependant patient (e.g. thalassaemia major).</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="radio" name="redcell" value="RC6" onchange="checkIndication(150, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
-                                    <td>Others</td>
-                                </tr>
-                            </table>
-                        </div>
                     </div>
                 </div>
                 <!--End of Red cell requests-->
@@ -986,7 +956,10 @@
                                 @foreach (Indication indication in ViewBag.Indications)
                                 {
                                     <tr>
-                                        <td><input type="radio" id=@indication.Id name=@indication.Parameter value="@indication.Parameter" onchange="checkIndication(@indication.Level, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" /></td>
+                                        <td>
+                                            <input type="radio" id=@indication.Id name=@indication.Parameter value="@indication.Id"
+                                                   onchange="checkIndication(@indication.Level, @ViewBag.yHb[ViewBag.UHgb], 'redcell')" />
+                                        </td>
                                         <td>@indication.Caption</td>
                                     </tr>
                                 }
@@ -995,7 +968,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary" onclick="productIndication('redcell')">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -1090,7 +1063,7 @@
     </script>
     <script>
         //Update table for indication specific to each product type
-        function updateIndication(val, prod) {
+        function updateIndication(val) {
             var output = "Hello!";
             var jsonObj = @Html.Raw(Json.Encode(ViewBag.Indications));
             for (var i in jsonObj) {
@@ -1099,9 +1072,8 @@
                         + "<td><input type='radio' id=" + jsonObj[i].Id 
                         + " name= '" + jsonObj[i].Parameter + "'"
                         + " value= '" + jsonObj[i].Parameter + "'"
-                        + " onchange = \"checkIndication(" + jsonObj[i].Level + "," + @ViewBag.yHb[ViewBag.UHgb] + ",\'" + prod + "\')\">" + "</td >"
+                        + " onchange = \"checkIndication(" + jsonObj[i].Level + "," + @ViewBag.yHb[ViewBag.UHgb] + ",\'" + val + "\', '" + jsonObj[i].Caption +  "\')\">" + "</td >"
                         + "<td>" + jsonObj[i].Caption + "</td>"
-                        + "<td>" + jsonObj[i].Parameter + "</td>"
                         + "<td>" + jsonObj[i].Id + "</td>"
                         + "</tr>";
                 }
@@ -1110,11 +1082,13 @@
                 } 
             }
             document.getElementById('list-indication-product').innerHTML = output;
+            //Update field to state that a indication for the red cell transfusion has not been stated yet
+            document.getElementById(val).innerHTML = "Indication for transfusion has not been provided yet";
         }
     </script>
     <script>
         //Validate radio-button for product indications
-        function checkIndication(a, b, c) {
+        function checkIndication(a, b, c, d) {
             var radios = document.getElementsByName(c);
             var fback;
             for (var i = 0; i < radios.length; i++) {
@@ -1148,11 +1122,26 @@
                 document.getElementById("alert_platelet").innerHTML = fback;
             }
 
+            //Update indication for product
+            document.getElementById(c).innerHTML = d;
+
             //Copy red cell alert to modal form
             var node = document.createElement("LI");
             var textnode = document.createTextNode(fback);
             node.appendChild(textnode);
             document.getElementById("modal-alert").appendChild(node);
+        }
+    </script>
+    <script>
+        //Update indication for product
+        function productIndication(val) {
+            var radios = document.getElementsByName(val);
+            for (var i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+                    document.getElementById("redcell").innerHTML = radios[i].value;
+                    break;
+                }
+            }
         }
     </script>
     <script>

@@ -351,36 +351,50 @@ namespace BloodLineV2.Models
                 new Indication
                 {
                     Id= 1001,
-                    Caption = "Hb < 70g/L and/or Hct <22% in a hemodynamically stable ICU patient.",
-                    Parameter = "Hb",
+                    Caption = "Hb less than 70 g/L in a hemodynamically stable ICU patient.",
+                    Parameter = "redcell",
                     Level = 70
                 },
                 new Indication
                 {
                     Id= 1002,
-                    Caption = "Hb < 80g/L and/or Hct <24% in a non- ICU patient with symptomatic anaemia.",
-                    Parameter = "Hb",
+                    Caption = "Hb less than 80 g/L in a non- ICU patient with symptomatic anaemia.",
+                    Parameter = "redcell",
                     Level = 80
                 },
                 new Indication
                 {
                     Id= 1003,
-                    Caption = "Hb < 100g/L and/or Hct <30% in a patient experiencing acute ischaemiac cardiovascular disease (e.g. angina pectoris, acute myocardial infarction).",
-                    Parameter = "Hb",
+                    Caption = "Hb less than 100 g/L in a patient experiencing acute ischaemiac cardiovascular disease (e.g. angina pectoris, acute myocardial infarction).",
+                    Parameter = "redcell",
                     Level = 100
                 },
                 new Indication
                 {
                     Id= 1004,
                     Caption = "Acute bleeding with hemodynamic instability requiring urgent RBC transfusion.",
-                    Parameter = "Hb",
+                    Parameter = "redcell",
+                    Level = 140
+                },
+                new Indication
+                {
+                    Id= 1005,
+                    Caption = "Red cells in reserve for a planned procedure where GSH is not justified.",
+                    Parameter = "redcell",
+                    Level = 140
+                },
+                new Indication
+                {
+                    Id= 1006,
+                    Caption = "Red cells for tranfusion dependant patients where a higher haemoglobin threshold may be required e.g. thalassaemia.",
+                    Parameter = "redcell",
                     Level = 140
                 },
                 new Indication
                 {
                     Id= 1009,
                     Caption = "Other",
-                    Parameter = "Hb",
+                    Parameter = "redcell",
                     Level = 140
                 },
                 new Indication
