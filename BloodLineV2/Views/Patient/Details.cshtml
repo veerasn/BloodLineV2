@@ -1246,7 +1246,9 @@
             obj.addItemToCart = function (id, name, price, count) {
                 for (var item in cart) {
                     if (cart[item].id === id) {
-                        cart[item].count++;
+                        if (cart[item].count < 6){
+                            cart[item].count++;
+                        }
                         saveCart();
                         return;
                     }
@@ -1268,9 +1270,11 @@
             obj.removeItemFromCart = function (id) {
                 for (var item in cart) {
                     if (cart[item].id === id) {
-                        cart[item].count--;
-                        if (cart[item].count === 0) {
-                            cart.splice(item, 1);
+                        if (cart[item].count > 1) {
+                            cart[item].count--;
+                            if (cart[item].count === 0) {
+                                cart.splice(item, 1);
+                            }
                         }
                         break;
                     }
@@ -1372,9 +1376,9 @@
                     + "<td>" + cartArray[i].id + "</td>"
                     + "<td>" + cartArray[i].name + "</td>"
                     + "<td>(" + cartArray[i].price + ")</td>"
-                    + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-id=" + cartArray[i].id + ">-</button>"
+                    + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-id=" + cartArray[i].id + " min='1' max='6'>-</button>"
                     + "<input type='number' class='item-count form-control' data-id='" + cartArray[i].id + "' value='" + cartArray[i].count + "'>"
-                    + "<button class='plus-item btn btn-primary input-group-addon' data-id=" + cartArray[i].id + ">+</button></div></td>"
+                    + "<button class='plus-item btn btn-primary input-group-addon' data-id=" + cartArray[i].id + " min='1' max='6'>+</button></div></td>"
                     + "<td><button class='delete-item btn btn-danger' data-id=" + cartArray[i].id + ">X</button></td>"
                     + " = "
                     + "<td>" + cartArray[i].total + "</td>"
