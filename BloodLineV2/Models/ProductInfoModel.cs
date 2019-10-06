@@ -18,6 +18,10 @@ namespace BloodLineV2.Models
         public string Comments { get; set; }
         public string Parameter { get; set; }
         public int Quantity { get; set; }
+        public string Content { get; set; }
+        public string Volume { get; set; }
+        public string Dosage { get; set; }
+        public string Process { get; set; }
     }
 
     public class Indication
@@ -47,7 +51,12 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = "redcell"
+                    Parameter = "redcell",
+                    Content = "Red cells suspended in CPDA at Hct: 0.35 - 0.40",
+                    Volume = "350 - 500 ml",
+                    Dosage = "~ 6-8 mls/kg for Hb increment of about 10g/L",
+                    Process = "None"
+                    
                 },
                 new ProductInfo{
                     Id = "RCSAG",
@@ -59,7 +68,11 @@ namespace BloodLineV2.Models
                     Lowerage = 120,
                     Filelocation = "RCSAG.pdf",
                     Comments = "",
-                    Parameter = "redcell"
+                    Parameter = "redcell",
+                    Content = "Red cells suspended in CPD or SAGM at Hct: 0.50 - 0.65",
+                    Volume = "200 - 300 ml",
+                    Dosage = "~ 4 mls/kg for Hb increment of about 10g/L",
+                    Process = "None"
                 },
                 new ProductInfo{
                     Id = "RCSAG-LD",
@@ -71,7 +84,11 @@ namespace BloodLineV2.Models
                     Lowerage = 120,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = "redcell"
+                    Parameter = "redcell",
+                    Content = "Red cells suspended in CPD or SAGM at Hct: 0.50 - 0.65",
+                    Volume = "200 - 300 ml",
+                    Dosage = "~ 4 mls/kg for Hb increment of about 10g/L",
+                    Process = "Leucodepleted to <10^6 leucocyte per bag"
                 },
                 new ProductInfo{
                     Id = "RCSAG-PP",
@@ -83,7 +100,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "none",
                     Comments = "",
-                    Parameter = "redcell"
+                    Parameter = "redcell",
+                    Content = "Red cells suspended in CPD or SAGM at Hct: 0.50 - 0.65",
+                    Volume = "30 - 40 ml",
+                    Dosage = "~ 4 mls/kg for Hb increment of about 10g/L",
+                    Process = "Leucodepleted to <10^6 leucocyte per bag"
                 },
                 new ProductInfo{
                     Id = "RCWB-ET",
@@ -95,7 +116,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "none",
                     Comments = "",
-                    Parameter = "redcell"
+                    Parameter = "redcell",
+                    Content = "Red cells suspended in CPD or CPDA at Hct: 0.60 - 0.65",
+                    Volume = "200 - 300 ml",
+                    Dosage = "160 ml/kg for a double volume RBC exchange",
+                    Process = "Leucodepleted to <10^6 leucocyte per bag and irradiated"
                 },
                 new ProductInfo{
                     Id = "RCWB-LV",
@@ -107,7 +132,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "none",
                     Comments = "",
-                    Parameter = "redcell"
+                    Parameter = "redcell",
+                    Content = "Red cells suspended in CPD or CPDA at Hct: 0.40 - 0.50",
+                    Volume = "200 - 300 ml",
+                    Dosage = "~ 4 mls/kg for Hb increment of about 10g/L",
+                    Process = "Leucodepleted or irradiated only in request with indication"
                 },
                 new ProductInfo{
                     Id = "PLTRD",
@@ -119,19 +148,27 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = "platelet"
+                    Parameter = "platelet",
+                    Content = "Platelets (45 - 65 x 10^9) suspended in plasma containg CPD",
+                    Volume = "50 - 60 ml",
+                    Dosage = "4-6 units for adult dose, 10 ml/kg for infants",
+                    Process = "None"
                 },
                 new ProductInfo{
                     Id = "PLRD-HLA",
-                    Name = "HLA-compatible Platelet from Random Donors, Unpooled",
+                    Name = "HLA-compatible Platelet from Random Donors, Pooled",
                     Charge = 230,
                     Leucodeplete = 1,
                     Irradiate = 1,
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = "",
-                    Parameter = "platelet"
+                    Comments = "Supplied only on special request with HLA immune mediate platelet refractoriness confirmed by HLA antibody screen",
+                    Parameter = "platelet",
+                    Content = "Platelets (200 - 300 x 10^9) suspended in plasma containg ACD or in platelet additive solution",
+                    Volume = "200 - 300 ml",
+                    Dosage = "1 unit for adult dose, 10 ml/kg for infants",
+                    Process = "Leucodepleted to <10^6 wbc per unit and irradiated"
                 },
                 new ProductInfo{
                     Id = "PLTPL-LD",
@@ -143,7 +180,11 @@ namespace BloodLineV2.Models
                     Lowerage = 120,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = "platelet"
+                    Parameter = "platelet",
+                    Content = "Platelets (200 - 300 x 10^9) suspended in plasma containg CPD or in platelet additive solution",
+                    Volume = "200 - 300 ml",
+                    Dosage = "1 unit for adult dose, 10 ml/kg for infants",
+                    Process = "Leucodepleted to <10^6 wbc per unit and irradiated"
                 },
                 new ProductInfo{
                     Id = "PLTLR",
@@ -155,7 +196,11 @@ namespace BloodLineV2.Models
                     Lowerage = 120,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = "platelet"
+                    Parameter = "platelet",
+                    Content = "Platelets (200 - 300 x 10^9) suspended in plasma containg ACD or in platelet additive solution",
+                    Volume = "200 - 300 ml",
+                    Dosage = "1 unit for adult dose, 10 ml/kg for infants",
+                    Process = "Leucodepleted to <10^6 wbc per unit and irradiated"
                 },
                 new ProductInfo{
                     Id = "PLLR-HLA",
@@ -166,8 +211,12 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 120,
                     Filelocation = "a",
-                    Comments = "",
-                    Parameter = "platelet"
+                    Comments = "Supplied only on special request with HLA immune mediate platelet refractoriness confirmed by HLA antibody screen",
+                    Parameter = "platelet",
+                    Content = "Platelets (200 - 300 x 10^9) suspended in plasma containg CPD or in platelet additive solution",
+                    Volume = "200 - 300 ml",
+                    Dosage = "1 unit for adult dose, 10 ml/kg for infants",
+                    Process = "Leucodepleted to <10^6 wbc per unit and irradiated"
                 },
                 new ProductInfo{
                     Id = "PLTLR-PP",
@@ -179,7 +228,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = "platelet"
+                    Parameter = "platelet",
+                    Content = "Platelets (40 - 50 x 10^9) suspended in plasma containg ACD or in platelet additive solution",
+                    Volume = "200 - 300 ml",
+                    Dosage = "10 - 20 ml/kg",
+                    Process = "Leucodepleted to <10^6 wbc per unit and irradiated"
                 },
                 new ProductInfo{
                     Id = "PLLR-PP-HLA",
@@ -190,8 +243,12 @@ namespace BloodLineV2.Models
                     Upperage = 365,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = "",
-                    Parameter = "platelet"
+                    Comments = "Supplied only on special request with HLA immune mediate platelet refractoriness confirmed by HLA antibody screen",
+                    Parameter = "platelet",
+                    Content = "Platelets (40 - 50 x 10^9) suspended in plasma containg CPD or in platelet additive solution",
+                    Volume = "200 - 300 ml",
+                    Dosage = "10 ml/kg for infants",
+                    Process = "Leucodepleted to <10^6 wbc per unit and irradiated"
                 },
                 new ProductInfo{
                     Id = "PPFFP",
@@ -203,7 +260,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = "ffp"
+                    Parameter = "ffp",
+                    Content = "Plasma suspended in CPD",
+                    Volume = "200 - 300 ml",
+                    Dosage = "10 - 20 ml/kg",
+                    Process = "None"
                 },
                 new ProductInfo{
                     Id = "PPCPT",
@@ -215,7 +276,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = "cryoprecipitate"
+                    Parameter = "cryoprecipitate",
+                    Content = "Cryoprecipitated plasma, containing FVIII, vWF and fibrinogen as primary constituents suspended in CPD",
+                    Volume = "200 - 300 ml",
+                    Dosage = "1 unit per 10 kg body weight",
+                    Process = "None"
                 },
                 new ProductInfo{
                     Id = "PPCSP",
@@ -227,7 +292,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = "cryosupernatant"
+                    Parameter = "cryosupernatant",
+                    Content = "Cryosupernatant plasma, containing FII, VII, IX and X as primary constituents suspended in CPD",
+                    Volume = "150 - 250 ml",
+                    Dosage = "1 unit per 10 kg body weight",
+                    Process = "None"
                 },
                 new ProductInfo{
                     Id = "PPRHD",
@@ -239,7 +308,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = "anti-D"
+                    Parameter = "anti-D",
+                    Content = "1,500U Human anti-D immunoglobulin",
+                    Volume = "20 ml",
+                    Dosage = "Depending on indication",
+                    Process = "None"
                 },
                 new ProductInfo{
                     Id = "PPCC3",
@@ -250,8 +323,12 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = "",
-                    Parameter = "3F-PCC"
+                    Comments = "Supplied only after consultation with transfusion medicine specialist of haematologist",
+                    Parameter = "3F-PCC",
+                    Content = "500U of FIX aith variable FX and FII",
+                    Volume = "20 ml",
+                    Dosage = "20 - 50U/kg, depending on indication",
+                    Process = "None"
                 },
                 new ProductInfo{
                     Id = "PPCC4",
@@ -262,8 +339,12 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = "",
-                    Parameter = "4F-PCC"
+                    Comments = "Supplied only after consultation with transfusion medicine specialist of haematologist",
+                    Parameter = "4F-PCC",
+                    Content = "500U of FIX with variable FX, FVII and FII",
+                    Volume = "20 ml",
+                    Dosage = "20 - 50U/kg, depending on indication",
+                    Process = "None"
                 },
                 new ProductInfo{
                     Id = "PPF8",
@@ -274,8 +355,12 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = "",
-                    Parameter = "F8"
+                    Comments = "Supplied only after consultation with transfusion medicine specialist of haematologist",
+                    Parameter = "F8",
+                    Content = "500U of FVII",
+                    Volume = "20 ml",
+                    Dosage = "1U/kg will raise FVIII by about 0.02U",
+                    Process = "None"
                 },
                 new ProductInfo{
                     Id = "PPF7a",
@@ -286,8 +371,12 @@ namespace BloodLineV2.Models
                     Upperage = 99999,
                     Lowerage = 0,
                     Filelocation = "a",
-                    Comments = "",
-                    Parameter = "FVIIa"
+                    Comments = "Supplied only after consultation with transfusion medicine specialist of haematologist",
+                    Parameter = "FVIIa",
+                    Content = "2 mg of recombinant FVIIa",
+                    Volume = "20 ml",
+                    Dosage = "Variable dosing depending on indication",
+                    Process = "None"
                 },
                 new ProductInfo{
                     Id = "T-ABD",
@@ -299,7 +388,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = ""
+                    Parameter = "",
+                    Content = "",
+                    Volume = "",
+                    Dosage = "",
+                    Process = ""
                 },
                 new ProductInfo{
                     Id = "T-ANC",
@@ -311,7 +404,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = ""
+                    Parameter = "",
+                    Content = "",
+                    Volume = "",
+                    Dosage = "",
+                    Process = ""
                 },
                 new ProductInfo{
                     Id = "T-GSH",
@@ -323,7 +420,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = ""
+                    Parameter = "",
+                    Content = "",
+                    Volume = "",
+                    Dosage = "",
+                    Process = ""
                 },
                 new ProductInfo{
                     Id = "T-DAT",
@@ -335,7 +436,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = ""
+                    Parameter = "",
+                    Content = "",
+                    Volume = "",
+                    Dosage = "",
+                    Process = ""
                 },
                 new ProductInfo{
                     Id = "T-TIT-AB",
@@ -347,7 +452,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = ""
+                    Parameter = "",
+                    Content = "",
+                    Volume = "",
+                    Dosage = "",
+                    Process = ""
                 },
                 new ProductInfo{
                     Id = "T-TIT-D",
@@ -359,7 +468,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = ""
+                    Parameter = "",
+                    Content = "",
+                    Volume = "",
+                    Dosage = "",
+                    Process = ""
                 },
                 new ProductInfo{
                     Id = "T-TIT-O",
@@ -371,7 +484,11 @@ namespace BloodLineV2.Models
                     Lowerage = 0,
                     Filelocation = "a",
                     Comments = "",
-                    Parameter = ""
+                    Parameter = "",
+                    Content = "",
+                    Volume = "",
+                    Dosage = "",
+                    Process = ""
                 },
             };
 

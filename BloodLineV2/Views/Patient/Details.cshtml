@@ -851,6 +851,7 @@
                                 <tr>
                                     <th></th>
                                     <th>Code</th>
+                                    <th></th>
                                     <th>Product Name</th>
                                 </tr>
                             </thead>
@@ -860,31 +861,34 @@
                                     if (bloodProduct.Id.Substring(0, 2).Contains("RC") &&
                                         (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
                                     {
-                                        <tr>
-                                            <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Id
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Name
-                                                @if (bloodProduct.Filelocation != "none")
-                                                {
-                                                    <a href="@bloodProduct.Filelocation" target="_blank">
-                                                        <sup><i class="fa fa-info"></i></sup>
-                                                    </a>
-                                                }
-                                                @if (bloodProduct.Irradiate == 1)
-                                                {
-                                                    <i class="fa fa-radiation"></i>
-                                                }
-                                                @if (bloodProduct.Leucodeplete == 1)
-                                                {
-                                                    <i class="fa fa-filter"></i>
-                                                }
-                                            </td>
-                                        </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Id
+                                    </td>
+                                    <td>
+                                        <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')" >Info</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Name
+                                        @if (bloodProduct.Filelocation != "none")
+                                        {
+                                            <a href="@bloodProduct.Filelocation" target="_blank">
+                                                <sup><i class="fa fa-info"></i></sup>
+                                            </a>
+                                        }
+                                        @if (bloodProduct.Irradiate == 1)
+                                        {
+                                            <i class="fa fa-radiation"></i>
+                                        }
+                                        @if (bloodProduct.Leucodeplete == 1)
+                                        {
+                                            <i class="fa fa-filter"></i>
+                                        }
+                                    </td>
+                                </tr>
                                     }
                                 }
                             </tbody>
@@ -1007,7 +1011,22 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <table class="show-cart table"></table>
+                        <table class="table table-striped table-responsive text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Description</th>
+                                    <th>Charge</th>
+                                    <th></th>
+                                    <th>Units</th>
+                                    <th></th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody class="show-cart">
+                                <!--Inject rows from displayCart js-->
+                            </tbody>
+                        </table>
                         <div>Total estimate: RM<span class="total-cart"></span></div>
                     </div>
                     <div>
@@ -1040,6 +1059,23 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" onclick="productIndication('redcell')">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal form - Product Info-->
+        <div class="modal fade" id="product-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                        <h4 id="list-info-product-header"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="list-info-product">
+                            <!--Inject product information by productInfo js-->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1142,6 +1178,31 @@
             document.getElementById('list-indication-product').innerHTML = output;
             //Update field to state that a indication for the red cell transfusion has not been stated yet
             document.getElementById(val).innerHTML = "Indication for transfusion has not been provided yet";
+        }
+    </script>
+    <script>
+        function productInfo(val) {
+            var output = "";
+            var header = "";
+            var jsonObj = @Html.Raw(Json.Encode(ViewBag.ProductInfo));
+            for (var i in jsonObj) {
+                if (jsonObj[i].Id == val) {
+                    output += ""
+                        + "<h6>" + jsonObj[i].Id + "</h6>"
+                        + "<p><b>Contents:</b> " + jsonObj[i].Content + "</p>"
+                        + "<p><b>Volume:</b> " + jsonObj[i].Volume + "</p>"
+                        + "<p><b>Recommended dosage:</b> " + jsonObj[i].Dosage + "</p>"
+                        + "<p><b>Additional requirements:</b> " + jsonObj[i].Comments + "</p>"
+                        ;
+                    header = "<b>" + jsonObj[i].Id + "</b>";
+                }
+                else {
+                    output += ""
+                    header = ""
+                }
+            }
+            document.getElementById('list-info-product').innerHTML = output;
+            document.getElementById('list-info-product-header').innerHTML = header;
         }
     </script>
     <script>
@@ -1375,11 +1436,11 @@
                 output += "<tr>"
                     + "<td>" + cartArray[i].id + "</td>"
                     + "<td>" + cartArray[i].name + "</td>"
-                    + "<td>(" + cartArray[i].price + ")</td>"
-                    + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-id=" + cartArray[i].id + " min='1' max='6'>-</button>"
-                    + "<input type='number' class='item-count form-control' data-id='" + cartArray[i].id + "' value='" + cartArray[i].count + "'>"
+                    + "<td>" + cartArray[i].price + "</td>"
+                    + "<td><div class='input-group input-goup-sm col-xs-2 form-horizontal'><button class='minus-item input-group-addon btn btn-primary' data-id=" + cartArray[i].id + " min='1' max='6'>-</button>"
                     + "<button class='plus-item btn btn-primary input-group-addon' data-id=" + cartArray[i].id + " min='1' max='6'>+</button></div></td>"
-                    + "<td><button class='delete-item btn btn-danger' data-id=" + cartArray[i].id + ">X</button></td>"
+                    + "<td>" +cartArray[i].count + "</td>"
+                    + "<td><button class='delete-item btn btn-danger btn-sm' data-id=" + cartArray[i].id + ">X</button></td>"
                     + " = "
                     + "<td>" + cartArray[i].total + "</td>"
                     + "</tr>";
