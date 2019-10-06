@@ -803,6 +803,7 @@
                                 <tr>
                                     <th></th>
                                     <th>Code</th>
+                                    <th></th>
                                     <th>Test Name</th>
                                 </tr>
                             </thead>
@@ -812,23 +813,26 @@
                                     if (bloodProduct.Id.Substring(0, 2).Contains("T-") &&
                                         (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
                                     {
-                                        <tr>
-                                            <td>
-                                                <a href="#0" class="button add-to-cart" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Id
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Name
-                                                @if (bloodProduct.Filelocation != "none")
-                                                {
-                                                    <a href="@bloodProduct.Filelocation" target="_blank">
-                                                        <sup><i class="fa fa-info"></i></sup>
-                                                    </a>
-                                                }
-                                            </td>
-                                        </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#0" class="button add-to-cart" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Id
+                                    </td>
+                                    <td>
+                                        <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Name
+                                        @if (bloodProduct.Filelocation != "none")
+                                        {
+                                            <a href="@bloodProduct.Filelocation" target="_blank">
+                                                <sup><i class="fa fa-info"></i></sup>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
                                     }
                                 }
                             </tbody>
@@ -910,6 +914,7 @@
                                 <tr>
                                     <th></th>
                                     <th>Code</th>
+                                    <th></th>
                                     <th>Product Name</th>
                                 </tr>
                             </thead>
@@ -919,31 +924,34 @@
                                     if (bloodProduct.Id.Substring(0, 2).Contains("PL") &&
                                         (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
                                     {
-                                        <tr>
-                                            <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Id
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Name
-                                                @if (bloodProduct.Filelocation != "none")
-                                                {
-                                                    <a href="@bloodProduct.Filelocation" target="_blank">
-                                                        <sup><i class="fa fa-info"></i></sup>
-                                                    </a>
-                                                }
-                                                @if (bloodProduct.Irradiate == 1)
-                                                {
-                                                    <i class="fa fa-radiation"></i>
-                                                }
-                                                @if (bloodProduct.Leucodeplete == 1)
-                                                {
-                                                    <i class="fa fa-filter"></i>
-                                                }
-                                            </td>
-                                        </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Id
+                                    </td>
+                                    <td>
+                                        <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Name
+                                        @if (bloodProduct.Filelocation != "none")
+                                        {
+                                            <a href="@bloodProduct.Filelocation" target="_blank">
+                                                <sup><i class="fa fa-info"></i></sup>
+                                            </a>
+                                        }
+                                        @if (bloodProduct.Irradiate == 1)
+                                        {
+                                            <i class="fa fa-radiation"></i>
+                                        }
+                                        @if (bloodProduct.Leucodeplete == 1)
+                                        {
+                                            <i class="fa fa-filter"></i>
+                                        }
+                                    </td>
+                                </tr>
                                     }
                                 }
                             </tbody>
@@ -964,6 +972,7 @@
                                 <tr>
                                     <th></th>
                                     <th>Code</th>
+                                    <th></th>
                                     <th>Product Name</th>
                                 </tr>
                             </thead>
@@ -973,24 +982,27 @@
                                     if (bloodProduct.Id.Substring(0, 2).Contains("PP") &&
                                         (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
                                     {
-                                        <tr>
-                                            <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication"
-                                                   onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Id
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Name
-                                                @if (bloodProduct.Filelocation != "none")
-                                                {
-                                                    <a href="@bloodProduct.Filelocation" target="_blank">
-                                                        <sup><i class="fa fa-info"></i></sup>
-                                                    </a>
-                                                }
-                                            </td>
-                                        </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication"
+                                           onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Id
+                                    </td>
+                                    <td>
+                                        <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Name
+                                        @if (bloodProduct.Filelocation != "none")
+                                        {
+                                            <a href="@bloodProduct.Filelocation" target="_blank">
+                                                <sup><i class="fa fa-info"></i></sup>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
                                     }
                                 }
                             </tbody>
@@ -1070,7 +1082,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
-                        <h4 id="list-info-product-header"></h4>
+                        <h4 class="modal-title" id="list-info-product-header">Product Code</h4>
                     </div>
                     <div class="modal-body">
                         <div id="list-info-product">
@@ -1187,18 +1199,26 @@
             var jsonObj = @Html.Raw(Json.Encode(ViewBag.ProductInfo));
             for (var i in jsonObj) {
                 if (jsonObj[i].Id == val) {
-                    output += ""
-                        + "<h6>" + jsonObj[i].Id + "</h6>"
-                        + "<p><b>Contents:</b> " + jsonObj[i].Content + "</p>"
-                        + "<p><b>Volume:</b> " + jsonObj[i].Volume + "</p>"
-                        + "<p><b>Recommended dosage:</b> " + jsonObj[i].Dosage + "</p>"
-                        + "<p><b>Additional requirements:</b> " + jsonObj[i].Comments + "</p>"
-                        ;
-                    header = "<b>" + jsonObj[i].Id + "</b>";
+                    if (jsonObj[i].Id.startsWith("T")) {
+                        output += ""
+                            + "<p>" + jsonObj[i].Comments + "</p>"
+                            ;
+                    }
+                    else {
+                        output += ""
+                            + "<p><b>Contents:</b> " + jsonObj[i].Content + "</p>"
+                            + "<p><b>Volume:</b> " + jsonObj[i].Volume + "</p>"
+                            + "<p><b>Recommended dosage:</b> " + jsonObj[i].Dosage + "</p>"
+                            + "<p><b>Additional requirements:</b> " + jsonObj[i].Comments + "</p>"
+                            ;
+                    }
+                    header += ""
+                        + jsonObj[i].Id
+                        + " (" + jsonObj[i].Name + ")";
                 }
                 else {
-                    output += ""
-                    header = ""
+                    output += "";
+                    header += "";
                 }
             }
             document.getElementById('list-info-product').innerHTML = output;
