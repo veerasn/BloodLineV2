@@ -42,7 +42,6 @@ namespace BloodLineV2.Models
         public Nullable<byte> RESPRODCOMPLETED { get; set; }
         public Nullable<int> HOSPITID { get; set; }
         public Nullable<System.DateTime> BGMISMATCHDATE { get; set; }
-        public byte[] SSMA_TimeStamp { get; set; }
     
         public virtual BBSPATIENT PATIENT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

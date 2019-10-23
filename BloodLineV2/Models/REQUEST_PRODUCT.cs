@@ -43,7 +43,6 @@ namespace BloodLineV2.Models
         public Nullable<int> FRIDGEID { get; set; }
         public string RETURNCOMMENT { get; set; }
         public int PRODUCTID { get; set; }
-        public byte[] SSMA_TimeStamp { get; set; }
     
         public virtual PRODUCT PRODUCT { get; set; }
         public virtual BBSREQUEST REQUEST { get; set; }

@@ -373,7 +373,6 @@
           <Property Name="DEVICEID" Type="Int32" />
           <Property Name="MAXPRODNUMLEN" Type="Byte" />
           <Property Name="MINPRODNUMLEN" Type="Byte" />
-          <Property Name="SSMA_TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="PRODUCTS" Relationship="Self.FK_Dict_Products" FromRole="DICT_PRODUCTS" ToRole="PRODUCTS" />
         </EntityType>
         <EntityType Name="DICT_TESTS">
@@ -392,7 +391,6 @@
           <Property Name="FULLTEXT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ALLOWSAMPLERECEPTION" Type="Byte" />
           <Property Name="STANDALONE" Type="Byte" />
-          <Property Name="SSMA_TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="TESTS" Relationship="Self.FK_Dict_Tests" FromRole="DICT_TESTS" ToRole="TESTS" />
         </EntityType>
         <EntityType Name="BBSPATIENT">
@@ -400,7 +398,6 @@
             <PropertyRef Name="PATNUMBER" />
           </Key>
           <Property Name="PATNUMBER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PATCREATIONDATE" Type="Double" />
           <Property Name="HOSPNUMBER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="BENNUMBER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="INTNUM" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -439,7 +436,6 @@
           <Property Name="LOGUSERID" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
           <Property Name="LOGDATE" Type="DateTime" Precision="0" />
           <Property Name="ADDITIONALDATA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="SSMA_TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="REQUESTS" Relationship="Self.FK_Requests" FromRole="PATIENTS" ToRole="REQUESTS" />
         </EntityType>
         <EntityType Name="PRODUCT">
@@ -484,7 +480,6 @@
           <Property Name="LOGDATE" Type="DateTime" Precision="0" />
           <Property Name="LOGUSERID" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
           <Property Name="REMOTEALLOCATION" Type="Byte" />
-          <Property Name="SSMA_TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="DICT_PRODUCTS" Relationship="Self.FK_Dict_Products" FromRole="PRODUCTS" ToRole="DICT_PRODUCTS" />
           <NavigationProperty Name="REQUEST_PRODUCT" Relationship="Self.FK_Products" FromRole="PRODUCTS" ToRole="REQUEST_PRODUCT" />
         </EntityType>
@@ -523,7 +518,6 @@
           <Property Name="FRIDGEID" Type="Int32" />
           <Property Name="RETURNCOMMENT" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="PRODUCTID" Type="Int32" Nullable="false" />
-          <Property Name="SSMA_TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="PRODUCT" Relationship="Self.FK_Products" FromRole="REQUEST_PRODUCT" ToRole="PRODUCTS" />
           <NavigationProperty Name="REQUEST" Relationship="Self.FK_Request_Product" FromRole="REQUEST_PRODUCT" ToRole="REQUESTS" />
         </EntityType>
@@ -553,7 +547,6 @@
           <Property Name="RESPRODCOMPLETED" Type="Byte" />
           <Property Name="HOSPITID" Type="Int32" />
           <Property Name="BGMISMATCHDATE" Type="DateTime" Precision="0" />
-          <Property Name="SSMA_TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="PATIENT" Relationship="Self.FK_Requests" FromRole="REQUESTS" ToRole="PATIENTS" />
           <NavigationProperty Name="REQUEST_PRODUCT" Relationship="Self.FK_Request_Product" FromRole="REQUESTS" ToRole="REQUEST_PRODUCT" />
           <NavigationProperty Name="TESTS" Relationship="Self.FK_Tests" FromRole="REQUESTS" ToRole="TESTS" />
@@ -577,7 +570,6 @@
           <Property Name="TESTINGDATE" Type="DateTime" Precision="0" />
           <Property Name="VALIDUSER" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
           <Property Name="VALIDDATE" Type="DateTime" Precision="0" />
-          <Property Name="SSMA_TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="DICT_TESTS" Relationship="Self.FK_Dict_Tests" FromRole="TESTS" ToRole="DICT_TESTS" />
           <NavigationProperty Name="REQUEST" Relationship="Self.FK_Tests" FromRole="TESTS" ToRole="REQUESTS" />
         </EntityType>
@@ -725,7 +717,6 @@
                 <ScalarProperty Name="DEVICEID" ColumnName="DEVICEID" />
                 <ScalarProperty Name="MAXPRODNUMLEN" ColumnName="MAXPRODNUMLEN" />
                 <ScalarProperty Name="MINPRODNUMLEN" ColumnName="MINPRODNUMLEN" />
-                <ScalarProperty Name="SSMA_TimeStamp" ColumnName="SSMA_TimeStamp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -743,7 +734,6 @@
                 <ScalarProperty Name="FULLTEXT" ColumnName="FULLTEXT" />
                 <ScalarProperty Name="ALLOWSAMPLERECEPTION" ColumnName="ALLOWSAMPLERECEPTION" />
                 <ScalarProperty Name="STANDALONE" ColumnName="STANDALONE" />
-                <ScalarProperty Name="SSMA_TimeStamp" ColumnName="SSMA_TimeStamp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -751,7 +741,6 @@
             <EntityTypeMapping TypeName="BBSModel.BBSPATIENT">
               <MappingFragment StoreEntitySet="PATIENTS">
                 <ScalarProperty Name="PATNUMBER" ColumnName="PATNUMBER" />
-                <ScalarProperty Name="PATCREATIONDATE" ColumnName="PATCREATIONDATE" />
                 <ScalarProperty Name="HOSPNUMBER" ColumnName="HOSPNUMBER" />
                 <ScalarProperty Name="BENNUMBER" ColumnName="BENNUMBER" />
                 <ScalarProperty Name="INTNUM" ColumnName="INTNUM" />
@@ -790,7 +779,6 @@
                 <ScalarProperty Name="LOGUSERID" ColumnName="LOGUSERID" />
                 <ScalarProperty Name="LOGDATE" ColumnName="LOGDATE" />
                 <ScalarProperty Name="ADDITIONALDATA" ColumnName="ADDITIONALDATA" />
-                <ScalarProperty Name="SSMA_TimeStamp" ColumnName="SSMA_TimeStamp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -835,7 +823,6 @@
                 <ScalarProperty Name="LOGDATE" ColumnName="LOGDATE" />
                 <ScalarProperty Name="LOGUSERID" ColumnName="LOGUSERID" />
                 <ScalarProperty Name="REMOTEALLOCATION" ColumnName="REMOTEALLOCATION" />
-                <ScalarProperty Name="SSMA_TimeStamp" ColumnName="SSMA_TimeStamp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -871,7 +858,6 @@
                 <ScalarProperty Name="FRIDGEID" ColumnName="FRIDGEID" />
                 <ScalarProperty Name="RETURNCOMMENT" ColumnName="RETURNCOMMENT" />
                 <ScalarProperty Name="PRODUCTID" ColumnName="PRODUCTID" />
-                <ScalarProperty Name="SSMA_TimeStamp" ColumnName="SSMA_TimeStamp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -899,7 +885,6 @@
                 <ScalarProperty Name="RESPRODCOMPLETED" ColumnName="RESPRODCOMPLETED" />
                 <ScalarProperty Name="HOSPITID" ColumnName="HOSPITID" />
                 <ScalarProperty Name="BGMISMATCHDATE" ColumnName="BGMISMATCHDATE" />
-                <ScalarProperty Name="SSMA_TimeStamp" ColumnName="SSMA_TimeStamp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -919,7 +904,6 @@
                 <ScalarProperty Name="TESTINGDATE" ColumnName="TESTINGDATE" />
                 <ScalarProperty Name="VALIDUSER" ColumnName="VALIDUSER" />
                 <ScalarProperty Name="VALIDDATE" ColumnName="VALIDDATE" />
-                <ScalarProperty Name="SSMA_TimeStamp" ColumnName="SSMA_TimeStamp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

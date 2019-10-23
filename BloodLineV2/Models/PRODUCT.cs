@@ -58,7 +58,6 @@ namespace BloodLineV2.Models
         public Nullable<System.DateTime> LOGDATE { get; set; }
         public string LOGUSERID { get; set; }
         public Nullable<byte> REMOTEALLOCATION { get; set; }
-        public byte[] SSMA_TimeStamp { get; set; }
     
         public virtual DICT_PRODUCTS DICT_PRODUCTS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

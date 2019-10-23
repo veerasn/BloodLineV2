@@ -42,7 +42,6 @@ namespace BloodLineV2.Models
         public Nullable<int> DEVICEID { get; set; }
         public Nullable<byte> MAXPRODNUMLEN { get; set; }
         public Nullable<byte> MINPRODNUMLEN { get; set; }
-        public byte[] SSMA_TimeStamp { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRODUCT> PRODUCTS { get; set; }

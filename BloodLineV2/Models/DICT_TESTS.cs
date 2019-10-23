@@ -31,7 +31,6 @@ namespace BloodLineV2.Models
         public string FULLTEXT { get; set; }
         public Nullable<byte> ALLOWSAMPLERECEPTION { get; set; }
         public Nullable<byte> STANDALONE { get; set; }
-        public byte[] SSMA_TimeStamp { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BBSTEST> TESTS { get; set; }

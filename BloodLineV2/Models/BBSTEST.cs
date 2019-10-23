@@ -27,7 +27,6 @@ namespace BloodLineV2.Models
         public Nullable<System.DateTime> TESTINGDATE { get; set; }
         public string VALIDUSER { get; set; }
         public Nullable<System.DateTime> VALIDDATE { get; set; }
-        public byte[] SSMA_TimeStamp { get; set; }
     
         public virtual DICT_TESTS DICT_TESTS { get; set; }
         public virtual BBSREQUEST REQUEST { get; set; }
