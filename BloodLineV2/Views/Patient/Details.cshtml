@@ -964,8 +964,9 @@
                         Select suitable products and required quantity. Refer to <a href="#"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
                     </h6>
                     <p id="alert_ffp" style="color: orangered"></p>
+                    <p id="alert_cryoprecipitate" style="color: orangered"></p>
                     <p id="ffp" style="color: orangered"></p>
-                    <p id="notice_ffp" style="color: red">@ViewBag.cPlt</p>
+                    <p id="notice_ffp" style="color: red">@ViewBag.cInr</p>
                     <div class="products">
                         <table class="table">
                             <thead>
@@ -982,27 +983,27 @@
                                     if (bloodProduct.Id.Substring(0, 2).Contains("PP") &&
                                         (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
                                     {
-                                <tr>
-                                    <td>
-                                        <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication"
-                                           onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
-                                    </td>
-                                    <td>
-                                        @bloodProduct.Id
-                                    </td>
-                                    <td>
-                                        <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
-                                    </td>
-                                    <td>
-                                        @bloodProduct.Name
-                                        @if (bloodProduct.Filelocation != "none")
-                                        {
-                                            <a href="@bloodProduct.Filelocation" target="_blank">
-                                                <sup><i class="fa fa-info"></i></sup>
-                                            </a>
-                                        }
-                                    </td>
-                                </tr>
+                                        <tr>
+                                            <td>
+                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication"
+                                                   onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Id
+                                            </td>
+                                            <td>
+                                                <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Name
+                                                @if (bloodProduct.Filelocation != "none")
+                                                {
+                                                    <a href="@bloodProduct.Filelocation" target="_blank">
+                                                        <sup><i class="fa fa-info"></i></sup>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
                                     }
                                 }
                             </tbody>
@@ -1169,6 +1170,9 @@
             else if (val == 'ffp') {
                 threshold = @ViewBag.yInr[ViewBag.UInr];
             }
+            else if (val == 'cryoprecipitate') {
+                threshold = @ViewBag.yFbg[ViewBag.UFbg];
+            }
             else {
                 threshold = 0;
             }
@@ -1257,8 +1261,19 @@
                     if (b == 0) {
                         fback = "FFP request has been made with no prior INR results."
                     }
-                    else if (b > 1.1 * a) {
+                    else if (b < 1.1 * a) {
                         fback = "You have chosen to transfuse at a target INR of " + a + " but the patient's last INR was " + b +"."
+                    }
+                    else {
+                        fback = ""
+                    };
+                }
+                else if (c == 'cryoprecipitate') {
+                    if (b == 0) {
+                        fback = "Cryoprecipitate request has been made with no prior fibrinogen results."
+                    }
+                    else if (b > 1.1 * a) {
+                        fback = "You have chosen to transfuse at a target fibrinogen of " + a + " but the patient's last fibrinogen was " + b + ", " + @ViewBag.FbgInterval + " days ago."
                     }
                     else {
                         fback = ""
@@ -1273,6 +1288,9 @@
             }
             else if (c == "ffp") {
                 document.getElementById("alert_ffp").innerHTML = fback;
+            }
+            else if (c == "cryoprecipitate") {
+                document.getElementById("alert_cryoprecipitate").innerHTML = fback;
             }
 
             //Update indication for product

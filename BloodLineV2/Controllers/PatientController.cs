@@ -117,7 +117,7 @@ namespace BloodLineV2.Controllers
                                 aboerr = 1;
                             }
                             //Check if any sample with ABO determination within last 3 days
-                            if (testrequests[i].RequestDate != null && (DateTime.Today - testrequests[i].RequestDate).Value.Days < 180)
+                            if (testrequests[i].RequestDate != null && (DateTime.Today - testrequests[i].RequestDate).Value.Days < 7)
                             {
                                 reqvalid = reqvalid + 1;
                                 reqvaliddate = testrequests[i].RequestDate.ToString();
@@ -305,9 +305,9 @@ namespace BloodLineV2.Controllers
                     case "0":
                         cHgb = "The patient's last Hb result was " + y[UHgb] + "g/L checked today.";
                         break;
-                    case "1":
-                    case "2":
-                    case "3":
+                    case "-1":
+                    case "-2":
+                    case "-3":
                         cHgb = "The patient's last Hb result was " + y[UHgb] + " g/L checked " + x[UHgb] + " days ago.";
                         break;
                     default:
@@ -346,11 +346,15 @@ namespace BloodLineV2.Controllers
                         y[i] = temp;
                         x[i] = mcv[i].Interval.ToString();
 
-                        if (y[0] < 76)
+                        if (y[i] < 76)
                         {
-                            cMcv = "The patient's MCV is " + y[0] + " fL which is low. " +
+                            cMcv = "The patient's MCV is " + y[i] + " fL which is low. " +
                                     "Investigations to exclude iron deficiency or thalassaemia would be advised, if not already done. " +
                                     "Iron therapy would be warranted before an elective red cell transfusion, if there is evidence to indicate iron deficiency.";
+                        }
+                        else
+                        {
+                            cMcv = "";
                         }
                     }
                 }
@@ -391,7 +395,7 @@ namespace BloodLineV2.Controllers
                     case "0":
                         cPlt = "The patient's last platelet count was " + y[UPlt] + " x 10^9/L checked today.";
                         break;
-                    case "1":
+                    case "-1":
                         cPlt = "The patient's last platelet count was " + y[UPlt] + " x 10^9/L checked yesterday.";
                         break;
                     default:
@@ -440,13 +444,13 @@ namespace BloodLineV2.Controllers
                 switch (x[UInr])
                 {
                     case "0":
-                        cPlt = "The patient's last platelet count was " + y[UInr] + " checked today.";
+                        cInr = "The patient's last INR was " + y[UInr] + " checked today.";
                         break;
-                    case "1":
-                        cPlt = "The patient's last platelet count was " + y[UInr] + " checked yesterday.";
+                    case "-1":
+                        cInr = "The patient's last INR was " + y[UInr] + " checked yesterday.";
                         break;
                     default:
-                        cPlt = "The patient's last platelet count was " + y[UInr] + " checked " + x[UInr] + " days ago. " +
+                        cInr = "The patient's last INR was " + y[UInr] + " checked " + x[UInr] + " days ago. " +
                                 "Please ensure a recent INR has been determined " +
                                 "before proceeding to order ffp or plasma derivatives.";
                         break;
@@ -483,6 +487,47 @@ namespace BloodLineV2.Controllers
 
                 ViewBag.xApt = x;
                 ViewBag.yApt = y;
+
+                int UApt = x.GetUpperBound(0);
+                ViewBag.UApt = UApt;
+            }
+            else
+            {
+                double[] y = { 0 };
+                ViewBag.yApt = y;
+                ViewBag.UApt = 0;
+            }
+
+            //Fibrinogen
+            var fbg = result.Where(i => i.TestId == 1451).ToList();
+            int iFbg = fbg.Count;
+            ViewBag.iFbg = iFbg;
+
+            if (iFbg > 0)
+            {
+                double[] y = new double[iFbg];
+                string[] x = new string[iFbg];
+                for (int i = 0; i < iFbg; i++)
+                {
+                    if (double.TryParse(fbg[i].Resvalue, out double temp))
+                    {
+                        y[i] = temp;
+                        x[i] = fbg[i].Interval.ToString();
+                    }
+                }
+
+                ViewBag.xFbg = x;
+                ViewBag.yFbg = y;
+
+                int UFbg = x.GetUpperBound(0);
+                ViewBag.UFbg = UFbg;
+                ViewBag.FbgInterval = x[UFbg];
+            }
+            else
+            {
+                double[] y = { 0 };
+                ViewBag.yFbg = y;
+                ViewBag.UFbg = 0;
             }
 
             //Create table for choosing blood products
