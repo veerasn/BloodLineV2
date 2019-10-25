@@ -167,5 +167,9 @@ namespace BloodLineV2.ViewModels
         public string PRODNUM { get; set; }
         public string PRODCODE { get; set; }
 
+        //BB Order
+        public DateTime RequiredDate { get; set; }
+        public DateTime RequiredTime { get; set; }
+
     }
 }
