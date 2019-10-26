@@ -34,6 +34,7 @@ namespace BloodLineV2.Controllers
             }
             else
             {
+                //Amend later to search eMR if no patient info available from TDBB and update patient fields
                 patients = patients.Where(p => p.PATNUMBER.Contains("00777"));
             }
             return View(patients);

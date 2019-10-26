@@ -782,392 +782,413 @@
             </div>
         </div>
         <!--Enter when products required-->
-        <div class="w3-row-padding w3-margin-bottom" id="request-timing">
-            <div class="w3-quarter w3-blue-grey">
-                <div class="w3-container w3-hover-text-light-gray w3-padding-2">
-                    <div class="radio">
-                        <label><input type="radio" name="optUrgency" checked>Immediate</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optUrgency" checked>Urgent</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optUrgency" checked>Scheduled</label>
-                    </div>
-                </div>
+        <div class="w3-panel w3-gray panel-default">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-outline-info " data-toggle="collapse" data-target="#requiredTime" aria-expanded="true" aria-controls="requiredTime">
+                        When are the products required?
+                    </button>
+                </h5>
             </div>
-            <div class="w3-quarter w3-blue-grey">
-                <div class="w3-container w3-hover-text-light-gray w3-padding-2">
-                    <div class="radio">
-                        <label><input type="radio" name="optDay" value="1" onchange="updateRequiredDate('0')">Today</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optDay" value="2" onchange="updateRequiredDate('1')">Tomorrow</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optDay" value="3" onchange="updateRequiredDate('2')">Day after</label>
-                    </div>
-                </div>
-            </div>
-            <div class="w3-quarter w3-blue-grey">
-                <div class="w3-container w3-hover-text-light-gray w3-padding-2">
-                    <div class="radio">
-                        <label><input type="radio" name="optTime" value="1" onchange="updateRequiredTime('08:00')">Morning</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optTime" value="2" onchange="updateRequiredTime('12:00')">Afternoon</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optTime" value="3" onchange="updateRequiredTime('18:00')">Evening</label>
-                    </div>
-                </div>
-            </div>
-            <div class="w3-quarter">
-                <div class="w3-container w3-light-blue w3-padding-small">
-                    @Html.TextBoxFor(model => model.First().RequiredDate, new { id = "RequiredDate", @type = "date", @class = "form-control datepicker", @Value = Model.First().RequiredDate.ToString("yyyy-mm-dd") })
-                    @Html.TextBoxFor(model => model.First().RequiredTime, new { id = "RequiredTime", @type = "time", @class = "form-control datepicker", @Value = Model.First().RequiredTime.ToString("hh:mm") })
-                </div>
-            </div>
-        </div>
-
-        <!--Tabs for selection of requests and products-->
-        <div class="w3-container">
-            <div class="w3-row">
-                <a href="javacript:void(0)" onclick="openRequest(event, 'Test');">
-                    <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Tests</div>
-                </a>
-                <a href="javacript:void(0)" onclick="openRequest(event, 'Rbc');">
-                    <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Red Cells</div>
-                </a>
-                <a href="javacript:void(0)" onclick="openRequest(event, 'Platelet');">
-                    <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Platelets</div>
-                </a>
-                <a href="javacript:void(0)" onclick="openRequest(event, 'Plasma');">
-                    <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Plasma Products</div>
-                </a>
-                <!--Test requests-->
-                <div id="Test" class="w3-container request" style="display:none">
-                    <h6>Panel for tests</h6>
-                    <div class="products">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Code</th>
-                                    <th></th>
-                                    <th>Test Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
-                                {
-                                    if (bloodProduct.Id.Substring(0, 2).Contains("T-") &&
-                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
-                                    {
-                                        <tr>
-                                            <td>
-                                                <a href="#0" class="button add-to-cart" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Id
-                                            </td>
-                                            <td>
-                                                <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Name
-                                                @if (bloodProduct.Filelocation != "none")
-                                                {
-                                                    <a href="@bloodProduct.Filelocation" target="_blank">
-                                                        <sup><i class="fa fa-info"></i></sup>
-                                                    </a>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!--Red cell requests-->
-                <div id="Rbc" class="w3-container request" style="display:none">
-                    <h6>
-                        Select suitable products and required quantity. Remember that the minimum number of RBC units should be transfused to
-                        achieve the desired response. Refer to <a href="~/Content/pdf/RBC_recommendation.pdf" target="_blank"><b>Guidelines for Red Cell Use</b></a> to aid your transfusion decision.
-                    </h6>
-                    <p id="alert_redcell" style="color: orangered"></p>
-                    <p id="redcell" style="color: orangered"></p>
-                    <p id="notice_hb" style="color: red">@ViewBag.cHgb</p>
-                    <p id="notice_mcv" style="color: red">@ViewBag.cMcv</p>
-                    <div class="products">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Code</th>
-                                    <th></th>
-                                    <th>Product Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
-                                {
-                                    if (bloodProduct.Id.Substring(0, 2).Contains("RC") &&
-                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
-                                    {
-                                        <tr>
-                                            <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Id
-                                            </td>
-                                            <td>
-                                                <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Name
-                                                @if (bloodProduct.Filelocation != "none")
-                                                {
-                                                    <a href="@bloodProduct.Filelocation" target="_blank">
-                                                        <sup><i class="fa fa-info"></i></sup>
-                                                    </a>
-                                                }
-                                                @if (bloodProduct.Irradiate == 1)
-                                                {
-                                                    <i class="fa fa-radiation"></i>
-                                                }
-                                                @if (bloodProduct.Leucodeplete == 1)
-                                                {
-                                                    <i class="fa fa-filter"></i>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!--End of Red cell requests-->
-                <!--Platelet requests-->
-                <div id="Platelet" class="w3-container request" style="display:none">
-                    <h6>
-                        Select suitable products and required quantity. Refer to <a href="~/Content/pdf/PLT_recommendation.pdf" target="_blank"><b>Guidelines for Platelet Use</b></a> to aid your transfusion decision.
-                    </h6>
-                    <p id="alert_platelet" style="color: orangered"></p>
-                    <p id="platelet" style="color: orangered"></p>
-                    <p id="notice_platelet" style="color: red">@ViewBag.cPlt</p>
-                    <div class="products">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Code</th>
-                                    <th></th>
-                                    <th>Product Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
-                                {
-                                    if (bloodProduct.Id.Substring(0, 2).Contains("PL") &&
-                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
-                                    {
-                                        <tr>
-                                            <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Id
-                                            </td>
-                                            <td>
-                                                <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Name
-                                                @if (bloodProduct.Filelocation != "none")
-                                                {
-                                                    <a href="@bloodProduct.Filelocation" target="_blank">
-                                                        <sup><i class="fa fa-info"></i></sup>
-                                                    </a>
-                                                }
-                                                @if (bloodProduct.Irradiate == 1)
-                                                {
-                                                    <i class="fa fa-radiation"></i>
-                                                }
-                                                @if (bloodProduct.Leucodeplete == 1)
-                                                {
-                                                    <i class="fa fa-filter"></i>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!--Plasma products and derivatives requests-->
-                <div id="Plasma" class="w3-container request" style="display:none">
-                    <h6>
-                        Select suitable products and required quantity. Refer to <a href="#"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
-                    </h6>
-                    <p id="alert_ffp" style="color: orangered"></p>
-                    <p id="alert_cryoprecipitate" style="color: orangered"></p>
-                    <p id="ffp" style="color: orangered"></p>
-                    <p id="notice_ffp" style="color: red">@ViewBag.cInr</p>
-                    <div class="products">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Code</th>
-                                    <th></th>
-                                    <th>Product Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
-                                {
-                                    if (bloodProduct.Id.Substring(0, 2).Contains("PP") &&
-                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
-                                    {
-                                        <tr>
-                                            <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication"
-                                                   onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Id
-                                            </td>
-                                            <td>
-                                                <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Name
-                                                @if (bloodProduct.Filelocation != "none")
-                                                {
-                                                    <a href="@bloodProduct.Filelocation" target="_blank">
-                                                        <sup><i class="fa fa-info"></i></sup>
-                                                    </a>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!--Modal form - Request-->
-        <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Requests</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-striped table-responsive text-nowrap">
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Description</th>
-                                    <th>Charge</th>
-                                    <th></th>
-                                    <th>Units</th>
-                                    <th></th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody class="show-cart">
-                                <!--Inject rows from displayCart js-->
-                            </tbody>
-                        </table>
-                        <div>Total estimate: RM<span class="total-cart"></span></div>
-                        <!--Display all alerts-->
-                        <div>
-                            <ul id="modal-alert"></ul>
+            <div id="requiredTime" class="collapse">
+                <div class="w3-row-padding w3-margin-bottom" id="request-timing">
+                    <div class="w3-quarter w3-blue-grey">
+                        <div class="w3-container w3-hover-text-light-gray w3-padding-2">
+                            <div class="radio">
+                                <label><input type="radio" name="optUrgency" onchange="updateRequiredDate('0','I')">Immediate</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optUrgency" onchange="updateRequiredDate('0', 'U')">Urgent</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optUrgency" checked onchange="updateRequiredDate('0', 'S')">Scheduled</label>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Confirm request</button>
+                    <div class="w3-quarter w3-blue-grey">
+                        <div class="w3-container w3-hover-text-light-gray w3-padding-2">
+                            <div class="radio">
+                                <label><input type="radio" name="optDay" value="1" onchange="updateRequiredDate('0', 'S')">Today</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optDay" value="2" onchange="updateRequiredDate('1', 'S')">Tomorrow</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optDay" value="3" onchange="updateRequiredDate('2', 'S')">Day after</label>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!--Modal form - Indication-->
-        <div class="modal fade" id="pick-indication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
-                        <h4 class="modal-title" id="pick-indication-label">Clinical indication</h4>
+                    <div class="w3-quarter w3-blue-grey">
+                        <div class="w3-container w3-hover-text-light-gray w3-padding-2">
+                            <div class="radio">
+                                <label><input type="radio" name="optTime" value="1" onchange="updateRequiredTime('08:00')">Morning</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optTime" value="2" onchange="updateRequiredTime('12:00')">Afternoon</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optTime" value="3" onchange="updateRequiredTime('18:00')">Evening</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <h6>Select the most important indication for this transfusion</h6>
-                        <table class="table table-striped" id="list-indication-product">
-                            <tbody>
-                                <!--Insert table using updateIndication js function-->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="productIndication('redcell')">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!--Modal form - Product Info-->
-        <div class="modal fade" id="product-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
-                        <h4 class="modal-title" id="list-info-product-header">Product Code</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div id="list-info-product">
-                            <!--Inject product information by productInfo js-->
+                    <div class="w3-quarter">
+                        <div class="w3-container w3-light-blue w3-padding-small">
+                            @Html.TextBoxFor(model => model.First().RequiredDate, new { id = "RequiredDate", @type = "date", @class = "form-control datepicker", @Value = Model.First().RequiredDate.ToString("yyyy-mm-dd") })
+                            @Html.TextBoxFor(model => model.First().RequiredTime, new { id = "RequiredTime", @type = "time", @class = "form-control datepicker", @Value = Model.First().RequiredTime.ToString("hh:mm") })
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!--Choose procedure in blood required for pre-procedure-->
+        <div>
+            <h2>Procedure details</h2>
+            <form>
+                <input type="text" name="procedure_name" id="name_input" list="procedure_list">Name
+                <datalist id="procedure_list"></datalist>
+                <br />
+                <input type="submit">
+            </form>
+        </div>
 
-        <!--Terminating messages and alerts-->
-        <br>
-        <div class="w3-container w3-dark-grey w3-padding-32">
-            <div class="w3-row">
-                <div class="w3-container w3-third">
-                    <h5 class="w3-bottombar w3-border-green">Messages & Alerts</h5>
-                </div>
-                <div class="w3-container w3-third">
-                    <h5 class="w3-bottombar w3-border-red">Blood Stock Levels</h5>
-                </div>
-                <div class="w3-container w3-third">
-                    <h5 class="w3-bottombar w3-border-orange">Guidelines</h5>
+            <!--Tabs for selection of requests and products-->
+            <div class="w3-container">
+                <div class="w3-row">
+                    <a href="javacript:void(0)" onclick="openRequest(event, 'Test');">
+                        <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Tests</div>
+                    </a>
+                    <a href="javacript:void(0)" onclick="openRequest(event, 'Rbc');">
+                        <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Red Cells</div>
+                    </a>
+                    <a href="javacript:void(0)" onclick="openRequest(event, 'Platelet');">
+                        <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Platelets</div>
+                    </a>
+                    <a href="javacript:void(0)" onclick="openRequest(event, 'Plasma');">
+                        <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Plasma Products</div>
+                    </a>
+                    <!--Test requests-->
+                    <div id="Test" class="w3-container request" style="display:none">
+                        <h6>Panel for tests</h6>
+                        <div class="products">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Code</th>
+                                        <th></th>
+                                        <th>Test Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
+                                    {
+                                        if (bloodProduct.Id.Substring(0, 2).Contains("T-") &&
+                                            (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a href="#0" class="button add-to-cart" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                                </td>
+                                                <td>
+                                                    @bloodProduct.Id
+                                                </td>
+                                                <td>
+                                                    <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                                </td>
+                                                <td>
+                                                    @bloodProduct.Name
+                                                    @if (bloodProduct.Filelocation != "none")
+                                                    {
+                                                        <a href="@bloodProduct.Filelocation" target="_blank">
+                                                            <sup><i class="fa fa-info"></i></sup>
+                                                        </a>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Red cell requests-->
+                    <div id="Rbc" class="w3-container request" style="display:none">
+                        <h6>
+                            Select suitable products and required quantity. Remember that the minimum number of RBC units should be transfused to
+                            achieve the desired response. Refer to <a href="~/Content/pdf/RBC_recommendation.pdf" target="_blank"><b>Guidelines for Red Cell Use</b></a> to aid your transfusion decision.
+                        </h6>
+                        <p id="alert_redcell" style="color: orangered"></p>
+                        <p id="redcell" style="color: orangered"></p>
+                        <p id="notice_hb" style="color: red">@ViewBag.cHgb</p>
+                        <p id="notice_mcv" style="color: red">@ViewBag.cMcv</p>
+                        <div class="products">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Code</th>
+                                        <th></th>
+                                        <th>Product Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
+                                    {
+                                        if (bloodProduct.Id.Substring(0, 2).Contains("RC") &&
+                                            (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                                </td>
+                                                <td>
+                                                    @bloodProduct.Id
+                                                </td>
+                                                <td>
+                                                    <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                                </td>
+                                                <td>
+                                                    @bloodProduct.Name
+                                                    @if (bloodProduct.Filelocation != "none")
+                                                    {
+                                                        <a href="@bloodProduct.Filelocation" target="_blank">
+                                                            <sup><i class="fa fa-info"></i></sup>
+                                                        </a>
+                                                    }
+                                                    @if (bloodProduct.Irradiate == 1)
+                                                    {
+                                                        <i class="fa fa-radiation"></i>
+                                                    }
+                                                    @if (bloodProduct.Leucodeplete == 1)
+                                                    {
+                                                        <i class="fa fa-filter"></i>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--End of Red cell requests-->
+                    <!--Platelet requests-->
+                    <div id="Platelet" class="w3-container request" style="display:none">
+                        <h6>
+                            Select suitable products and required quantity. Refer to <a href="~/Content/pdf/PLT_recommendation.pdf" target="_blank"><b>Guidelines for Platelet Use</b></a> to aid your transfusion decision.
+                        </h6>
+                        <p id="alert_platelet" style="color: orangered"></p>
+                        <p id="platelet" style="color: orangered"></p>
+                        <p id="notice_platelet" style="color: red">@ViewBag.cPlt</p>
+                        <div class="products">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Code</th>
+                                        <th></th>
+                                        <th>Product Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
+                                    {
+                                        if (bloodProduct.Id.Substring(0, 2).Contains("PL") &&
+                                            (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                                </td>
+                                                <td>
+                                                    @bloodProduct.Id
+                                                </td>
+                                                <td>
+                                                    <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                                </td>
+                                                <td>
+                                                    @bloodProduct.Name
+                                                    @if (bloodProduct.Filelocation != "none")
+                                                    {
+                                                        <a href="@bloodProduct.Filelocation" target="_blank">
+                                                            <sup><i class="fa fa-info"></i></sup>
+                                                        </a>
+                                                    }
+                                                    @if (bloodProduct.Irradiate == 1)
+                                                    {
+                                                        <i class="fa fa-radiation"></i>
+                                                    }
+                                                    @if (bloodProduct.Leucodeplete == 1)
+                                                    {
+                                                        <i class="fa fa-filter"></i>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Plasma products and derivatives requests-->
+                    <div id="Plasma" class="w3-container request" style="display:none">
+                        <h6>
+                            Select suitable products and required quantity. Refer to <a href="#"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
+                        </h6>
+                        <p id="alert_ffp" style="color: orangered"></p>
+                        <p id="alert_cryoprecipitate" style="color: orangered"></p>
+                        <p id="ffp" style="color: orangered"></p>
+                        <p id="notice_ffp" style="color: red">@ViewBag.cInr</p>
+                        <div class="products">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Code</th>
+                                        <th></th>
+                                        <th>Product Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
+                                    {
+                                        if (bloodProduct.Id.Substring(0, 2).Contains("PP") &&
+                                            (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication"
+                                                       onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                                </td>
+                                                <td>
+                                                    @bloodProduct.Id
+                                                </td>
+                                                <td>
+                                                    <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                                </td>
+                                                <td>
+                                                    @bloodProduct.Name
+                                                    @if (bloodProduct.Filelocation != "none")
+                                                    {
+                                                        <a href="@bloodProduct.Filelocation" target="_blank">
+                                                            <sup><i class="fa fa-info"></i></sup>
+                                                        </a>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!--Modal form - Request-->
+            <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Requests</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-striped table-responsive text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Description</th>
+                                        <th>Charge</th>
+                                        <th></th>
+                                        <th>Units</th>
+                                        <th></th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="show-cart">
+                                    <!--Inject rows from displayCart js-->
+                                </tbody>
+                            </table>
+                            <div>Total estimate: RM<span class="total-cart"></span></div>
+                            <!--Display all alerts-->
+                            <div>
+                                <ul id="modal-alert"></ul>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Confirm request</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Modal form - Indication-->
+            <div class="modal fade" id="pick-indication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                            <h4 class="modal-title" id="pick-indication-label">Clinical indication</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h6>Select the most important indication for this transfusion</h6>
+                            <table class="table table-striped" id="list-indication-product">
+                                <tbody>
+                                    <!--Insert table using updateIndication js function-->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="productIndication('redcell')">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Modal form - Product Info-->
+            <div class="modal fade" id="product-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                            <h4 class="modal-title" id="list-info-product-header">Product Code</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="list-info-product">
+                                <!--Inject product information by productInfo js-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Terminating messages and alerts-->
+            <br>
+            <div class="w3-container w3-dark-grey w3-padding-32">
+                <div class="w3-row">
+                    <div class="w3-container w3-third">
+                        <h5 class="w3-bottombar w3-border-green">Messages & Alerts</h5>
+                    </div>
+                    <div class="w3-container w3-third">
+                        <h5 class="w3-bottombar w3-border-red">Blood Stock Levels</h5>
+                    </div>
+                    <div class="w3-container w3-third">
+                        <h5 class="w3-bottombar w3-border-orange">Guidelines</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer -->
+            <footer class="w3-container w3-padding-16 w3-light-grey">
+                <h4>USE BLOOD WISELY</h4>
+            </footer>
+            <!-- End page content -->
         </div>
-        <!-- Footer -->
-        <footer class="w3-container w3-padding-16 w3-light-grey">
-            <h4>USE BLOOD WISELY</h4>
-        </footer>
-        <!-- End page content -->
-    </div>
 
     <script>
         // Get the Sidebar
@@ -1217,11 +1238,20 @@
     </script>
     <script>
         //Update RequiredDate according to optDay
-        function updateRequiredDate(val) {
+        function updateRequiredDate(val, type) {
             var today = new Date();
             today.setDate(today.getDate() + parseInt(val))
             var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
             document.getElementById("RequiredDate").value = date;
+
+            if (type == 'I') {
+                var newtimeI = new Date(today.getTime() + 15 * 60000)
+                updateRequiredTime(newtimeI.getHours() + ':' + newtimeI.getMinutes());
+            }
+            else if (type == 'U') {
+                var newtimeU = new Date(today.getTime() + 45 * 60000)
+                updateRequiredTime(newtimeU.getHours() + ':' + newtimeU.getMinutes());
+            }
         }
     </script>
     <script>
