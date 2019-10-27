@@ -21,6 +21,7 @@
     <script src="~/Scripts/Chart.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script scr="~/Scripts/chartjs-plugin-annotation.js"></script>
 </head>
 
@@ -841,16 +842,14 @@
             </div>
         </div>
         <!--Choose procedure in blood required for pre-procedure-->
-        <div>
-            <h2>Procedure details</h2>
+        <div class="w3-panel w3-gray panel-default">
             <form>
-                <input type="text" name="procedure_name" id="name_input" list="procedure_list">Name
+                <input type="text" name="procedure_name" id="procedure_input" list="procedure_list">
                 <datalist id="procedure_list"></datalist>
-                <br />
                 <input type="submit">
             </form>
         </div>
-
+        
             <!--Tabs for selection of requests and products-->
             <div class="w3-container">
                 <div class="w3-row">
@@ -1245,7 +1244,7 @@
             document.getElementById("RequiredDate").value = date;
 
             if (type == 'I') {
-                var newtimeI = new Date(today.getTime() + 15 * 60000)
+                var newtimeI = new Date(today.getTime())
                 updateRequiredTime(newtimeI.getHours() + ':' + newtimeI.getMinutes());
             }
             else if (type == 'U') {
@@ -1254,6 +1253,44 @@
             }
         }
     </script>
+    <script>
+        //Autofill procedure list using AJAX
+        window.addEventListener("load", function () {
+            var procedure_input = document.getElementById('procedure_input');
+            procedure_input.addEventListener("keyup", function (event) { hinter(event) });
+            window.hinterXHR = new XMLHttpRequest();
+        });
+
+        function hinter(event) {
+            var input = event.target
+            var procedure_list = document.getElementById('procedure_list');
+            var min_characters = 1;
+
+            if (input.value.length < min_characters) {
+                return;
+            }
+            else {
+                window.hinterXHR.abort();
+                window.hinterXHR.onreadystatechange = function () {
+                    if (this.readystate == 4 && this.status == 200) {
+                        var response = JSON.parse(this.responseText);
+                        procedure_list.innerHTML = ""
+                        response.forEach(function (item) {
+                            var option = document.createElement('option');
+                            option.value = item;
+                            procedure_list.appendChild(option);
+                        });
+                    }
+                };
+  
+                window.hinterXHR.open("GET", "" + input.value, true);
+                window.hinterXHR.send()
+            }
+        }
+
+    </script>
+    
+
     <script>
         //Update table for indication specific to each product type
         function updateIndication(val) {
