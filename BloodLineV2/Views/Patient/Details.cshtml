@@ -869,20 +869,27 @@
                 <option value="10">Operations on the urinary system</option>
                 <option value="16">Miscellaneous diagnostic and therapeutic procedures</option>
             </select>
+            <br />
+            <label for="icd10-level2">Select sub-category:</label>
+            <select name="icd10-level2" class="form-control" id="icd10-level2">
+
+            </select>
         </div>
 
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sub-category</button>
-                <div class="dropdown-menu" role="menu">
-                    <a class="dropdown-item" href="#">1</a>
-                    <a class="dropdown-item" href="#">2</a>
-                    <a class="dropdown-item" href="#">3</a>
-                </div>
-                <input type="text" class="form-control" id="icd10-level2" aria-label="Autocomplete using search text item" />
-                <ul id="icd10-level2-values"></ul>
+        <!--
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sub-category</button>
+            <div class="dropdown-menu" role="menu" id="icd10-level2">
+                <a class="dropdown-item" href="#">1</a>
+                <a class="dropdown-item" href="#">2</a>
+                <a class="dropdown-item" href="#">3</a>
             </div>
+            <input type="text" class="form-control" id="icd10-level2" aria-label="Autocomplete using search text item" />
+            <ul id="icd10-level2-values"></ul>
         </div>
+    </div>
+        -->
 
         <!--Tabs for selection of requests and products-->
         <div class="w3-container">
@@ -1292,7 +1299,7 @@
         var selectValue;
 
         $(function () {
-            selectValue = $('ul#icd10-level2-values');
+            selectValue = $('#icd10-level2');
 
             $("#icd10-level1").on("change", function () {
                 updateIcd(this.value);
@@ -1302,12 +1309,11 @@
         function updateIcd(icd10value) {
             var uri = "/Patient/GetProcedure";
             $.getJSON(uri, { icd10value: icd10value }).done(function (data) {
-                selectValue.html("");
+                $("#icd10-level2").html("");
                 var count = 0;
                 $.each(data, function (key, item) {
-                    var li = $('<li/>').addClass('ui-menu-item').attr('role', 'menu-item')
-                        .html("<a href='#' onclick=\"setText('" + item + "')\">" + item + "</a>")
-                        .appendTo(selectValue);
+                    var arr = item.split("|")
+                    $("#icd10-level2").append("<option value='" + arr[0] + "'>" + arr[1] + "</option>");
                     count++;
                 });
             });

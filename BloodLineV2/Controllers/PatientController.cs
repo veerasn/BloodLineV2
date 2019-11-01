@@ -552,18 +552,18 @@ namespace BloodLineV2.Controllers
 
             string strCn = ConfigurationManager.ConnectionStrings["TMDLAB"].ToString();
 
-            string queryString = "SELECT DISTINCT [MULTI CCS LVL 2 LABEL] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [MULTI CCS LVL 1] = '" + icd10value + "' " ;
+            string queryString = "SELECT DISTINCT [CCS CATEGORY] AS CATEGORY, [CCS CATEGORY DESCRIPTION] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [MULTI CCS LVL 1] = '" + icd10value + "' " ;
             SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
 
             DataSet icd10ds = new DataSet();
-            da.Fill(icd10ds, "LVL2_LABEL");
+            da.Fill(icd10ds, "dbo.ICD10_PCS");
 
             dt = icd10ds.Tables[0];
 
             var txtItems = (from DataRow row in dt.Rows
-                            select row["LVL2_LABEL"].ToString()
+                            select row["CATEGORY"].ToString() + "|" + row["LVL2_LABEL"].ToString()
                             into dbValues
-                            select dbValues.ToLower()).ToList();
+                            select dbValues).ToList();
 
             return Json(txtItems, JsonRequestBehavior.AllowGet);
         }
