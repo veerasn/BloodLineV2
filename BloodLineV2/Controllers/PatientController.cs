@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -541,6 +543,29 @@ namespace BloodLineV2.Controllers
 
             //return View("Details",Patient);
             return View("Details", prodrequests);
+        }
+
+        public JsonResult GetProcedure(string icd10value)
+        {
+            var cn = new SqlConnection();
+            var dt = new DataTable();
+
+            string strCn = ConfigurationManager.ConnectionStrings["TMDLAB"].ToString();
+
+            string queryString = "SELECT DISTINCT LVL2_LABEL FROM dbo.ICD10_PCS WHERE LVL1 = ''" + icd10value + "'' " ;
+            SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
+
+            DataSet icd10ds = new DataSet();
+            da.Fill(icd10ds, "LVL2_LABEL");
+
+            dt = icd10ds.Tables[0];
+
+            var txtItems = (from DataRow row in dt.Rows
+                            select row["LVL2_LABEL"].ToString()
+                            into dbValues
+                            select dbValues.ToLower()).ToList();
+
+            return Json(txtItems, JsonRequestBehavior.AllowGet);
         }
     }
 }

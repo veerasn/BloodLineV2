@@ -16,7 +16,7 @@
             font-family: "Raleway", sans-serif
         }
     </style>
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script type="text/html" src="~/Scripts/chart-2.7.1.min.js"></script>
     <script src="~/Scripts/Chart.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
@@ -842,352 +842,386 @@
             </div>
         </div>
         <!--Choose procedure in blood required for pre-procedure-->
-        <div class="w3-panel w3-gray panel-default">
-            <form>
-                <input type="text" name="procedure_name" id="procedure_input" list="procedure_list">
-                <datalist id="procedure_list"></datalist>
-                <input type="submit">
-            </form>
+        <!--
+    <div class="w3-panel w3-gray panel-default">
+    <div id="nav">
+        <input type="text" id="txtPatnumber" />
+        <ul id="selectedValue"></ul>
+    </div>
+    </div> -->
+        <div class="form-group">
+            <label for="icd10-lvl1">Select category:</label>
+            <select class="form-control" id="icd10-level1" onchange="updateIcd10_level2(this.value)">
+                <option value="13">Obstetrical procedures</option>
+                <option value="7">Operations on the cardiovascular system</option>
+                <option value="9">Operations on the digestive system</option>
+                <option value="4">Operations on the ear</option>
+                <option value="2">Operations on the endocrine system</option>
+                <option value="3">Operations on the eye</option>
+                <option value="12">Operations on the female genital organs</option>
+                <option value="8">Operations on the hemic and lymphatic system</option>
+                <option value="15">Operations on the integumentary system</option>
+                <option value="11">Operations on the male genital organs</option>
+                <option value="14">Operations on the musculoskeletal system</option>
+                <option value="1">Operations on the nervous system</option>
+                <option value="5">Operations on the nose; mouth; and pharynx</option>
+                <option value="6">Operations on the respiratory system</option>
+                <option value="10">Operations on the urinary system</option>
+                <option value="16">Miscellaneous diagnostic and therapeutic procedures</option>
+            </select>
         </div>
-        
-            <!--Tabs for selection of requests and products-->
-            <div class="w3-container">
-                <div class="w3-row">
-                    <a href="javacript:void(0)" onclick="openRequest(event, 'Test');">
-                        <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Tests</div>
-                    </a>
-                    <a href="javacript:void(0)" onclick="openRequest(event, 'Rbc');">
-                        <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Red Cells</div>
-                    </a>
-                    <a href="javacript:void(0)" onclick="openRequest(event, 'Platelet');">
-                        <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Platelets</div>
-                    </a>
-                    <a href="javacript:void(0)" onclick="openRequest(event, 'Plasma');">
-                        <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Plasma Products</div>
-                    </a>
-                    <!--Test requests-->
-                    <div id="Test" class="w3-container request" style="display:none">
-                        <h6>Panel for tests</h6>
-                        <div class="products">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Code</th>
-                                        <th></th>
-                                        <th>Test Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
-                                    {
-                                        if (bloodProduct.Id.Substring(0, 2).Contains("T-") &&
-                                            (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <a href="#0" class="button add-to-cart" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
-                                                </td>
-                                                <td>
-                                                    @bloodProduct.Id
-                                                </td>
-                                                <td>
-                                                    <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
-                                                </td>
-                                                <td>
-                                                    @bloodProduct.Name
-                                                    @if (bloodProduct.Filelocation != "none")
-                                                    {
-                                                        <a href="@bloodProduct.Filelocation" target="_blank">
-                                                            <sup><i class="fa fa-info"></i></sup>
-                                                        </a>
-                                                    }
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!--Red cell requests-->
-                    <div id="Rbc" class="w3-container request" style="display:none">
-                        <h6>
-                            Select suitable products and required quantity. Remember that the minimum number of RBC units should be transfused to
-                            achieve the desired response. Refer to <a href="~/Content/pdf/RBC_recommendation.pdf" target="_blank"><b>Guidelines for Red Cell Use</b></a> to aid your transfusion decision.
-                        </h6>
-                        <p id="alert_redcell" style="color: orangered"></p>
-                        <p id="redcell" style="color: orangered"></p>
-                        <p id="notice_hb" style="color: red">@ViewBag.cHgb</p>
-                        <p id="notice_mcv" style="color: red">@ViewBag.cMcv</p>
-                        <div class="products">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Code</th>
-                                        <th></th>
-                                        <th>Product Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
-                                    {
-                                        if (bloodProduct.Id.Substring(0, 2).Contains("RC") &&
-                                            (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
-                                                </td>
-                                                <td>
-                                                    @bloodProduct.Id
-                                                </td>
-                                                <td>
-                                                    <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
-                                                </td>
-                                                <td>
-                                                    @bloodProduct.Name
-                                                    @if (bloodProduct.Filelocation != "none")
-                                                    {
-                                                        <a href="@bloodProduct.Filelocation" target="_blank">
-                                                            <sup><i class="fa fa-info"></i></sup>
-                                                        </a>
-                                                    }
-                                                    @if (bloodProduct.Irradiate == 1)
-                                                    {
-                                                        <i class="fa fa-radiation"></i>
-                                                    }
-                                                    @if (bloodProduct.Leucodeplete == 1)
-                                                    {
-                                                        <i class="fa fa-filter"></i>
-                                                    }
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!--End of Red cell requests-->
-                    <!--Platelet requests-->
-                    <div id="Platelet" class="w3-container request" style="display:none">
-                        <h6>
-                            Select suitable products and required quantity. Refer to <a href="~/Content/pdf/PLT_recommendation.pdf" target="_blank"><b>Guidelines for Platelet Use</b></a> to aid your transfusion decision.
-                        </h6>
-                        <p id="alert_platelet" style="color: orangered"></p>
-                        <p id="platelet" style="color: orangered"></p>
-                        <p id="notice_platelet" style="color: red">@ViewBag.cPlt</p>
-                        <div class="products">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Code</th>
-                                        <th></th>
-                                        <th>Product Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
-                                    {
-                                        if (bloodProduct.Id.Substring(0, 2).Contains("PL") &&
-                                            (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
-                                                </td>
-                                                <td>
-                                                    @bloodProduct.Id
-                                                </td>
-                                                <td>
-                                                    <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
-                                                </td>
-                                                <td>
-                                                    @bloodProduct.Name
-                                                    @if (bloodProduct.Filelocation != "none")
-                                                    {
-                                                        <a href="@bloodProduct.Filelocation" target="_blank">
-                                                            <sup><i class="fa fa-info"></i></sup>
-                                                        </a>
-                                                    }
-                                                    @if (bloodProduct.Irradiate == 1)
-                                                    {
-                                                        <i class="fa fa-radiation"></i>
-                                                    }
-                                                    @if (bloodProduct.Leucodeplete == 1)
-                                                    {
-                                                        <i class="fa fa-filter"></i>
-                                                    }
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!--Plasma products and derivatives requests-->
-                    <div id="Plasma" class="w3-container request" style="display:none">
-                        <h6>
-                            Select suitable products and required quantity. Refer to <a href="#"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
-                        </h6>
-                        <p id="alert_ffp" style="color: orangered"></p>
-                        <p id="alert_cryoprecipitate" style="color: orangered"></p>
-                        <p id="ffp" style="color: orangered"></p>
-                        <p id="notice_ffp" style="color: red">@ViewBag.cInr</p>
-                        <div class="products">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Code</th>
-                                        <th></th>
-                                        <th>Product Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
-                                    {
-                                        if (bloodProduct.Id.Substring(0, 2).Contains("PP") &&
-                                            (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication"
-                                                       onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
-                                                </td>
-                                                <td>
-                                                    @bloodProduct.Id
-                                                </td>
-                                                <td>
-                                                    <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
-                                                </td>
-                                                <td>
-                                                    @bloodProduct.Name
-                                                    @if (bloodProduct.Filelocation != "none")
-                                                    {
-                                                        <a href="@bloodProduct.Filelocation" target="_blank">
-                                                            <sup><i class="fa fa-info"></i></sup>
-                                                        </a>
-                                                    }
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!--Modal form - Request-->
-            <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Requests</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <table class="table table-striped table-responsive text-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th>Code</th>
-                                        <th>Description</th>
-                                        <th>Charge</th>
-                                        <th></th>
-                                        <th>Units</th>
-                                        <th></th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="show-cart">
-                                    <!--Inject rows from displayCart js-->
-                                </tbody>
-                            </table>
-                            <div>Total estimate: RM<span class="total-cart"></span></div>
-                            <!--Display all alerts-->
-                            <div>
-                                <ul id="modal-alert"></ul>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Confirm request</button>
-                        </div>
-                    </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sub-category</button>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" href="#">1</a>
+                    <a class="dropdown-item" href="#">2</a>
+                    <a class="dropdown-item" href="#">3</a>
                 </div>
+                <input type="text" class="form-control" id="icd10-level2" aria-label="Autocomplete using search text item" />
+                <ul id="icd10-level2-values"></ul>
             </div>
-
-            <!--Modal form - Indication-->
-            <div class="modal fade" id="pick-indication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
-                            <h4 class="modal-title" id="pick-indication-label">Clinical indication</h4>
-                        </div>
-                        <div class="modal-body">
-                            <h6>Select the most important indication for this transfusion</h6>
-                            <table class="table table-striped" id="list-indication-product">
-                                <tbody>
-                                    <!--Insert table using updateIndication js function-->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="productIndication('redcell')">Save changes</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--Modal form - Product Info-->
-            <div class="modal fade" id="product-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
-                            <h4 class="modal-title" id="list-info-product-header">Product Code</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div id="list-info-product">
-                                <!--Inject product information by productInfo js-->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--Terminating messages and alerts-->
-            <br>
-            <div class="w3-container w3-dark-grey w3-padding-32">
-                <div class="w3-row">
-                    <div class="w3-container w3-third">
-                        <h5 class="w3-bottombar w3-border-green">Messages & Alerts</h5>
-                    </div>
-                    <div class="w3-container w3-third">
-                        <h5 class="w3-bottombar w3-border-red">Blood Stock Levels</h5>
-                    </div>
-                    <div class="w3-container w3-third">
-                        <h5 class="w3-bottombar w3-border-orange">Guidelines</h5>
-                    </div>
-                </div>
-            </div>
-            <!-- Footer -->
-            <footer class="w3-container w3-padding-16 w3-light-grey">
-                <h4>USE BLOOD WISELY</h4>
-            </footer>
-            <!-- End page content -->
         </div>
+
+        <!--Tabs for selection of requests and products-->
+        <div class="w3-container">
+            <div class="w3-row">
+                <a href="javacript:void(0)" onclick="openRequest(event, 'Test');">
+                    <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Tests</div>
+                </a>
+                <a href="javacript:void(0)" onclick="openRequest(event, 'Rbc');">
+                    <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Red Cells</div>
+                </a>
+                <a href="javacript:void(0)" onclick="openRequest(event, 'Platelet');">
+                    <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Platelets</div>
+                </a>
+                <a href="javacript:void(0)" onclick="openRequest(event, 'Plasma');">
+                    <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Plasma Products</div>
+                </a>
+                <!--Test requests-->
+                <div id="Test" class="w3-container request" style="display:none">
+                    <h6>Panel for tests</h6>
+                    <div class="products">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Code</th>
+                                    <th></th>
+                                    <th>Test Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
+                                {
+                                    if (bloodProduct.Id.Substring(0, 2).Contains("T-") &&
+                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="#0" class="button add-to-cart" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Id
+                                            </td>
+                                            <td>
+                                                <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Name
+                                                @if (bloodProduct.Filelocation != "none")
+                                                {
+                                                    <a href="@bloodProduct.Filelocation" target="_blank">
+                                                        <sup><i class="fa fa-info"></i></sup>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--Red cell requests-->
+                <div id="Rbc" class="w3-container request" style="display:none">
+                    <h6>
+                        Select suitable products and required quantity. Remember that the minimum number of RBC units should be transfused to
+                        achieve the desired response. Refer to <a href="~/Content/pdf/RBC_recommendation.pdf" target="_blank"><b>Guidelines for Red Cell Use</b></a> to aid your transfusion decision.
+                    </h6>
+                    <p id="alert_redcell" style="color: orangered"></p>
+                    <p id="redcell" style="color: orangered"></p>
+                    <p id="notice_hb" style="color: red">@ViewBag.cHgb</p>
+                    <p id="notice_mcv" style="color: red">@ViewBag.cMcv</p>
+                    <div class="products">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Code</th>
+                                    <th></th>
+                                    <th>Product Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
+                                {
+                                    if (bloodProduct.Id.Substring(0, 2).Contains("RC") &&
+                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Id
+                                            </td>
+                                            <td>
+                                                <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Name
+                                                @if (bloodProduct.Filelocation != "none")
+                                                {
+                                                    <a href="@bloodProduct.Filelocation" target="_blank">
+                                                        <sup><i class="fa fa-info"></i></sup>
+                                                    </a>
+                                                }
+                                                @if (bloodProduct.Irradiate == 1)
+                                                {
+                                                    <i class="fa fa-radiation"></i>
+                                                }
+                                                @if (bloodProduct.Leucodeplete == 1)
+                                                {
+                                                    <i class="fa fa-filter"></i>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--End of Red cell requests-->
+                <!--Platelet requests-->
+                <div id="Platelet" class="w3-container request" style="display:none">
+                    <h6>
+                        Select suitable products and required quantity. Refer to <a href="~/Content/pdf/PLT_recommendation.pdf" target="_blank"><b>Guidelines for Platelet Use</b></a> to aid your transfusion decision.
+                    </h6>
+                    <p id="alert_platelet" style="color: orangered"></p>
+                    <p id="platelet" style="color: orangered"></p>
+                    <p id="notice_platelet" style="color: red">@ViewBag.cPlt</p>
+                    <div class="products">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Code</th>
+                                    <th></th>
+                                    <th>Product Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
+                                {
+                                    if (bloodProduct.Id.Substring(0, 2).Contains("PL") &&
+                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Id
+                                            </td>
+                                            <td>
+                                                <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Name
+                                                @if (bloodProduct.Filelocation != "none")
+                                                {
+                                                    <a href="@bloodProduct.Filelocation" target="_blank">
+                                                        <sup><i class="fa fa-info"></i></sup>
+                                                    </a>
+                                                }
+                                                @if (bloodProduct.Irradiate == 1)
+                                                {
+                                                    <i class="fa fa-radiation"></i>
+                                                }
+                                                @if (bloodProduct.Leucodeplete == 1)
+                                                {
+                                                    <i class="fa fa-filter"></i>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--Plasma products and derivatives requests-->
+                <div id="Plasma" class="w3-container request" style="display:none">
+                    <h6>
+                        Select suitable products and required quantity. Refer to <a href="#"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
+                    </h6>
+                    <p id="alert_ffp" style="color: orangered"></p>
+                    <p id="alert_cryoprecipitate" style="color: orangered"></p>
+                    <p id="ffp" style="color: orangered"></p>
+                    <p id="notice_ffp" style="color: red">@ViewBag.cInr</p>
+                    <div class="products">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Code</th>
+                                    <th></th>
+                                    <th>Product Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
+                                {
+                                    if (bloodProduct.Id.Substring(0, 2).Contains("PP") &&
+                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication"
+                                                   onclick="updateIndication('@bloodProduct.Parameter')" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Id
+                                            </td>
+                                            <td>
+                                                <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Name
+                                                @if (bloodProduct.Filelocation != "none")
+                                                {
+                                                    <a href="@bloodProduct.Filelocation" target="_blank">
+                                                        <sup><i class="fa fa-info"></i></sup>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal form - Request-->
+        <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Requests</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped table-responsive text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Description</th>
+                                    <th>Charge</th>
+                                    <th></th>
+                                    <th>Units</th>
+                                    <th></th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody class="show-cart">
+                                <!--Inject rows from displayCart js-->
+                            </tbody>
+                        </table>
+                        <div>Total estimate: RM<span class="total-cart"></span></div>
+                        <!--Display all alerts-->
+                        <div>
+                            <ul id="modal-alert"></ul>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Confirm request</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal form - Indication-->
+        <div class="modal fade" id="pick-indication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="pick-indication-label">Clinical indication</h4>
+                        <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6>Select the most important indication for this transfusion</h6>
+                        <table class="table table-striped" id="list-indication-product">
+                            <tbody>
+                                <!--Insert table using updateIndication js function-->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="productIndication('redcell')">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal form - Product Info-->
+        <div class="modal fade" id="product-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="list-info-product-header">Product Code</h4>
+                        <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="list-info-product">
+                            <!--Inject product information by productInfo js-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Terminating messages and alerts-->
+        <br>
+        <div class="w3-container w3-dark-grey w3-padding-32">
+            <div class="w3-row">
+                <div class="w3-container w3-third">
+                    <h5 class="w3-bottombar w3-border-green">Messages & Alerts</h5>
+                </div>
+                <div class="w3-container w3-third">
+                    <h5 class="w3-bottombar w3-border-red">Blood Stock Levels</h5>
+                </div>
+                <div class="w3-container w3-third">
+                    <h5 class="w3-bottombar w3-border-orange">Guidelines</h5>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer class="w3-container w3-padding-16 w3-light-grey">
+            <h4>USE BLOOD WISELY</h4>
+        </footer>
+        <!-- End page content -->
+    </div>
 
     <script>
         // Get the Sidebar
@@ -1254,38 +1288,44 @@
         }
     </script>
     <script>
+        //Update level 2 ICD10 category codes after updating level 1 category dropdown
+
+
+    </script>
+
+    <script>
         //Autofill procedure list using AJAX
-        window.addEventListener("load", function () {
-            var procedure_input = document.getElementById('procedure_input');
-            procedure_input.addEventListener("keyup", function (event) { hinter(event) });
-            window.hinterXHR = new XMLHttpRequest();
+        var textbox;
+        var selectValue;
+
+        $(function () {
+            textbox = $("#icd10-level1");
+            selectValue = $('ul#icd10-level1-values');
+
+            textbox.on("input", function () {
+                //Autocomplete only if a specific number of characters have been entered
+                if (textbox.val().length > 2) {
+                    getAutoComplete(textbox.val());
+                }
+            });
         });
 
-        function hinter(event) {
-            var input = event.target
-            var procedure_list = document.getElementById('procedure_list');
-            var min_characters = 1;
-
-            if (input.value.length < min_characters) {
-                return;
-            }
-            else {
-                window.hinterXHR.abort();
-                window.hinterXHR.onreadystatechange = function () {
-                    if (this.readystate == 4 && this.status == 200) {
-                        var response = JSON.parse(this.responseText);
-                        procedure_list.innerHTML = ""
-                        response.forEach(function (item) {
-                            var option = document.createElement('option');
-                            option.value = item;
-                            procedure_list.appendChild(option);
-                        });
-                    }
-                };
-  
-                window.hinterXHR.open("GET", "" + input.value, true);
-                window.hinterXHR.send()
-            }
+        function getAutoComplete(icd10value) {
+            var uri = "/Patient/GetProcedure";
+            $.getJSON(uri, { icd10value: icd10value }).done(function (data) {
+                selectValue.html("");
+                var count = 0;
+                $.each(data, function (key, item) {
+                    var li = $('<li/>').addClass('ui-menu-item').attr('role', 'menu-item')
+                        .html("<a href='#' onclick=\"setText('" + item + "')\">" + item + "</a>")
+                        .appendTo(selectValue);
+                    count++;
+                });
+            });
+        }
+        function setText(text) {
+            textbox.val(text);
+            getAutoComplete(text);
         }
 
     </script>
@@ -1654,8 +1694,9 @@
         });
 
         displayCart();
-
     </script>
+
+
 </body>
 </html>
 
