@@ -850,8 +850,8 @@
     </div>
     </div> -->
         <div class="form-group">
-            <label for="icd10-lvl1">Select category:</label>
-            <select class="form-control" id="icd10-level1" onchange="updateIcd10_level2(this.value)">
+            <label for="icd10-level1">Select category:</label>
+            <select name="icd10-level1" class="form-control" id="icd10-level1">
                 <option value="13">Obstetrical procedures</option>
                 <option value="7">Operations on the cardiovascular system</option>
                 <option value="9">Operations on the digestive system</option>
@@ -1288,7 +1288,31 @@
         }
     </script>
     <script>
-        //Update level 2 ICD10 category codes after updating level 1 category dropdown
+        //Update level 2 ICD10 category codes after updating level 1 category dropdown  
+        var selectValue;
+
+        $(function () {
+            selectValue = $('ul#icd10-level2-values');
+
+            $("#icd10-level1").on("change", function () {
+                updateIcd(this.value);
+            })
+        });
+
+        function updateIcd(icd10value) {
+            var uri = "/Patient/GetProcedure";
+            $.getJSON(uri, { icd10value: icd10value }).done(function (data) {
+                selectValue.html("");
+                var count = 0;
+                $.each(data, function (key, item) {
+                    var li = $('<li/>').addClass('ui-menu-item').attr('role', 'menu-item')
+                        .html("<a href='#' onclick=\"setText('" + item + "')\">" + item + "</a>")
+                        .appendTo(selectValue);
+                    count++;
+                });
+            });
+        }
+
 
 
     </script>
@@ -1299,12 +1323,12 @@
         var selectValue;
 
         $(function () {
-            textbox = $("#icd10-level1");
-            selectValue = $('ul#icd10-level1-values');
+            textbox = $("#icd10-level2");
+            selectValue = $('ul#icd10-level2-values');
 
             textbox.on("input", function () {
                 //Autocomplete only if a specific number of characters have been entered
-                if (textbox.val().length > 2) {
+                if (textbox.val().length > 0) {
                     getAutoComplete(textbox.val());
                 }
             });

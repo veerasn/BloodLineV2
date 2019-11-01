@@ -552,7 +552,7 @@ namespace BloodLineV2.Controllers
 
             string strCn = ConfigurationManager.ConnectionStrings["TMDLAB"].ToString();
 
-            string queryString = "SELECT DISTINCT LVL2_LABEL FROM dbo.ICD10_PCS WHERE LVL1 = ''" + icd10value + "'' " ;
+            string queryString = "SELECT DISTINCT [MULTI CCS LVL 2 LABEL] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [MULTI CCS LVL 1] = '" + icd10value + "' " ;
             SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
 
             DataSet icd10ds = new DataSet();
