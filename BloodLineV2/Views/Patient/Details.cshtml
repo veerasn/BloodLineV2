@@ -871,9 +871,10 @@
             </select>
             <br />
             <label for="icd10-level2">Select sub-category:</label>
-            <select name="icd10-level2" class="form-control" id="icd10-level2">
-
-            </select>
+            <select name="icd10-level2" class="form-control" id="icd10-level2"></select>
+            <br />
+            <label for="icd10-level3">Select procedure:</label>
+            <select name="icd10-level3" class="form-control" id="icd10-level3"></select>
         </div>
 
         <!--
@@ -1295,30 +1296,44 @@
         }
     </script>
     <script>
-        //Update level 2 ICD10 category codes after updating level 1 category dropdown  
-        var selectValue;
-
+        //Update dropdown boxes and modal forms for procedures  
         $(function () {
-            selectValue = $('#icd10-level2');
-
             $("#icd10-level1").on("change", function () {
-                updateIcd(this.value);
+                updateIcd(this.value, 1);
+            })
+
+            $("#icd10-level2").on("change", function () {
+                updateIcd(this.value, 2);
             })
         });
 
-        function updateIcd(icd10value) {
+        function updateIcd(icd10value, level) {
             var uri = "/Patient/GetProcedure";
-            $.getJSON(uri, { icd10value: icd10value }).done(function (data) {
-                $("#icd10-level2").html("");
-                var count = 0;
-                $.each(data, function (key, item) {
-                    var arr = item.split("|")
-                    $("#icd10-level2").append("<option value='" + arr[0] + "'>" + arr[1] + "</option>");
-                    count++;
-                });
+            var selectValue;
+            $.getJSON(uri, { icd10value: icd10value, level: level }).done(function (data) {
+                //Update level 2 ICD10 category codes after updating level 1 category dropdown
+                if (level == 1) {
+                    selectValue = $('#icd10-level2');
+                    selectValue.html("");
+                    var count = 0;
+                    $.each(data, function (key, item) {
+                        var arr = item.split("|")
+                        selectValue.append("<option value='" + arr[0] + "'>" + arr[1] + "</option>");
+                        count++;
+                    });
+                }
+                else if (level == 2) {
+                    selectValue = $('#icd10-level3');
+                    selectValue.html("");
+                    var count = 0;
+                    $.each(data, function (key, item) {
+                        var arr = item.split("|")
+                        selectValue.append("<option value='" + arr[0] + "'>" + arr[1] + "</option>");
+                        count++;
+                    });
+                };
             });
         }
-
 
 
     </script>

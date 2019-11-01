@@ -545,26 +545,37 @@ namespace BloodLineV2.Controllers
             return View("Details", prodrequests);
         }
 
-        public JsonResult GetProcedure(string icd10value)
+        public JsonResult GetProcedure(string icd10value, int level)
         {
             var cn = new SqlConnection();
             var dt = new DataTable();
 
             string strCn = ConfigurationManager.ConnectionStrings["TMDLAB"].ToString();
 
-            string queryString = "SELECT DISTINCT [CCS CATEGORY] AS CATEGORY, [CCS CATEGORY DESCRIPTION] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [MULTI CCS LVL 1] = '" + icd10value + "' " ;
-            SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
+            string queryString1 = "SELECT DISTINCT [CCS CATEGORY] AS CATEGORY, [CCS CATEGORY DESCRIPTION] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [MULTI CCS LVL 1] = '" + icd10value + "' " ;
+            string queryString2 = "SELECT DISTINCT [icd10cm] AS CATEGORY, [ICD-10-PCS CODE DESCRIPTION] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [CCS CATEGORY] = '" + icd10value + "' ";
 
-            DataSet icd10ds = new DataSet();
-            da.Fill(icd10ds, "dbo.ICD10_PCS");
+            if (level == 1)
+            {
+                SqlDataAdapter da = new SqlDataAdapter(queryString1, strCn);
+                DataSet icd10ds = new DataSet();
+                da.Fill(icd10ds, "dbo.ICD10_PCS");
 
-            dt = icd10ds.Tables[0];
+                dt = icd10ds.Tables[0];
+            }
+            else if (level == 2)
+            {
+                SqlDataAdapter da = new SqlDataAdapter(queryString2, strCn);
+                DataSet icd10ds = new DataSet();
+                da.Fill(icd10ds, "dbo.ICD10_PCS");
+
+                dt = icd10ds.Tables[0];
+            };
 
             var txtItems = (from DataRow row in dt.Rows
-                            select row["CATEGORY"].ToString() + "|" + row["LVL2_LABEL"].ToString()
-                            into dbValues
-                            select dbValues).ToList();
-
+                                select row["CATEGORY"].ToString() + "|" + row["LVL2_LABEL"].ToString()
+                                into dbValues
+                                select dbValues).ToList();
             return Json(txtItems, JsonRequestBehavior.AllowGet);
         }
     }
