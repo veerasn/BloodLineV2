@@ -891,7 +891,6 @@
         </div>
     </div>
         -->
-
         <!--Tabs for selection of requests and products-->
         <div class="w3-container">
             <div class="w3-row">
@@ -1209,6 +1208,25 @@
             </div>
         </div>
 
+        <!--Modal form - Select Procedure-->
+        <div class="modal fade" id="select-procedure" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="select-procedure-header">Procedure List (ICD10-PCS)</h4>
+                        <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="select-procedure-list">Select procedure:</label>
+                        <select name="select-procedure-list" class="form-control" id="select-procedure-list"></select>
+
+                        <div class="list-procedure">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--Terminating messages and alerts-->
         <br>
         <div class="w3-container w3-dark-grey w3-padding-32">
@@ -1323,7 +1341,8 @@
                     });
                 }
                 else if (level == 2) {
-                    selectValue = $('#icd10-level3');
+                    //open modal form for selection of procedure
+                    selectValue = $('#select-procedure-list');
                     selectValue.html("");
                     var count = 0;
                     $.each(data, function (key, item) {
@@ -1331,6 +1350,9 @@
                         selectValue.append("<option value='" + arr[0] + "'>" + arr[1] + "</option>");
                         count++;
                     });
+
+                    $("#select-procedure").modal();
+                    
                 };
             });
         }
