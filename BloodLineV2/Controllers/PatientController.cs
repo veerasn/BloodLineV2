@@ -553,7 +553,8 @@ namespace BloodLineV2.Controllers
             string strCn = ConfigurationManager.ConnectionStrings["TMDLAB"].ToString();
 
             string queryString1 = "SELECT DISTINCT [CCS CATEGORY] AS CATEGORY, [CCS CATEGORY DESCRIPTION] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [MULTI CCS LVL 1] = '" + icd10value + "' " ;
-            string queryString2 = "SELECT DISTINCT [icd10cm] AS CATEGORY, [ICD-10-PCS CODE DESCRIPTION] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [CCS CATEGORY] = '" + icd10value + "' ";
+            string queryString2 = "SELECT DISTINCT [icd9cm] AS CATEGORY, [LONG DESCRIPTION] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [CCS CATEGORY] = '" + icd10value + "' ";
+            string queryString3 = "SELECT DISTINCT [icd10cm] AS CATEGORY, [ICD-10-PCS CODE DESCRIPTION] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [icd9cm] = '" + icd10value + "' ";
 
             if (level == 1)
             {
@@ -566,6 +567,14 @@ namespace BloodLineV2.Controllers
             else if (level == 2)
             {
                 SqlDataAdapter da = new SqlDataAdapter(queryString2, strCn);
+                DataSet icd10ds = new DataSet();
+                da.Fill(icd10ds, "dbo.ICD10_PCS");
+
+                dt = icd10ds.Tables[0];
+            }
+            else if (level == 3)
+            {
+                SqlDataAdapter da = new SqlDataAdapter(queryString3, strCn);
                 DataSet icd10ds = new DataSet();
                 da.Fill(icd10ds, "dbo.ICD10_PCS");
 

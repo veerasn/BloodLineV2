@@ -873,8 +873,7 @@
             <label for="icd10-level2">Select sub-category:</label>
             <select name="icd10-level2" class="form-control" id="icd10-level2"></select>
             <br />
-            <label for="icd10-level3">Select procedure:</label>
-            <select name="icd10-level3" class="form-control" id="icd10-level3"></select>
+            
         </div>
 
         <!--
@@ -1217,12 +1216,10 @@
                         <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
                     </div>
                     <div class="modal-body">
-                        <label for="select-procedure-list">Select procedure:</label>
-                        <select name="select-procedure-list" class="form-control" id="select-procedure-list"></select>
-
-                        <div class="list-procedure">
-
-                        </div>
+                        <label for="icd10-level3">Select procedure:</label>
+                        <select name="icd10-level3" class="form-control" id="icd10-level3"></select>
+                        <label for="icd10-level4">Select procedure:</label>
+                        <select name="icd10-level4" class=" form-control" id="icd10-level4"></select>
                     </div>
                 </div>
             </div>
@@ -1323,6 +1320,10 @@
             $("#icd10-level2").on("change", function () {
                 updateIcd(this.value, 2);
             })
+
+            $("#icd10-level3").on("change", function () {
+                updateIcd(this.value, 3);
+            })
         });
 
         function updateIcd(icd10value, level) {
@@ -1342,7 +1343,7 @@
                 }
                 else if (level == 2) {
                     //open modal form for selection of procedure
-                    selectValue = $('#select-procedure-list');
+                    selectValue = $('#icd10-level3');
                     selectValue.html("");
                     var count = 0;
                     $.each(data, function (key, item) {
@@ -1353,7 +1354,21 @@
 
                     $("#select-procedure").modal();
                     
-                };
+                }
+                else if (level == 3) {
+                    //open modal form for selection of procedure
+                    selectValue = $('#icd10-level4');
+                    selectValue.html("");
+                    var count = 0;
+                    $.each(data, function (key, item) {
+                        var arr = item.split("|")
+                        selectValue.append("<option value='" + arr[0] + "'>" + arr[1] + "</option>");
+                        count++;
+                    });
+
+                    $("#select-procedure").modal();
+
+                }
             });
         }
 
