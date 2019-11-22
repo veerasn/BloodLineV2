@@ -553,8 +553,8 @@ namespace BloodLineV2.Controllers
             string strCn = ConfigurationManager.ConnectionStrings["TMDLAB"].ToString();
 
             string queryString1 = "SELECT DISTINCT [CCS CATEGORY] AS CATEGORY, [CCS CATEGORY DESCRIPTION] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [MULTI CCS LVL 1] = '" + icd10value + "' " ;
-            string queryString2 = "SELECT DISTINCT [icd9cm] AS CATEGORY, [LONG DESCRIPTION] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [CCS CATEGORY] = '" + icd10value + "' ";
-            string queryString3 = "SELECT DISTINCT [icd10cm] AS CATEGORY, [ICD-10-PCS CODE DESCRIPTION] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [icd9cm] = '" + icd10value + "' ";
+            string queryString2 = "SELECT DISTINCT [Code] AS CATEGORY, [LONG DESCRIPTION] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [CCS CATEGORY] = '" + icd10value + "' ";
+            string queryString3 = "SELECT DISTINCT [icd10cm] AS CATEGORY, [ICD-10-PCS CODE DESCRIPTION] AS LVL2_LABEL FROM dbo.ICD10_PCS WHERE [Code] = '" + icd10value + "' ";
 
             if (level == 1)
             {
@@ -585,6 +585,44 @@ namespace BloodLineV2.Controllers
                                 select row["CATEGORY"].ToString() + "|" + row["LVL2_LABEL"].ToString()
                                 into dbValues
                                 select dbValues).ToList();
+            return Json(txtItems, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetProcedureSct2(string sct2value)
+        {
+            var cn = new SqlConnection();
+            var dt = new DataTable();
+            string strCn = ConfigurationManager.ConnectionStrings["SNOMED"].ToString();
+
+            string[] keywords = sct2value.Split(' ');
+            string s = "";
+
+            for (int i=0; i<keywords.Length; i++)
+            {
+                s = "\"" + keywords[0] + "*\"";
+                if (i > 0)
+                {
+                    s = s + " AND " + "\"" + keywords[i] + "*\"";
+                }
+            }
+
+            string queryString1 = @"SELECT DISTINCT term AS term
+                                    FROM sct2_Procedure
+                                    WHERE conceptid IN
+                                    (SELECT DISTINCT conceptid
+                                    FROM [sct2_Description_Full-en_US1000124_20190901]
+                                    WHERE CONTAINS(term, '" + s + "'))" + " ORDER BY term";
+
+            SqlDataAdapter da = new SqlDataAdapter(queryString1, strCn);
+            DataSet sct2 = new DataSet();
+            da.Fill(sct2, "dbo.sct2_Procedure");
+
+            dt = sct2.Tables[0];
+
+            var txtItems = (from DataRow row in dt.Rows
+                            select row["term"].ToString()
+                                into dbValues
+                            select dbValues).ToList();
             return Json(txtItems, JsonRequestBehavior.AllowGet);
         }
     }

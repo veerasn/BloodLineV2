@@ -840,6 +840,38 @@
                     </div>
                 </div>
             </div>
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-outline-info " data-toggle="collapse" data-target="#procedureType" aria-expanded="true" aria-controls="procedureType">
+                        What procedure is the blood required for?
+                    </button>
+                </h5>
+            </div>
+            <div id="procedureType" class="collapse">
+                <div class="form-group" >
+                    <select name="icd10-level1" class="custom-select" id="icd10-level1">
+                        <option selected>Choose operation site</option>
+                        <option value="13">Obstetrical procedures</option>
+                        <option value="7">Operations on the cardiovascular system</option>
+                        <option value="9">Operations on the digestive system</option>
+                        <option value="4">Operations on the ear</option>
+                        <option value="2">Operations on the endocrine system</option>
+                        <option value="3">Operations on the eye</option>
+                        <option value="12">Operations on the female genital organs</option>
+                        <option value="8">Operations on the hemic and lymphatic system</option>
+                        <option value="15">Operations on the integumentary system</option>
+                        <option value="11">Operations on the male genital organs</option>
+                        <option value="14">Operations on the musculoskeletal system</option>
+                        <option value="1">Operations on the nervous system</option>
+                        <option value="5">Operations on the nose; mouth; and pharynx</option>
+                        <option value="6">Operations on the respiratory system</option>
+                        <option value="10">Operations on the urinary system</option>
+                        <option value="16">Miscellaneous diagnostic and therapeutic procedures</option>
+                    </select>
+                    <br />
+                    <select name="icd10-level2" class="custom-select" id="icd10-level2"></select>
+                </div>
+            </div>
         </div>
         <!--Choose procedure in blood required for pre-procedure-->
         <!--
@@ -849,47 +881,20 @@
         <ul id="selectedValue"></ul>
     </div>
     </div> -->
-        <div class="form-group">
-            <label for="icd10-level1">Select category:</label>
-            <select name="icd10-level1" class="form-control" id="icd10-level1">
-                <option value="13">Obstetrical procedures</option>
-                <option value="7">Operations on the cardiovascular system</option>
-                <option value="9">Operations on the digestive system</option>
-                <option value="4">Operations on the ear</option>
-                <option value="2">Operations on the endocrine system</option>
-                <option value="3">Operations on the eye</option>
-                <option value="12">Operations on the female genital organs</option>
-                <option value="8">Operations on the hemic and lymphatic system</option>
-                <option value="15">Operations on the integumentary system</option>
-                <option value="11">Operations on the male genital organs</option>
-                <option value="14">Operations on the musculoskeletal system</option>
-                <option value="1">Operations on the nervous system</option>
-                <option value="5">Operations on the nose; mouth; and pharynx</option>
-                <option value="6">Operations on the respiratory system</option>
-                <option value="10">Operations on the urinary system</option>
-                <option value="16">Miscellaneous diagnostic and therapeutic procedures</option>
-            </select>
-            <br />
-            <label for="icd10-level2">Select sub-category:</label>
-            <select name="icd10-level2" class="form-control" id="icd10-level2"></select>
-            <br />
-            
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Procedure</button>
+                <div class="dropdown-menu" role="menu" id="sct2-dropdown">
+                    <a class="dropdown-item" href="#">1</a>
+                    <a class="dropdown-item" href="#">2</a>
+                    <a class="dropdown-item" href="#">3</a>
+                </div>
+                <input type="text" class="form-control" id="sct2" aria-label="Autocomplete using search text item" />
+                <ul id="sct2-values"></ul>
+            </div>
         </div>
 
-        <!--
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sub-category</button>
-            <div class="dropdown-menu" role="menu" id="icd10-level2">
-                <a class="dropdown-item" href="#">1</a>
-                <a class="dropdown-item" href="#">2</a>
-                <a class="dropdown-item" href="#">3</a>
-            </div>
-            <input type="text" class="form-control" id="icd10-level2" aria-label="Autocomplete using search text item" />
-            <ul id="icd10-level2-values"></ul>
-        </div>
-    </div>
-        -->
         <!--Tabs for selection of requests and products-->
         <div class="w3-container">
             <div class="w3-row">
@@ -1217,9 +1222,9 @@
                     </div>
                     <div class="modal-body">
                         <label for="icd10-level3">Select procedure:</label>
-                        <select name="icd10-level3" class="form-control" id="icd10-level3"></select>
+                        <select name="icd10-level3" class="custom-select" id="icd10-level3"></select>
                         <label for="icd10-level4">Select procedure:</label>
-                        <select name="icd10-level4" class=" form-control" id="icd10-level4"></select>
+                        <select name="icd10-level4" class=" custom-select" id="icd10-level4"></select>
                     </div>
                 </div>
             </div>
@@ -1333,7 +1338,7 @@
                 //Update level 2 ICD10 category codes after updating level 1 category dropdown
                 if (level == 1) {
                     selectValue = $('#icd10-level2');
-                    selectValue.html("");
+                    selectValue.html("<option selected>Choose category</option>");
                     var count = 0;
                     $.each(data, function (key, item) {
                         var arr = item.split("|")
@@ -1344,7 +1349,7 @@
                 else if (level == 2) {
                     //open modal form for selection of procedure
                     selectValue = $('#icd10-level3');
-                    selectValue.html("");
+                    selectValue.html("<option selected>Choose subcategory</option>");
                     var count = 0;
                     $.each(data, function (key, item) {
                         var arr = item.split("|")
@@ -1358,7 +1363,7 @@
                 else if (level == 3) {
                     //open modal form for selection of procedure
                     selectValue = $('#icd10-level4');
-                    selectValue.html("");
+                    selectValue.html("<option selected>Choose procedure</option>");
                     var count = 0;
                     $.each(data, function (key, item) {
                         var arr = item.split("|")
@@ -1371,8 +1376,6 @@
                 }
             });
         }
-
-
     </script>
 
     <script>
@@ -1381,20 +1384,20 @@
         var selectValue;
 
         $(function () {
-            textbox = $("#icd10-level2");
-            selectValue = $('ul#icd10-level2-values');
+            textbox = $("#sct2");
+            selectValue = $('ul#sct2-values');
 
             textbox.on("input", function () {
                 //Autocomplete only if a specific number of characters have been entered
-                if (textbox.val().length > 0) {
+                if (textbox.val().length > 2) {
                     getAutoComplete(textbox.val());
                 }
             });
         });
 
-        function getAutoComplete(icd10value) {
-            var uri = "/Patient/GetProcedure";
-            $.getJSON(uri, { icd10value: icd10value }).done(function (data) {
+        function getAutoComplete(sct2value) {
+            var uri = "/Patient/GetProcedureSct2";
+            $.getJSON(uri, { sct2value: sct2value }).done(function (data) {
                 selectValue.html("");
                 var count = 0;
                 $.each(data, function (key, item) {
