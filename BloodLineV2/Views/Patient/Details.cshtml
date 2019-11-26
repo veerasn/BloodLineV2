@@ -16,6 +16,8 @@
             font-family: "Raleway", sans-serif
         }
     </style>
+    <link href="~/Content/css/select2.min.css" rel="stylesheet"/>
+
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script type="text/html" src="~/Scripts/chart-2.7.1.min.js"></script>
     <script src="~/Scripts/Chart.js"></script>
@@ -23,6 +25,7 @@
     <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script scr="~/Scripts/chartjs-plugin-annotation.js"></script>
+    <script src="~/Scripts/select2.min.js"></script>
 </head>
 
 <body class="w3-light-grey">
@@ -782,8 +785,9 @@
                 </div>
             </div>
         </div>
-        <!--Enter when products required-->
-        <div class="w3-panel w3-gray panel-default">
+        <!--Enter when products required and procedure type-->
+        <div class="w3-panel w3-light-blue panel-default">
+            <!--When required-->
             <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
                     <button class="btn btn-outline-info " data-toggle="collapse" data-target="#requiredTime" aria-expanded="true" aria-controls="requiredTime">
@@ -840,15 +844,36 @@
                     </div>
                 </div>
             </div>
+            <!--Procedure-->
             <div class="card-header" id="headingTwo">
                 <h5 class="mb-0">
                     <button class="btn btn-outline-info " data-toggle="collapse" data-target="#procedureType" aria-expanded="true" aria-controls="procedureType">
                         What procedure is the blood required for?
                     </button>
                 </h5>
+                <div id="procedureType" class="collapse">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Procedure</button>
+                            <div class="dropdown-menu" role="menu" id="sct2-dropdown">
+                                <a class="dropdown-item" href="#">1</a>
+                                <a class="dropdown-item" href="#">2</a>
+                                <a class="dropdown-item" href="#">3</a>
+                            </div>
+                            <input type="text" class="form-control" id="sct2" aria-label="Autocomplete using search text item" />
+                            <ul id="sct2-values"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--New select -->
+                <select id="sct2-procedures" style="width: 100%" class="form-control" multiple="multiple">
+                    <option value=""></option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                </select>
             </div>
-            <div id="procedureType" class="collapse">
-                <div class="form-group" >
+            <!--div id="procedureType" class="collapse">
+                <div-- class="form-group" >
                     <select name="icd10-level1" class="custom-select" id="icd10-level1">
                         <option selected>Choose operation site</option>
                         <option value="13">Obstetrical procedures</option>
@@ -871,28 +896,7 @@
                     <br />
                     <select name="icd10-level2" class="custom-select" id="icd10-level2"></select>
                 </div>
-            </div>
-        </div>
-        <!--Choose procedure in blood required for pre-procedure-->
-        <!--
-    <div class="w3-panel w3-gray panel-default">
-    <div id="nav">
-        <input type="text" id="txtPatnumber" />
-        <ul id="selectedValue"></ul>
-    </div>
-    </div> -->
-
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Procedure</button>
-                <div class="dropdown-menu" role="menu" id="sct2-dropdown">
-                    <a class="dropdown-item" href="#">1</a>
-                    <a class="dropdown-item" href="#">2</a>
-                    <a class="dropdown-item" href="#">3</a>
-                </div>
-                <input type="text" class="form-control" id="sct2" aria-label="Autocomplete using search text item" />
-                <ul id="sct2-values"></ul>
-            </div>
+            </div-->
         </div>
 
         <!--Tabs for selection of requests and products-->
@@ -1250,7 +1254,17 @@
         </footer>
         <!-- End page content -->
     </div>
+    <script>
+        $(document).ready(function () {
+            $('.procedure').select2();
+        });
 
+        $("#procedure").select2({
+            allowClear: true,
+            placeholder: 'Search for procedure'
+        });
+
+    </script>
     <script>
         // Get the Sidebar
         var mySidebar = document.getElementById("mySidebar");
@@ -1414,7 +1428,6 @@
         }
 
     </script>
-    
 
     <script>
         //Update table for indication specific to each product type
