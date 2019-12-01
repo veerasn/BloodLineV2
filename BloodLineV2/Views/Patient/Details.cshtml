@@ -16,7 +16,7 @@
             font-family: "Raleway", sans-serif
         }
     </style>
-    <link href="~/Content/css/select2.min.css" rel="stylesheet"/>
+    <link href="~/Content/tagsinput.css" rel="stylesheet"/>
 
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script type="text/html" src="~/Scripts/chart-2.7.1.min.js"></script>
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script scr="~/Scripts/chartjs-plugin-annotation.js"></script>
-    <script src="~/Scripts/select2.min.js"></script>
+    <script src="~/Scripts/tagsinput.js"></script>
 </head>
 
 <body class="w3-light-grey">
@@ -786,7 +786,8 @@
             </div>
         </div>
         <!--Enter when products required and procedure type-->
-        <div class="w3-panel w3-light-blue panel-default">
+
+        <div class="w3-panel w3-pale-blue">
             <!--When required-->
             <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
@@ -846,57 +847,17 @@
             </div>
             <!--Procedure-->
             <div class="card-header" id="headingTwo">
-                <h5 class="mb-0">
-                    <button class="btn btn-outline-info " data-toggle="collapse" data-target="#procedureType" aria-expanded="true" aria-controls="procedureType">
-                        What procedure is the blood required for?
-                    </button>
-                </h5>
+                <button class="btn btn-outline-info " data-toggle="collapse" data-target="#procedureType" aria-expanded="true" aria-controls="procedureType">
+                    What procedure is the blood required for?
+                </button>
                 <div id="procedureType" class="collapse">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Procedure</button>
-                            <div class="dropdown-menu" role="menu" id="sct2-dropdown">
-                                <a class="dropdown-item" href="#">1</a>
-                                <a class="dropdown-item" href="#">2</a>
-                                <a class="dropdown-item" href="#">3</a>
-                            </div>
-                            <input type="text" class="form-control" id="sct2" aria-label="Autocomplete using search text item" />
-                            <ul id="sct2-values"></ul>
-                        </div>
+                    <div class="card-body">
+                        <ul class=list-group list-group-flush" id="sct2-selected-values" style="list-style: none"></ul>
                     </div>
+                    <input type="text" class="form-control" width="100" id="sct2" aria-label="Autocomplete using search text item" />
+                    <div><ul id="sct2-values" style="list-style: none"></ul></div>
                 </div>
-                <!--New select -->
-                <select id="sct2-procedures" style="width: 100%" class="form-control" multiple="multiple">
-                    <option value=""></option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                </select>
             </div>
-            <!--div id="procedureType" class="collapse">
-                <div-- class="form-group" >
-                    <select name="icd10-level1" class="custom-select" id="icd10-level1">
-                        <option selected>Choose operation site</option>
-                        <option value="13">Obstetrical procedures</option>
-                        <option value="7">Operations on the cardiovascular system</option>
-                        <option value="9">Operations on the digestive system</option>
-                        <option value="4">Operations on the ear</option>
-                        <option value="2">Operations on the endocrine system</option>
-                        <option value="3">Operations on the eye</option>
-                        <option value="12">Operations on the female genital organs</option>
-                        <option value="8">Operations on the hemic and lymphatic system</option>
-                        <option value="15">Operations on the integumentary system</option>
-                        <option value="11">Operations on the male genital organs</option>
-                        <option value="14">Operations on the musculoskeletal system</option>
-                        <option value="1">Operations on the nervous system</option>
-                        <option value="5">Operations on the nose; mouth; and pharynx</option>
-                        <option value="6">Operations on the respiratory system</option>
-                        <option value="10">Operations on the urinary system</option>
-                        <option value="16">Miscellaneous diagnostic and therapeutic procedures</option>
-                    </select>
-                    <br />
-                    <select name="icd10-level2" class="custom-select" id="icd10-level2"></select>
-                </div>
-            </div-->
         </div>
 
         <!--Tabs for selection of requests and products-->
@@ -1391,11 +1352,12 @@
             });
         }
     </script>
-
+    
     <script>
         //Autofill procedure list using AJAX
         var textbox;
         var selectValue;
+        var selectedValue;
 
         $(function () {
             textbox = $("#sct2");
@@ -1415,18 +1377,30 @@
                 selectValue.html("");
                 var count = 0;
                 $.each(data, function (key, item) {
+                    var arr = item.split("|")
                     var li = $('<li/>').addClass('ui-menu-item').attr('role', 'menu-item')
-                        .html("<a href='#' onclick=\"setText('" + item + "')\">" + item + "</a>")
+                        .html("<a href='#/' onclick=\"setText('" + arr[0] + " | " + arr[1] + "')\">" + arr[1] + "</a>")
                         .appendTo(selectValue);
                     count++;
                 });
             });
         }
-        function setText(text) {
-            textbox.val(text);
-            getAutoComplete(text);
+        function setText(text) {         
+            textbox.val("");
+            textbox.focus();
+            getAutoComplete("");
+
+            selectedValue = $('ul#sct2-selected-values');
+            selectedValue.append("<span><li class='list-group-item'><button class='btn btn-outline-info fa fa-trash'></button>" + "&nbsp" + text + "</li></span>");
         }
 
+    </script>
+
+    <script>
+        $("ul#sct2-selected-values").on("click", "button", function (e) {
+            e.preventDefault();
+            $(this).parent().remove();
+        });
     </script>
 
     <script>

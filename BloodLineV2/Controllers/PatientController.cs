@@ -606,7 +606,7 @@ namespace BloodLineV2.Controllers
                 }
             }
 
-            string queryString1 = @"SELECT DISTINCT term AS term
+            string queryString1 = @"SELECT DISTINCT conceptid AS conceptid, term AS term
                                     FROM sct2_Procedure
                                     WHERE conceptid IN
                                     (SELECT DISTINCT conceptid
@@ -620,7 +620,7 @@ namespace BloodLineV2.Controllers
             dt = sct2.Tables[0];
 
             var txtItems = (from DataRow row in dt.Rows
-                            select row["term"].ToString()
+                            select row["conceptid"].ToString() + "|" + row["term"].ToString()
                                 into dbValues
                             select dbValues).ToList();
             return Json(txtItems, JsonRequestBehavior.AllowGet);
