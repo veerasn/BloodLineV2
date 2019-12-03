@@ -1127,7 +1127,6 @@
                         <div>
                             <ul class="list-group list-group-flush list-group-item-danger" id="modal-alert" style="list-style:none"></ul>
                         </div>
-                        <div id="test-modal"></div>
                     </div>
 
                     <div class="modal-footer">
@@ -1217,17 +1216,6 @@
         </footer>
         <!-- End page content -->
     </div>
-    <script>
-        $(document).ready(function () {
-            $('.sct2-procedures').select2();
-        });
-
-        $("#sct2-procedures").select2({
-            allowClear: true,
-            placeholder: 'Search for procedure'
-        });
-
-    </script>
     <script>
         // Get the Sidebar
         var mySidebar = document.getElementById("mySidebar");
@@ -1538,32 +1526,26 @@
             }
             if (c == "redcell") {
                 document.getElementById("alert_redcell").innerHTML = fback;
-                //sessionStorage.setItem("alertredcell", fback);
+                sessionStorage.setItem("alert_redcell", fback);
             }
             else if (c == "platelet") {
                 document.getElementById("alert_platelet").innerHTML = fback;
-                //sessionStorage.setItem("alertplatelet", fback);
+                sessionStorage.setItem("alert_platelet", fback);
             }
             else if (c == "ffp") {
                 document.getElementById("alert_ffp").innerHTML = fback;
-                //sessionStorage.setItem("alertffp", fback),
+                sessionStorage.setItem("alert_ffp", fback);
             }
             else if (c == "cryoprecipitate") {
                 document.getElementById("alert_cryoprecipitate").innerHTML = fback;
-                //sessionStorage.setItem("alertcryoprecipitate", fback)
+                sessionStorage.setItem("alert_cryoprecipitate", fback)
             }
 
-            //Update indication for product
+            //Update indication and alerts for product on the request modal form
             document.getElementById(c).innerHTML = "Indication: " + d;
-            sessionStorage.setItem("'" + c + "'", "Indication: " + d);
+            sessionStorage.setItem("indication_" + c, "Indication: " + d);
 
-            //Copy product alert to modal form
-            var node = document.createElement("LI");
-            var textnode = document.createTextNode(fback);
-            node.appendChild(textnode);
-            document.getElementById("modal-alert").appendChild(node);
-            document.getElementById("test-modal").innerHTML = sessionStorage.getItem("'" + c + "'")
-            
+            displayIndication();
         }
     </script>
 
@@ -1750,6 +1732,29 @@
             $('.show-cart').html(output);
             $('.total-cart').html(shoppingCart.totalCart());
             $('.total-count').html(shoppingCart.totalCount());
+
+            displayIndication();
+        }
+
+        function displayIndication() {
+            var productIndication;
+            productIndication = $('#modal-alert');
+            document.getElementById('modal-alert').innerHTML = "";
+
+            for (let i = 0; i < sessionStorage.length; i++) {
+                let key = sessionStorage.key(i);
+                let value = sessionStorage.getItem(key);
+                if (key.startsWith('indication_') && !(value == "")) {
+                    productIndication.append("<li class='list-group-item list-group-item-primary'>" + value + "</li></span>");
+                }
+            }
+            for (let i = 0; i < sessionStorage.length; i++) {
+                let key = sessionStorage.key(i);
+                let value = sessionStorage.getItem(key);
+                if (key.startsWith('alert_') && !(value == "")) {
+                    productIndication.append("<li class='list-group-item list-group-item-warning'>" + value + "</li></span>");
+                }
+            }
         }
 
         // Delete item button
@@ -1757,6 +1762,11 @@
         $('.show-cart').on("click", ".delete-item", function (event) {
             var id = $(this).data('id')
             shoppingCart.removeItemFromCartAll(id);
+            
+            if (id.startsWith('RC')) {
+                sessionStorage.removeItem('alert_redcell');
+                sessionStorage.removeItem('indication_redcell');
+            }
             displayCart();
         })
 
