@@ -948,7 +948,7 @@
                                     {
                                         <tr>
                                             <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id data-parameter='@bloodProduct.Parameter'>Request</a>
                                             </td>
                                             <td>
                                                 @bloodProduct.Id
@@ -1561,10 +1561,11 @@
             cart = [];
 
             // Constructor
-            function Item(id, name, price, count) {
+            function Item(id, name, price, parameter, count) {
                 this.id = id
                 this.name = name;
                 this.price = price;
+                this.parameter = parameter;
                 this.count = count;
             }
 
@@ -1588,7 +1589,7 @@
             var obj = {};
 
             // Add to cart
-            obj.addItemToCart = function (id, name, price, count) {
+            obj.addItemToCart = function (id, name, price, parameter, count) {
                 for (var item in cart) {
                     if (cart[item].id === id) {
                         if (cart[item].count < 6) {
@@ -1598,7 +1599,7 @@
                         return;
                     }
                 }
-                var item = new Item(id, name, price, count);
+                var item = new Item(id, name, price, parameter, count);
                 cart.push(item);
                 saveCart();
             }
@@ -1702,7 +1703,8 @@
             var id = $(this).data('id');
             var name = $(this).data('name');
             var price = Number($(this).data('price'));
-            shoppingCart.addItemToCart(id, name, price, 1);
+            var parameter = $(this).data('parameter');
+            shoppingCart.addItemToCart(id, name, price, parameter, 1);
             displayCart();
         });
 
@@ -1736,7 +1738,10 @@
             displayIndication();
         }
 
+        //Update alerts and indication  notice
         function displayIndication() {
+
+            //Update alert of modal request form and all other alerts and indication 
             var productIndication;
             productIndication = $('#modal-alert');
             document.getElementById('modal-alert').innerHTML = "";
@@ -1755,6 +1760,7 @@
                     productIndication.append("<li class='list-group-item list-group-item-warning'>" + value + "</li></span>");
                 }
             }
+            
         }
 
         // Delete item button
@@ -1766,6 +1772,8 @@
             if (id.startsWith('RC')) {
                 sessionStorage.removeItem('alert_redcell');
                 sessionStorage.removeItem('indication_redcell');
+                document.getElementById('alert_redcell').innerHTML = '';
+                document.getElementById('redcell').innerHTML = '';
             }
             displayCart();
         })
