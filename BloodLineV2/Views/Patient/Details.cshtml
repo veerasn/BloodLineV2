@@ -1007,7 +1007,7 @@
                                     {
                                         <tr>
                                             <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id data-parameter='@bloodProduct.Parameter'>Request</a>
                                             </td>
                                             <td>
                                                 @bloodProduct.Id
@@ -1068,7 +1068,7 @@
                                         <tr>
                                             <td>
                                                 <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication"
-                                                   onclick="updateIndication('@bloodProduct.Parameter')" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                                   onclick="updateIndication('@bloodProduct.Parameter')" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id data-parameter='@bloodProduct.Parameter'>Request</a>
                                             </td>
                                             <td>
                                                 @bloodProduct.Id
@@ -1431,11 +1431,12 @@
             }
             document.getElementById('list-indication-product').innerHTML = output;
             //Update field to state that a indication for the red cell transfusion has not been stated yet
-            var indication = "Indication for transfusion has not been provided yet"
+            var indication = "Indication for <b>" + val + "</b> transfusion has not been provided yet"
             document.getElementById(val).innerHTML = indication;
 
-            //Store indication for product as a session storage item
-            sessionStorage.setItem("'" + val + "'", indication);
+            //Store indication for product as a session storage item and update to modal request form
+            sessionStorage.setItem("indication_" + val, indication);
+            displayIndication();
         }
     </script>
 
@@ -1726,7 +1727,7 @@
                     + "<td><div class='input-group input-group-sm col-xs-2 form-horizontal'><div class='btn-group'><button class='minus-item input-group-addon btn btn-outline-primary fa fa-minus' data-id=" + cartArray[i].id + " min='1' max='6'></button>"
                     + "<button class='plus-item btn btn-outline-secondary input-group-addon fa fa-plus' data-id=" + cartArray[i].id + " min='1' max='6'></button></div></div></td>"
                     + "<td>" + cartArray[i].count + "</td>"
-                    + "<td><button class='delete-item btn btn-outline-danger fa fa-trash' data-id=" + cartArray[i].id + "></button></td>"
+                    + "<td><button class='delete-item btn btn-outline-danger fa fa-trash' data-id=" + cartArray[i].id + " data-parameter=" + cartArray[i].parameter +  "></button></td>"
                     + " = "
                     + "<td>" + cartArray[i].total + "</td>"
                     + "</tr>";
@@ -1767,14 +1768,31 @@
 
         $('.show-cart').on("click", ".delete-item", function (event) {
             var id = $(this).data('id')
+            var parameter = $(this).data('parameter')
+
             shoppingCart.removeItemFromCartAll(id);
-            
-            if (id.startsWith('RC')) {
-                sessionStorage.removeItem('alert_redcell');
-                sessionStorage.removeItem('indication_redcell');
-                document.getElementById('alert_redcell').innerHTML = '';
-                document.getElementById('redcell').innerHTML = '';
+
+            //Remove alerts and indication if there are no products ordered for that type after deletion of item
+            var cartArray = shoppingCart.listCart();
+            var count = 0;
+
+            for (let i = 0; i < sessionStorage.length; i++) {
+                let key = sessionStorage.key(i);
+                let value = sessionStorage.getItem(key);
+                if (key == 'shoppingCart') {
+                    if (value.includes(parameter)) {
+                        count = count + 1
+                    }
+                }
             }
+            
+            if (count == 0) {
+                sessionStorage.removeItem('alert_' + parameter + '');
+                sessionStorage.removeItem('indication_' + parameter + '');
+                document.getElementById('alert_' + parameter + '').innerHTML = '';
+                document.getElementById('' + parameter + '').innerHTML = '';
+            }
+
             displayCart();
         })
 
