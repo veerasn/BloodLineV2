@@ -481,7 +481,8 @@
                 <div class="w3-panel w3-gray panel-default">
                     <div class="panel-heading">
                         <h5 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse1">Requests and results (@ViewBag.TestCount)</a>
+                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse1">Requests and results</a>
+                            <span class="badge badge-pill badge-primary">@ViewBag.TestCount</span>
                         </h5>
                     </div>
                     <div id="collapse1" class="panel-collapse collapse">
@@ -561,7 +562,8 @@
                 <div class="w3-panel w3-gray panel-default">
                     <div class="panel-heading">
                         <h5 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse2">Red blood cells (@ViewBag.Rccount)  </a>
+                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse2">Red blood cells</a>
+                            <span class="badge badge-pill badge-primary">@ViewBag.Rccount</span>
                             @if (ViewBag.Rccount > 0)
                             {
                                 <i class="fa fa-vial"></i> @ViewBag.Reserved
@@ -637,7 +639,8 @@
                 <div class="w3-panel w3-gray panel-default">
                     <div class="panel-heading">
                         <h5 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse3">Platelets (@ViewBag.Plcount)</a>
+                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse3">Platelets</a>
+                            <span class="badge badge-pill badge-primary">@ViewBag.Plcount</span>
                             @if (ViewBag.Plcount > 0)
                             {
                                 <i class="fa fa-clipboard-check"></i> @ViewBag.PlIssued
@@ -712,7 +715,8 @@
                 <div class="w3-panel w3-gray panel-default">
                     <div class="panel-heading">
                         <h5 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse4">Plasma products (@ViewBag.Fpcount)</a>
+                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse4">Plasma products</a>
+                            <span class="badge badge-pill badge-primary">@ViewBag.Fpcount</span>
                             @if (ViewBag.Fpcount > 0)
                             {
                                 <i class="fa fa-clipboard-check"></i> @ViewBag.FpIssued
@@ -1266,6 +1270,7 @@
         });
     </script>
     <script>
+        //Update badge with required date and time
         function refreshTimeBadge() {
             var d = document.getElementById("RequiredDate").value;
             var t = document.getElementById("RequiredTime").value;
@@ -1442,29 +1447,37 @@
         $("ul#sct2-selected-values").on("click", "button", function (e) {
             e.preventDefault();
             $(this).parent().remove();
+            refreshProcedureBadge();
         });
     </script>
     <script>
-        function refreshProcedureBadge(text) {
+        //Update badge with procedure information
+        function refreshProcedureBadge() {
             var lis = document.getElementById("sct2-selected-values").getElementsByTagName("li");
             var i = lis.length;
-            var str;
+            var target = document.getElementById("badge-procedure");
+            
+            if (i > 0) {
+                var str = lis[0].innerText;
+                if (str.length > 60) {
+                    str = str.substring(0, 50);
+                }
+                else {
+                    str = str;
+                }
 
-            if (text.length > 60) {
-                str = text.substring(0, 60) + "...";
+                if (i == 1) {
+                    target.innerHTML = str;
+                }
+                else if (i > 1) {
+                    target.innerHTML = str + "..+" + (i-1) + " more";
+                }
+                else {
+                    target.innerHTML = "";
+                }
             }
             else {
-                str = text;
-            }
- 
-            if (i == 1) {
-                document.getElementById("badge-procedure").innerHTML = str;
-            }
-            else if (i > 1) {
-                document.getElementById("badge-procedure").innerHTML = "..." + " " + str;
-            }
-            else {
-                document.getElementById("badge-procedure").innerHTML = "";
+                target.innerHTML = "";
             }
         }
     </script>
