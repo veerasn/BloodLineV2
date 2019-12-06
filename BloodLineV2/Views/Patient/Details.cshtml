@@ -793,7 +793,9 @@
                 <h5 class="mb-0">
                     <button class="btn btn-outline-info " data-toggle="collapse" data-target="#requiredTime" aria-expanded="true" aria-controls="requiredTime">
                         When are the products required?
+                        <span class="badge badge-primary" id="badge-required-datetime"></span>
                     </button>
+
                 </h5>
             </div>
             <div id="requiredTime" class="collapse">
@@ -801,26 +803,26 @@
                     <div class="w3-quarter w3-blue-grey">
                         <div class="w3-container w3-hover-text-light-gray w3-padding-2">
                             <div class="radio">
-                                <label><input type="radio" name="optUrgency" onchange="updateRequiredDate('0','I')">Immediate</label>
+                                <label><input type="radio" name="optUrgency" onchange="updateRequiredDate(10)">Immediate</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="optUrgency" onchange="updateRequiredDate('0', 'U')">Urgent</label>
+                                <label><input type="radio" name="optUrgency" onchange="updateRequiredDate(30)">Urgent</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="optUrgency" checked onchange="updateRequiredDate('0', 'S')">Scheduled</label>
+                                <label><input type="radio" name="optUrgency" checked onchange="updateRequiredDate(180)">Scheduled</label>
                             </div>
                         </div>
                     </div>
                     <div class="w3-quarter w3-blue-grey">
                         <div class="w3-container w3-hover-text-light-gray w3-padding-2">
                             <div class="radio">
-                                <label><input type="radio" name="optDay" value="1" onchange="updateRequiredDate('0', 'S')">Today</label>
+                                <label><input type="radio" name="optDay" value="1" onchange="updateRequiredDate(180)">Today</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="optDay" value="2" onchange="updateRequiredDate('1', 'S')">Tomorrow</label>
+                                <label><input type="radio" name="optDay" value="2" onchange="updateRequiredDate(1440)">Tomorrow</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="optDay" value="3" onchange="updateRequiredDate('2', 'S')">Day after</label>
+                                <label><input type="radio" name="optDay" value="3" onchange="updateRequiredDate(2880)">Day after</label>
                             </div>
                         </div>
                     </div>
@@ -839,8 +841,8 @@
                     </div>
                     <div class="w3-quarter">
                         <div class="w3-container w3-light-blue w3-padding-small">
-                            @Html.TextBoxFor(model => model.First().RequiredDate, new { id = "RequiredDate", @type = "date", @class = "form-control datepicker", @Value = Model.First().RequiredDate.ToString("yyyy-mm-dd") })
-                            @Html.TextBoxFor(model => model.First().RequiredTime, new { id = "RequiredTime", @type = "time", @class = "form-control datepicker", @Value = Model.First().RequiredTime.ToString("hh:mm") })
+                            @Html.TextBoxFor(model => model.First().RequiredDate, new { id = "RequiredDate", @onchange = "refreshTimeBadge();", @type = "date", @class = "form-control datepicker", @Value = Model.First().RequiredDate.ToString("dd-mm-yyyy") })
+                            @Html.TextBoxFor(model => model.First().RequiredTime, new { id = "RequiredTime", @onchange = "refreshTimeBadge();", @type = "time", @class = "form-control datepicker", @Value = Model.First().RequiredTime.ToString("hh:mm") })
                         </div>
                     </div>
                 </div>
@@ -849,6 +851,7 @@
             <div class="card-header" id="headingTwo">
                 <button class="btn btn-outline-info " data-toggle="collapse" data-target="#procedureType" aria-expanded="true" aria-controls="procedureType">
                     What procedure is the blood required for?
+                    <span class="badge badge-primary" id="badge-procedure"></span>
                 </button>
                 <div id="procedureType" class="collapse">
                     <div class="card-body">
@@ -1257,31 +1260,80 @@
         }
     </script>
     <script>
+        $(document).ready(function () {
+            $('#RequiredDate').datepicker();
+            $('#RequiredTime').datepicker();
+        });
+    </script>
+    <script>
+        function refreshTimeBadge() {
+            var d = document.getElementById("RequiredDate").value;
+            var t = document.getElementById("RequiredTime").value;
+            document.getElementById("badge-required-datetime").innerHTML = d + " " + t;
+        }
+    </script>
+    <script>
         //Update RequiredTime according to optTime
         function updateRequiredTime(val) {
             document.getElementById("RequiredTime").value = val;
+            refreshTimeBadge();
         }
     </script>
     <script>
         //Update RequiredDate according to optDay
-        function updateRequiredDate(val, type) {
-            var today = new Date();
-            today.setDate(today.getDate() + parseInt(val))
-            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-            document.getElementById("RequiredDate").value = date;
+        function updateRequiredDate(val) {
+            var currentd = new Date();
+            var d = new Date(currentd);
+            d.setMinutes(d.getMinutes() + val);
 
-            if (type == 'I') {
-                var newtimeI = new Date(today.getTime())
-                updateRequiredTime(newtimeI.getHours() + ':' + newtimeI.getMinutes());
+            var dd = d.getDate();
+            var mm = d.getMonth();
+            var hh = d.getHours();
+            var mn = d.getMinutes();
+
+            var day;
+            var month;
+            var hour;
+            var minute;
+            var year;
+
+
+            if (dd < 10) {
+                day = '0' + dd;
             }
-            else if (type == 'U') {
-                var newtimeU = new Date(today.getTime() + 45 * 60000)
-                updateRequiredTime(newtimeU.getHours() + ':' + newtimeU.getMinutes());
+            else {
+                day = dd;
             }
+            if (mm + 1 < 10) {
+                month = '0' + (mm + 1);
+            }
+            else {
+                month = mm + 1;
+            }
+            if (hh < 10) {
+                hour = '0' + hh;
+            }
+            else {
+                hour = hh;
+            }
+            if (mn < 10) {
+                minute = '0' + mn;
+            }
+            else {
+                minute = mn;
+            }
+
+            year = d.getFullYear();
+
+            var date = year + "-" + month + "-" + day;
+            var time = hour + ":" + minute;
+            document.getElementById("RequiredDate").value = date;
+            document.getElementById("RequiredTime").value = time;
+            refreshTimeBadge();
         }
     </script>
     <script>
-        //Update dropdown boxes and modal forms for procedures  
+        //Update dropdown boxes and modal forms for procedures
         $(function () {
             $("#icd10-level1").on("change", function () {
                 updateIcd(this.value, 1);
@@ -1323,7 +1375,7 @@
                     });
 
                     $("#select-procedure").modal();
-                    
+
                 }
                 else if (level == 3) {
                     //open modal form for selection of procedure
@@ -1342,7 +1394,7 @@
             });
         }
     </script>
-    
+
     <script>
         //Autofill procedure list using AJAX
         var textbox;
@@ -1375,23 +1427,46 @@
                 });
             });
         }
-        function setText(text) {         
+        function setText(text) {
             textbox.val("");
             textbox.focus();
             getAutoComplete("");
 
             selectedValue = $('ul#sct2-selected-values');
             selectedValue.append("<span><li class='list-group-item'><button class='btn btn-outline-info fa fa-trash'></button>" + "&nbsp" + text + "</li></span>");
+            refreshProcedureBadge(text);
         }
-
     </script>
-
     <script>
         //Remove selected procedure
         $("ul#sct2-selected-values").on("click", "button", function (e) {
             e.preventDefault();
             $(this).parent().remove();
         });
+    </script>
+    <script>
+        function refreshProcedureBadge(text) {
+            var lis = document.getElementById("sct2-selected-values").getElementsByTagName("li");
+            var i = lis.length;
+            var str;
+
+            if (text.length > 60) {
+                str = text.substring(0, 60) + "...";
+            }
+            else {
+                str = text;
+            }
+ 
+            if (i == 1) {
+                document.getElementById("badge-procedure").innerHTML = str;
+            }
+            else if (i > 1) {
+                document.getElementById("badge-procedure").innerHTML = "..." + " " + str;
+            }
+            else {
+                document.getElementById("badge-procedure").innerHTML = "";
+            }
+        }
     </script>
 
     <script>
@@ -1727,7 +1802,7 @@
                     + "<td><div class='input-group input-group-sm col-xs-2 form-horizontal'><div class='btn-group'><button class='minus-item input-group-addon btn btn-outline-primary fa fa-minus' data-id=" + cartArray[i].id + " min='1' max='6'></button>"
                     + "<button class='plus-item btn btn-outline-secondary input-group-addon fa fa-plus' data-id=" + cartArray[i].id + " min='1' max='6'></button></div></div></td>"
                     + "<td>" + cartArray[i].count + "</td>"
-                    + "<td><button class='delete-item btn btn-outline-danger fa fa-trash' data-id=" + cartArray[i].id + " data-parameter=" + cartArray[i].parameter +  "></button></td>"
+                    + "<td><button class='delete-item btn btn-outline-danger fa fa-trash' data-id=" + cartArray[i].id + " data-parameter=" + cartArray[i].parameter + "></button></td>"
                     + " = "
                     + "<td>" + cartArray[i].total + "</td>"
                     + "</tr>";
@@ -1742,7 +1817,7 @@
         //Update alerts and indication  notice
         function displayIndication() {
 
-            //Update alert of modal request form and all other alerts and indication 
+            //Update alert of modal request form and all other alerts and indication
             var productIndication;
             productIndication = $('#modal-alert');
             document.getElementById('modal-alert').innerHTML = "";
@@ -1761,7 +1836,7 @@
                     productIndication.append("<li class='list-group-item list-group-item-warning'>" + value + "</li></span>");
                 }
             }
-            
+
         }
 
         // Delete item button
@@ -1785,7 +1860,7 @@
                     }
                 }
             }
-            
+
             if (count == 0) {
                 sessionStorage.removeItem('alert_' + parameter + '');
                 sessionStorage.removeItem('indication_' + parameter + '');
