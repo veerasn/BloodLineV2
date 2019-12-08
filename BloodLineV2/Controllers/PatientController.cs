@@ -625,5 +625,43 @@ namespace BloodLineV2.Controllers
                             select dbValues).ToList();
             return Json(txtItems, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetDisorderSct2(string sct2value)
+        {
+            var cn = new SqlConnection();
+            var dt = new DataTable();
+            string strCn = ConfigurationManager.ConnectionStrings["SNOMED"].ToString();
+
+            string[] keywords = sct2value.Split(' ');
+            string s = "";
+
+            for (int i = 0; i < keywords.Length; i++)
+            {
+                s = "\"" + keywords[0] + "*\"";
+                if (i > 0)
+                {
+                    s = s + " AND " + "\"" + keywords[i] + "*\"";
+                }
+            }
+
+            string queryString1 = @"SELECT DISTINCT conceptid AS conceptid, term AS term
+                                    FROM sct2_Disorder
+                                    WHERE conceptid IN
+                                    (SELECT DISTINCT conceptid
+                                    FROM [sct2_Description_Full-en_US1000124_20190901]
+                                    WHERE CONTAINS(term, '" + s + "'))" + " ORDER BY term";
+
+            SqlDataAdapter da = new SqlDataAdapter(queryString1, strCn);
+            DataSet sct2 = new DataSet();
+            da.Fill(sct2, "dbo.sct2_Disorder");
+
+            dt = sct2.Tables[0];
+
+            var txtItems = (from DataRow row in dt.Rows
+                            select row["conceptid"].ToString() + "|" + row["term"].ToString()
+                                into dbValues
+                            select dbValues).ToList();
+            return Json(txtItems, JsonRequestBehavior.AllowGet);
+        }
     }
 }

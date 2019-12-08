@@ -792,6 +792,20 @@
         <!--Enter when products required and procedure type-->
 
         <div class="w3-panel w3-pale-blue">
+            <!--Clinical indication-->
+            <div class="card-header" id="headingTwo">
+                <button class="btn btn-outline-info " data-toggle="collapse" data-target="#disorderType" aria-expanded="true" aria-controls="disorderType">
+                    Relevent diagnoses?
+                    <span class="badge badge-primary" id="badge-disorder"></span>
+                </button>
+                <div id="disorderType" class="collapse">
+                    <div class="card-body">
+                        <ul class=list-group list-group-flush" id="sct2-selected-disorders" style="list-style: none"></ul>
+                    </div>
+                    <input type="text" class="form-control" width="100" id="sct2-disorder" aria-label="Autocomplete using search text item" />
+                    <div><ul id="sct2-disorder-values" style="list-style: none"></ul></div>
+                </div>
+            </div>
             <!--When required-->
             <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
@@ -1399,47 +1413,76 @@
             });
         }
     </script>
-
+    
+    <!--Scripts for updating procedures/disorders-->
     <script>
         //Autofill procedure list using AJAX
         var textbox;
-        var selectValue;
-        var selectedValue;
+        //var selectValue;
+        //var selectedValue;
 
         $(function () {
-            textbox = $("#sct2");
-            selectValue = $('ul#sct2-values');
+            textboxp = $("#sct2");
+            textboxd = $("#sct2-disorder")
 
-            textbox.on("input", function () {
+            //selectValuep = $('ul#sct2-values');
+            //selectValued = $('ul#sct2-disorder-values');
+
+            textboxp.on("input", function () {
                 //Autocomplete only if a specific number of characters have been entered
-                if (textbox.val().length > 2) {
-                    getAutoComplete(textbox.val());
+                if (textboxp.val().length > 2) {
+                    getAutoComplete(textboxp.val(),'p');
+                }
+            });
+            textboxd.on("input", function () {
+                //Autocomplete only if a specific number of characters have been entered
+                if (textboxd.val().length > 2) {
+                    getAutoComplete(textboxd.val(), 'd');
                 }
             });
         });
 
-        function getAutoComplete(sct2value) {
-            var uri = "/Patient/GetProcedureSct2";
+        function getAutoComplete(sct2value, type) {
+            var selectValue;
+
+            if (type == 'p') {
+                var uri = "/Patient/GetProcedureSct2";
+                selectValue = $('ul#sct2-values');
+            }
+            else if (type == 'd') {
+                var uri = "/Patient/GetDisorderSct2";
+                selectValue = $('ul#sct2-disorder-values');
+            }
+            
             $.getJSON(uri, { sct2value: sct2value }).done(function (data) {
                 selectValue.html("");
                 var count = 0;
                 $.each(data, function (key, item) {
                     var arr = item.split("|")
                     var li = $('<li/>').addClass('ui-menu-item').attr('role', 'menu-item')
-                        .html("<a href='#/' onclick=\"setText('" + arr[0] + " | " + arr[1] + "')\">" + arr[1] + "</a>")
+                        .html("<a href='#/' onclick=\"setText('" + arr[0] + " | " + arr[1] + "','"+ type + "')\">" + arr[1] + "</a>")
                         .appendTo(selectValue);
                     count++;
                 });
             });
         }
-        function setText(text) {
-            textbox.val("");
-            textbox.focus();
-            getAutoComplete("");
+        function setText(text, type) {
+            var selectedValue;
+            if (type == 'p') {
+                textboxp.val("");
+                textboxp.focus();
+                selectedValue = $('ul#sct2-selected-values');
+            }
+            else if (type == 'd') {
+                textboxd.val("");
+                textboxd.focus();
+                selectedValue = $('ul#sct2-selected-disorders');
+            }
 
-            selectedValue = $('ul#sct2-selected-values');
+            getAutoComplete("", type);
+
             selectedValue.append("<span><li class='list-group-item'><button class='btn btn-outline-info fa fa-trash'></button>" + "&nbsp" + text + "</li></span>");
-            refreshProcedureBadge(text);
+            refreshProcedureBadge(type);
         }
     </script>
     <script>
@@ -1447,16 +1490,31 @@
         $("ul#sct2-selected-values").on("click", "button", function (e) {
             e.preventDefault();
             $(this).parent().remove();
-            refreshProcedureBadge();
+            refreshProcedureBadge('p');
+        });
+        $("ul#sct2-selected-disorders").on("click", "button", function (e) {
+            e.preventDefault();
+            $(this).parent().remove();
+            refreshProcedureBadge('d');
         });
     </script>
     <script>
         //Update badge with procedure information
-        function refreshProcedureBadge() {
-            var lis = document.getElementById("sct2-selected-values").getElementsByTagName("li");
+        function refreshProcedureBadge(type) {
+            var lis;
+            var target;
+
+            if (type == 'p') {
+                lis = document.getElementById("sct2-selected-values").getElementsByTagName("li");
+                target = document.getElementById("badge-procedure");
+            }
+            else if (type == 'd') {
+                var lis = document.getElementById("sct2-selected-disorders").getElementsByTagName("li");
+                var target = document.getElementById("badge-disorder");
+            }
+
             var i = lis.length;
-            var target = document.getElementById("badge-procedure");
-            
+
             if (i > 0) {
                 var str = lis[0].innerText;
                 if (str.length > 60) {
@@ -1470,7 +1528,7 @@
                     target.innerHTML = str;
                 }
                 else if (i > 1) {
-                    target.innerHTML = str + "..+" + (i-1) + " more";
+                    target.innerHTML = str + "..+" + (i - 1) + " more";
                 }
                 else {
                     target.innerHTML = "";
@@ -1481,7 +1539,7 @@
             }
         }
     </script>
-
+    <!--End of scripts for updating procedures-->
     <script>
         //Update table for indication specific to each product type
         function updateIndication(val) {
