@@ -181,13 +181,12 @@
                         <i class="fa fa-check"></i>
                         <sup>@ViewBag.ReqValidDate</sup>
                     }
-                </div>
-                <div>
+
                     @if (ViewBag.InReserve > 0)
                     {
                         <i class="fa fa-first-aid"></i>
                         <sup>@ViewBag.InReserve</sup>
-                    }
+                    }           
                 </div>
             </div>
         </div>
@@ -898,7 +897,7 @@
                 </a>
                 <!--Test requests-->
                 <div id="Test" class="w3-container request" style="display:none">
-                    <h6>Panel for tests</h6>
+                    <h6>Choose tests that your patient may require. </h6>
                     <div class="products">
                         <table class="table">
                             <thead>
@@ -1818,7 +1817,6 @@
                     itemCopy = {};
                     for (p in item) {
                         itemCopy[p] = item[p];
-
                     }
                     itemCopy.total = Number(item.price * item.count).toFixed(2);
                     cartCopy.push(itemCopy)
@@ -1889,15 +1887,18 @@
         function displayIndication() {
 
             //Update alert of modal request form and all other alerts and indication
-            var productIndication;
-            productIndication = $('#modal-alert');
+            var productIndication = $('#modal-alert');
             document.getElementById('modal-alert').innerHTML = "";
+            var cProcedure = 0;
 
             for (let i = 0; i < sessionStorage.length; i++) {
                 let key = sessionStorage.key(i);
                 let value = sessionStorage.getItem(key);
                 if (key.startsWith('indication_') && !(value == "")) {
                     productIndication.append("<li class='list-group-item list-group-item-primary'>" + value + "</li></span>");
+                    if (value.includes('procedure')){
+                        cProcedure = cProcedure + 1;
+                    }
                 }
             }
             for (let i = 0; i < sessionStorage.length; i++) {
@@ -1908,6 +1909,22 @@
                 }
             }
 
+            alertProcedure(cProcedure);
+        }
+
+        //Add or clear for badge-procedure on update indication
+        function alertProcedure(i) {
+            var procedureBadge = document.getElementById('badge-procedure').innerHTML;
+            if (i != 0) {
+                if (procedureBadge == '') {
+                    document.getElementById('badge-procedure').innerHTML = '?';
+                }
+            }
+            else {
+                if (procedureBadge == '?') {
+                    document.getElementById('badge-procedure').innerHTML = '';
+                }
+            }
         }
 
         // Delete item button
@@ -1921,6 +1938,7 @@
             //Remove alerts and indication if there are no products ordered for that type after deletion of item
             var cartArray = shoppingCart.listCart();
             var count = 0;
+            var countp = 0; 
 
             for (let i = 0; i < sessionStorage.length; i++) {
                 let key = sessionStorage.key(i);
@@ -1928,6 +1946,11 @@
                 if (key == 'shoppingCart') {
                     if (value.includes(parameter)) {
                         count = count + 1
+                    }
+                }
+                if (key.startsWith('indication_') && !(value == "")) {
+                    if (value.includes('procedure')) {
+                        countp = countp + 1;
                     }
                 }
             }
@@ -1938,7 +1961,7 @@
                 document.getElementById('alert_' + parameter + '').innerHTML = '';
                 document.getElementById('' + parameter + '').innerHTML = '';
             }
-
+            alertProcedure(countp);
             displayCart();
         })
 

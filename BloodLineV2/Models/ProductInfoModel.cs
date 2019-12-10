@@ -525,8 +525,8 @@ namespace BloodLineV2.Models
                 },
                 new Indication
                 {
-                    Id= 1005,
-                    Caption = "Red cells in reserve for a planned procedure where GSH is not justified.",
+                    Id= 1005, 
+                    Caption = "Red cells in reserve for a planned procedure.",
                     Parameter = "redcell",
                     Level = 140
                 },
