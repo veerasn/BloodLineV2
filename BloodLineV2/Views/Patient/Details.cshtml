@@ -1130,6 +1130,7 @@
                             <thead>
                                 <tr>
                                     <th>Code</th>
+                                    <th style="display:none">Parameter</th>
                                     <th>Description</th>
                                     <th>Charge</th>
                                     <th></th>
@@ -1151,7 +1152,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Confirm request</button>
+                        <button onclick="confirmRequest" type="button" class="btn btn-primary" id="confirm-request">Confirm request</button>
                     </div>
                 </div>
             </div>
@@ -1652,7 +1653,7 @@
                         fback = "FFP request has been made with no prior INR results."
                     }
                     else if (b < 1.1 * a) {
-                        fback = "You have chosen to transfuse at a target INR of " + a + " but the patient's last INR was " + b +"."
+                        fback = "You have chosen to transfuse at a target INR of " + a + " but the patient's last INR was " + b + "."
                     }
                     else {
                         fback = ""
@@ -1668,8 +1669,12 @@
                     else {
                         fback = ""
                     };
-                };
+                }
+                else {
+                    fback = "";
+                }
             }
+            /*
             if (c == "redcell") {
                 document.getElementById("alert_redcell").innerHTML = fback;
                 sessionStorage.setItem("alert_redcell", fback);
@@ -1686,15 +1691,27 @@
                 document.getElementById("alert_cryoprecipitate").innerHTML = fback;
                 sessionStorage.setItem("alert_cryoprecipitate", fback)
             }
-
+            */
             //Update indication and alerts for product on the request modal form
+            //alert
+            if (fback != "") {
+                document.getElementById("alert_" + c + "").innerHTML = fback;
+                sessionStorage.setItem("alert_" + c + "", fback);
+            }
+            //indication
             document.getElementById(c).innerHTML = "Indication: " + d;
             sessionStorage.setItem("indication_" + c, "Indication: " + d);
 
             displayIndication();
         }
     </script>
+    <script>
+        //Request validation on clicking Confirm Request in modal-request
+        function confirmRequest() {
 
+        }
+
+    </script>
     <script>
         // ************************************************
         // Shopping Cart API
@@ -1866,6 +1883,7 @@
             for (var i in cartArray) {
                 output += "<tr>"
                     + "<td>" + cartArray[i].id + "</td>"
+                    + "<td style='display:none;'>" + cartArray[i].parameter + "</td>"
                     + "<td>" + cartArray[i].name + "</td>"
                     + "<td>" + cartArray[i].price + "</td>"
                     + "<td><div class='input-group input-group-sm col-xs-2 form-horizontal'><div class='btn-group'><button class='minus-item input-group-addon btn btn-outline-primary fa fa-minus' data-id=" + cartArray[i].id + " min='1' max='6'></button>"
