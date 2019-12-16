@@ -119,11 +119,14 @@ namespace BloodLineV2.Controllers
                             {
                                 aboerr = 1;
                             }
-                            //Check if any sample with ABO determination within last 3 days
+                            //Check if any sample with ABO determination within last 7 days
                             if (testrequests[i].RequestDate != null && (DateTime.Today - testrequests[i].RequestDate).Value.Days < 7)
                             {
                                 reqvalid = reqvalid + 1;
-                                reqvaliddate = testrequests[i].RequestDate.ToString();
+                                if (reqvaliddate == "none")
+                                {
+                                    reqvaliddate = testrequests[i].RequestDate.ToString();
+                                }
                             }
                             break;
                         case "RH":
@@ -237,7 +240,10 @@ namespace BloodLineV2.Controllers
                 ViewBag.Returned = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 6);
                 ViewBag.Reaction = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 9);
 
-                ViewBag.InReserve = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 2 && (DateTime.Today - x.XMATCHDATE).Value.Days < 3);
+                if ((prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 2 && x.MSTATUS == 4) == 0))
+                {
+                    ViewBag.InReserve = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 2 && (DateTime.Today - x.XMATCHDATE).Value.Days < 3);
+                }
 
                 ViewBag.Plcount = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "PL");
                 ViewBag.PlIssued = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "PL" && x.PSTATUS == 3);
@@ -309,6 +315,8 @@ namespace BloodLineV2.Controllers
                         cHgb = "The patient's last Hb result was " + y[UHgb] + "g/L checked today.";
                         break;
                     case "-1":
+                        cHgb = "The patient's last Hb result was " + y[UHgb] + "g/L checked yesterday.";
+                        break;
                     case "-2":
                     case "-3":
                         cHgb = "The patient's last Hb result was " + y[UHgb] + " g/L checked " + x[UHgb] + " days ago.";
