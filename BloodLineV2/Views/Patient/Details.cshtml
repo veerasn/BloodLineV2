@@ -186,7 +186,8 @@
                     {
                         <i class="fa fa-first-aid"></i>
                         <sup>@ViewBag.InReserve</sup>
-                    }           
+                    }
+                    @ViewBag.IssueIntNow
                 </div>
             </div>
         </div>
@@ -916,7 +917,7 @@
                                     {
                                         <tr>
                                             <td>
-                                                <a href="#0" class="button add-to-cart" data-name=@bloodProduct.Name data-price=@bloodProduct.Charge data-id=@bloodProduct.Id>Request</a>
+                                                <a href="#0" class="button add-to-cart" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id data-parameter='@bloodProduct.Parameter'>Request</a>
                                             </td>
                                             <td>
                                                 @bloodProduct.Id
@@ -1702,19 +1703,31 @@
             var table = document.getElementById("tblConfirmRequest");
             var p;
             var indication;
-            var count = 0;
+            var count = 0; //counter for products where indication is not state
+            var gs = 0; //counter for products that may require a GS
+            var abd = 0; //counter for instances where only an ABD is required
             var warn = "";
             for (var i = 0, row; row = table.rows[i]; i++) {
                 for (var j = 0, col; col = row.cells[j]; j++) {
                     if (j == 1) {
                         p = col.innerText;
                         //check if indication has been provided for the product. If none increment count
-                        if (p != "") {
+                        if (p != "test") {
                             let param = sessionStorage.getItem('indication_' + p + '');
                             indication = "Indication for <b>" + p + "</b> transfusion has not been provided yet"
                             if (param == indication) { count = count + 1; }
-                            //Check to see if additional sample for GS required if not already ordered or advise to remove if not needed
-
+                            //Check for any red cell request which may require a GS
+                            if (p == 'redcell') {
+                                if (@ViewBag.ReqValid == 0) { gs = gs + 1; }
+                                else {
+                                    if (@ViewBag.IssueIntNow > 2) { gs = gs + 1; }
+                                    else { if (@ViewBag.Abonum == 1) { gs = gs + 1; } }
+                                }
+                            }
+                            else if (p=='platelet' || p == 'ffp' || p == 'cryoprecipitate' || p == 'cryosupernatant') {
+                                if (@ViewBag.Abonum == 0) { gs = gs + 1; }
+                                else if (@ViewBag.Abonum == 1) { abd = abd + 1;}
+                            }
                         }
                     }
                 }
@@ -1731,6 +1744,32 @@
                 warn = "";
             }
             alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
+
+            //Add GS if any red cells ordered of plasma products ordered without any previous ABD.
+            if (gs != 0) {
+                var i = 0;
+                for (var item in cart) {
+                    if (cart[item].id == "T-GSH") { i = i + 1; }
+                    else if (cart[item].id == "T-ABD") { shoppingCart.removeItemFromCartAll("T-ABD");}
+                }
+                if (i == 0) {
+                    shoppingCart.addItemToCart("T-GSH", "Group Screen & Hold", 230, "test", 1);
+                    displayCart();
+                }
+            }
+
+            //Add ABD if any plasma products ordered with only a single ABD determination.
+            if (abd != 0) {
+                var i = 0;
+                for (var item in cart) {
+                    if (cart[item].id == "T-GSH" || cart[item].id == "T-ABD") { i = i + 1;}
+                }
+                if (i == 0) {
+                    shoppingCart.addItemToCart("T-ABD", "ABO and RhD typing", 230, "test", 1);
+                    displayCart();
+                }
+                
+            }
 
             //check for diagnosis
             if (document.getElementById('badge-disorder').innerText == "") {
@@ -1793,8 +1832,17 @@
             obj.addItemToCart = function (id, name, price, parameter, count) {
                 for (var item in cart) {
                     if (cart[item].id === id) {
-                        if (cart[item].count < 6) {
-                            cart[item].count++;
+                        //increment max to 1 for tests
+                        if (parameter == 'test') {
+                            if (cart[item].count < 1) {
+                                cart[item].count++;
+                            }
+                        }
+                        //increment max to 6 for products
+                        else {
+                            if (cart[item].count < 6) {
+                                cart[item].count++;
+                            }
                         }
                         saveCart();
                         return;
@@ -2011,14 +2059,16 @@
                 }
             }
 
+            alertProcedure(countp);
+            displayCart();
+
             if (count == 0) {
                 sessionStorage.removeItem('alert_' + parameter + '');
                 sessionStorage.removeItem('indication_' + parameter + '');
                 document.getElementById('alert_' + parameter + '').innerHTML = '';
                 document.getElementById('' + parameter + '').innerHTML = '';
             }
-            alertProcedure(countp);
-            displayCart();
+            
             if (document.getElementById("warning-confirm-request").innerHTML != "") {
                 confirmRequest();
             }

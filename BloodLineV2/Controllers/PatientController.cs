@@ -78,7 +78,7 @@ namespace BloodLineV2.Controllers
             ViewBag.TestCount = ireq;
 
             string abo = "", rh = "", reqvaliddate = "none";
-            int aboerr = 0, rherr = 0, abserr = 0, abonum = 0, absnum = 0, reqvalid = 0;
+            int aboerr = 0, rherr = 0, abserr = 0, abonum = 0, absnum = 0, reqvalid = 0, reqvalidint = 99;
 
             if (ireq > 0)
             {
@@ -126,6 +126,7 @@ namespace BloodLineV2.Controllers
                                 if (reqvaliddate == "none")
                                 {
                                     reqvaliddate = testrequests[i].RequestDate.ToString();
+                                    reqvalidint = (DateTime.Today - testrequests[i].RequestDate).Value.Hours;
                                 }
                             }
                             break;
@@ -164,7 +165,7 @@ namespace BloodLineV2.Controllers
                 }
                 ViewData["TestResults"] = res;
                 ViewBag.AboErr = aboerr; ViewBag.RhErr = rherr; ViewBag.AbsErr = abserr; ViewBag.Abonum = abonum; ViewBag.Absnum = absnum;
-                ViewBag.ReqValid = reqvalid; ViewBag.ReqValidDate = reqvaliddate;
+                ViewBag.ReqValid = reqvalid; ViewBag.ReqValidDate = reqvaliddate; ViewBag.ReqValidInt = reqvalidint;
             }
 
             //Product requests
@@ -232,10 +233,14 @@ namespace BloodLineV2.Controllers
             if (prodrequests.Count(x => x.PRODNUM != null) > 0)
             {
                 ViewBag.Rccount = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC");
+
                 ViewBag.Xm = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.MSTATUS == 2);
 
                 ViewBag.Reserved = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 2);
                 ViewBag.Issued = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 3);
+
+                ViewBag.IssueIntNow = prodrequests.Where(x => x.PRODNUM != null && x.PRODCODE.Substring(0,2) == "RC").Min(x => x.IssueIntNow);
+                
                 ViewBag.Transfused = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 4);
                 ViewBag.Returned = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 6);
                 ViewBag.Reaction = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 9);

@@ -147,6 +147,14 @@ namespace BloodLineV2.ViewModels
             }
         }
 
+        public int IssueIntNow
+        {
+            get
+            {
+                return ISSUEDATE != null ? (DateTime.Today - ISSUEDATE).Value.Days : 99;
+            }
+        }
+
         public int ReturnIntDay
         {
             get
