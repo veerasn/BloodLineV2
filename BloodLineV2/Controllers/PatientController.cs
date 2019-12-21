@@ -240,7 +240,7 @@ namespace BloodLineV2.Controllers
                 ViewBag.Issued = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 3);
 
                 ViewBag.IssueIntNow = prodrequests.Where(x => x.PRODNUM != null && x.PRODCODE.Substring(0,2) == "RC").Min(x => x.IssueIntNow);
-                
+
                 ViewBag.Transfused = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 4);
                 ViewBag.Returned = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 6);
                 ViewBag.Reaction = prodrequests.Count(x => x.PRODNUM != null && x.PRODCODE.Substring(0, 2) == "RC" && x.PSTATUS == 9);
@@ -265,8 +265,8 @@ namespace BloodLineV2.Controllers
                 ViewBag.Rccount = 0;
                 ViewBag.Plcount = 0;
                 ViewBag.Fpcount = 0;
+                ViewBag.IssueIntNow = 99;
             }
-
 
             ViewBag.Tcount = prodrequests.Count();
 
