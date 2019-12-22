@@ -1705,6 +1705,7 @@
             var indication;
             var nontest = 0; //counter for all products requested
             var count = 0; //counter for products where indication is not state
+            var proc = 0; //counter for indications having a procedure
             var gs = 0; //counter for products that may require a GS
             var abd = 0; //counter for instances where only an ABD is required
             var warn = "";
@@ -1718,6 +1719,7 @@
                             let param = sessionStorage.getItem('indication_' + p + '');
                             indication = "Indication for <b>" + p + "</b> transfusion has not been provided yet"
                             if (param == indication) { count = count + 1; }
+                            //if (param.includes('procedure')) { proc = proc + 1; }
                             //Check for any red cell request which may require a GS
                             if (p == 'redcell') {
                                 if (@ViewBag.ReqValid == 0) { gs = gs + 1; }
@@ -1737,15 +1739,40 @@
 
             var alerts = $('#warning-confirm-request');
             document.getElementById('warning-confirm-request').innerHTML = "";
-
+            //Alert if indication not provided for any of the products
             if (count != 0) {
                 warn = 'Please provide appropriate indication for each of the product requested.'
+                alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
+            }
 
+            //check for diagnosis
+            if (document.getElementById('badge-disorder').innerText == "") {
+                warn = 'Relevent clinical diagnosis must be provided.'
+                alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
             }
-            else {
-                warn = "";
+
+            //check for time required
+            if (nontest != 0) {
+                if (document.getElementById('badge-required-datetime').innerText == "") {
+                    warn = 'Please state when the product is required.'
+                    alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
+                }
             }
-            alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
+
+            //check for procedure if the product request is for pre-procedure
+            /*
+            if (document.getElementById('sct2-selected-values').html == "" && proc != 0) {
+                warn = 'Please state the procedure for which this product is required.'
+                alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
+            }
+            */
+
+            
+            if (document.getElementById('badge-procedure').innerText == "?") {
+                warn = 'Please state the procedure for which this product is required.'
+                alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
+            }
+            
 
             //Add GS if any red cells ordered or plasma products ordered without any previous ABD.
             if (gs != 0) {
@@ -1756,7 +1783,7 @@
                 }
                 if (i == 0) {
                     shoppingCart.addItemToCart("T-GSH", "Group Screen & Hold", 230, "test", 1);
-                    displayCart();
+                    displayCart(0);
                 }
             }
 
@@ -1768,29 +1795,12 @@
                 }
                 if (i == 0) {
                     shoppingCart.addItemToCart("T-ABD", "ABO and RhD typing", 230, "test", 1);
-                    displayCart();
-                }
-
-            }
-
-            //check for diagnosis
-            if (document.getElementById('badge-disorder').innerText == "") {
-                warn = 'Relevent clinical diagnosis must be provided.'
-                alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
-            }
-            //check for time required
-            if (nontest != 0) {
-                if (document.getElementById('badge-required-datetime').innerText == "") {
-                    warn = 'Please state when the product is required.'
-                    alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
+                    displayCart(0);
                 }
             }
-            
-            //check for procedure if the product request is for pre-procedure
-            if (document.getElementById('badge-procedure').innerText == "?") {
-                warn = 'Please state the procedure for which this product is required.'
-                alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
-            }
+
+            //recheck confirm request
+            //confirmRequest();
         }
     </script>
     
@@ -1968,7 +1978,7 @@
         });
 
 
-        function displayCart() {
+        function displayCart(cfm) {
             var cartArray = shoppingCart.listCart();
             var output = "";
             document.getElementById("warning-confirm-request").innerHTML = "";
@@ -1991,6 +2001,9 @@
             $('.total-count').html(shoppingCart.totalCount());
 
             displayIndication();
+            if (cfm == 0) {
+                confirmRequest();
+            }
         }
 
         //Update alerts and indication  notice

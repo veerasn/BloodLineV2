@@ -164,9 +164,12 @@ namespace BloodLineV2.Controllers
                     }
                 }
                 ViewData["TestResults"] = res;
-                ViewBag.AboErr = aboerr; ViewBag.RhErr = rherr; ViewBag.AbsErr = abserr; ViewBag.Abonum = abonum; ViewBag.Absnum = absnum;
-                ViewBag.ReqValid = reqvalid; ViewBag.ReqValidDate = reqvaliddate; ViewBag.ReqValidInt = reqvalidint;
+                ViewBag.ReqValidDate = reqvaliddate; 
+                
             }
+
+            ViewBag.AboErr = aboerr; ViewBag.RhErr = rherr; ViewBag.AbsErr = abserr; ViewBag.Abonum = abonum; ViewBag.Absnum = absnum;
+            ViewBag.ReqValid = reqvalid; ViewBag.ReqValidInt = reqvalidint;
 
             //Product requests
 
