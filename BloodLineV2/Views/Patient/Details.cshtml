@@ -160,7 +160,7 @@
                     }
                     else
                     {
-                        if (ViewBag.Abonum > 1  && Model.FirstOrDefault().PATGROUP != null)
+                        if (ViewBag.Abonum > 1 && Model.FirstOrDefault().PATGROUP != null)
                         {
                             <p>Blood group confirmed based on two or more determinations.</p>
                         }
@@ -1158,6 +1158,10 @@
                     <div>
                         <ul class="list-group list-group-flush list-group-item-danger" id="warning-confirm-request" style="list-style:none"></ul>
                     </div>
+                    <div>
+                        <input class="btn-default" type="button" id="btnCartNew" value="Save" />
+                        <input class="btn-default" type="button" id="btnAddItems" value="Save" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -1417,7 +1421,7 @@
             });
         }
     </script>
-    
+
     <!--Scripts for updating procedures/disorders-->
     <script>
         //Autofill procedure list using AJAX
@@ -1463,14 +1467,14 @@
                 var uri = "/Patient/GetDisorderSct2";
                 selectValue = $('ul#sct2-disorder-values');
             }
-            
+
             $.getJSON(uri, { sct2value: sct2value }).done(function (data) {
                 selectValue.html("");
                 var count = 0;
                 $.each(data, function (key, item) {
                     var arr = item.split("|")
                     var li = $('<li/>').addClass('ui-menu-item').attr('role', 'menu-item')
-                        .html("<a href='#/' onclick=\"setText('" + arr[0] + " | " + arr[1] + "','"+ type + "')\">" + arr[1] + "</a>")
+                        .html("<a href='#/' onclick=\"setText('" + arr[0] + " | " + arr[1] + "','" + type + "')\">" + arr[1] + "</a>")
                         .appendTo(selectValue);
                     count++;
                 });
@@ -1767,12 +1771,12 @@
             }
             */
 
-            
+
             if (document.getElementById('badge-procedure').innerText == "?") {
                 warn = 'Please state the procedure for which this product is required.'
                 alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
             }
-            
+
 
             //Add GS if any red cells ordered or plasma products ordered without any previous ABD.
             if (gs != 0) {
@@ -1803,10 +1807,52 @@
             if (document.getElementById('warning-confirm-request').innerHTML == "") {
                 warn = "Request cleared";
                 alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
+
+                //Update request to Cart on clicking btnCartNew
+
             }
         }
     </script>
-    
+    <script>
+        //Create New Cart on clicking btnCartNew
+        $(document).ready(function () {
+            $("#btnCartNew").click(function () {
+                $.ajax(
+                    {
+                        type: "POST",
+                        url: "/Patient/CartNew",
+                        data: {
+                            CartID: 7,
+                            UserId: 1,
+                            DateCreated: "08/01/2020 08:00",
+                            CheckedOut: 0,
+                            Urgency: 1,
+                            Location: "6D",
+                            PatientID: @Model.FirstOrDefault().PATNUMBER,
+                            PatientName: "TEST PATIENT",
+                            Status: 0
+                        }
+                    });
+            });
+        });
+    </script>
+    <script>
+        //Add items to cart on clicking btnAddItems
+        $(document).ready(function () {
+            $("#btnAddItems").click(function () {
+                var JsonSessionStorageObj = JSON.stringify(sessionStorage);
+                document.getElementById('warning-confirm-request').innerHTML = JsonSessionStorageObj.toString();
+
+
+                $.ajax(
+                    {
+                        type: "POST",
+                        url: "/Patient/AddItems",
+                        data: { JsonSessionStorageObj: JsonSessionStorageObj }
+                    });
+            });
+        });
+    </script>
     <script>
         // ************************************************
         // Shopping Cart API
@@ -2022,7 +2068,7 @@
                 let value = sessionStorage.getItem(key);
                 if (key.startsWith('indication_') && !(value == "")) {
                     productIndication.append("<li class='list-group-item list-group-item-primary'>" + value + "</li></span>");
-                    if (value.includes('procedure')){
+                    if (value.includes('procedure')) {
                         cProcedure = cProcedure + 1;
                     }
                 }
@@ -2063,7 +2109,7 @@
             //Remove alerts and indication if there are no products ordered for that type after deletion of item
             var cartArray = shoppingCart.listCart();
             var count = 0;
-            var countp = 0; 
+            var countp = 0;
 
             for (let i = 0; i < sessionStorage.length; i++) {
                 let key = sessionStorage.key(i);

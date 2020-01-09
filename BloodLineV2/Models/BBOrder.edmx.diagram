@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="69e55cdcaa864b4d9420496f7e0e0a67" Name="Diagram1">
+        <EntityTypeShape EntityType="BBOrderModel.Cart" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBOrderModel.CartItem" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBOrderModel.Category" Width="1.5" PointX="0.75" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBOrderModel.Item" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBOrderModel.Member" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBOrderModel.MemberRole" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBOrderModel.Notice" Width="1.5" PointX="8.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBOrderModel.Role" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="BBOrderModel.FK__Cart__UserID__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="BBOrderModel.FK__CartItems__CartI__76969D2E" ManuallyRouted="false" />
+        <AssociationConnector Association="BBOrderModel.FK__Notices__CartID__73BA3083" ManuallyRouted="false" />
+        <AssociationConnector Association="BBOrderModel.FK__CartItems__Produ__778AC167" ManuallyRouted="false" />
+        <AssociationConnector Association="BBOrderModel.FK__Notices__Categor__72C60C4A" ManuallyRouted="false" />
+        <AssociationConnector Association="BBOrderModel.FK__Product__Categor__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="BBOrderModel.FK__MemberRol__Membe__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="BBOrderModel.FK__MemberRol__RoleI__5DCAEF64" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

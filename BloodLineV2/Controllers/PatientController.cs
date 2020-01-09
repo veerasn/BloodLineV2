@@ -679,5 +679,50 @@ namespace BloodLineV2.Controllers
                             select dbValues).ToList();
             return Json(txtItems, JsonRequestBehavior.AllowGet);
         }
+
+        //Update Cart
+        private SqlConnection cn;
+
+        //Post method to add new cart
+        [HttpPost]
+        public ActionResult CartNew(Cart obj)
+        {
+            AddDetails(obj);
+            return View();
+        }
+
+        //Handle connections
+        private void connection()
+        {
+            string cnStr = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
+            cn = new SqlConnection(cnStr);
+        }
+
+        //Create new cart
+        private void AddDetails(Cart obj)
+        {
+            connection();
+            SqlCommand com = new SqlCommand("CartNew", cn);
+            com.CommandType = CommandType.StoredProcedure;
+            com.Parameters.AddWithValue("@CartID", obj.CartID);
+            com.Parameters.AddWithValue("@UserID", obj.UserID);
+            com.Parameters.AddWithValue("@DateCreated", obj.DateCreated);
+            com.Parameters.AddWithValue("@CheckedOut", obj.CheckedOut);
+            com.Parameters.AddWithValue("@Urgency", obj.Urgency);
+            com.Parameters.AddWithValue("@Location", obj.Location);
+            com.Parameters.AddWithValue("@PatientID", obj.PatientID);
+            com.Parameters.AddWithValue("@PatientName", obj.PatientName);
+            com.Parameters.AddWithValue("@Status", obj.Status);
+            cn.Open();
+            com.ExecuteNonQuery();
+            cn.Close();
+        }
+
+        private void AddItems(string JsonSessionStorageObj)
+        {
+            string x = JsonSessionStorageObj;
+
+        }
+
     }
 }
