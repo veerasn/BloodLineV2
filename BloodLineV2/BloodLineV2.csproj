@@ -168,7 +168,6 @@
     <Compile Include="Models\BBSTEST.cs">
       <DependentUpon>BBS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\DICT_PRODUCTS.cs">
       <DependentUpon>BBS.tt</DependentUpon>
     </Compile>

@@ -1799,8 +1799,11 @@
                 }
             }
 
-            //recheck confirm request
-            //confirmRequest();
+            //confirm request if no alerts
+            if (document.getElementById('warning-confirm-request').innerHTML == "") {
+                warn = "Request cleared";
+                alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
+            }
         }
     </script>
     
