@@ -5,12 +5,14 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
+using System.Web.Script.Serialization;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BloodLineV2.Models;
 using BloodLineV2.ViewModels;
 using Newtonsoft.Json;
+using Newtonsoft;
 
 namespace BloodLineV2.Controllers
 {
@@ -718,10 +720,21 @@ namespace BloodLineV2.Controllers
             cn.Close();
         }
 
-        private void AddItems(string JsonSessionStorageObj)
+        [HttpPost]
+        public ActionResult ShoppingItem(ShoppingCartContents sessiondata)
         {
-            string x = JsonSessionStorageObj;
+            AddShoppingItems(sessiondata);
+            return View();
+        }
 
+        private void AddShoppingItems(ShoppingCartContents sessiondata)
+        {
+            //var obj = new JavaScriptSerializer().Deserialize<ShoppingCartContents>(sessiondata);
+            var x1 = sessiondata.indication_redcell;
+            var x2 = sessiondata.alert_redcell;
+            var x3 = sessiondata.shoppingCart.Count;
+            var x4 = sessiondata.shoppingCart[1].name;
+            var x4 = sessiondata.shoppingCart[0].names;
         }
 
     }

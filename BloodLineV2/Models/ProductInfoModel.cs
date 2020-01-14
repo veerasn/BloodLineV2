@@ -5,6 +5,37 @@ using System.Web;
 
 namespace BloodLineV2.Models
 {
+    public class ShoppingCartContents
+    {
+        public string indication_redcell { get; set; }
+        public string alert_redcell { get; set; }
+        public string indication_platelet { get; set; }
+        public string alert_platelet { get; set; }
+        public string indication_ffp { get; set; }
+        public string alert_ffp { get; set; }
+        public string indication_cryoprecipitate { get; set; }
+        public string alert_cryoprecipitate { get; set; }
+        public string indication_cryosupernatant { get; set; }
+        public string alert_cryosupernatant { get; set; }
+        public string indication_anti_D { get; set; }
+        public string indication_3F_PCC { get; set; }
+        public string indication_4F_PCC { get; set; }
+        public string indication_F8 { get; set; }
+        public string indication_FVIIa { get; set; }
+
+        public List<ShoppingCart> shoppingCart { get; set; }
+    }
+
+    public class ShoppingCart
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public double price { get; set; }
+        public string parameter { get; set; }
+        public int quantity { get; set; }
+    }
+
+
     public class ProductInfo
     {
         public string Id { get; set; }

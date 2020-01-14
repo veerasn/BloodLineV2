@@ -1822,9 +1822,9 @@
                         type: "POST",
                         url: "/Patient/CartNew",
                         data: {
-                            CartID: 7,
+                            CartID: 11,
                             UserId: 1,
-                            DateCreated: "08/01/2020 08:00",
+                            DateCreated: "13/01/2020 08:00",
                             CheckedOut: 0,
                             Urgency: 1,
                             Location: "6D",
@@ -1840,16 +1840,27 @@
         //Add items to cart on clicking btnAddItems
         $(document).ready(function () {
             $("#btnAddItems").click(function () {
-                var JsonSessionStorageObj = JSON.stringify(sessionStorage);
-                document.getElementById('warning-confirm-request').innerHTML = JsonSessionStorageObj.toString();
-
+                /*
+                var sessiondata = {};
+                for (var i = 0, len = sessionStorage.length; i < len; ++i) {
+                    sessiondata[sessionStorage.key(i)] = sessionStorage.getItem(sessionStorage.key(i));
+                }
+                */
+                
+                var sessiondata = JSON.stringify(sessionStorage);
+                document.getElementById('warning-confirm-request').innerHTML = sessiondata;
 
                 $.ajax(
                     {
                         type: "POST",
-                        url: "/Patient/AddItems",
-                        data: { JsonSessionStorageObj: JsonSessionStorageObj }
+                        url: "/Patient/ShoppingItem",
+                        dataType: 'json',
+                        traditional: true,
+                        contentType: 'application/json;charset=UTF-8',
+                        data: sessiondata
                     });
+                
+                
             });
         });
     </script>
