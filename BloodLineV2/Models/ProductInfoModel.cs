@@ -35,7 +35,6 @@ namespace BloodLineV2.Models
         public int quantity { get; set; }
     }
 
-
     public class ProductInfo
     {
         public string Id { get; set; }

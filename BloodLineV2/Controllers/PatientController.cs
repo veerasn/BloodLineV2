@@ -732,9 +732,24 @@ namespace BloodLineV2.Controllers
             //var obj = new JavaScriptSerializer().Deserialize<ShoppingCartContents>(sessiondata);
             var x1 = sessiondata.indication_redcell;
             var x2 = sessiondata.alert_redcell;
-            var x3 = sessiondata.shoppingCart.Count;
-            var x4 = sessiondata.shoppingCart[1].name;
-            var x4 = sessiondata.shoppingCart[0].names;
+            var x3 = sessiondata.shoppingCart[3].name;
+
+        }
+
+        public JsonResult InsertCartItems(List<CartItem> cartItems)
+        {
+            using (BBOrderEntities entities = new BBOrderEntities())
+            {
+                //Loop and insert records.
+                foreach (CartItem cartItem in cartItems)
+                {
+                    entities.CartItems.Add(cartItem);
+                }
+                int insertedRecords = entities.SaveChanges();
+                return Json(insertedRecords);
+
+
+            }
         }
 
     }

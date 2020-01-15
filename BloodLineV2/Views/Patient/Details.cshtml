@@ -1839,14 +1839,9 @@
     <script>
         //Add items to cart on clicking btnAddItems
         $(document).ready(function () {
+            /*
             $("#btnAddItems").click(function () {
-                /*
-                var sessiondata = {};
-                for (var i = 0, len = sessionStorage.length; i < len; ++i) {
-                    sessiondata[sessionStorage.key(i)] = sessionStorage.getItem(sessionStorage.key(i));
-                }
-                */
-                
+
                 var sessiondata = JSON.stringify(sessionStorage);
                 document.getElementById('warning-confirm-request').innerHTML = sessiondata;
 
@@ -1855,13 +1850,41 @@
                         type: "POST",
                         url: "/Patient/ShoppingItem",
                         dataType: 'json',
-                        traditional: true,
                         contentType: 'application/json;charset=UTF-8',
                         data: sessiondata
                     });
                 
                 
             });
+            */
+            $("#btnAddItems").click(function () {
+                //Loop through the product request table rows and build a JSON array.
+                var cartItems = new Array();
+                $("#tblConfirmRequest tbody tr").each(function () {
+                    var row = $(this);
+                    var cartItem = {};
+                    cartItem.CartID = 1;
+                    cartItem.ProductID = row.find("TD").eq(0).html();
+                    cartItem.Price = row.find("TD").eq(3).html();
+                    cartItem.Quantity = row.find("TD").eq(5).html();
+                    cartItems.push(cartItem);
+                });
+
+                //Send the JSON array to Controller using AJAX.
+                $.ajax({
+                    type: "POST",
+                    url: "/Patient/InsertCartItems",
+                    data: JSON.stringify(cartItems),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        alert(r + " record(s) inserted.");
+                    }
+                });
+
+            });
+
+
         });
     </script>
     <script>
