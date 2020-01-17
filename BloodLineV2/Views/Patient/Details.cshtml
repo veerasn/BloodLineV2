@@ -1813,139 +1813,150 @@
             }
         }
     </script>
+
     <script>
-        //Create New Cart on clicking btnCartNew
+        //Create new Cart
         $(document).ready(function () {
             $("#btnCartNew").click(function () {
-                $.ajax(
-                    {
-                        type: "POST",
-                        url: "/Patient/CartNew",
-                        data: {
-                            CartID: 11,
-                            UserId: 1,
-                            DateCreated: "13/01/2020 08:00",
-                            CheckedOut: 0,
-                            Urgency: 1,
-                            Location: "6D",
-                            PatientID: @Model.FirstOrDefault().PATNUMBER,
-                            PatientName: "TEST PATIENT",
-                            Status: 0
+                var carts = new Array();
+                var cart = {};
+                var currentdate = new Date(); 
+
+                var UniqueCartID = Math.floor((Math.random() * 10000000) + 90000000);
+
+                //Populate Cart info
+                cart.CartID = UniqueCartID ;
+                cart.UserId = 1;
+                cart.DateCreated = currentdate.getDate() + "/"
+                    + (currentdate.getMonth() + 1) + "/"
+                    + currentdate.getFullYear() + " "
+                    + currentdate.getHours() + ":"
+                    + currentdate.getMinutes();
+                cart.CheckedOut = 0;
+                cart.Urgency = 1;
+                cart.Location = "6D";
+                cart.PatientID =@Model.FirstOrDefault().PATNUMBER;
+                cart.PatientName = "abc";
+                cart.Status = 0;
+                carts.push(cart);
+
+                //Send the JSON array to InsertCart Controller using AJAX.
+                $.ajax({
+                    type: "POST",
+                    url: "/Patient/InsertCarts",
+                    data: JSON.stringify(carts),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        //alert(r + " record(s) inserted.");
+                        if (r > 0) {
+                            //Update Notices if cart items have been succesfully added
+                            updateCartItems(UniqueCartID)
                         }
-                    });
+                    }
+                });
             });
         });
     </script>
     <script>
         //Add items to cart on clicking btnAddItems
         $(document).ready(function () {
-            /*
             $("#btnAddItems").click(function () {
-
-                var sessiondata = JSON.stringify(sessionStorage);
-                document.getElementById('warning-confirm-request').innerHTML = sessiondata;
-
-                $.ajax(
-                    {
-                        type: "POST",
-                        url: "/Patient/ShoppingItem",
-                        dataType: 'json',
-                        contentType: 'application/json;charset=UTF-8',
-                        data: sessiondata
-                    });
-                
-                
-            });
-            */
-            $("#btnAddItems").click(function () {
-
-                var UniqueCartID = 3;
-
-                //Loop through the product request table rows and build a JSON array for CartItems.
-                /*
-                var cartItems = new Array();
-                $("#tblConfirmRequest tbody tr").each(function () {
-                    var row = $(this);
-                    var cartItem = {};
-                    cartItem.CartID = UniqueCartID;
-                    cartItem.ProductID = row.find("TD").eq(0).html();
-                    cartItem.Price = row.find("TD").eq(3).html();
-                    cartItem.Quantity = row.find("TD").eq(5).html();
-                    cartItems.push(cartItem);
-                });
-
-                //Send the JSON array to InsertCartItems Controller using AJAX.
-                $.ajax({
-                    type: "POST",
-                    url: "/Patient/InsertCartItems",
-                    data: JSON.stringify(cartItems),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (r) {
-                        alert(r + " record(s) inserted.");
-                    }
-                });
-                */
-
-                //Loop through the product request table rows and build a JSON array for indications and alerts.
-                
-                var noticeItems = new Array();
-                var listItems = $("#modal-alert li");
-                for (let li of listItems) {
-                    var noticeItem = {};
-                    let noticeText = $(li).text();
-                    noticeItem.CartID = UniqueCartID;
-                    noticeItem.CategoryID = 5;
-                    noticeItem.NoticeText = noticeText;
-                    noticeItems.push(noticeItem);
-                }
-
-                //Add diagnosis to JSON array
-                var listDisorders = $("#sct2-selected-disorders li");
-                for (let li of listDisorders) {
-                    var noticeItem = {};
-                    let noticeText = $(li).text();
-                    noticeItem.CartID = UniqueCartID;
-                    noticeItem.CategoryID = 2;
-                    noticeItem.NoticeText = noticeText;
-                    noticeItems.push(noticeItem);
-                }
-
-                //Add procedures to JSON array
-                var listProcedures = $("#sct2-selected-values li");
-                for (let li of listProcedures) {
-                    var noticeItem = {};
-                    let noticeText = $(li).text();
-                    noticeItem.CartID = UniqueCartID;
-                    noticeItem.CategoryID = 3;
-                    noticeItem.NoticeText = noticeText;
-                    noticeItems.push(noticeItem);
-                }
-
-                //Add notices to JSON array
-                var array_notice = ["#notice_hb", "#notice_mcv", "#notice_platelet", "#notice_ffp"];
-                for (var i = 0; i < array_notice.length; i++) {
-                    var noticeItem = {};
-                    let noticeText = $(array_notice[i]).text();
-                    noticeItem.CartID = UniqueCartID;
-                    noticeItem.CategoryID = 4;
-                    noticeItem.NoticeText = noticeText;
-                    noticeItems.push(noticeItem);
-                }
-
-                //Send the JSON array to InsertNotices Controller using AJAX.
-                $.ajax({
-                    type: "POST",
-                    url: "/Patient/InsertNotices",
-                    data: JSON.stringify(noticeItems),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (r) {
-                        alert(r + " record(s) inserted.");
-                    }
-                });
+                var UniqueCartID = 11;
+                updateCartItems(UniqueCartID);
             });
         });
+    </script>
+    <script>
+        //Insert Cart Items
+        function updateCartItems(id) {
+            var cartItems = new Array();
+            $("#tblConfirmRequest tbody tr").each(function () {
+                var row = $(this);
+                var cartItem = {};
+                cartItem.CartID = id;
+                cartItem.ProductID = row.find("TD").eq(0).html();
+                cartItem.Price = row.find("TD").eq(3).html();
+                cartItem.Quantity = row.find("TD").eq(5).html();
+                cartItems.push(cartItem);
+            });
+
+            //Send the JSON array to InsertCartItems Controller using AJAX.
+            $.ajax({
+                type: "POST",
+                url: "/Patient/InsertCartItems",
+                data: JSON.stringify(cartItems),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    //alert(r + " record(s) inserted.");
+                    if (r > 0) {
+                        //Update Notices if cart items have been succesfully added
+                        UpdateNotices(id)
+                    }
+                }
+            });
+        }
+    </script>
+    <script>
+        //Insert Indications, Alerts, Diagnosis, Procedure codes and Notices 
+        function UpdateNotices(id) {
+            var noticeItems = new Array();
+            var listItems = $("#modal-alert li");
+            for (let li of listItems) {
+                var noticeItem = {};
+                let noticeText = $(li).text();
+                noticeItem.CartID = id;
+                noticeItem.CategoryID = 5;
+                noticeItem.NoticeText = noticeText;
+                noticeItems.push(noticeItem);
+            }
+
+            //Add diagnosis to JSON array
+            var listDisorders = $("#sct2-selected-disorders li");
+            for (let li of listDisorders) {
+                var noticeItem = {};
+                let noticeText = $(li).text();
+                noticeItem.CartID = id;
+                noticeItem.CategoryID = 2;
+                noticeItem.NoticeText = noticeText;
+                noticeItems.push(noticeItem);
+            }
+
+            //Add procedures to JSON array
+            var listProcedures = $("#sct2-selected-values li");
+            for (let li of listProcedures) {
+                var noticeItem = {};
+                let noticeText = $(li).text();
+                noticeItem.CartID = id;
+                noticeItem.CategoryID = 3;
+                noticeItem.NoticeText = noticeText;
+                noticeItems.push(noticeItem);
+            }
+
+            //Add notices to JSON array
+            var array_notice = ["#notice_hb", "#notice_mcv", "#notice_platelet", "#notice_ffp"];
+            for (var i = 0; i < array_notice.length; i++) {
+                var noticeItem = {};
+                let noticeText = $(array_notice[i]).text();
+                noticeItem.CartID = id;
+                noticeItem.CategoryID = 4;
+                noticeItem.NoticeText = noticeText;
+                noticeItems.push(noticeItem);
+            }
+
+            //Send the JSON array to InsertNotices Controller using AJAX.
+            $.ajax({
+                type: "POST",
+                url: "/Patient/InsertNotices",
+                data: JSON.stringify(noticeItems),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    alert(r + " record(s) inserted.");
+                }
+            });
+        }
     </script>
     <script>
         // ************************************************

@@ -737,6 +737,20 @@ namespace BloodLineV2.Controllers
 
         }
         */
+        public JsonResult InsertCarts(List<Cart> carts)
+        {
+            using (BBOrderEntities entities = new BBOrderEntities())
+            {
+                //Loop and insert records.
+                foreach (Cart cart in carts)
+                {
+                    entities.Carts.Add(cart);
+                }
+                int insertedRecords = entities.SaveChanges();
+                return Json(insertedRecords);
+            }
+        }
+
 
         public JsonResult InsertCartItems(List<CartItem> cartItems)
         {
