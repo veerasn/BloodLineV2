@@ -1858,19 +1858,23 @@
             });
             */
             $("#btnAddItems").click(function () {
-                //Loop through the product request table rows and build a JSON array.
+
+                var UniqueCartID = 3;
+
+                //Loop through the product request table rows and build a JSON array for CartItems.
+                /*
                 var cartItems = new Array();
                 $("#tblConfirmRequest tbody tr").each(function () {
                     var row = $(this);
                     var cartItem = {};
-                    cartItem.CartID = 1;
+                    cartItem.CartID = UniqueCartID;
                     cartItem.ProductID = row.find("TD").eq(0).html();
                     cartItem.Price = row.find("TD").eq(3).html();
                     cartItem.Quantity = row.find("TD").eq(5).html();
                     cartItems.push(cartItem);
                 });
 
-                //Send the JSON array to Controller using AJAX.
+                //Send the JSON array to InsertCartItems Controller using AJAX.
                 $.ajax({
                     type: "POST",
                     url: "/Patient/InsertCartItems",
@@ -1881,10 +1885,66 @@
                         alert(r + " record(s) inserted.");
                     }
                 });
+                */
 
+                //Loop through the product request table rows and build a JSON array for indications and alerts.
+                
+                var noticeItems = new Array();
+                var listItems = $("#modal-alert li");
+                for (let li of listItems) {
+                    var noticeItem = {};
+                    let noticeText = $(li).text();
+                    noticeItem.CartID = UniqueCartID;
+                    noticeItem.CategoryID = 5;
+                    noticeItem.NoticeText = noticeText;
+                    noticeItems.push(noticeItem);
+                }
+
+                //Add diagnosis to JSON array
+                var listDisorders = $("#sct2-selected-disorders li");
+                for (let li of listDisorders) {
+                    var noticeItem = {};
+                    let noticeText = $(li).text();
+                    noticeItem.CartID = UniqueCartID;
+                    noticeItem.CategoryID = 2;
+                    noticeItem.NoticeText = noticeText;
+                    noticeItems.push(noticeItem);
+                }
+
+                //Add procedures to JSON array
+                var listProcedures = $("#sct2-selected-values li");
+                for (let li of listProcedures) {
+                    var noticeItem = {};
+                    let noticeText = $(li).text();
+                    noticeItem.CartID = UniqueCartID;
+                    noticeItem.CategoryID = 3;
+                    noticeItem.NoticeText = noticeText;
+                    noticeItems.push(noticeItem);
+                }
+
+                //Add notices to JSON array
+                var array_notice = ["#notice_hb", "#notice_mcv", "#notice_platelet", "#notice_ffp"];
+                for (var i = 0; i < array_notice.length; i++) {
+                    var noticeItem = {};
+                    let noticeText = $(array_notice[i]).text();
+                    noticeItem.CartID = UniqueCartID;
+                    noticeItem.CategoryID = 4;
+                    noticeItem.NoticeText = noticeText;
+                    noticeItems.push(noticeItem);
+                }
+
+                //Send the JSON array to InsertNotices Controller using AJAX.
+                $.ajax({
+                    type: "POST",
+                    url: "/Patient/InsertNotices",
+                    data: JSON.stringify(noticeItems),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        alert(r + " record(s) inserted.");
+                    }
+                });
             });
-
-
         });
     </script>
     <script>

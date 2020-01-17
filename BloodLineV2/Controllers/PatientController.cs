@@ -720,6 +720,7 @@ namespace BloodLineV2.Controllers
             cn.Close();
         }
 
+        /*
         [HttpPost]
         public ActionResult ShoppingItem(ShoppingCartContents sessiondata)
         {
@@ -735,6 +736,7 @@ namespace BloodLineV2.Controllers
             var x3 = sessiondata.shoppingCart[3].name;
 
         }
+        */
 
         public JsonResult InsertCartItems(List<CartItem> cartItems)
         {
@@ -749,6 +751,20 @@ namespace BloodLineV2.Controllers
                 return Json(insertedRecords);
 
 
+            }
+        }
+
+        public JsonResult InsertNotices(List<Notice> notices)
+        {
+            using (BBOrderEntities entities = new BBOrderEntities())
+            {
+                //Loop and insert records.
+                foreach (Notice notice in notices)
+                {
+                    entities.Notices.Add(notice);
+                }
+                int insertedRecords = entities.SaveChanges();
+                return Json(insertedRecords);
             }
         }
 
