@@ -683,6 +683,7 @@ namespace BloodLineV2.Controllers
         }
 
         //Update Cart
+        /*
         private SqlConnection cn;
 
         //Post method to add new cart
@@ -694,6 +695,7 @@ namespace BloodLineV2.Controllers
         }
 
         //Handle connections
+        
         private void connection()
         {
             string cnStr = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
@@ -719,24 +721,8 @@ namespace BloodLineV2.Controllers
             com.ExecuteNonQuery();
             cn.Close();
         }
-
-        /*
-        [HttpPost]
-        public ActionResult ShoppingItem(ShoppingCartContents sessiondata)
-        {
-            AddShoppingItems(sessiondata);
-            return View();
-        }
-
-        private void AddShoppingItems(ShoppingCartContents sessiondata)
-        {
-            //var obj = new JavaScriptSerializer().Deserialize<ShoppingCartContents>(sessiondata);
-            var x1 = sessiondata.indication_redcell;
-            var x2 = sessiondata.alert_redcell;
-            var x3 = sessiondata.shoppingCart[3].name;
-
-        }
         */
+
         public JsonResult InsertCarts(List<Cart> carts)
         {
             using (BBOrderEntities entities = new BBOrderEntities())
@@ -751,7 +737,6 @@ namespace BloodLineV2.Controllers
             }
         }
 
-
         public JsonResult InsertCartItems(List<CartItem> cartItems)
         {
             using (BBOrderEntities entities = new BBOrderEntities())
@@ -763,8 +748,6 @@ namespace BloodLineV2.Controllers
                 }
                 int insertedRecords = entities.SaveChanges();
                 return Json(insertedRecords);
-
-
             }
         }
 
@@ -781,6 +764,5 @@ namespace BloodLineV2.Controllers
                 return Json(insertedRecords);
             }
         }
-
     }
 }

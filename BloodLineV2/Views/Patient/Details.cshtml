@@ -39,7 +39,7 @@
     <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar">
         <br>
         <div class="w3-container w3-row">
-
+            <a class="Update" href="javascript:; #review-request"> <i class="fa fa-file-medical"></i> </a>>
         </div>
         <hr>
         <div class="w3-container">
@@ -48,7 +48,9 @@
         <div class="w3-bar-block">
             <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
             <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="	fa fa-laptop-medical"></i>  Review and request</a>
-            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-vials"></i>  Obtain blood sample</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-vials"></i>  Obtain blood sample
+                 <span class="badge badge-pill badge-danger" id="cart-unchecked">1</span>
+            </a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-procedures"></i>  Transfuse and monitor</a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-allergies"></i>  Adverse event reporting</a>
         </div>
@@ -187,7 +189,6 @@
                         <i class="fa fa-first-aid"></i>
                         <sup>@ViewBag.InReserve</sup>
                     }
-                    @ViewBag.IssueIntNow
                 </div>
             </div>
         </div>
@@ -1166,6 +1167,13 @@
             </div>
         </div>
 
+        <!--Modal form - Review Request-->
+        <div class="modal fade" id="review-request" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+
+            </div>
+        </div>
+
         <!--Modal form - Indication-->
         <div class="modal fade" id="pick-indication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -1357,68 +1365,6 @@
             document.getElementById("RequiredDate").value = date;
             document.getElementById("RequiredTime").value = time;
             refreshTimeBadge();
-        }
-    </script>
-    <script>
-        //Update dropdown boxes and modal forms for procedures
-        $(function () {
-            $("#icd10-level1").on("change", function () {
-                updateIcd(this.value, 1);
-            })
-
-            $("#icd10-level2").on("change", function () {
-                updateIcd(this.value, 2);
-            })
-
-            $("#icd10-level3").on("change", function () {
-                updateIcd(this.value, 3);
-            })
-        });
-
-        function updateIcd(icd10value, level) {
-            var uri = "/Patient/GetProcedure";
-            var selectValue;
-            $.getJSON(uri, { icd10value: icd10value, level: level }).done(function (data) {
-                //Update level 2 ICD10 category codes after updating level 1 category dropdown
-                if (level == 1) {
-                    selectValue = $('#icd10-level2');
-                    selectValue.html("<option selected>Choose category</option>");
-                    var count = 0;
-                    $.each(data, function (key, item) {
-                        var arr = item.split("|")
-                        selectValue.append("<option value='" + arr[0] + "'>" + arr[1] + "</option>");
-                        count++;
-                    });
-                }
-                else if (level == 2) {
-                    //open modal form for selection of procedure
-                    selectValue = $('#icd10-level3');
-                    selectValue.html("<option selected>Choose subcategory</option>");
-                    var count = 0;
-                    $.each(data, function (key, item) {
-                        var arr = item.split("|")
-                        selectValue.append("<option value='" + arr[0] + "'>" + arr[1] + "</option>");
-                        count++;
-                    });
-
-                    $("#select-procedure").modal();
-
-                }
-                else if (level == 3) {
-                    //open modal form for selection of procedure
-                    selectValue = $('#icd10-level4');
-                    selectValue.html("<option selected>Choose procedure</option>");
-                    var count = 0;
-                    $.each(data, function (key, item) {
-                        var arr = item.split("|")
-                        selectValue.append("<option value='" + arr[0] + "'>" + arr[1] + "</option>");
-                        count++;
-                    });
-
-                    $("#select-procedure").modal();
-
-                }
-            });
         }
     </script>
 
@@ -1807,13 +1753,14 @@
             if (document.getElementById('warning-confirm-request').innerHTML == "") {
                 warn = "Request cleared";
                 alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
+            }
 
-                //Update request to Cart on clicking btnCartNew
-
+            //Create new cart and update Cart Items if the request has been cleared
+            if (document.getElementById('warning-confirm-request').innerHTML == "Request cleared") {
+                updateCarts();
             }
         }
     </script>
-
     <script>
         //Create new Cart
         $(document).ready(function () {
@@ -1859,13 +1806,45 @@
         });
     </script>
     <script>
-        //Add items to cart on clicking btnAddItems
-        $(document).ready(function () {
-            $("#btnAddItems").click(function () {
-                var UniqueCartID = 11;
-                updateCartItems(UniqueCartID);
+        function updateCarts() {
+            var carts = new Array();
+            var cart = {};
+            var currentdate = new Date(); 
+
+            var UniqueCartID = Math.floor((Math.random() * 10000000) + 90000000);
+
+            //Populate Cart info
+            cart.CartID = UniqueCartID ;
+            cart.UserId = 1;
+            cart.DateCreated = currentdate.getDate() + "/"
+                + (currentdate.getMonth() + 1) + "/"
+                + currentdate.getFullYear() + " "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes();
+            cart.CheckedOut = 0;
+            cart.Urgency = 1;
+            cart.Location = "6D";
+            cart.PatientID =@Model.FirstOrDefault().PATNUMBER;
+            cart.PatientName = "abc";
+            cart.Status = 0;
+            carts.push(cart);
+
+            //Send the JSON array to InsertCart Controller using AJAX.
+            $.ajax({
+                type: "POST",
+                url: "/Patient/InsertCarts",
+                data: JSON.stringify(carts),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    //alert(r + " record(s) inserted.");
+                    if (r > 0) {
+                        //Update Notices if cart items have been succesfully added
+                        updateCartItems(UniqueCartID)
+                    }
+                }
             });
-        });
+        }
     </script>
     <script>
         //Insert Cart Items
@@ -1954,6 +1933,7 @@
                 dataType: "json",
                 success: function (r) {
                     alert(r + " record(s) inserted.");
+                    //Show number of pending orders in orders badge
                 }
             });
         }
