@@ -1141,7 +1141,7 @@
                                     <th>Total</th>
                                 </tr>
                             </thead>
-                            <tbody class="show-cart">
+                            <tbody class="show-cart" id="show-cart">
                                 <!--Inject rows from displayCart js-->
                             </tbody>
                         </table>
@@ -1159,10 +1159,13 @@
                     <div>
                         <ul class="list-group list-group-flush list-group-item-danger" id="warning-confirm-request" style="list-style:none"></ul>
                     </div>
-                    <div>
+                    <div id="upload-request">
+                        <!--Insert btCartNew only when request is cleared-->
+                    </div>
+                    <!--div>
                         <input class="btn-default" type="button" id="btnCartNew" value="Save" />
                         <input class="btn-default" type="button" id="btnAddItems" value="Save" />
-                    </div>
+                    <div-->
                 </div>
             </div>
         </div>
@@ -1648,6 +1651,14 @@
         }
     </script>
     <script>
+        //Run confirm request each time request modal form is shown
+        $(document).ready(function () {
+            $('#cart').on('show.bs.modal', function (e) {
+                confirmRequest();
+            });
+        })
+    </script>
+    <script>
         //Request validation on clicking Confirm Request in modal-request
         function confirmRequest() {
             var table = document.getElementById("tblConfirmRequest");
@@ -1750,60 +1761,17 @@
             }
 
             //confirm request if no alerts
-            if (document.getElementById('warning-confirm-request').innerHTML == "") {
-                warn = "Request cleared";
-                alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
+            if (document.getElementById('warning-confirm-request').innerHTML == "" && !(document.getElementById('show-cart').innerHTML == "")) {
+                //warn = "Request cleared";
+                //alerts.append("<li class='list-group-item list-group-item-warning'>" + warn + "</li></span>");
+                var txt = "<button type='button' onclick='updateCarts()' class='btn btn-primary btn-lg btn-block'>Upload request</button>";
+                document.getElementById('upload-request').innerHTML = txt;
             }
-
-            //Create new cart and update Cart Items if the request has been cleared
-            if (document.getElementById('warning-confirm-request').innerHTML == "Request cleared") {
-                updateCarts();
+            else {
+                var txt = "";
+                document.getElementById('upload-request').innerHTML = txt;
             }
         }
-    </script>
-    <script>
-        //Create new Cart
-        $(document).ready(function () {
-            $("#btnCartNew").click(function () {
-                var carts = new Array();
-                var cart = {};
-                var currentdate = new Date(); 
-
-                var UniqueCartID = Math.floor((Math.random() * 10000000) + 90000000);
-
-                //Populate Cart info
-                cart.CartID = UniqueCartID ;
-                cart.UserId = 1;
-                cart.DateCreated = currentdate.getDate() + "/"
-                    + (currentdate.getMonth() + 1) + "/"
-                    + currentdate.getFullYear() + " "
-                    + currentdate.getHours() + ":"
-                    + currentdate.getMinutes();
-                cart.CheckedOut = 0;
-                cart.Urgency = 1;
-                cart.Location = "6D";
-                cart.PatientID =@Model.FirstOrDefault().PATNUMBER;
-                cart.PatientName = "abc";
-                cart.Status = 0;
-                carts.push(cart);
-
-                //Send the JSON array to InsertCart Controller using AJAX.
-                $.ajax({
-                    type: "POST",
-                    url: "/Patient/InsertCarts",
-                    data: JSON.stringify(carts),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (r) {
-                        //alert(r + " record(s) inserted.");
-                        if (r > 0) {
-                            //Update Notices if cart items have been succesfully added
-                            updateCartItems(UniqueCartID)
-                        }
-                    }
-                });
-            });
-        });
     </script>
     <script>
         function updateCarts() {
@@ -2039,6 +2007,7 @@
 
             // Clear cart
             obj.clearCart = function () {
+                sessionStorage.clear();
                 cart = [];
                 saveCart();
             }
@@ -2166,6 +2135,7 @@
                 }
             }
             alertProcedure(cProcedure);
+            confirmRequest();
         }
 
         //Add or clear for badge-procedure on update indication
