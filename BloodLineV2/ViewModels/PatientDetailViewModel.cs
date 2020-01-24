@@ -48,7 +48,7 @@ namespace BloodLineV2.ViewModels
         public string ANTIBODIES { get; set; }
         public string ABSHORT
         {
-            get { return ANTIBODIES != null ? ANTIBODIES.Substring(0, 5) : "AB:NEG"; }
+            get { return ANTIBODIES != null ? ANTIBODIES.Substring(0, 5) : "ABNEG"; }
         }
         public string REQUIREMENTS { get; set; }
         public string REFDOCTOR { get; set; }

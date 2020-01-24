@@ -67,7 +67,7 @@
     <!-- !PAGE CONTENT! -->
     <div class="w3-main" style="margin-left:300px;margin-top:43px;">
         <!--Patient Name Header-->
-        <header class="w3-container" >
+        <header class="w3-container">
             <h5>
                 <b>
                     <i class="fa fa-heart"></i> @Html.DisplayFor(model => model.FirstOrDefault().NAME) |
@@ -78,76 +78,101 @@
             </h5>
         </header>
         <!--Patient Result Summary-->
-        <div class="w3-row-padding w3-margin-bottom">
-            <!--ABO and RhD results-->
+        <div class="w3-row">
             <div class="w3-third">
-                <div class="w3-container w3-red w3-padding-16">
-                    <div class="w3-left">
-                        <div class="w3-clear"><h1><b>@Html.DisplayFor(model => model.FirstOrDefault().PATGROUP) </b></h1></div>
-                    </div>
-                    <div class="w3-right">
-                        @if (ViewBag.RhErr > 0 || ViewBag.AboErr > 0)
-                        {
-                            <i class="fa fa-exclamation"></i>
-                        }
-                        else
-                        {
-                            if (ViewBag.Abonum == 1)
+                <!--ABO and RhD results-->
+                <div class="w3-container">
+                    <div class="card border-info bg-info">
+                        <h5 class="card-header">
+                            ABO RhD
+                            @if (ViewBag.RhErr > 0 || ViewBag.AboErr > 0)
                             {
-                                <i class="fa fa-bars"></i>
+                                <i class="fa fa-exclamation"></i>
                             }
-                            else if (ViewBag.Abonum > 1)
+                            else
                             {
-                                <i class="fa fa-check-double"></i>
+                                if (ViewBag.Abonum == 1)
+                                {
+                                    <i class="fa fa-bars"></i>
+                                }
+                                else if (ViewBag.Abonum > 1)
+                                {
+                                    <i class="fa fa-check-double"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-question"></i>
+                                }
+                            }
+                        </h5>
+                        <div class="card-body">
+                            <h1 class="card-title">
+                                <b>@Html.DisplayFor(model => model.FirstOrDefault().PATGROUP) </b>
+                            </h1>
+                            <h6 class="card-subtitle mb-2"></h6>
+                            <p class="card-text"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-third">
+                <!--ABS results-->
+                <div class="w3-container">
+                    <div class="card border-warning bg-warning">
+                        <h5 class="card-header">
+                            Antibodies
+                            @if (ViewBag.Absnum > 0 && ViewBag.AbsErr == 0)
+                            {
+                                <i class="fa fa-user-shield"></i>
+                            }
+                            else if (ViewBag.AbsErr > 0)
+                            {
+                                <i class="fa fa-exclamation"></i>
                             }
                             else
                             {
                                 <i class="fa fa-question"></i>
                             }
-                        }
+                        </h5>
+                        <div class="card-body">
+                            <h1 class="card-title">
+                                @if (ViewBag.Absnum > 0 || ViewBag.AbsErr > 0)
+                                {
+                                    <b>@Html.DisplayFor(model => model.FirstOrDefault().ABSHORT)</b>
+                                }
+                                else
+                                {
+                                    <b>ABNTD</b>
+                                }
+                            </h1>
+                            <h6 class="card-subtitle mb-2"></h6>
+                            <p class="card-text"></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!--Antibody screening results-->
             <div class="w3-third">
-                <div class="w3-container w3-blue w3-padding-16">
-                    <div class="w3-left">
-                        @if (ViewBag.Absnum > 0 || ViewBag.AbsErr > 0)
-                        {
-                            <div class="w3-clear"><h1><b>@Html.DisplayFor(model => model.FirstOrDefault().ABSHORT)</b></h1></div>
-                        }
-                        else
-                        {
-                            <div class="w3-clear"><h1><b>AB:NR</b></h1></div>
-                        }
-                    </div>
-                    <div class="w3-right">
-                        @if (ViewBag.Absnum > 0 && ViewBag.AbsErr == 0)
-                        {
-                            <i class="fa fa-user-shield"></i>
-                        }
-                        else if (ViewBag.AbsErr > 0)
-                        {
-                            <i class="fa fa-exclamation"></i>
-                        }
-                        else
-                        {
-                            <i class="fa fa-question"></i>
-                        }
+                <!--XM Status-->
+                <div class="w3-container">
+                    <div class="card border-danger bg-danger">
+                        <h5 class="card-header">
+                            XM Status
+                        </h5>
+                        <div class="card-body">
+                            <h1 class="card-title">
+                                <b>@Html.DisplayFor(model => model.FirstOrDefault().EI)</b>
+                            </h1>
+                            <h6 class="card-subtitle mb-2"></h6>
+                            <p class="card-text"></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!--Electronic issue-->
-            <div class="w3-third">
-                <div class="w3-container w3-teal w3-padding-16">
-                    <div class="w3-left">
-                        <div class="w3-clear"><h1><b>@Html.DisplayFor(model => model.FirstOrDefault().EI)</b></h1></div>
-                    </div>
-                </div>
-            </div>
+        </div>
+        
+        <div class="w3-row-padding w3-margin-bottom">
             <!--Notifications and alerts-->
             <div class="w3-container w3-light-gray">
-                <p><b>Current status of patient and ongoing testing</b></p>
                 <div>
                     @if (ViewBag.RhErr > 0 || ViewBag.AboErr > 0)
                     {
@@ -1156,9 +1181,9 @@
                         <!--Insert btCartNew only when request is cleared-->
                     </div>
                     <!--div>
-                        <input class="btn-default" type="button" id="btnCartNew" value="Save" />
-                        <input class="btn-default" type="button" id="btnAddItems" value="Save" />
-                    <div-->
+                    <input class="btn-default" type="button" id="btnCartNew" value="Save" />
+                    <input class="btn-default" type="button" id="btnAddItems" value="Save" />
+                <div-->
                 </div>
             </div>
         </div>
