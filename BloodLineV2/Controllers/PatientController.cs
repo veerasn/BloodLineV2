@@ -560,7 +560,7 @@ namespace BloodLineV2.Controllers
             ViewBag.Indications = IndicationModel.IndicationAll();
 
             //return View("Details",Patient);
-            return View("Details", prodrequests);
+            return View("Details", "_Layout_Patient", prodrequests);
         }
 
         public JsonResult GetProcedure(string icd10value, int level)

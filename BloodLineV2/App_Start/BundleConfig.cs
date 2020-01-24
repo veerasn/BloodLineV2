@@ -25,9 +25,9 @@ namespace BloodLineV2
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/Site.css",
-                      "~/Content/w3.css"
+                        "~/Content/Site.css",
+                        "~/Content/bootstrap.css",
+                        "~/Content/w3.css"
                       ));
         }
     }

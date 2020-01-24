@@ -29,43 +29,35 @@
 </head>
 
 <body class="w3-light-grey">
-    <!-- Top container -->
-    <div class="w3-bar w3-black w3-large" style="z-index:4">
-        <button class="w3-bar-item w3-button w3-hide-large w3-hover w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
-        <span class="w3-bar-item w3-right">UMMC Blood Transfusion Information System</span>
-    </div>
 
     <!-- Sidebar/menu -->
     <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar">
-        <br>
-        <div class="w3-container w3-row">
-            <a class="Update" href="javascript:; #review-request"> <i class="fa fa-file-medical"></i> </a>>
-        </div>
-        <hr>
-        <div class="w3-container">
-            <h5>Make your choice</h5>
-        </div>
         <div class="w3-bar-block">
             <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
             <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="	fa fa-laptop-medical"></i>  Review and request</a>
-            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-vials"></i>  Obtain blood sample
-                 <span class="badge badge-pill badge-danger" id="cart-unchecked">1</span>
+            <a href="#" class="w3-bar-item w3-button w3-padding">
+                <i class="fa fa-vials"></i>  Obtain blood sample
+                <span class="badge badge-pill badge-danger" id="cart-unchecked">1</span>
             </a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-procedures"></i>  Transfuse and monitor</a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-allergies"></i>  Adverse event reporting</a>
         </div>
         <hr />
         <div class="w3-container">
-            <i class="fa fa-id-card"></i>
-            <script>sessionStorage.clear();</script>
-            <h5>@Html.DisplayFor(model => model.FirstOrDefault().NAME)</h5>
-            <h5>@Html.DisplayFor(model => model.FirstOrDefault().PATNUMBERSHORT)</h5>
-            <h5>@Html.DisplayFor(model => model.FirstOrDefault().BIRTHDATE)</h5>
-            <h5>@Html.DisplayFor(model => model.FirstOrDefault().SEXLONG)</h5>
-
-            <button type="button" class="btn btn-primary w3-padding" data-toggle="modal" data-target="#cart">Request (<span class="total-count"></span>)</button>
-            <button class="clear-cart btn btn-danger w3-padding">Cancel Request</button>
-
+            <div class="card border-info">
+                <h5 class="card-header">
+                    Patient Info
+                </h5>
+                <div class="card-body">
+                    <h4 class="card-title">@Html.DisplayFor(model => model.FirstOrDefault().NAME)</h4>
+                    <h6 class="card-subtitle mb-2">@Html.DisplayFor(model => model.FirstOrDefault().PATNUMBERSHORT)</h6>
+                    <p class="card-text">@Html.DisplayFor(model => model.FirstOrDefault().BIRTHDATE) | @Html.DisplayFor(model => model.FirstOrDefault().SEXLONG)</p>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary w3-padding" data-toggle="modal" data-target="#cart">Request (<span class="total-count"></span>)</button>
+                        <button class="clear-cart btn btn-danger w3-padding fa fa-trash"></button>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -75,7 +67,7 @@
     <!-- !PAGE CONTENT! -->
     <div class="w3-main" style="margin-left:300px;margin-top:43px;">
         <!--Patient Name Header-->
-        <header class="w3-container" style="padding-top:22px">
+        <header class="w3-container" >
             <h5>
                 <b>
                     <i class="fa fa-heart"></i> @Html.DisplayFor(model => model.FirstOrDefault().NAME) |
@@ -1778,7 +1770,7 @@
         function updateCarts() {
             var carts = new Array();
             var cart = {};
-            var currentdate = new Date(); 
+            var currentdate = new Date();
 
             var UniqueCartID = Math.floor((Math.random() * 10000000) + 90000000);
 
@@ -1847,7 +1839,7 @@
         }
     </script>
     <script>
-        //Insert Indications, Alerts, Diagnosis, Procedure codes and Notices 
+        //Insert Indications, Alerts, Diagnosis, Procedure codes and Notices
         function UpdateNotices(id) {
             var noticeItems = new Array();
             var listItems = $("#modal-alert li");

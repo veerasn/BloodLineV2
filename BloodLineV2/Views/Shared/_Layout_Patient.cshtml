@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <!--Testing navbar-->
+    <div class="w3-top">
+        <div class="w3-bar w3-dark-grey">
+            <a href="#" class="w3-bar-item w3-button w3-blue"><i class="fa fa-home"></i></a>
+            <button class="w3-bar-item w3-button w3-hide-large w3-hover w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i></button>
+            <span class="w3-bar-item">Bloodline</span>
+            <a href="#" class="w3-bar-item w3-button w3-blue w3-right"><i class="fa fa-user-circle-o"></i></a>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Blood Line - UMMC Transfusion Services Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
