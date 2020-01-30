@@ -13,6 +13,7 @@ using BloodLineV2.Models;
 using BloodLineV2.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft;
+using System.Windows;
 
 namespace BloodLineV2.Controllers
 {
@@ -764,5 +765,73 @@ namespace BloodLineV2.Controllers
                 return Json(insertedRecords);
             }
         }
+
+        
+        public JsonResult GetCartItems(string id)
+        {
+            var objCollection = (dynamic)null;
+            using (BBOrderEntities context= new BBOrderEntities()) {
+                objCollection = context.Carts.Where(o => o.PatientID == id).OrderBy(k => k.DateCreated).Select(w => new
+                {
+                    cartid = w.CartID,
+                    datecreated = w.DateCreated,
+                    userid = w.UserID,
+                    checkedout = w.CheckedOut,
+                    urgency = w.Urgency,
+                    location = w.Location,
+                    status = w.Status,
+                }).ToList();
+            }
+
+            return Json(objCollection, JsonRequestBehavior.AllowGet);
+        }
+
+
+        
+        public JsonResult GetCartItemsNew(string id)
+        {
+            var cn = new SqlConnection();
+            var dt = new DataTable();
+            string strCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
+
+            string s = id;
+            string queryString = @"SELECT c.CartID AS CartID, 
+                                    c.UserID AS UserID, 
+                                    c.DateCreated AS DateCreated, 
+                                    c.CheckedOut AS CheckedOut, 
+                                    c.Urgency AS Urgency, 
+                                    c.[Location] AS Location, 
+                                    c.[Status] AS Status, 
+		                            ci.ProductID AS ProductID, 
+                                    i.ProductName AS ProductName, 
+                                    ci.Quantity AS Quantity
+                                    FROM Cart c
+                                    INNER JOIN CartItems ci ON c.CartID = ci.CartID
+                                    INNER JOIN Item i ON ci.ProductID = i.ProductID
+                                    WHERE c.PatientID = '" + id + "'";
+
+            SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
+            da.Fill(dt);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+
+            //var x = serializer.Serialize(rows);
+            return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
+
+        }
+        
+
+
     }
 }

@@ -37,7 +37,7 @@
             <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="	fa fa-laptop-medical"></i>  Review and request</a>
             <a href="#" class="w3-bar-item w3-button w3-padding">
                 <i class="fa fa-vials"></i>  Obtain blood sample
-                <span class="badge badge-pill badge-danger" id="cart-unchecked">1</span>
+                <span class="badge badge-pill badge-danger" id="cart-unchecked">0</span>
             </a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-procedures"></i>  Transfuse and monitor</a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-allergies"></i>  Adverse event reporting</a>
@@ -50,7 +50,7 @@
                 </h5>
                 <div class="card-body">
                     <h4 class="card-title">@Html.DisplayFor(model => model.FirstOrDefault().NAME)</h4>
-                    <h6 class="card-subtitle mb-2">@Html.DisplayFor(model => model.FirstOrDefault().PATNUMBERSHORT)</h6>
+                    <h6 class="card-subtitle mb-2" id="unique-patient-id">@Html.DisplayFor(model => model.FirstOrDefault().PATNUMBERSHORT)</h6>
                     <p class="card-text">@Html.DisplayFor(model => model.FirstOrDefault().BIRTHDATE) | @Html.DisplayFor(model => model.FirstOrDefault().SEXLONG)</p>
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary w3-padding" data-toggle="modal" data-target="#cart">Request (<span class="total-count"></span>)</button>
@@ -1923,6 +1923,22 @@
                 }
             });
         }
+    </script>
+    <script>
+        //Update notification badge with number of unchecked requests
+        $(document).ready(function () {
+            var id = document.getElementById("unique-patient-id").innerHTML;
+            var selectValue = document.getElementById("cart-unchecked");
+            var uri = "/Patient/GetCartItemsNew";
+
+            $.getJSON(uri, { id: id }).done(function (data) {
+                var count;
+                //count = Object.keys(data).length;
+                count = JSON.parse(data).length;
+                selectValue.innerHTML = count;
+            });
+        });
+
     </script>
     <script>
         // ************************************************
