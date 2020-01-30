@@ -767,7 +767,7 @@ namespace BloodLineV2.Controllers
         }
 
         
-        public JsonResult GetCartItems(string id)
+        public JsonResult GetCarts(string id)
         {
             var objCollection = (dynamic)null;
             using (BBOrderEntities context= new BBOrderEntities()) {
@@ -787,8 +787,7 @@ namespace BloodLineV2.Controllers
         }
 
 
-        
-        public JsonResult GetCartItemsNew(string id)
+        public JsonResult GetCartItems(string id)
         {
             var cn = new SqlConnection();
             var dt = new DataTable();
@@ -796,19 +795,18 @@ namespace BloodLineV2.Controllers
 
             string s = id;
             string queryString = @"SELECT c.CartID AS CartID, 
-                                    c.UserID AS UserID, 
-                                    c.DateCreated AS DateCreated, 
-                                    c.CheckedOut AS CheckedOut, 
-                                    c.Urgency AS Urgency, 
-                                    c.[Location] AS Location, 
-                                    c.[Status] AS Status, 
-		                            ci.ProductID AS ProductID, 
-                                    i.ProductName AS ProductName, 
-                                    ci.Quantity AS Quantity
+	                                    c.UserID AS UserID, 
+	                                    c.DateCreated AS DateCreated, 
+                                        c.CheckedOut AS CheckedOut, 
+                                        c.Urgency AS Urgency, 
+                                        c.[Location] AS Location, 
+                                        c.[Status] AS Status, 
+	                                    STRING_AGG(CONCAT(i.ProductName, ' (', ci.ProductID, ') - ', ci.Quantity) , ';' ) AS Items
                                     FROM Cart c
                                     INNER JOIN CartItems ci ON c.CartID = ci.CartID
                                     INNER JOIN Item i ON ci.ProductID = i.ProductID
-                                    WHERE c.PatientID = '" + id + "'";
+                                    WHERE c.PatientID = '" + id + "' " +  
+                                    "GROUP BY c.CartID, c.UserID, c.DateCreated, c.CheckedOut, c.Urgency, c.[Location], c.[Status] ORDER BY c.DateCreated DESC";
 
             SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
             da.Fill(dt);
@@ -826,12 +824,7 @@ namespace BloodLineV2.Controllers
                 rows.Add(row);
             }
 
-            //var x = serializer.Serialize(rows);
             return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
-
         }
-        
-
-
     }
 }

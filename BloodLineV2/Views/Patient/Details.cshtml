@@ -1929,7 +1929,7 @@
         $(document).ready(function () {
             var id = document.getElementById("unique-patient-id").innerHTML;
             var selectValue = document.getElementById("cart-unchecked");
-            var uri = "/Patient/GetCartItemsNew";
+            var uri = "/Patient/GetCartItems";
 
             $.getJSON(uri, { id: id }).done(function (data) {
                 var count;
