@@ -1399,6 +1399,11 @@
         <!-- End page content -->
     </div>
     <script>
+        window.onbeforeunload = function (e) {
+            sessionStorage.clear();
+        }
+    </script>
+    <script>
         // Get the Sidebar
         var mySidebar = document.getElementById("mySidebar");
 
@@ -2136,20 +2141,33 @@
                 x += carouselHead + "<div class='card' >"
                     + "<div class='card-body pb-3' >"
                     + "<div class='card-header'>"
-                    + "<i class='fa fa-heart float-right text-danger' data-placement='top'></i>"
-                    + "<h4 class='card-title font-weight-bold'>" + objResults[i].CartID + "</h4>"
-                    + "<p class='card-subtitle mb-2 text-muted'>" + objResults[i].DateCreated + "</p>"
+                        + "<i class='fa fa-heart float-right text-danger' data-placement='top'></i>"
+                        + "<h4 class='card-title font-weight-bold'>" + objResults[i].CartID + "</h4>"
+                        + "<p class='card-subtitle mb-2 text-muted'>" + objResults[i].DateCreated + "</p>"
                     + "</div>"
                     + "<div class='d-flex justify-content-between'>"
-                    + "<ul class='list-group list-group-flush'>" + listItems + "</ul>"
+                       + "<ul class='list-group list-group-flush'>" + listItems + "</ul>"
                     + "</div><hr class=''>"
                     + "<div class='progress md-progress'>"
-                    + "<div class='progress-bar progress-bar-" + progress + "' role='progressbar' style='width: " + d +"%' aria-valuenow='" + d + "' aria-valuemin='0' aria-valuemax='100'></div>"
-                    + "</div> <ul class='list-unstyled d-flex justify-content-between font-small text-muted mb-4'>"
+                        + "<div class='progress-bar progress-bar-" + progress + "' role='progressbar' style='width: " + d +"%' aria-valuenow='" + d + "' aria-valuemin='0' aria-valuemax='100'></div>"
+                    + "</div>"
+                    + "<ul class='list-unstyled d-flex justify-content-between font-small text-muted mb-4'>"
                     + "<li class='pl-3'>0</li><li>24</li><li>48</li><li class='pr-3'>72</li></ul>"
+                    + "<div class='input-group mb-3'>"
+                        + "<input type='text' class='form-control' placeholder='Patient RN' aria-label='Patient RN' aria-describedby='basic-addon2'>"
+                        + "<input type='text' class='form-control' placeholder='Sample ID' aria-label='Sample ID' aria-describedby='basic-addon2'>"
+                        //+ "<div class='alert alert-danger' role='alert'>X</div>"
+                        + "<div class='input-group-append'>"
+                            //+ "<div class='btn - group' role='group' aria-label='First group>"
+                                //+ "<button class='btn btn-outline-danger' type='button'>X</button>"
+                                + "<span class='input-group-text'>?</span>"
+                                + "<button class='btn btn-outline-primary' type='button'>Submit</button>"
+                            //+ "</div>"
+                        + "</div>"
+                    + "</div>"
                     + "<div class='card-footer'>"
-                    + "<i class='fas fa-print fa-lg text-primary pr-4'></i>" + fasyringe
-                    + "<small class='text-muted text-right'>" + footer + "</small>"
+                        + "<i class='fas fa-print fa-lg text-primary pr-4'></i>" + fasyringe
+                        + "<small class='text-muted text-right'>" + footer + "</small>"
                     + "</div>"
                     + "</div>"
                     + "</div>"
