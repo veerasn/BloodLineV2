@@ -36,7 +36,7 @@
             <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
             <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="	fa fa-laptop-medical"></i>  Review and request</a>
             <a href="#" class="w3-bar-item w3-button w3-padding"  data-toggle="modal" data-target="#review-requests">
-                <i class="fa fa-vials"></i>  Obtain blood sample
+                <i class="fa fa-vials"></i>  Prepare sample and submit
                 <span class="badge badge-pill badge-danger" id="cart-unchecked">0</span>
             </a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-procedures"></i>  Transfuse and monitor</a>
@@ -2115,10 +2115,10 @@
                     progress = "warning"
                 }
 
-                //Customise fa accoring to sample status
+                //Customise fa according to sample status
                 if (objResults[i].CheckedOut == 0) {
                     if (objResults[i].Items.includes("T-")) {
-                        fasyringe = "<i class='fas fa-syringe fa-lg text-danger pr-4'></i>"
+                        fasyringe = "<span onclick = 'toggleSubmitReq(" + objResults[i].CartID + ")'><i class='fas fa-syringe fa-lg text-danger pr-4'></i></span>"
                     }
                 }
 
@@ -2153,16 +2153,14 @@
                     + "</div>"
                     + "<ul class='list-unstyled d-flex justify-content-between font-small text-muted mb-4'>"
                     + "<li class='pl-3'>0</li><li>24</li><li>48</li><li class='pr-3'>72</li></ul>"
-                    + "<div class='input-group mb-3'>"
-                        + "<input type='text' class='form-control' placeholder='Patient RN' aria-label='Patient RN' aria-describedby='basic-addon2'>"
-                        + "<input type='text' class='form-control' placeholder='Sample ID' aria-label='Sample ID' aria-describedby='basic-addon2'>"
-                        //+ "<div class='alert alert-danger' role='alert'>X</div>"
-                        + "<div class='input-group-append'>"
-                            //+ "<div class='btn - group' role='group' aria-label='First group>"
-                                //+ "<button class='btn btn-outline-danger' type='button'>X</button>"
-                                + "<span class='input-group-text'>?</span>"
-                                + "<button class='btn btn-outline-primary' type='button'>Submit</button>"
-                            //+ "</div>"
+                    + "<div id='request-" + objResults[i].CartID + "' style='display:none'>"
+                        + "<div class='input-group mb-3'>"
+                            + "<input type='text' class='form-control' placeholder='Patient RN' aria-label='Patient RN' aria-describedby='basic-addon2'>"
+                            + "<input type='text' class='form-control' placeholder='Sample ID' aria-label='Sample ID' aria-describedby='basic-addon2'>"
+                            + "<div class='input-group-append'>"
+                                    + "<span class='input-group-text'><i class='fas fa-question fa-sm text-primary pr-4'></i></span>"
+                                    + "<button class='btn btn-outline-primary' type='button'>Submit</button>"
+                            + "</div>"
                         + "</div>"
                     + "</div>"
                     + "<div class='card-footer'>"
@@ -2177,6 +2175,16 @@
             document.getElementById("requests-carousel-inner").innerHTML = x;
         }
 
+    </script>
+    <script>
+        function toggleSubmitReq(val) {
+            var x = document.getElementById("request-" + val);
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
     </script>
 
     <script>
