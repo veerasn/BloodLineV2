@@ -796,7 +796,8 @@ namespace BloodLineV2.Controllers
             string s = id;
             string queryString = @"SELECT c.CartID AS CartID, 
 	                                    c.UserID AS UserID, 
-	                                    c.DateCreated AS DateCreated, 
+	                                    CONVERT(nvarchar, c.DateCreated, 100) AS DateCreated, 
+                                        DATEDIFF(hour, c.DateCreated, GETDATE()) AS Interval,
                                         c.CheckedOut AS CheckedOut, 
                                         c.Urgency AS Urgency, 
                                         c.[Location] AS Location, 
