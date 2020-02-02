@@ -1944,7 +1944,7 @@
             var cart = {};
             var currentdate = new Date();
 
-            var UniqueCartID = Math.floor((Math.random() * 10000000) + 90000000);
+            var UniqueCartID = Date.now();
 
             //Populate Cart info
             cart.CartID = UniqueCartID ;
@@ -1972,7 +1972,7 @@
                 success: function (r) {
                     //alert(r + " record(s) inserted.");
                     if (r > 0) {
-                        //Update Notices if cart items have been succesfully added
+                        //Update cart items if cart has been succesfully added
                         updateCartItems(UniqueCartID)
                     }
                 }
@@ -2155,11 +2155,11 @@
                     + "<li class='pl-3'>0</li><li>24</li><li>48</li><li class='pr-3'>72</li></ul>"
                     + "<div id='request-" + objResults[i].CartID + "' style='display:none'>"
                         + "<div class='input-group mb-3'>"
-                            + "<input type='text' class='form-control' placeholder='Patient RN' aria-label='Patient RN' aria-describedby='basic-addon2'>"
-                            + "<input type='text' class='form-control' placeholder='Sample ID' aria-label='Sample ID' aria-describedby='basic-addon2'>"
+                            + "<input type='text' value = '' id='patient-" + objResults[i].CartID + "' class='form-control' placeholder='Patient RN' aria-label='Patient RN' aria-describedby='basic-addon2'>"
+                            + "<input type='text' value = '' id='sample-" + objResults[i].CartID + "' class='form-control' placeholder='Sample ID' aria-label='Sample ID' aria-describedby='basic-addon2'>"
                             + "<div class='input-group-append'>"
-                                    + "<span class='input-group-text'><i class='fas fa-question fa-sm text-primary pr-4'></i></span>"
-                                    + "<button class='btn btn-outline-primary' type='button'>Submit</button>"
+                                    + "<span class='input-group-text' id='identity-" + objResults[i].CartID + "'><i class='fas fa-question fa-sm text-primary pr-4'></i></span>"
+                                    + "<button class='btn btn-outline-primary' type='button' onclick = 'verifyIdentity(" + objResults[i].CartID + ")' id='submit-" + objResults[i].CartID + "'>Submit</button>"
                             + "</div>"
                         + "</div>"
                     + "</div>"
@@ -2184,6 +2184,30 @@
             } else {
                 x.style.display = "none";
             }
+        }
+    </script>
+    <script>
+        function verifyIdentity(val) {
+            /*
+            var p = "patient-" + val;
+            var s = "sample-" + val;
+            var i = "identity-" + val;
+            alert(p + s + i);
+            */
+            var x = document.getElementById("patient-" + val).value;
+            var y = document.getElementById("sample-" + val).value;
+
+            if (x != "" && y != "") {
+                if (x == y) {
+                    document.getElementById("identity-" + val).innerHTML = "<i class='fas fa-thumbs-up fa-sm text-primary pr-4'></i>";
+                } else {
+                    document.getElementById("identity-" + val).innerHTML = "<i class='fas fa-thumbs-down fa-sm text-primary pr-4'></i>";
+                }
+            }
+            else {
+                document.getElementById("identity-" + val).innerHTML = "<i class='fas fa-question fa-sm text-primary pr-4'></i>";
+            }
+            
         }
     </script>
 

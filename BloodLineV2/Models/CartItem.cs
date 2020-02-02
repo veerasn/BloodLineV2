@@ -15,12 +15,10 @@ namespace BloodLineV2.Models
     public partial class CartItem
     {
         public int CartItemID { get; set; }
-        public Nullable<int> CartID { get; set; }
+        public long CartID { get; set; }
         public string ProductID { get; set; }
-        public Nullable<int> Quantity { get; set; }
-        public Nullable<decimal> Price { get; set; }
-        public string Indication { get; set; }
-        public string Alert { get; set; }
+        public int Quantity { get; set; }
+        public decimal Price { get; set; }
     
         public virtual Cart Cart { get; set; }
         public virtual Item Item { get; set; }

@@ -76,5 +76,34 @@ namespace BloodLineV2.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CartNew", cartIDParameter, userIDParameter, dateCreatedParameter, checkedOutParameter, urgencyParameter, locationParameter, patientIDParameter, patientNameParameter, statusParameter);
         }
+    
+        public virtual int InsertBBOrder(Nullable<int> cartID, Nullable<int> userID, Nullable<int> urgency, string location, string patientID, string patientName)
+        {
+            var cartIDParameter = cartID.HasValue ?
+                new ObjectParameter("CartID", cartID) :
+                new ObjectParameter("CartID", typeof(int));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var urgencyParameter = urgency.HasValue ?
+                new ObjectParameter("Urgency", urgency) :
+                new ObjectParameter("Urgency", typeof(int));
+    
+            var locationParameter = location != null ?
+                new ObjectParameter("Location", location) :
+                new ObjectParameter("Location", typeof(string));
+    
+            var patientIDParameter = patientID != null ?
+                new ObjectParameter("PatientID", patientID) :
+                new ObjectParameter("PatientID", typeof(string));
+    
+            var patientNameParameter = patientName != null ?
+                new ObjectParameter("PatientName", patientName) :
+                new ObjectParameter("PatientName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertBBOrder", cartIDParameter, userIDParameter, urgencyParameter, locationParameter, patientIDParameter, patientNameParameter);
+        }
     }
 }

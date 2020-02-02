@@ -9,27 +9,30 @@
           <Key>
             <PropertyRef Name="CartID" />
           </Key>
-          <Property Name="CartID" Type="int" Nullable="false" />
+          <Property Name="CartID" Type="bigint" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
-          <Property Name="CheckedOut" Type="bit" Nullable="false" />
-          <Property Name="Urgency" Type="int" />
+          <Property Name="SampleID" Type="int" />
+          <Property Name="SampleTransmitTime" Type="datetime" />
+          <Property Name="CheckedOut" Type="smallint" Nullable="false" />
+          <Property Name="CheckedOutTime" Type="datetime" />
+          <Property Name="CheckedIn" Type="smallint" Nullable="false" />
+          <Property Name="CheckedInTime" Type="datetime" />
+          <Property Name="Urgency" Type="smallint" Nullable="false" />
           <Property Name="Location" Type="varchar" MaxLength="12" />
-          <Property Name="PatientID" Type="varchar" MaxLength="20" />
+          <Property Name="PatientID" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="PatientName" Type="varchar" MaxLength="255" />
-          <Property Name="Status" Type="int" />
+          <Property Name="Status" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="CartItems">
           <Key>
             <PropertyRef Name="CartItemID" />
           </Key>
           <Property Name="CartItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CartID" Type="int" />
+          <Property Name="CartID" Type="bigint" Nullable="false" />
           <Property Name="ProductID" Type="varchar" MaxLength="12" />
-          <Property Name="Quantity" Type="int" />
-          <Property Name="Price" Type="money" />
-          <Property Name="Indication" Type="varchar" MaxLength="255" />
-          <Property Name="Alert" Type="text" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -95,7 +98,7 @@
             <PropertyRef Name="NoticeID" />
           </Key>
           <Property Name="NoticeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CartID" Type="int" Nullable="false" />
+          <Property Name="CartID" Type="bigint" Nullable="false" />
           <Property Name="CategoryId" Type="int" Nullable="false" />
           <Property Name="NoticeText" Type="varchar(max)" />
         </EntityType>
@@ -106,7 +109,7 @@
           <Property Name="RoleId" Type="int" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK__Cart__UserID__619B8048">
+        <Association Name="FK__Cart__UserID__3A4CA8FD">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
           <ReferentialConstraint>
@@ -118,8 +121,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CartItems__CartI__76969D2E">
-          <End Role="Cart" Type="Self.Cart" Multiplicity="0..1" />
+        <Association Name="FK__CartItems__CartI__40058253">
+          <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
           <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cart">
@@ -130,7 +133,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CartItems__Produ__778AC167">
+        <Association Name="FK__CartItems__Produ__40F9A68C">
           <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
           <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
           <ReferentialConstraint>
@@ -166,7 +169,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Notices__CartID__73BA3083">
+        <Association Name="FK__Notices__CartID__47A6A41B">
           <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
           <End Role="Notices" Type="Self.Notices" Multiplicity="*" />
           <ReferentialConstraint>
@@ -178,7 +181,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Notices__Categor__72C60C4A">
+        <Association Name="FK__Notices__Categor__489AC854">
           <End Role="Category" Type="Self.Category" Multiplicity="1" />
           <End Role="Notices" Type="Self.Notices" Multiplicity="*" />
           <ReferentialConstraint>
@@ -213,6 +216,14 @@
           <Parameter Name="PatientName" Type="varchar" Mode="In" />
           <Parameter Name="Status" Type="int" Mode="In" />
         </Function>
+        <Function Name="InsertBBOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CartID" Type="int" Mode="In" />
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="Urgency" Type="int" Mode="In" />
+          <Parameter Name="Location" Type="varchar" Mode="In" />
+          <Parameter Name="PatientID" Type="varchar" Mode="In" />
+          <Parameter Name="PatientName" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="BBOrderModelStoreContainer">
           <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CartItems" EntityType="Self.CartItems" Schema="dbo" store:Type="Tables" />
@@ -222,15 +233,15 @@
           <EntitySet Name="MemberRole" EntityType="Self.MemberRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notices" EntityType="Self.Notices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Cart__UserID__619B8048" Association="Self.FK__Cart__UserID__619B8048">
+          <AssociationSet Name="FK__Cart__UserID__3A4CA8FD" Association="Self.FK__Cart__UserID__3A4CA8FD">
             <End Role="Member" EntitySet="Member" />
             <End Role="Cart" EntitySet="Cart" />
           </AssociationSet>
-          <AssociationSet Name="FK__CartItems__CartI__76969D2E" Association="Self.FK__CartItems__CartI__76969D2E">
+          <AssociationSet Name="FK__CartItems__CartI__40058253" Association="Self.FK__CartItems__CartI__40058253">
             <End Role="Cart" EntitySet="Cart" />
             <End Role="CartItems" EntitySet="CartItems" />
           </AssociationSet>
-          <AssociationSet Name="FK__CartItems__Produ__778AC167" Association="Self.FK__CartItems__Produ__778AC167">
+          <AssociationSet Name="FK__CartItems__Produ__40F9A68C" Association="Self.FK__CartItems__Produ__40F9A68C">
             <End Role="Item" EntitySet="Item" />
             <End Role="CartItems" EntitySet="CartItems" />
           </AssociationSet>
@@ -242,11 +253,11 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="MemberRole" EntitySet="MemberRole" />
           </AssociationSet>
-          <AssociationSet Name="FK__Notices__CartID__73BA3083" Association="Self.FK__Notices__CartID__73BA3083">
+          <AssociationSet Name="FK__Notices__CartID__47A6A41B" Association="Self.FK__Notices__CartID__47A6A41B">
             <End Role="Cart" EntitySet="Cart" />
             <End Role="Notices" EntitySet="Notices" />
           </AssociationSet>
-          <AssociationSet Name="FK__Notices__Categor__72C60C4A" Association="Self.FK__Notices__Categor__72C60C4A">
+          <AssociationSet Name="FK__Notices__Categor__489AC854" Association="Self.FK__Notices__Categor__489AC854">
             <End Role="Category" EntitySet="Category" />
             <End Role="Notices" EntitySet="Notices" />
           </AssociationSet>
@@ -264,32 +275,35 @@
           <Key>
             <PropertyRef Name="CartID" />
           </Key>
-          <Property Name="CartID" Type="Int32" Nullable="false" />
+          <Property Name="CartID" Type="Int64" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CheckedOut" Type="Boolean" Nullable="false" />
-          <Property Name="Urgency" Type="Int32" />
+          <Property Name="SampleID" Type="Int32" />
+          <Property Name="SampleTransmitTime" Type="DateTime" Precision="3" />
+          <Property Name="CheckedOut" Type="Int16" Nullable="false" />
+          <Property Name="CheckedOutTime" Type="DateTime" Precision="3" />
+          <Property Name="CheckedIn" Type="Int16" Nullable="false" />
+          <Property Name="CheckedInTime" Type="DateTime" Precision="3" />
+          <Property Name="Urgency" Type="Int16" Nullable="false" />
           <Property Name="Location" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="PatientID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PatientID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PatientName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Member" Relationship="Self.FK__Cart__UserID__619B8048" FromRole="Cart" ToRole="Member" />
-          <NavigationProperty Name="CartItems" Relationship="Self.FK__CartItems__CartI__76969D2E" FromRole="Cart" ToRole="CartItems" />
-          <NavigationProperty Name="Notices" Relationship="Self.FK__Notices__CartID__73BA3083" FromRole="Cart" ToRole="Notices" />
+          <Property Name="Status" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="Self.FK__Cart__UserID__3A4CA8FD" FromRole="Cart" ToRole="Member" />
+          <NavigationProperty Name="CartItems" Relationship="Self.FK__CartItems__CartI__40058253" FromRole="Cart" ToRole="CartItems" />
+          <NavigationProperty Name="Notices" Relationship="Self.FK__Notices__CartID__47A6A41B" FromRole="Cart" ToRole="Notices" />
         </EntityType>
         <EntityType Name="CartItem">
           <Key>
             <PropertyRef Name="CartItemID" />
           </Key>
           <Property Name="CartItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CartID" Type="Int32" />
+          <Property Name="CartID" Type="Int64" Nullable="false" />
           <Property Name="ProductID" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="Quantity" Type="Int32" />
-          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="Indication" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Alert" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Cart" Relationship="Self.FK__CartItems__CartI__76969D2E" FromRole="CartItems" ToRole="Cart" />
-          <NavigationProperty Name="Item" Relationship="Self.FK__CartItems__Produ__778AC167" FromRole="CartItems" ToRole="Item" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Cart" Relationship="Self.FK__CartItems__CartI__40058253" FromRole="CartItems" ToRole="Cart" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__CartItems__Produ__40F9A68C" FromRole="CartItems" ToRole="Item" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -299,7 +313,7 @@
           <Property Name="CategoryName" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDelete" Type="Boolean" />
-          <NavigationProperty Name="Notices" Relationship="Self.FK__Notices__Categor__72C60C4A" FromRole="Category" ToRole="Notices" />
+          <NavigationProperty Name="Notices" Relationship="Self.FK__Notices__Categor__489AC854" FromRole="Category" ToRole="Notices" />
           <NavigationProperty Name="Items" Relationship="Self.FK__Product__Categor__4BAC3F29" FromRole="Category" ToRole="Item" />
         </EntityType>
         <EntityType Name="Item">
@@ -320,7 +334,7 @@
           <Property Name="IsDelete" Type="Boolean" />
           <Property Name="CreatedDate" Type="DateTime" Precision="0" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="CartItems" Relationship="Self.FK__CartItems__Produ__778AC167" FromRole="Item" ToRole="CartItems" />
+          <NavigationProperty Name="CartItems" Relationship="Self.FK__CartItems__Produ__40F9A68C" FromRole="Item" ToRole="CartItems" />
           <NavigationProperty Name="Category" Relationship="Self.FK__Product__Categor__4BAC3F29" FromRole="Item" ToRole="Category" />
         </EntityType>
         <EntityType Name="Member">
@@ -345,7 +359,7 @@
           <Property Name="ConsultantId" Type="Int32" />
           <Property Name="GenderId" Type="Int32" />
           <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Carts" Relationship="Self.FK__Cart__UserID__619B8048" FromRole="Member" ToRole="Cart" />
+          <NavigationProperty Name="Carts" Relationship="Self.FK__Cart__UserID__3A4CA8FD" FromRole="Member" ToRole="Cart" />
           <NavigationProperty Name="MemberRoles" Relationship="Self.FK__MemberRol__Membe__5CD6CB2B" FromRole="Member" ToRole="MemberRole" />
         </EntityType>
         <EntityType Name="MemberRole">
@@ -363,11 +377,11 @@
             <PropertyRef Name="NoticeID" />
           </Key>
           <Property Name="NoticeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CartID" Type="Int32" Nullable="false" />
+          <Property Name="CartID" Type="Int64" Nullable="false" />
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
           <Property Name="NoticeText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Cart" Relationship="Self.FK__Notices__CartID__73BA3083" FromRole="Notices" ToRole="Cart" />
-          <NavigationProperty Name="Category" Relationship="Self.FK__Notices__Categor__72C60C4A" FromRole="Notices" ToRole="Category" />
+          <NavigationProperty Name="Cart" Relationship="Self.FK__Notices__CartID__47A6A41B" FromRole="Notices" ToRole="Cart" />
+          <NavigationProperty Name="Category" Relationship="Self.FK__Notices__Categor__489AC854" FromRole="Notices" ToRole="Category" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -377,7 +391,7 @@
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MemberRoles" Relationship="Self.FK__MemberRol__RoleI__5DCAEF64" FromRole="Roles" ToRole="MemberRole" />
         </EntityType>
-        <Association Name="FK__Cart__UserID__619B8048">
+        <Association Name="FK__Cart__UserID__3A4CA8FD">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
           <ReferentialConstraint>
@@ -389,8 +403,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CartItems__CartI__76969D2E">
-          <End Role="Cart" Type="Self.Cart" Multiplicity="0..1" />
+        <Association Name="FK__CartItems__CartI__40058253">
+          <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
           <End Role="CartItems" Type="Self.CartItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cart">
@@ -401,7 +415,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Notices__CartID__73BA3083">
+        <Association Name="FK__Notices__CartID__47A6A41B">
           <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
           <End Role="Notices" Type="Self.Notice" Multiplicity="*" />
           <ReferentialConstraint>
@@ -413,7 +427,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CartItems__Produ__778AC167">
+        <Association Name="FK__CartItems__Produ__40F9A68C">
           <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
           <End Role="CartItems" Type="Self.CartItem" Multiplicity="*" />
           <ReferentialConstraint>
@@ -425,7 +439,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Notices__Categor__72C60C4A">
+        <Association Name="FK__Notices__Categor__489AC854">
           <End Role="Category" Type="Self.Category" Multiplicity="1" />
           <End Role="Notices" Type="Self.Notice" Multiplicity="*" />
           <ReferentialConstraint>
@@ -482,23 +496,23 @@
           <EntitySet Name="MemberRoles" EntityType="Self.MemberRole" />
           <EntitySet Name="Notices" EntityType="Self.Notice" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
-          <AssociationSet Name="FK__Cart__UserID__619B8048" Association="Self.FK__Cart__UserID__619B8048">
+          <AssociationSet Name="FK__Cart__UserID__3A4CA8FD" Association="Self.FK__Cart__UserID__3A4CA8FD">
             <End Role="Member" EntitySet="Members" />
             <End Role="Cart" EntitySet="Carts" />
           </AssociationSet>
-          <AssociationSet Name="FK__CartItems__CartI__76969D2E" Association="Self.FK__CartItems__CartI__76969D2E">
+          <AssociationSet Name="FK__CartItems__CartI__40058253" Association="Self.FK__CartItems__CartI__40058253">
             <End Role="Cart" EntitySet="Carts" />
             <End Role="CartItems" EntitySet="CartItems" />
           </AssociationSet>
-          <AssociationSet Name="FK__Notices__CartID__73BA3083" Association="Self.FK__Notices__CartID__73BA3083">
+          <AssociationSet Name="FK__Notices__CartID__47A6A41B" Association="Self.FK__Notices__CartID__47A6A41B">
             <End Role="Cart" EntitySet="Carts" />
             <End Role="Notices" EntitySet="Notices" />
           </AssociationSet>
-          <AssociationSet Name="FK__CartItems__Produ__778AC167" Association="Self.FK__CartItems__Produ__778AC167">
+          <AssociationSet Name="FK__CartItems__Produ__40F9A68C" Association="Self.FK__CartItems__Produ__40F9A68C">
             <End Role="Item" EntitySet="Items" />
             <End Role="CartItems" EntitySet="CartItems" />
           </AssociationSet>
-          <AssociationSet Name="FK__Notices__Categor__72C60C4A" Association="Self.FK__Notices__Categor__72C60C4A">
+          <AssociationSet Name="FK__Notices__Categor__489AC854" Association="Self.FK__Notices__Categor__489AC854">
             <End Role="Category" EntitySet="Categories" />
             <End Role="Notices" EntitySet="Notices" />
           </AssociationSet>
@@ -525,6 +539,14 @@
             <Parameter Name="PatientName" Mode="In" Type="String" />
             <Parameter Name="Status" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="InsertBBOrder">
+            <Parameter Name="CartID" Mode="In" Type="Int32" />
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="Urgency" Mode="In" Type="Int32" />
+            <Parameter Name="Location" Mode="In" Type="String" />
+            <Parameter Name="PatientID" Mode="In" Type="String" />
+            <Parameter Name="PatientName" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -538,7 +560,12 @@
                 <ScalarProperty Name="CartID" ColumnName="CartID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="SampleID" ColumnName="SampleID" />
+                <ScalarProperty Name="SampleTransmitTime" ColumnName="SampleTransmitTime" />
                 <ScalarProperty Name="CheckedOut" ColumnName="CheckedOut" />
+                <ScalarProperty Name="CheckedOutTime" ColumnName="CheckedOutTime" />
+                <ScalarProperty Name="CheckedIn" ColumnName="CheckedIn" />
+                <ScalarProperty Name="CheckedInTime" ColumnName="CheckedInTime" />
                 <ScalarProperty Name="Urgency" ColumnName="Urgency" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="PatientID" ColumnName="PatientID" />
@@ -555,8 +582,6 @@
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Indication" ColumnName="Indication" />
-                <ScalarProperty Name="Alert" ColumnName="Alert" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -642,6 +667,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="CartNew" FunctionName="BBOrderModel.Store.CartNew" />
+          <FunctionImportMapping FunctionImportName="InsertBBOrder" FunctionName="BBOrderModel.Store.InsertBBOrder" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

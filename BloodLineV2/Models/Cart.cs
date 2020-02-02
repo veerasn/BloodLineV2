@@ -21,15 +21,20 @@ namespace BloodLineV2.Models
             this.Notices = new HashSet<Notice>();
         }
     
-        public int CartID { get; set; }
+        public long CartID { get; set; }
         public int UserID { get; set; }
         public System.DateTime DateCreated { get; set; }
-        public bool CheckedOut { get; set; }
-        public Nullable<int> Urgency { get; set; }
+        public Nullable<int> SampleID { get; set; }
+        public Nullable<System.DateTime> SampleTransmitTime { get; set; }
+        public short CheckedOut { get; set; }
+        public Nullable<System.DateTime> CheckedOutTime { get; set; }
+        public short CheckedIn { get; set; }
+        public Nullable<System.DateTime> CheckedInTime { get; set; }
+        public short Urgency { get; set; }
         public string Location { get; set; }
         public string PatientID { get; set; }
         public string PatientName { get; set; }
-        public Nullable<int> Status { get; set; }
+        public short Status { get; set; }
     
         public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

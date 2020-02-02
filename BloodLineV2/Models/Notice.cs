@@ -15,7 +15,7 @@ namespace BloodLineV2.Models
     public partial class Notice
     {
         public int NoticeID { get; set; }
-        public int CartID { get; set; }
+        public long CartID { get; set; }
         public int CategoryId { get; set; }
         public string NoticeText { get; set; }
     
