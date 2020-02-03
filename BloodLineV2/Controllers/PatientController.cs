@@ -766,7 +766,7 @@ namespace BloodLineV2.Controllers
             }
         }
 
-        
+
         public JsonResult GetCarts(string id)
         {
             var objCollection = (dynamic)null;
@@ -784,6 +784,38 @@ namespace BloodLineV2.Controllers
             }
 
             return Json(objCollection, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPatientSampleIds(long id)
+        {
+            var cn = new SqlConnection();
+            var dt = new DataTable();
+            string strCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
+
+            long s = id;
+            string queryString = @"SELECT c.CartID AS CartID, 
+	                                    c.PatientID,
+                                        c.SampleID
+                                    FROM Cart c
+                                    WHERE c.CartID = " + id;
+
+            SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
+            da.Fill(dt);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+
+            return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
         }
 
 

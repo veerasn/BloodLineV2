@@ -2187,28 +2187,38 @@
         }
     </script>
     <script>
+        //Check if patient id matches to sample id before checking out the request
         function verifyIdentity(val) {
-            /*
-            var p = "patient-" + val;
-            var s = "sample-" + val;
-            var i = "identity-" + val;
-            alert(p + s + i);
-            */
+
             var x = document.getElementById("patient-" + val).value;
             var y = document.getElementById("sample-" + val).value;
 
             if (x != "" && y != "") {
-                if (x == y) {
-                    document.getElementById("identity-" + val).innerHTML = "<i class='fas fa-thumbs-up fa-sm text-primary pr-4'></i>";
-                } else {
-                    document.getElementById("identity-" + val).innerHTML = "<i class='fas fa-thumbs-down fa-sm text-primary pr-4'></i>";
-                }
+                var uri = "/Patient/GetPatientSampleIds";
+                $.getJSON(uri, { id: val }).done(function (data) {
+                    var count;
+                    var objResults = JSON.parse(data);
+                    count = JSON.parse(data).length;
+                    if (count == 1 && objResults[0].SampleID != null) {
+                        if (x == objResults[0].PatientID && y == objResults[0].SampleID) {
+                            var html = "<i class='fas fa-thumbs-up fa-sm text-primary pr-4'></i>";
+                        } else {
+                            var html = "<i class='fas fa-thumbs-down fa-sm text-primary pr-4'></i>";
+                        }
+                    }
+                    else {
+                        var html = "<i class='fas fa-window-close fa-sm text-primary pr-4'></i>";
+                    }
+
+                    document.getElementById("identity-" + val).innerHTML = html;
+                });
             }
             else {
-                document.getElementById("identity-" + val).innerHTML = "<i class='fas fa-question fa-sm text-primary pr-4'></i>";
+                var html = "<i class='fas fa-question fa-sm text-primary pr-4'></i>";
+                document.getElementById("identity-" + val).innerHTML = html;
             }
-            
         }
+
     </script>
 
     <script>
