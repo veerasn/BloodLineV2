@@ -1,0 +1,61 @@
+﻿@model BloodLineV2.Models.ProductInfoModel
+
+@{
+    ViewBag.Title = "Blood Product Information";
+    Layout = "~/Views/Shared/_Layout_Patient.cshtml";
+}
+
+<div class="row row-cols-1 row-cols-md-2">
+    <div class="col mb-4">
+        <div class="card h-100 bg-info text-white">
+            <div class="card-body">
+                <h1>RCWB</h1>
+                <h6>Whole Blood</h6>
+            </div>
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+    <div class="col mb-4">
+        <div class="card h-100 bg-warning text-white">
+            <img class="card-img" src="~/Content/images/rcwb-1.jpg" />
+
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+    <div class="col mb-4">
+        <div class="card h-100 bg-warning text-white">
+            <div class="card-body">
+                <h4 class="card-title">Storage: 4(+-2) oC</h4>
+                <h4 class="card-title">Shelf life: 21-35 days</h4>
+                <h6 class="card-text">
+                    Units should not be exposed to temperatures exceeding 10C for more than 30 minutes. Red cells
+                    stored or transported under suboptimal temperatures undergo haemolysis and be conducive for
+                    bacterial growth and therefore may not be suitable for transfusion.
+                </h6>
+            </div>
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+    <div class="col mb-4">
+        <div class="card h-100 bg-info text-white">
+            <div class="card-body">
+                <h4 class="card-title"></h4>
+                <h4 class="card-title"></h4>
+                <h6 class="card-text">
+                    Contains unseparated red blood cells from blood donors, suspended in anticoagulant solution (CPD/CPDA-1).
+                    Whole blood does not contain viable platelets or coagulation factors.
+                    Final average haematocrit is 38% in total volume of 350 - 400 mls.
+                </h6>
+            </div>
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+</div>
