@@ -831,6 +831,7 @@ namespace BloodLineV2.Controllers
 	                                    CONVERT(nvarchar, c.DateCreated, 100) AS DateCreated, 
                                         DATEDIFF(hour, c.DateCreated, GETDATE()) AS Interval,
                                         c.CheckedOut AS CheckedOut, 
+                                        c.CheckedIn AS CheckedIn,
                                         c.Urgency AS Urgency, 
                                         c.[Location] AS Location, 
                                         c.[Status] AS Status, 
@@ -838,8 +839,8 @@ namespace BloodLineV2.Controllers
                                     FROM Cart c
                                     INNER JOIN CartItems ci ON c.CartID = ci.CartID
                                     INNER JOIN Item i ON ci.ProductID = i.ProductID
-                                    WHERE c.PatientID = '" + id + "' " +  
-                                    "GROUP BY c.CartID, c.UserID, c.DateCreated, c.CheckedOut, c.Urgency, c.[Location], c.[Status] ORDER BY c.DateCreated DESC";
+                                    WHERE c.PatientID = '" + id + "' AND c.CheckedIn = 0" +  
+                                    "GROUP BY c.CartID, c.UserID, c.DateCreated, c.CheckedOut, c.CheckedIn, c.Urgency, c.[Location], c.[Status] ORDER BY c.DateCreated DESC";
 
             SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
             da.Fill(dt);
@@ -858,6 +859,19 @@ namespace BloodLineV2.Controllers
             }
 
             return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult UpdateCheckedOut(long id)
+        {
+            using (BBOrderEntities context = new BBOrderEntities())
+            {
+                Cart record = context.Carts.Find(id);
+                record.CheckedOut = 1;
+                record.CheckedOutTime = DateTime.Now;
+                context.SaveChanges();
+
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

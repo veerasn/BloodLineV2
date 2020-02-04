@@ -2116,9 +2116,20 @@
                 }
 
                 //Customise fa according to sample status
-                if (objResults[i].CheckedOut == 0) {
-                    if (objResults[i].Items.includes("T-")) {
-                        fasyringe = "<span onclick = 'toggleSubmitReq(" + objResults[i].CartID + ")'><i class='fas fa-syringe fa-lg text-danger pr-4'></i></span>"
+                if (objResults[i].Items.includes("T-")) { 
+                    if (objResults[i].CheckedIn == 0) {
+                        if (objResults[i].CheckedOut == 0) {
+                            fasyringe = "<span id = 'sample-status-" + objResults[i].CartID + "' onclick = 'toggleSubmitReq(" + objResults[i].CartID + ")'><i class='fas fa-syringe fa-lg text-danger pr-4'></i></span>"
+                        }
+                        else if (objResults[i].CheckedOut == 1) {
+                            fasyringe = "<span id = 'sample-status-" + objResults[i].CartID + "' onclick = ''><i class='fas fa-vials fa-lg text-danger pr-4'></i></span>"
+                        }
+                        else {
+                            fasyringe = "";
+                        }
+                    }
+                    else {
+                        fasyringe = "";
                     }
                 }
 
@@ -2202,6 +2213,9 @@
                     if (count == 1 && objResults[0].SampleID != null) {
                         if (x == objResults[0].PatientID && y == objResults[0].SampleID) {
                             var html = "<i class='fas fa-thumbs-up fa-sm text-primary pr-4'></i>";
+                            //Update Cart as CheckedOut if patientID and sampleID matches i.e.valid sample has been taken
+                            checkedOut(val);
+
                         } else {
                             var html = "<i class='fas fa-thumbs-down fa-sm text-primary pr-4'></i>";
                         }
@@ -2217,6 +2231,26 @@
                 var html = "<i class='fas fa-question fa-sm text-primary pr-4'></i>";
                 document.getElementById("identity-" + val).innerHTML = html;
             }
+        }
+
+        function checkedOut(val) {
+            $.ajax({
+                url: "/Patient/UpdateCheckedOut",
+                method: "Post",
+                data: {
+                    id: val
+                }
+            }).done(function () {
+                alert("Cart " + val + " checked out.");
+                //Check out
+                //Change syringe icon to vial and inactivate toggle for patient and sample verifications
+                document.getElementById("sample-status-" + val).innerHTML = "<i class='fas fa-vials fa-lg text-danger pr-4'></i>";
+                document.getElementById("sample-status-" + val).setAttribute("onclick", "");
+                document.getElementById("request-" + val).setAttribute("style", "display:none")
+                
+            }).error(function () {
+                alert("Error in checking out cart");
+            });
         }
 
     </script>
