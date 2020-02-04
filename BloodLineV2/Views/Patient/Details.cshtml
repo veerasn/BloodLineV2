@@ -1399,11 +1399,6 @@
         <!-- End page content -->
     </div>
     <script>
-        window.onbeforeunload = function (e) {
-            sessionStorage.clear();
-        }
-    </script>
-    <script>
         // Get the Sidebar
         var mySidebar = document.getElementById("mySidebar");
 
@@ -2066,7 +2061,13 @@
                 dataType: "json",
                 success: function (r) {
                     alert(r + " record(s) inserted.");
-                    //Show number of pending orders in orders badge
+                    
+                    //Clear sessionStorage  and close modal
+                    $("#cart").modal("hide");
+                    sessionStorage.clear();
+
+                    //Reload page to clear all entries and update number of non submitted request
+                    location.reload(true);
                 }
             });
         }
