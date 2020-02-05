@@ -5,22 +5,14 @@
     Layout = "~/Views/Shared/_Layout_Patient.cshtml";
 }
 
-<div class="row row-cols-1 row-cols-md-2">
-    <div class="col mb-4">
-        <div class="card h-100 bg-info text-white">
-            <div class="card-body">
-                <h1>RCWB</h1>
-                <h6>Whole Blood</h6>
-            </div>
-            <div class="card-footer">
-                +
-            </div>
-        </div>
-    </div>
+<div class="row row-cols-1 row-cols-sm-1">
     <div class="col mb-4">
         <div class="card h-100 bg-warning text-white">
             <img class="card-img" src="~/Content/images/rcwb-1.jpg" />
-
+            <div class="card-body">
+                <h1><b>RCWB</b></h1>
+                <h6>Whole Blood</h6>
+            </div>
             <div class="card-footer">
                 +
             </div>
@@ -58,4 +50,119 @@
             </div>
         </div>
     </div>
+    <div class="col-md-12  mb-4">
+        <div class="card h-100 bg-light text-black-50">
+            <div class="card-header">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#indications">Indications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#contraindications">Contraindications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#dosage">Dosage</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="indications">
+                            <ul class="list-group list-group-mine">
+                                <li class="list-group-item">
+                                    Critical deficit of oxygen carrying capacity in a bleeding patient
+                                </li>
+                                <li class="list-group-item">
+                                    Red cell exchange
+                                </li>
+                            </ul>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="contraindications">
+                            <div class="alert alert-info">
+                                Use with caution in patients with cardiac failure or with risk of fluid overload, 
+                                as the large volume of the product poses risk of transfusion-associated cardiac overload (TACO).
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="dosage">
+                            <div class="alert alert-info">
+                                Number of units transfused is dependant on degree of red cell loss as result of acute bleeding.
+                                Suggested volume for neonatal red cell exchange is 160 ml/kg.  Refer to info-sheet RCWB-ET for 
+                                additional required information.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 bg-info text-white">
+                <div class="card-body">
+                    <h4 class="card-title">Modifications</h4>
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action">Leucodepleted</a>
+                        <a href="#" class="list-group-item list-group-item-action">Irradiated</a>
+                    </div>
+                    <h6 class="card-text">
+                        
+                    </h6>
+                </div>
+                <div class="card-footer">
+                    Refer to relevant info-sheets for information regarding above secondary modifications
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 mb-4">
+            <div class="card-header">
+                <h2>Pre-transfusion testing requirements</h2>
+            </div>
+            <div class="card-body">
+                <h6 class="card-text">
+                    All patients planned for red cells transfusions must have a correct ABO and RhD type on record.
+                    Transfused red cells must be ABO compatible to the patient at all times.
+                    RhD- patients should always be transfused RhD- blood unless in emergency situations or in post-menopausal females and elderly males.
+                    A valid antibody screen to identify the presence of atypical antibodies capable of causing haemolytic transfusion reaction or reducing
+                    survival of the transfused red cells should be performed and if antibodies are identified, antigen negative red cells will need to be issued.
+                </h6>
+            </div>
+            <div class="card-footer">
+                <h4>Minimum sample requirements</h4>
+                <table class="table w-auto text-sm-left table-striped">
+                    <thead class="thead-dark">
+                        <tr class="d-flex">
+                            <th class="col-3" >Age group</th>
+                            <th class="col-9">Sample requirements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="d-flex">
+                            <td class="col-3">Adult</td>
+                            <td class="col-9">3 ml in one EDTA tube</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-3">Child (> 12 months)</td>
+                            <td class="col-9">3 ml in one EDTA tube</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-3">Infant (4 - 12 months)</td>
+                            <td class="col-9">1 ml each in two microtainer EDTA tubes</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-3">Infant (0 - 4 months)</td>
+                            <td class="col-9">1 ml in one microtainer EDTA tubes + 3 ml of biological mother's
+                                sample in one EDTA tube, on first transfusion. No further testing required for
+                                subsequent transfusions if no atypical maternal antibodies identified.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+
