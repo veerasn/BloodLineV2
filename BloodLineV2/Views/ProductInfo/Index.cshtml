@@ -45,56 +45,32 @@
             <div class="card-footer">
                 +
             </div>
-        </div>
-    </div>
-    <div class="col-md-12  mb-4">
-        <div class="card h-100 bg-light text-black-50">
-            <div class="card-header">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#indications">Indications</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#contraindications">Contraindications</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#dosage">Dosage</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="card-body">
-                <div class="container-fluid">
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="indications">
-                            <ul class="list-group list-group-mine">
-                                <li class="list-group-item">
-                                    Critical deficit of oxygen carrying capacity in a bleeding patient
-                                </li>
-                                <li class="list-group-item">
-                                    Red cell exchange
-                                </li>
-                            </ul>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="contraindications">
-                            <div class="alert alert-info">
-                                @Html.Raw(Model.FirstOrDefault().contraindication.ToString())
-                            </div>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="dosage">
-                            <div class="alert alert-info">
-                                @Html.Raw(Model.FirstOrDefault().dosage.ToString())
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                +
-            </div>
-        </div>
+        </div>                                                                                                                                                                                                                              
     </div>
     <div class="card-group">
-
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Indications</h4>
+                    <h6 class="card-text" id="list-indications"></h6>
+                    <h4 class="card-title">Contraindications</h4>
+                    <div class="alert alert-info">
+                        @Html.Raw(Model.FirstOrDefault().contraindication.ToString())
+                    </div>
+                    <h4 class="card-title">Dosage</h4>
+                    <div class="alert alert-info">
+                        @Html.Raw(Model.FirstOrDefault().dosage.ToString())
+                    </div>
+                </div>
+                <div class="card-footer">
+                    +
+                </div>
+            </div>
+        </div>    
+    </div>
+    
+    
+    <div class="card-group">
         <div class="col-md-9 mb-4">
             <div class="card-header">
                 <h2>@Html.Raw(Model.FirstOrDefault().test_header.ToString())</h2>
@@ -113,9 +89,7 @@
                             <th class="col-9">Sample requirements</th>
                         </tr>
                     </thead>
-                    <tbody id="table-sample-requirements">
-
-                    </tbody>
+                    <tbody id="table-sample-requirements"></tbody>
                 </table>
             </div>
         </div>
@@ -152,7 +126,24 @@
         <div class="card h-100 bg-light text-black-50">
             <div class="card-header"><h2>@Html.Raw(Model.FirstOrDefault().table_title.ToString())</h2></div>
             <div class="card-body">
-                @Html.Raw(Model.FirstOrDefault().table.ToString())
+                <table class="table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-2" rowspan="2"></th>
+                            <th class="col-2" rowspan="2">Pre-transfusion vital signs?</th>
+                            <th class="col-3" colspan="3">Stay at patient bedside?</th>
+                            <th class="col-3" colspan="2">Vital signs during transfusion</th>
+                            <th class="col-2" rowspan="2">Post-transfusion monitoring</th>
+                        </tr>
+                        <tr>
+                            <th class="col-1">First 5 minutes</th>
+                            <th class="col-1">5-10 minutes</th>
+                            <th class="col-1">10-15 minutes</th>
+                            <th class="col-1">After 15 minutes</th>
+                            <th class="col-1">Remainder of transfusion</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
             <div class="card-footer">
                 Refer to relevant info-sheets for information regarding above secondary modifications
@@ -202,10 +193,6 @@
         document.getElementById("list-administration").innerHTML = txt;
     })
 </script>
-<tr class="d-flex">
-    <td class="col-3">Adult</td>
-    <td class="col-9">3 ml in one EDTA tube</td>
-</tr>
 <script>
     $(document).ready(function () {
         var str1 = ('@Model.FirstOrDefault().sample_requirement_L1');
@@ -223,5 +210,21 @@
             txt = txt +  "<tr class='d-flex'><td class='col-3'>" + arr1[i] + "</td><td class='col-9'>" + arr2[i] + "</td></tr>";
         }
         document.getElementById("table-sample-requirements").innerHTML = txt;
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        var str = ('@Model.FirstOrDefault().indications');
+        var arr = new Array();
+        arr = str.split("|");
+
+        var txt = "";
+
+        for (i = 0; i < arr.length; i++) {
+            txt += "<li class='list-group-item'>" + arr[i] + "</li >";
+        }
+
+        txt = "<ul class='list-group list-group-mine'>" + txt + "</ul>";
+        document.getElementById("list-indications").innerHTML = txt;
     })
 </script>
