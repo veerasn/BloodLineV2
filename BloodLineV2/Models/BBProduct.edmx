@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BBProductsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Modifications">
+          <Key>
+            <PropertyRef Name="modification_code" />
+          </Key>
+          <Property Name="modification_code" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="header" Type="nvarchar" MaxLength="255" />
+          <Property Name="description" Type="nvarchar" MaxLength="255" />
+          <Property Name="mod_products" Type="nvarchar" MaxLength="255" />
+          <Property Name="notes" Type="ntext" />
+          <Property Name="indication" Type="ntext" />
+          <Property Name="text" Type="ntext" />
+          <Property Name="image" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Product_brief">
+          <Key>
+            <PropertyRef Name="CODE" />
+          </Key>
+          <Property Name="CODE" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="PRODUCT NAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="CONTENTS" Type="nvarchar" MaxLength="255" />
+          <Property Name="VOLUME" Type="nvarchar" MaxLength="255" />
+          <Property Name="RECOMMEDED DOSAGE" Type="nvarchar" MaxLength="255" />
+          <Property Name="ADDITIONAL REQUIREMENTS" Type="ntext" />
+        </EntityType>
+        <EntityType Name="Product_Info">
+          <Key>
+            <PropertyRef Name="prod_bloodline" />
+          </Key>
+          <Property Name="code" Type="nvarchar" MaxLength="255" />
+          <Property Name="prod_bloodline" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="prodname_abr" Type="nvarchar" MaxLength="255" />
+          <Property Name="prodname_full" Type="nvarchar" MaxLength="255" />
+          <Property Name="prod_notes" Type="nvarchar" MaxLength="255" />
+          <Property Name="storage" Type="nvarchar" MaxLength="255" />
+          <Property Name="shelflife" Type="nvarchar" MaxLength="255" />
+          <Property Name="transport" Type="ntext" />
+          <Property Name="prod_description" Type="ntext" />
+          <Property Name="indications" Type="ntext" />
+          <Property Name="contraindication" Type="ntext" />
+          <Property Name="dosage" Type="nvarchar" MaxLength="255" />
+          <Property Name="test_header" Type="nvarchar" MaxLength="255" />
+          <Property Name="testing" Type="ntext" />
+          <Property Name="sample_requirement_L1" Type="nvarchar" MaxLength="255" />
+          <Property Name="sample_requirement_L2" Type="nvarchar" MaxLength="255" />
+          <Property Name="modification" Type="nvarchar" MaxLength="255" />
+          <Property Name="table_title" Type="nvarchar" MaxLength="255" />
+          <Property Name="table" Type="ntext" />
+          <Property Name="administration" Type="ntext" />
+          <Property Name="adverse_reactions" Type="ntext" />
+          <Property Name="pdf_link" Type="nvarchar" MaxLength="255" />
+          <Property Name="image1_link" Type="nvarchar" MaxLength="255" />
+          <Property Name="image2_link" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Test_brief">
+          <Key>
+            <PropertyRef Name="CODE" />
+          </Key>
+          <Property Name="CODE" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="TEST NAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="TEST DESCRIPTION" Type="ntext" />
+          <Property Name="TEST VALIDITY" Type="nvarchar" MaxLength="255" />
+          <Property Name="SAMPLE REQUIREMENT" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityContainer Name="BBProductsModelStoreContainer">
+          <EntitySet Name="Modifications" EntityType="Self.Modifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_brief" EntityType="Self.Product_brief" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_Info" EntityType="Self.Product_Info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Test_brief" EntityType="Self.Test_brief" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BBProductsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Modification">
+          <Key>
+            <PropertyRef Name="modification_code" />
+          </Key>
+          <Property Name="modification_code" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="header" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="mod_products" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="indication" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Product_brief">
+          <Key>
+            <PropertyRef Name="CODE" />
+          </Key>
+          <Property Name="CODE" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PRODUCT_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CONTENTS" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="VOLUME" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RECOMMEDED_DOSAGE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ADDITIONAL_REQUIREMENTS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Product_Info">
+          <Key>
+            <PropertyRef Name="prod_bloodline" />
+          </Key>
+          <Property Name="code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="prod_bloodline" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="prodname_abr" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="prodname_full" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="prod_notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="storage" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="shelflife" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="transport" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="prod_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="indications" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="contraindication" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dosage" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="test_header" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="testing" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sample_requirement_L1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="sample_requirement_L2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="modification" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="table_title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="table" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="administration" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="adverse_reactions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="pdf_link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="image1_link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="image2_link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Test_brief">
+          <Key>
+            <PropertyRef Name="CODE" />
+          </Key>
+          <Property Name="CODE" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TEST_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TEST_DESCRIPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TEST_VALIDITY" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SAMPLE_REQUIREMENT" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="BBProductsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Modifications" EntityType="Self.Modification" />
+          <EntitySet Name="Product_brief" EntityType="Self.Product_brief" />
+          <EntitySet Name="Product_Info" EntityType="Self.Product_Info" />
+          <EntitySet Name="Test_brief" EntityType="Self.Test_brief" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BBProductsModelStoreContainer" CdmEntityContainer="BBProductsEntities">
+          <EntitySetMapping Name="Modifications">
+            <EntityTypeMapping TypeName="BBProductsModel.Modification">
+              <MappingFragment StoreEntitySet="Modifications">
+                <ScalarProperty Name="modification_code" ColumnName="modification_code" />
+                <ScalarProperty Name="header" ColumnName="header" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="mod_products" ColumnName="mod_products" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="indication" ColumnName="indication" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="image" ColumnName="image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_brief">
+            <EntityTypeMapping TypeName="BBProductsModel.Product_brief">
+              <MappingFragment StoreEntitySet="Product_brief">
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="PRODUCT_NAME" ColumnName="PRODUCT NAME" />
+                <ScalarProperty Name="CONTENTS" ColumnName="CONTENTS" />
+                <ScalarProperty Name="VOLUME" ColumnName="VOLUME" />
+                <ScalarProperty Name="RECOMMEDED_DOSAGE" ColumnName="RECOMMEDED DOSAGE" />
+                <ScalarProperty Name="ADDITIONAL_REQUIREMENTS" ColumnName="ADDITIONAL REQUIREMENTS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Info">
+            <EntityTypeMapping TypeName="BBProductsModel.Product_Info">
+              <MappingFragment StoreEntitySet="Product_Info">
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="prod_bloodline" ColumnName="prod_bloodline" />
+                <ScalarProperty Name="prodname_abr" ColumnName="prodname_abr" />
+                <ScalarProperty Name="prodname_full" ColumnName="prodname_full" />
+                <ScalarProperty Name="prod_notes" ColumnName="prod_notes" />
+                <ScalarProperty Name="storage" ColumnName="storage" />
+                <ScalarProperty Name="shelflife" ColumnName="shelflife" />
+                <ScalarProperty Name="transport" ColumnName="transport" />
+                <ScalarProperty Name="prod_description" ColumnName="prod_description" />
+                <ScalarProperty Name="indications" ColumnName="indications" />
+                <ScalarProperty Name="contraindication" ColumnName="contraindication" />
+                <ScalarProperty Name="dosage" ColumnName="dosage" />
+                <ScalarProperty Name="test_header" ColumnName="test_header" />
+                <ScalarProperty Name="testing" ColumnName="testing" />
+                <ScalarProperty Name="sample_requirement_L1" ColumnName="sample_requirement_L1" />
+                <ScalarProperty Name="sample_requirement_L2" ColumnName="sample_requirement_L2" />
+                <ScalarProperty Name="modification" ColumnName="modification" />
+                <ScalarProperty Name="table_title" ColumnName="table_title" />
+                <ScalarProperty Name="table" ColumnName="table" />
+                <ScalarProperty Name="administration" ColumnName="administration" />
+                <ScalarProperty Name="adverse_reactions" ColumnName="adverse_reactions" />
+                <ScalarProperty Name="pdf_link" ColumnName="pdf_link" />
+                <ScalarProperty Name="image1_link" ColumnName="image1_link" />
+                <ScalarProperty Name="image2_link" ColumnName="image2_link" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Test_brief">
+            <EntityTypeMapping TypeName="BBProductsModel.Test_brief">
+              <MappingFragment StoreEntitySet="Test_brief">
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="TEST_NAME" ColumnName="TEST NAME" />
+                <ScalarProperty Name="TEST_DESCRIPTION" ColumnName="TEST DESCRIPTION" />
+                <ScalarProperty Name="TEST_VALIDITY" ColumnName="TEST VALIDITY" />
+                <ScalarProperty Name="SAMPLE_REQUIREMENT" ColumnName="SAMPLE REQUIREMENT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

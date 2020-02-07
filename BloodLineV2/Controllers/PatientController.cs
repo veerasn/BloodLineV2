@@ -58,6 +58,7 @@ namespace BloodLineV2.Controllers
             if (Patient == null)
             {
                 return HttpNotFound();
+                //Amend to allow search on eMR and return patient demographics if record not found in TDBB
             }
 
             //Test requests

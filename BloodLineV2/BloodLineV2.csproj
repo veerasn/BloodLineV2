@@ -159,6 +159,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BBOrder.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\BBProduct.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BBProduct.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BBProduct.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BBProduct.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BBProduct.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BBProduct.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\BBS.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -222,6 +237,9 @@
     <Compile Include="Models\MemberRole.cs">
       <DependentUpon>BBOrder.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Modification.cs">
+      <DependentUpon>BBProduct.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Notice.cs">
       <DependentUpon>BBOrder.tt</DependentUpon>
     </Compile>
@@ -234,6 +252,12 @@
       <DependentUpon>BBS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductInfoModel.cs" />
+    <Compile Include="Models\Product_brief.cs">
+      <DependentUpon>BBProduct.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product_Info.cs">
+      <DependentUpon>BBProduct.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\REQUEST.cs">
       <DependentUpon>LMD.tt</DependentUpon>
     </Compile>
@@ -245,6 +269,9 @@
     </Compile>
     <Compile Include="Models\TEST.cs">
       <DependentUpon>LMD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Test_brief.cs">
+      <DependentUpon>BBProduct.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\PatientDetailViewModel.cs" />
@@ -279,6 +306,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BBOrder.edmx</DependentUpon>
       <LastGenOutput>BBOrder.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\BBProduct.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BBProduct.edmx</DependentUpon>
+      <LastGenOutput>BBProduct.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\BBProduct.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BBProduct.edmx</DependentUpon>
+      <LastGenOutput>BBProduct.cs</LastGenOutput>
     </Content>
     <Content Include="Models\BBS.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -354,6 +391,13 @@
     </EntityDeploy>
     <Content Include="Models\BBOrder.edmx.diagram">
       <DependentUpon>BBOrder.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\BBProduct.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BBProduct.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BBProduct.edmx.diagram">
+      <DependentUpon>BBProduct.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
