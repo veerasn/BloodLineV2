@@ -4668,6 +4668,11 @@ input[type="button"].btn-block {
   border-bottom-left-radius: calc(0.25rem - 1px);
 }
 
+.card-horizontal {
+    display: flex;
+    flex: 1 1 auto;
+}
+
 .card-deck {
   display: -ms-flexbox;
   display: flex;
