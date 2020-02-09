@@ -52,7 +52,9 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Indications</h4>
-                    <h6 class="card-text" id="list-indications"></h6>
+                    <ul class="list-group" id="list-indications">
+                        <!--Insert list from js-->
+                    </ul>
                     <h4 class="card-title">Contraindications</h4>
                     <div class="alert alert-info">
                         @Html.Raw(Model.FirstOrDefault().contraindication.ToString())
@@ -122,28 +124,11 @@
             </div>
         </div>
     </div>
-    <div class="col-md-9 mb-4">
+    <div class="col-md-9 mb-0">
         <div class="card h-100 bg-light text-black-50">
             <div class="card-header"><h2>@Html.Raw(Model.FirstOrDefault().table_title.ToString())</h2></div>
             <div class="card-body">
-                <table class="table-striped">
-                    <thead>
-                        <tr>
-                            <th class="col-2" rowspan="2"></th>
-                            <th class="col-2" rowspan="2">Pre-transfusion vital signs?</th>
-                            <th class="col-3" colspan="3">Stay at patient bedside?</th>
-                            <th class="col-3" colspan="2">Vital signs during transfusion</th>
-                            <th class="col-2" rowspan="2">Post-transfusion monitoring</th>
-                        </tr>
-                        <tr>
-                            <th class="col-1">First 5 minutes</th>
-                            <th class="col-1">5-10 minutes</th>
-                            <th class="col-1">10-15 minutes</th>
-                            <th class="col-1">After 15 minutes</th>
-                            <th class="col-1">Remainder of transfusion</th>
-                        </tr>
-                    </thead>
-                </table>
+                @Html.Raw(Model.FirstOrDefault().table.ToString())
             </div>
             <div class="card-footer">
                 Refer to relevant info-sheets for information regarding above secondary modifications
@@ -181,7 +166,7 @@
 </script>
 <script>
     $(document).ready(function () {
-        var str = ('@Model.FirstOrDefault().administration');
+        var str = ('@Html.Raw(Model.FirstOrDefault().administration)');
         var arr = new Array();
         arr = str.split("|");
 
@@ -221,10 +206,9 @@
         var txt = "";
 
         for (i = 0; i < arr.length; i++) {
-            txt += "<li class='list-group-item'>" + arr[i] + "</li >";
+            txt += "<li class='list-group-item list-group-item-info'>" + arr[i] + "</li >";
         }
 
-        txt = "<ul class='list-group list-group-mine'>" + txt + "</ul>";
         document.getElementById("list-indications").innerHTML = txt;
     })
 </script>

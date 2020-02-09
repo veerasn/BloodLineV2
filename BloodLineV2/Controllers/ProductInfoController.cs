@@ -14,7 +14,7 @@ namespace BloodLineV2.Views.ProductInfo
         // GET: ProductInfo
         public ActionResult Index()
         {
-            var searchString = "RCWB";
+            var searchString = "PLTRD";
             var products = (from p in bbproduct.Product_Info select p);
 
             products = products.Where(p => p.prod_bloodline.Contains(searchString));
