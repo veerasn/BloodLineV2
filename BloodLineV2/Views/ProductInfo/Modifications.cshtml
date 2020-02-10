@@ -11,7 +11,7 @@
     <!--Title card-->
     <div class="col mb-4">
         <div class="card h-100 bg-warning text-white">
-            <img class="card-img" src="~/Content/images/rcwb-1.jpg" />
+            <img class="card-img" src="@Url.Content(Model.FirstOrDefault().image)" />
             <div class="card-body">
                 <h1><b>@Html.DisplayFor(model => model.FirstOrDefault().header)</b></h1>
                 <h6>@Html.DisplayFor(model => model.FirstOrDefault().description)</h6>

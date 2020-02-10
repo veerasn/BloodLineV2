@@ -9,7 +9,7 @@
 <div class="row row-cols-1 row-cols-sm-1">
     <div class="col mb-4">
         <div class="card h-100 bg-warning text-white">
-            <img class="card-img" src="~/Content/images/rcwb-1.jpg" />
+            <img class="card-img" src= '@Url.Content(Model.FirstOrDefault().image1_link)' />
             <div class="card-body">
                 <h1><b>@Html.DisplayFor(model => model.FirstOrDefault().prod_bloodline)</b></h1>
                 <h6>@Html.DisplayFor(model => model.FirstOrDefault().prodname_full)</h6>
@@ -114,7 +114,7 @@
     <div class="card-group">
         <div class="col-md-3 mb-4">
             <div class="card text-dark">
-                <img class="card-img card-img-bottom" src="~/Content/images/blood transfusion.jpg" />
+                <img class="card-img card-img-bottom" src='@Url.Content(Model.FirstOrDefault().image2_link)' />
             </div> 
         </div>
         <div class="col-md-9 mb-4">
