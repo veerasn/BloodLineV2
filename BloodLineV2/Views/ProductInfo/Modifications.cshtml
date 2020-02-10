@@ -1,0 +1,90 @@
+﻿
+@model IEnumerable<BloodLineV2.Models.Modification>
+
+@{
+    ViewBag.Title = "Product Modifications";
+    Layout = "~/Views/Shared/_Layout_Patient.cshtml";
+}
+
+<div class="row row-cols-1 row-cols-sm-1">
+
+    <!--Title card-->
+    <div class="col mb-4">
+        <div class="card h-100 bg-warning text-white">
+            <img class="card-img" src="~/Content/images/rcwb-1.jpg" />
+            <div class="card-body">
+                <h1><b>@Html.DisplayFor(model => model.FirstOrDefault().header)</b></h1>
+                <h6>@Html.DisplayFor(model => model.FirstOrDefault().description)</h6>
+            </div>
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+    <!--List of modified products-->
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 bg-info text-white">
+            <div class="card-body">
+                <h4 class="card-title">Modified products</h4>
+                <div class="list-group list-group-flush" id="list-modifications">
+                    <!--Insert list from js-->
+                </div>
+                <h6 class="card-text"></h6>
+            </div>
+            <div class="card-footer">
+                Refer to relevant info-sheets for information regarding above secondary modifications
+            </div>
+        </div>
+    </div>
+    <!--Notes on use-->
+    <div class="col mb-4">
+        <div class="card h-100 bg-info text-white">
+            <div class="card-body">
+                <h4 class="card-title">Important notes</h4>
+                <h4 class="card-title"></h4>
+                <h6 class="card-text">
+                    @Html.Raw(Model.FirstOrDefault().notes.ToString())
+                </h6>
+            </div>
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+    <!--Information on process-->
+    <div class="col-md-12 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-text">
+                    @Html.Raw(Model.FirstOrDefault().text.ToString())
+                </h6>
+            </div>
+        </div>
+    </div>
+    <!--When to request-->
+    <div class="col-md-12 mb-4">
+        <div class="card">
+            <div class="card-header"><h2>When to request</h2></div>
+            <div class="card-body">
+                @Html.Raw(Model.FirstOrDefault().indication.ToString())
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script language="JavaScript" type="text/javascript" src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var str = ('@Model.FirstOrDefault().mod_products');
+        var arr = new Array();
+        arr = str.split("|");
+
+        var txt = "";
+
+        for (i = 0; i < arr.length; i++) {
+            txt += "<a href='#' class='list-group-item list-group-item-action'>" + arr[i] + "</a>";
+        }
+        document.getElementById("list-modifications").innerHTML = txt;
+    })
+</script>

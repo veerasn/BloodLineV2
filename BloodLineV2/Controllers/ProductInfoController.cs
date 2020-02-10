@@ -14,12 +14,24 @@ namespace BloodLineV2.Views.ProductInfo
         // GET: ProductInfo
         public ActionResult Index()
         {
-            var searchString = "PLTRD";
+            var searchString = "PLTAP";
             var products = (from p in bbproduct.Product_Info select p);
 
             products = products.Where(p => p.prod_bloodline.Contains(searchString));
 
             return View(products);
         }
+
+        // GET: ProductInfo
+        public ActionResult Modifications()
+        {
+            var searchString = "LD";
+            var products = (from p in bbproduct.Modifications select p);
+
+            products = products.Where(p => p.modification_code.Contains(searchString));
+
+            return View(products);
+        }
+
     }
 }
