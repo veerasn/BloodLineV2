@@ -1000,17 +1000,21 @@
                                                 @bloodProduct.Name
                                                 @if (bloodProduct.Filelocation != "none")
                                                 {
-                                                    <a href="@bloodProduct.Filelocation" target="_blank">
+                                                    <a href="@Url.Action("Index","ProductInfo",new {id = bloodProduct.Id })" target="_blank">
                                                         <sup><i class="fa fa-info"></i></sup>
                                                     </a>
                                                 }
                                                 @if (bloodProduct.Irradiate == 1)
                                                 {
-                                                    <i class="fa fa-radiation"></i>
+                                                    <a href="@Url.Action("Modifications","ProductInfo",new {id = "IRR" })" target="_blank">
+                                                        <sup><i class="fa fa-radiation"></i></sup>
+                                                    </a>
                                                 }
                                                 @if (bloodProduct.Leucodeplete == 1)
                                                 {
-                                                    <i class="fa fa-filter"></i>
+                                                    <a href="@Url.Action("Modifications","ProductInfo",new {id = "LD" })" target="_blank">
+                                                        <sup><i class="fa fa-filter"></i></sup>
+                                                    </a>
                                                 }
                                             </td>
                                         </tr>
@@ -1059,17 +1063,21 @@
                                                 @bloodProduct.Name
                                                 @if (bloodProduct.Filelocation != "none")
                                                 {
-                                                    <a href="@bloodProduct.Filelocation" target="_blank">
+                                                    <a href="@Url.Action("Index","ProductInfo",new {id = bloodProduct.Id })" target="_blank">
                                                         <sup><i class="fa fa-info"></i></sup>
                                                     </a>
                                                 }
                                                 @if (bloodProduct.Irradiate == 1)
                                                 {
-                                                    <i class="fa fa-radiation"></i>
+                                                    <a href="@Url.Action("Modifications","ProductInfo",new {id = "IRR" })" target="_blank">
+                                                        <sup><i class="fa fa-radiation"></i></sup>
+                                                    </a>
                                                 }
                                                 @if (bloodProduct.Leucodeplete == 1)
                                                 {
-                                                    <i class="fa fa-filter"></i>
+                                                    <a href="@Url.Action("Modifications","ProductInfo",new {id = "LD" })" target="_blank">
+                                                        <sup><i class="fa fa-filter"></i></sup>
+                                                    </a>
                                                 }
                                             </td>
                                         </tr>
@@ -1120,7 +1128,7 @@
                                                 @bloodProduct.Name
                                                 @if (bloodProduct.Filelocation != "none")
                                                 {
-                                                    <a href="@bloodProduct.Filelocation" target="_blank">
+                                                    <a href="@Url.Action("Index","ProductInfo",new {id = bloodProduct.Id })" target="_blank">
                                                         <sup><i class="fa fa-info"></i></sup>
                                                     </a>
                                                 }

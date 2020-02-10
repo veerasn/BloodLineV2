@@ -2,7 +2,7 @@
 @model IEnumerable<BloodLineV2.Models.Product_Info>
 
 @{
-    ViewBag.Title = "Blood Product Information";
+    ViewBag.Title = Html.DisplayFor(model => model.FirstOrDefault().prod_bloodline);
     Layout = "~/Views/Shared/_Layout_Patient.cshtml";
 }
 

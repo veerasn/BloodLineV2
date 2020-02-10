@@ -12,9 +12,9 @@ namespace BloodLineV2.Views.ProductInfo
         private readonly BBProductsEntities bbproduct = new BBProductsEntities();
 
         // GET: ProductInfo
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
-            var searchString = "PLTAP";
+            var searchString = id;
             var products = (from p in bbproduct.Product_Info select p);
 
             products = products.Where(p => p.prod_bloodline.Contains(searchString));
@@ -23,9 +23,9 @@ namespace BloodLineV2.Views.ProductInfo
         }
 
         // GET: ProductInfo
-        public ActionResult Modifications()
+        public ActionResult Modifications(string id)
         {
-            var searchString = "LD";
+            var searchString = id;
             var products = (from p in bbproduct.Modifications select p);
 
             products = products.Where(p => p.modification_code.Contains(searchString));
