@@ -542,6 +542,8 @@
     <Content Include="Views\Shared\_Layout_Patient.cshtml" />
     <Content Include="Views\ProductInfo\Index.cshtml" />
     <Content Include="Views\ProductInfo\Modifications.cshtml" />
+    <Content Include="Views\ProductInfo\Guidelines_rbc.cshtml" />
+    <Content Include="Views\ProductInfo\Guidelines_plt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

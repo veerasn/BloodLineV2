@@ -964,7 +964,7 @@
                 <div id="Rbc" class="w3-container request" style="display:none">
                     <h6>
                         Select suitable products and required quantity. Remember that the minimum number of RBC units should be transfused to
-                        achieve the desired response. Refer to <a href="~/Content/pdf/RBC_recommendation.pdf" target="_blank"><b>Guidelines for Red Cell Use</b></a> to aid your transfusion decision.
+                        achieve the desired response. Refer to <a href="@Url.Action("Guidelines_rbc","ProductInfo")" target="_blank"><b>Guidelines for Red Cell Use</b></a> to aid your transfusion decision.
                     </h6>
                     <p id="alert_redcell" style="color: orangered"></p>
                     <p id="redcell" style="color: orangered"></p>
@@ -1028,7 +1028,7 @@
                 <!--Platelet requests-->
                 <div id="Platelet" class="w3-container request" style="display:none">
                     <h6>
-                        Select suitable products and required quantity. Refer to <a href="~/Content/pdf/PLT_recommendation.pdf" target="_blank"><b>Guidelines for Platelet Use</b></a> to aid your transfusion decision.
+                        Select suitable products and required quantity. Refer to <a href="@Url.Action("Guidelines_plt","ProductInfo")" target="_blank"><b>Guidelines for Platelet Use</b></a> to aid your transfusion decision.
                     </h6>
                     <p id="alert_platelet" style="color: orangered"></p>
                     <p id="platelet" style="color: orangered"></p>
@@ -1090,7 +1090,7 @@
                 <!--Plasma products and derivatives requests-->
                 <div id="Plasma" class="w3-container request" style="display:none">
                     <h6>
-                        Select suitable products and required quantity. Refer to <a href="#"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
+                        Select suitable products and required quantity. Refer to <a href="@Url.Action("Guidelines_ffp","ProductInfo")"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
                     </h6>
                     <p id="alert_ffp" style="color: orangered"></p>
                     <p id="alert_cryoprecipitate" style="color: orangered"></p>

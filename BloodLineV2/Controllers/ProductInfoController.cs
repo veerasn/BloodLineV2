@@ -33,5 +33,18 @@ namespace BloodLineV2.Views.ProductInfo
             return View(products);
         }
 
+        // GET: ProductInfo
+        public ActionResult Guidelines_rbc()
+        {
+            
+            return View();
+        }
+
+        // GET: ProductInfo
+        public ActionResult Guidelines_plt()
+        {
+
+            return View();
+        }
     }
 }
