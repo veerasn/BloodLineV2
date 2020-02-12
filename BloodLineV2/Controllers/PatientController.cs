@@ -913,5 +913,19 @@ namespace BloodLineV2.Controllers
 
             return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult InsertPreTransfusion(List<Transfusion> transfusions)
+        {
+            using (BBOrderEntities entities = new BBOrderEntities())
+            {
+                //Loop and insert records.
+                foreach (Transfusion transfusion in transfusions)
+                {
+                    entities.Transfusions.Add(transfusion);
+                }
+                int insertedRecords = entities.SaveChanges();
+                return Json(insertedRecords);
+            }
+        }
     }
 }

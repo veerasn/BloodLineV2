@@ -273,6 +273,9 @@
     <Compile Include="Models\Test_brief.cs">
       <DependentUpon>BBProduct.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Transfusion.cs">
+      <DependentUpon>BBOrder.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\PatientDetailViewModel.cs" />
     <Compile Include="Controllers\ProductInfoController.cs" />
@@ -402,19 +405,19 @@
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\chartjs-plugin-annotation.js" />
-    <EntityDeploy Include="Models\BBOrder.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BBOrder.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\BBOrder.edmx.diagram">
-      <DependentUpon>BBOrder.edmx</DependentUpon>
-    </Content>
     <EntityDeploy Include="Models\BBProduct.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BBProduct.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <Content Include="Models\BBProduct.edmx.diagram">
       <DependentUpon>BBProduct.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\BBOrder.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BBOrder.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BBOrder.edmx.diagram">
+      <DependentUpon>BBOrder.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />

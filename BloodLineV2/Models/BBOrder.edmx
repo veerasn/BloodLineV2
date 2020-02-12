@@ -109,6 +109,33 @@
           <Property Name="RoleId" Type="int" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Transfusions">
+          <Key>
+            <PropertyRef Name="Prodnum" />
+            <PropertyRef Name="Patnumber" />
+          </Key>
+          <Property Name="TransfusionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Prodnum" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Patnumber" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="pre_temp" Type="int" />
+          <Property Name="pre_pulse" Type="int" />
+          <Property Name="pre_bp_sys" Type="int" />
+          <Property Name="pre_bp_dia" Type="int" />
+          <Property Name="start_time" Type="datetime" />
+          <Property Name="start_user" Type="int" />
+          <Property Name="interupt_time" Type="datetime" />
+          <Property Name="interupt_reason" Type="int" />
+          <Property Name="interupt_outcome" Type="int" />
+          <Property Name="outcome_time" Type="datetime" />
+          <Property Name="interupt_user" Type="int" />
+          <Property Name="post_temp" Type="int" />
+          <Property Name="post_pulse" Type="int" />
+          <Property Name="post_sys" Type="int" />
+          <Property Name="post_dia" Type="int" />
+          <Property Name="end_time" Type="datetime" />
+          <Property Name="end_user" Type="int" />
+          <Property Name="current_status" Type="int" />
+        </EntityType>
         <Association Name="FK__Cart__UserID__3A4CA8FD">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
@@ -205,25 +232,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="CartNew" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="CartID" Type="int" Mode="In" />
-          <Parameter Name="UserID" Type="int" Mode="In" />
-          <Parameter Name="DateCreated" Type="datetime" Mode="In" />
-          <Parameter Name="CheckedOut" Type="bit" Mode="In" />
-          <Parameter Name="Urgency" Type="int" Mode="In" />
-          <Parameter Name="Location" Type="varchar" Mode="In" />
-          <Parameter Name="PatientID" Type="varchar" Mode="In" />
-          <Parameter Name="PatientName" Type="varchar" Mode="In" />
-          <Parameter Name="Status" Type="int" Mode="In" />
-        </Function>
-        <Function Name="InsertBBOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="CartID" Type="int" Mode="In" />
-          <Parameter Name="UserID" Type="int" Mode="In" />
-          <Parameter Name="Urgency" Type="int" Mode="In" />
-          <Parameter Name="Location" Type="varchar" Mode="In" />
-          <Parameter Name="PatientID" Type="varchar" Mode="In" />
-          <Parameter Name="PatientName" Type="varchar" Mode="In" />
-        </Function>
         <EntityContainer Name="BBOrderModelStoreContainer">
           <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CartItems" EntityType="Self.CartItems" Schema="dbo" store:Type="Tables" />
@@ -233,6 +241,7 @@
           <EntitySet Name="MemberRole" EntityType="Self.MemberRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notices" EntityType="Self.Notices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transfusions" EntityType="Self.Transfusions" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Cart__UserID__3A4CA8FD" Association="Self.FK__Cart__UserID__3A4CA8FD">
             <End Role="Member" EntitySet="Member" />
             <End Role="Cart" EntitySet="Cart" />
@@ -391,6 +400,33 @@
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MemberRoles" Relationship="Self.FK__MemberRol__RoleI__5DCAEF64" FromRole="Roles" ToRole="MemberRole" />
         </EntityType>
+        <EntityType Name="Transfusion">
+          <Key>
+            <PropertyRef Name="Prodnum" />
+            <PropertyRef Name="Patnumber" />
+          </Key>
+          <Property Name="TransfusionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Prodnum" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patnumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="pre_temp" Type="Int32" />
+          <Property Name="pre_pulse" Type="Int32" />
+          <Property Name="pre_bp_sys" Type="Int32" />
+          <Property Name="pre_bp_dia" Type="Int32" />
+          <Property Name="start_time" Type="DateTime" Precision="3" />
+          <Property Name="start_user" Type="Int32" />
+          <Property Name="interupt_time" Type="DateTime" Precision="3" />
+          <Property Name="interupt_reason" Type="Int32" />
+          <Property Name="interupt_outcome" Type="Int32" />
+          <Property Name="outcome_time" Type="DateTime" Precision="3" />
+          <Property Name="interupt_user" Type="Int32" />
+          <Property Name="post_temp" Type="Int32" />
+          <Property Name="post_pulse" Type="Int32" />
+          <Property Name="post_sys" Type="Int32" />
+          <Property Name="post_dia" Type="Int32" />
+          <Property Name="end_time" Type="DateTime" Precision="3" />
+          <Property Name="end_user" Type="Int32" />
+          <Property Name="current_status" Type="Int32" />
+        </EntityType>
         <Association Name="FK__Cart__UserID__3A4CA8FD">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
@@ -496,6 +532,7 @@
           <EntitySet Name="MemberRoles" EntityType="Self.MemberRole" />
           <EntitySet Name="Notices" EntityType="Self.Notice" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="Transfusions" EntityType="Self.Transfusion" />
           <AssociationSet Name="FK__Cart__UserID__3A4CA8FD" Association="Self.FK__Cart__UserID__3A4CA8FD">
             <End Role="Member" EntitySet="Members" />
             <End Role="Cart" EntitySet="Carts" />
@@ -528,25 +565,6 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="MemberRole" EntitySet="MemberRoles" />
           </AssociationSet>
-          <FunctionImport Name="CartNew">
-            <Parameter Name="CartID" Mode="In" Type="Int32" />
-            <Parameter Name="UserID" Mode="In" Type="Int32" />
-            <Parameter Name="DateCreated" Mode="In" Type="DateTime" />
-            <Parameter Name="CheckedOut" Mode="In" Type="Boolean" />
-            <Parameter Name="Urgency" Mode="In" Type="Int32" />
-            <Parameter Name="Location" Mode="In" Type="String" />
-            <Parameter Name="PatientID" Mode="In" Type="String" />
-            <Parameter Name="PatientName" Mode="In" Type="String" />
-            <Parameter Name="Status" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="InsertBBOrder">
-            <Parameter Name="CartID" Mode="In" Type="Int32" />
-            <Parameter Name="UserID" Mode="In" Type="Int32" />
-            <Parameter Name="Urgency" Mode="In" Type="Int32" />
-            <Parameter Name="Location" Mode="In" Type="String" />
-            <Parameter Name="PatientID" Mode="In" Type="String" />
-            <Parameter Name="PatientName" Mode="In" Type="String" />
-          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -666,8 +684,33 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="CartNew" FunctionName="BBOrderModel.Store.CartNew" />
-          <FunctionImportMapping FunctionImportName="InsertBBOrder" FunctionName="BBOrderModel.Store.InsertBBOrder" />
+          <EntitySetMapping Name="Transfusions">
+            <EntityTypeMapping TypeName="BBOrderModel.Transfusion">
+              <MappingFragment StoreEntitySet="Transfusions">
+                <ScalarProperty Name="TransfusionId" ColumnName="TransfusionId" />
+                <ScalarProperty Name="Prodnum" ColumnName="Prodnum" />
+                <ScalarProperty Name="Patnumber" ColumnName="Patnumber" />
+                <ScalarProperty Name="pre_temp" ColumnName="pre_temp" />
+                <ScalarProperty Name="pre_pulse" ColumnName="pre_pulse" />
+                <ScalarProperty Name="pre_bp_sys" ColumnName="pre_bp_sys" />
+                <ScalarProperty Name="pre_bp_dia" ColumnName="pre_bp_dia" />
+                <ScalarProperty Name="start_time" ColumnName="start_time" />
+                <ScalarProperty Name="start_user" ColumnName="start_user" />
+                <ScalarProperty Name="interupt_time" ColumnName="interupt_time" />
+                <ScalarProperty Name="interupt_reason" ColumnName="interupt_reason" />
+                <ScalarProperty Name="interupt_outcome" ColumnName="interupt_outcome" />
+                <ScalarProperty Name="outcome_time" ColumnName="outcome_time" />
+                <ScalarProperty Name="interupt_user" ColumnName="interupt_user" />
+                <ScalarProperty Name="post_temp" ColumnName="post_temp" />
+                <ScalarProperty Name="post_pulse" ColumnName="post_pulse" />
+                <ScalarProperty Name="post_sys" ColumnName="post_sys" />
+                <ScalarProperty Name="post_dia" ColumnName="post_dia" />
+                <ScalarProperty Name="end_time" ColumnName="end_time" />
+                <ScalarProperty Name="end_user" ColumnName="end_user" />
+                <ScalarProperty Name="current_status" ColumnName="current_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

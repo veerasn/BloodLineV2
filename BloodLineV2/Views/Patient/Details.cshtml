@@ -1428,7 +1428,7 @@
                                             <span class="font-weight-bold indigo-text"><i class="fas fa-temperature-high" aria-hidden="true"></i></span>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="number" class="form-control-sm" data-decimals="1" data-suffix="°C" value="37.4" min="35" max="45" step="0.2" />
+                                            <input type="number" id="pre-temp" class="form-control-sm" data-suffix="°C" value="374" min="350" max="450" step="2" />
                                         </div>
                                     </div>
                                 </div>
@@ -1439,7 +1439,7 @@
                                             <span class="font-weight-bold indigo-text"><i class="fas fa-heartbeat" aria-hidden="true"></i></span>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="number" class="form-control-sm" data-suffix="bpm" value="72" min="40" max="160" step="1" />
+                                            <input type="number" id="pre-pulse" class="form-control-sm" data-suffix="bpm" value="72" min="40" max="160" step="1" />
                                         </div>
                                     </div>
                                 </div>
@@ -1450,7 +1450,7 @@
                                             <span class="font-weight-bold indigo-text"><i class="fas fa-ruler-vertical" aria-hidden="true"></i></span>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="number" class="form-control-sm" data-suffix="mmHg" value="120" min="0" max="220" step="10" />
+                                            <input type="number" id="pre-bp-sys" class="form-control-sm" data-suffix="mmHg" value="120" min="0" max="220" step="10" />
                                         </div>
                                     </div>
                                 </div>
@@ -1461,13 +1461,13 @@
                                             <span class="font-weight-bold text-danger indigo-text"><i class="fas fa-ruler-vertical" aria-hidden="true"></i></span>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="number" class="form-control-sm" data-suffix="mmHg" value="80" min="0" max="180" step="10" />
+                                            <input type="number" id="pre-bp-dia" class="form-control-sm" data-suffix="mmHg" value="80" min="0" max="180" step="10" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" id="btn-start-transfusion" class="btn btn-secondary btn-lg btn-block">Start Transfusion</button>
+                                <button type="button" id="btn-start-transfusion" onclick="startTransfusion()" class="btn btn-secondary btn-lg btn-block">Start Transfusion</button>
                             </div>
                         </div>
                         <!--Transfusion progress-->
@@ -2466,17 +2466,18 @@
     <script>
         //Check if patient id matches to pack id before transfusion is started
         function verifyPack() {
+            var p = document.getElementById("unique-patient-id").innerHTML;
             var x = document.getElementById("transfuse-recipient-id").value;
             var y = document.getElementById("transfuse-pack-id").value;
+            var z = document.getElementById("card-verify-pack");
 
-            if (x != "" && y != "") {
+            if (x != "" && y != "" && x == p) {
                 var uri = "/Patient/GetPatientPackIds";
-                $.getJSON(uri, {patid: x,  packid: y }).done(function (data) {
+                $.getJSON(uri, { patid: x, packid: y }).done(function (data) {
                     var count;
                     var objResults = JSON.parse(data);
-                    var z = document.getElementById("card-verify-pack");
                     count = JSON.parse(data).length;
-                    
+
                     if (count != 0) {
                         if (objResults[0].IssueInterval > 4) {
                             z.style.backgroundColor = "#FFDB58";
@@ -2485,23 +2486,64 @@
                         }
                         else {
                             z.style.backgroundColor = "#99C68C";
-                            z.innerHTML = "Verification Passed";
+                            z.innerHTML = "Verification passed";
+                            //Check if transfusion recorded earlier. If yes, render modal accoring to current status
+                            //If status == 1, populate vital signs and collapse pre-transfusion card, display progress card
+ 
                             //Display pre-transfusion monitoring card
                             $('#card-transfusion-pre').show();
                         }
-                        
                     }
                     else {
                         z.style.backgroundColor = "#F75D59";
-                        z.innerHTML = "Verification Failed";
+                        z.innerHTML = "Patient and pack do not match";
                         $('#card-transfusion-pre').hide();
                     }
                 });
             }
+            else {
+                z.style.backgroundColor = "#F75D59";
+                z.innerHTML = "Patient entered does not match patient displayed";
+                $('#card-transfusion-pre').hide();
+            }
         }
-
     </script>
+    <script>
+        //Update BBOrder database with transfusion start information 
+        function startTransfusion(){
+            //Upload vital signs and start transfusion time to BBOrder using Ajax
+            var preItems = new Array();
+            var preItem = {};
+            var currentdate = new Date();
+            preItem.Patnumber = document.getElementById("transfuse-recipient-id").value;
+            preItem.Prodnum = document.getElementById("transfuse-pack-id").value;
+            preItem.pre_temp = document.getElementById("pre-temp").value;
+            preItem.pre_pulse = document.getElementById("pre-pulse").value;
+            preItem.pre_bp_sys = document.getElementById("pre-bp-sys").value;
+            preItem.pre_bp_dia = document.getElementById("pre-bp-dia").value;
+            preItem.start_time = currentdate.getDate() + "/"
+                + (currentdate.getMonth() + 1) + "/"
+                + currentdate.getFullYear() + " "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes();
+            preItem.start_user = 1;
+            preItem.current_status = 1;
+            preItems.push(preItem);
 
+            //Send the JSON array to InsertCartItems Controller using AJAX.
+            $.ajax({
+                type: "POST",
+                url: "/Patient/InsertPreTransfusion",
+                data: JSON.stringify(preItems),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    alert(r + " record(s) inserted.");
+                    $('#card-transfusion-progress').show()
+                }
+            });
+        };
+    </script>
     <script>
         // ************************************************
         // Shopping Cart API
