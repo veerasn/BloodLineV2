@@ -36,7 +36,7 @@
         <div class="w3-bar-block">
             <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
             <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="	fa fa-laptop-medical"></i>  Review and request</a>
-            <a href="#" class="w3-bar-item w3-button w3-padding"  data-toggle="modal" data-target="#review-requests">
+            <a href="#" class="w3-bar-item w3-button w3-padding" data-toggle="modal" data-target="#review-requests">
                 <i class="fa fa-vials"></i>  Prepare sample and submit
                 <span class="badge badge-pill badge-danger" id="cart-unchecked">0</span>
             </a>
@@ -1183,11 +1183,11 @@
                         </div>
                     </div>
                     <!--
-                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button onclick="confirmRequest()" type="button" class="btn btn-primary" id="confirm-request">Confirm request</button>
-                </div>
-                -->
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button onclick="confirmRequest()" type="button" class="btn btn-primary" id="confirm-request">Confirm request</button>
+                    </div>
+                    -->
                     <hr />
                     <div>
                         <ul class="list-group list-group-flush list-group-item-danger" id="warning-confirm-request" style="list-style:none"></ul>
@@ -1196,9 +1196,9 @@
                         <!--Insert btCartNew only when request is cleared-->
                     </div>
                     <!--div>
-                    <input class="btn-default" type="button" id="btnCartNew" value="Save" />
-                    <input class="btn-default" type="button" id="btnAddItems" value="Save" />
-                <div-->
+                        <input class="btn-default" type="button" id="btnCartNew" value="Save" />
+                        <input class="btn-default" type="button" id="btnAddItems" value="Save" />
+                    <div-->
                 </div>
             </div>
         </div>
@@ -1283,10 +1283,10 @@
                         <!--Insert cards using js-->
                         <div id="demo" class="carousel slide" data-ride="carousel" data-interval="15000">
                             <!-- Indicators>
-                        <ol-- class="carousel-indicators" id="requests-carousel-indicator">
-                            <li data-target="#demo" data-slide-to="0" class="active">1</li>
-                            <li data-target="#demo" data-slide-to="1">2</li>
-                        </ol-->
+                            <ol-- class="carousel-indicators" id="requests-carousel-indicator">
+                                <li data-target="#demo" data-slide-to="0" class="active">1</li>
+                                <li data-target="#demo" data-slide-to="1">2</li>
+                            </ol-->
                             <div class="carousel-inner">
                                 <div id="requests-carousel-inner">
                                     <div class="carousel-item active">
@@ -1404,7 +1404,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="card bg-primary mb-4">
+                        <div class="card bg-info mb-4" >
+                            <div class="card-header"id="card-verify-pack">Verify Pack</div>
                             <div class="card-body pb-3">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control" id="transfuse-recipient-id" placeholder="Scan recipient's ID" aria-label="Scan recipient's ID" aria-describedby="basic-addon2">
@@ -1412,9 +1413,10 @@
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control" id="transfuse-pack-id" placeholder="Scan blood pack's ID" aria-label="Scan blood pack's ID" aria-describedby="basic-addon2">
                                 </div>
-                                <button type="button" class="btn btn-outline-dark" id="submit-transfuse-pack">Submit</button>
+                                <button type="button"  onclick="verifyPack()" class="btn btn-outline-dark" id="submit-transfuse-pack">Submit</button>
                             </div>
                         </div>
+                        <div id="testing-json"></div>
                         <!--Pre-transfusion observations-->
                         <div class="card bg-light mb4" id="card-transfusion-pre">
                             <h6 class="card-header">Pre-transfusion observation</h6>
@@ -1641,13 +1643,7 @@
         //Input type spinner if input is number
         $("input[type='number']").inputSpinner();
     </script>
-    <script>
-        $(document).ready(function () {
-            $('#card-transfusion-pre').hide();
-            $('#card-transfusion-progress').hide();
-            $('#card-transfusion-post').hide();
-        });
-    </script>
+
     <script>
         //Update badge with required date and time
         function refreshTimeBadge() {
@@ -2144,7 +2140,7 @@
             var UniqueCartID = Date.now();
 
             //Populate Cart info
-            cart.CartID = UniqueCartID ;
+            cart.CartID = UniqueCartID;
             cart.UserId = 1;
             cart.DateCreated = currentdate.getDate() + "/"
                 + (currentdate.getMonth() + 1) + "/"
@@ -2263,7 +2259,7 @@
                 dataType: "json",
                 success: function (r) {
                     alert(r + " record(s) inserted.");
-                    
+
                     //Clear sessionStorage  and close modal
                     $("#cart").modal("hide");
                     sessionStorage.clear();
@@ -2299,7 +2295,7 @@
                 var d, progress, fasyringe = "", listItems = "", carouselHead = "", footer = "";
 
                 //Calculate proportion for interval for request validity
-                d = (objResults[i].Interval / 72)*100
+                d = (objResults[i].Interval / 72) * 100
                 if (d <= 100) {
                     d = d;
                 }
@@ -2311,7 +2307,7 @@
                 if (d <= 33) {
                     progress = "info"
                 }
-                else if(d >= 66){
+                else if (d >= 66) {
                     progress = "danger"
                 }
                 else {
@@ -2319,7 +2315,7 @@
                 }
 
                 //Customise fa according to sample status
-                if (objResults[i].Items.includes("T-")) { 
+                if (objResults[i].Items.includes("T-")) {
                     if (objResults[i].CheckedIn == 0) {
                         if (objResults[i].CheckedOut == 0) {
                             fasyringe = "<span id = 'sample-status-" + objResults[i].CartID + "' onclick = 'toggleSubmitReq(" + objResults[i].CartID + ")'><i class='fas fa-syringe fa-lg text-danger pr-4'></i></span>"
@@ -2355,31 +2351,31 @@
                 x += carouselHead + "<div class='card' >"
                     + "<div class='card-body pb-3' >"
                     + "<div class='card-header'>"
-                        + "<i class='fa fa-heart float-right text-danger' data-placement='top'></i>"
-                        + "<h4 class='card-title font-weight-bold'>" + objResults[i].CartID + "</h4>"
-                        + "<p class='card-subtitle mb-2 text-muted'>" + objResults[i].DateCreated + "</p>"
+                    + "<i class='fa fa-heart float-right text-danger' data-placement='top'></i>"
+                    + "<h4 class='card-title font-weight-bold'>" + objResults[i].CartID + "</h4>"
+                    + "<p class='card-subtitle mb-2 text-muted'>" + objResults[i].DateCreated + "</p>"
                     + "</div>"
                     + "<div class='d-flex justify-content-between'>"
-                       + "<ul class='list-group list-group-flush'>" + listItems + "</ul>"
+                    + "<ul class='list-group list-group-flush'>" + listItems + "</ul>"
                     + "</div><hr class=''>"
                     + "<div class='progress md-progress'>"
-                        + "<div class='progress-bar progress-bar-" + progress + "' role='progressbar' style='width: " + d +"%' aria-valuenow='" + d + "' aria-valuemin='0' aria-valuemax='100'></div>"
+                    + "<div class='progress-bar progress-bar-" + progress + "' role='progressbar' style='width: " + d + "%' aria-valuenow='" + d + "' aria-valuemin='0' aria-valuemax='100'></div>"
                     + "</div>"
                     + "<ul class='list-unstyled d-flex justify-content-between font-small text-muted mb-4'>"
                     + "<li class='pl-3'>0</li><li>24</li><li>48</li><li class='pr-3'>72</li></ul>"
                     + "<div id='request-" + objResults[i].CartID + "' style='display:none'>"
-                        + "<div class='input-group mb-3'>"
-                            + "<input type='text' value = '' id='patient-" + objResults[i].CartID + "' class='form-control' placeholder='Patient RN' aria-label='Patient RN' aria-describedby='basic-addon2'>"
-                            + "<input type='text' value = '' id='sample-" + objResults[i].CartID + "' class='form-control' placeholder='Sample ID' aria-label='Sample ID' aria-describedby='basic-addon2'>"
-                            + "<div class='input-group-append'>"
-                                    + "<span class='input-group-text' id='identity-" + objResults[i].CartID + "'><i class='fas fa-question fa-sm text-primary pr-4'></i></span>"
-                                    + "<button class='btn btn-outline-primary' type='button' onclick = 'verifyIdentity(" + objResults[i].CartID + ")' id='submit-" + objResults[i].CartID + "'>Submit</button>"
-                            + "</div>"
-                        + "</div>"
+                    + "<div class='input-group mb-3'>"
+                    + "<input type='text' value = '' id='patient-" + objResults[i].CartID + "' class='form-control' placeholder='Patient RN' aria-label='Patient RN' aria-describedby='basic-addon2'>"
+                    + "<input type='text' value = '' id='sample-" + objResults[i].CartID + "' class='form-control' placeholder='Sample ID' aria-label='Sample ID' aria-describedby='basic-addon2'>"
+                    + "<div class='input-group-append'>"
+                    + "<span class='input-group-text' id='identity-" + objResults[i].CartID + "'><i class='fas fa-question fa-sm text-primary pr-4'></i></span>"
+                    + "<button class='btn btn-outline-primary' type='button' onclick = 'verifyIdentity(" + objResults[i].CartID + ")' id='submit-" + objResults[i].CartID + "'>Submit</button>"
+                    + "</div>"
+                    + "</div>"
                     + "</div>"
                     + "<div class='card-footer'>"
-                        + "<i class='fas fa-print fa-lg text-primary pr-4'></i>" + fasyringe
-                        + "<small class='text-muted text-right'>" + footer + "</small>"
+                    + "<i class='fas fa-print fa-lg text-primary pr-4'></i>" + fasyringe
+                    + "<small class='text-muted text-right'>" + footer + "</small>"
                     + "</div>"
                     + "</div>"
                     + "</div>"
@@ -2450,10 +2446,58 @@
                 document.getElementById("sample-status-" + val).innerHTML = "<i class='fas fa-vials fa-lg text-danger pr-4'></i>";
                 document.getElementById("sample-status-" + val).setAttribute("onclick", "");
                 document.getElementById("request-" + val).setAttribute("style", "display:none")
-                
+
             }).error(function () {
                 alert("Error in checking out cart");
             });
+        }
+
+    </script>
+
+    <script>
+        //Prepare modal for transfusion progress
+        $(document).ready(function () {
+            $('#card-transfusion-pre').hide();
+            $('#card-transfusion-progress').hide();
+            $('#card-transfusion-post').hide();
+        });
+    </script>
+
+    <script>
+        //Check if patient id matches to pack id before transfusion is started
+        function verifyPack() {
+            var x = document.getElementById("transfuse-recipient-id").value;
+            var y = document.getElementById("transfuse-pack-id").value;
+
+            if (x != "" && y != "") {
+                var uri = "/Patient/GetPatientPackIds";
+                $.getJSON(uri, {patid: x,  packid: y }).done(function (data) {
+                    var count;
+                    var objResults = JSON.parse(data);
+                    var z = document.getElementById("card-verify-pack");
+                    count = JSON.parse(data).length;
+                    
+                    if (count != 0) {
+                        if (objResults[0].IssueInterval > 4) {
+                            z.style.backgroundColor = "#FFDB58";
+                            z.innerHTML = "Unit exceeded time from issue to transfusion (" + objResults[0].IssueInterval + " hours)";
+                            $('#card-transfusion-pre').hide();
+                        }
+                        else {
+                            z.style.backgroundColor = "#99C68C";
+                            z.innerHTML = "Verification Passed";
+                            //Display pre-transfusion monitoring card
+                            $('#card-transfusion-pre').show();
+                        }
+                        
+                    }
+                    else {
+                        z.style.backgroundColor = "#F75D59";
+                        z.innerHTML = "Verification Failed";
+                        $('#card-transfusion-pre').hide();
+                    }
+                });
+            }
         }
 
     </script>

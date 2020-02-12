@@ -876,5 +876,42 @@ namespace BloodLineV2.Controllers
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public JsonResult GetPatientPackIds(string patid, string packid)
+        {
+            var cn = new SqlConnection();
+            var dt = new DataTable();
+            string strCn = ConfigurationManager.ConnectionStrings["BBS"].ToString();
+
+            string queryString = @"SELECT RIGHT(r.PATNUMBER, 8) AS PatientID, 
+	                                    p.PRODCODE,
+                                        p.ABO, 
+                                        p.RHFACTOR,
+                                        p.EXPDATE,
+                                        DATEDIFF(hour, rp.ISSUEDATE, GETDATE()) AS IssueInterval,
+                                        rp.ACCESSNUMBER
+                                    FROM REQUESTS r
+                                    INNER JOIN REQUEST_PRODUCT rp ON r.ACCESSNUMBER = rp.ACCESSNUMBER
+                                    INNER JOIN PRODUCTS p ON rp.PRODUCTID = p.PRODUCTID
+                                    WHERE RIGHT(r.PATNUMBER, 8) = '" + patid + "' AND p.PRODNUM = '" + packid +"'";
+
+            SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
+            da.Fill(dt);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+
+            return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
+        }
     }
 }
