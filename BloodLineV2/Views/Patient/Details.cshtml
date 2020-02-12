@@ -16,7 +16,7 @@
             font-family: "Raleway", sans-serif
         }
     </style>
-    <link href="~/Content/tagsinput.css" rel="stylesheet"/>
+    <link href="~/Content/tagsinput.css" rel="stylesheet" />
 
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script type="text/html" src="~/Scripts/chart-2.7.1.min.js"></script>
@@ -26,6 +26,7 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script scr="~/Scripts/chartjs-plugin-annotation.js"></script>
     <script src="~/Scripts/tagsinput.js"></script>
+    <script src="~/Scripts/bootstrap-input-spinner.js"></script>
 </head>
 
 <body class="w3-light-grey">
@@ -39,7 +40,10 @@
                 <i class="fa fa-vials"></i>  Prepare sample and submit
                 <span class="badge badge-pill badge-danger" id="cart-unchecked">0</span>
             </a>
-            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-procedures"></i>  Transfuse and monitor</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding" data-toggle="modal" data-target="#transfusion-monitor">
+                <i class="fa fa-procedures"></i>  Transfuse and monitor
+                <span class="badge badge-pill badge-danger" id="transfusion-pending">0</span>
+            </a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-allergies"></i>  Adverse event reporting</a>
         </div>
         <hr />
@@ -160,6 +164,7 @@
                         </h5>
                         <div class="card-body">
                             <h1 class="card-title">
+                                <b>@Html.Raw(Model.FirstOrDefault().MANDATORYXMATCH.ToString())</b>
                                 <b>@Html.DisplayFor(model => model.FirstOrDefault().EI)</b>
                             </h1>
                             <h6 class="card-subtitle mb-2"></h6>
@@ -1177,11 +1182,13 @@
                             <ul class="list-group list-group-flush list-group-item-danger" id="modal-alert" style="list-style:none"></ul>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button onclick="confirmRequest()" type="button" class="btn btn-primary" id="confirm-request">Confirm request</button>
-                    </div>
+                    <!--
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button onclick="confirmRequest()" type="button" class="btn btn-primary" id="confirm-request">Confirm request</button>
+                </div>
+                -->
+                    <hr />
                     <div>
                         <ul class="list-group list-group-flush list-group-item-danger" id="warning-confirm-request" style="list-style:none"></ul>
                     </div>
@@ -1276,11 +1283,11 @@
                         <!--Insert cards using js-->
                         <div id="demo" class="carousel slide" data-ride="carousel" data-interval="15000">
                             <!-- Indicators>
-                            <ol-- class="carousel-indicators" id="requests-carousel-indicator">
-                                <li data-target="#demo" data-slide-to="0" class="active">1</li>
-                                <li data-target="#demo" data-slide-to="1">2</li>
-                            </ol-->
-                            <div class="carousel-inner" >
+                        <ol-- class="carousel-indicators" id="requests-carousel-indicator">
+                            <li data-target="#demo" data-slide-to="0" class="active">1</li>
+                            <li data-target="#demo" data-slide-to="1">2</li>
+                        </ol-->
+                            <div class="carousel-inner">
                                 <div id="requests-carousel-inner">
                                     <div class="carousel-item active">
                                         <!-- Card -->
@@ -1385,6 +1392,189 @@
                 </div>
             </div>
         </div>
+
+        <!--Modal form - Transfusion process-->
+        <div class="modal fade" id="transfusion-monitor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Transfusion monitoring</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card bg-primary mb-4">
+                            <div class="card-body pb-3">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" id="transfuse-recipient-id" placeholder="Scan recipient's ID" aria-label="Scan recipient's ID" aria-describedby="basic-addon2">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" id="transfuse-pack-id" placeholder="Scan blood pack's ID" aria-label="Scan blood pack's ID" aria-describedby="basic-addon2">
+                                </div>
+                                <button type="button" class="btn btn-outline-dark" id="submit-transfuse-pack">Submit</button>
+                            </div>
+                        </div>
+                        <!--Pre-transfusion observations-->
+                        <div class="card bg-light mb4" id="card-transfusion-pre">
+                            <h6 class="card-header">Pre-transfusion observation</h6>
+                            <div class="card-body">
+                                <!--Temperature-->
+                                <div class="d-flex justify-content-md-center pb-3">
+                                    <div class="input-group">
+                                        <div class="col-md-2">
+                                            <span class="font-weight-bold indigo-text"><i class="fas fa-temperature-high" aria-hidden="true"></i></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="number" class="form-control-sm" data-decimals="1" data-suffix="°C" value="37.4" min="35" max="45" step="0.2" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Pulse rate-->
+                                <div class="d-flex justify-content-md-center pb-3">
+                                    <div class="input-group">
+                                        <div class="col-md-2">
+                                            <span class="font-weight-bold indigo-text"><i class="fas fa-heartbeat" aria-hidden="true"></i></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="number" class="form-control-sm" data-suffix="bpm" value="72" min="40" max="160" step="1" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Systolic blood pressure-->
+                                <div class="d-flex justify-content-md-center pb-3">
+                                    <div class="input-group">
+                                        <div class="col-md-2">
+                                            <span class="font-weight-bold indigo-text"><i class="fas fa-ruler-vertical" aria-hidden="true"></i></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="number" class="form-control-sm" data-suffix="mmHg" value="120" min="0" max="220" step="10" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Diastolic blood pressure-->
+                                <div class="d-flex justify-content-md-center pb-3">
+                                    <div class="input-group">
+                                        <div class="col-md-2">
+                                            <span class="font-weight-bold text-danger indigo-text"><i class="fas fa-ruler-vertical" aria-hidden="true"></i></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="number" class="form-control-sm" data-suffix="mmHg" value="80" min="0" max="180" step="10" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" id="btn-start-transfusion" class="btn btn-secondary btn-lg btn-block">Start Transfusion</button>
+                            </div>
+                        </div>
+                        <!--Transfusion progress-->
+                        <div class="card bg-light mb4" id="card-transfusion-progress">
+                            <h6 class="card-header">Transfusion progress</h6>
+                            <div class="card-body">
+                                <button type="button" id="btn-interrupt-transfusion" class="btn btn-primary btn-block">Interrupt Transfusion</button>
+                                <hr />
+                                <div id="interupt-transfusion">
+                                    <form>
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason1" value="option1">
+                                                <label class="form-check-label" for="interuptReason1">Line blocked</label>
+                                            </div>
+                                            <div class="form-check ">
+                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason2" value="option2">
+                                                <label class="form-check-label" for="interuptReason2">Febrile reaction</label>
+                                            </div>
+                                            <div class="form-check ">
+                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason1" value="option3">
+                                                <label class="form-check-label" for="interuptReason1">Mild urticurial reaction</label>
+                                            </div>
+                                            <div class="form-check ">
+                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason2" value="option4">
+                                                <label class="form-check-label" for="interuptReason2">Other reactions requiring TRI</label>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="form-group">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="interuptDecison" id="interuptCheckbox1" value="option1">
+                                                <label class="form-check-label" for="interuptCheckbox1">Recommence transfusion</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="interuptDecision" id="interuptCheckbox2" value="option2">
+                                                <label class="form-check-label" for="interuptCheckbox2">Terminate transfusion</label>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" id="btn-stop-transfusion" class="btn btn-danger btn-lg btn-block">End Transfusion</button>
+                            </div>
+                        </div>
+                        <!--Post-transfusion observations-->
+                        <div class="card bg-light mb4" id="card-transfusion-post">
+                            <h6 class="card-header">Post-transfusion observation</h6>
+                            <div class="card-body">
+                                <!--Temperature-->
+                                <div class="d-flex justify-content-md-center pb-3">
+                                    <div class="input-group">
+                                        <div class="col-md-2">
+                                            <span class="font-weight-bold indigo-text"><i class="fas fa-temperature-high" aria-hidden="true"></i></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="number" class="form-control-sm" data-decimals="1" data-suffix="°C" value="37.4" min="35" max="45" step="0.2" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Pulse rate-->
+                                <div class="d-flex justify-content-md-center pb-3">
+                                    <div class="input-group">
+                                        <div class="col-md-2">
+                                            <span class="font-weight-bold indigo-text"><i class="fas fa-heartbeat" aria-hidden="true"></i></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="number" class="form-control-sm" data-suffix="bpm" value="72" min="40" max="160" step="1" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Systolic blood pressure-->
+                                <div class="d-flex justify-content-md-center pb-3">
+                                    <div class="input-group">
+                                        <div class="col-md-2">
+                                            <span class="font-weight-bold indigo-text"><i class="fas fa-ruler-vertical" aria-hidden="true"></i></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="number" class="form-control-sm" data-suffix="mmHg" value="120" min="0" max="220" step="10" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Diastolic blood pressure-->
+                                <div class="d-flex justify-content-md-center pb-3">
+                                    <div class="input-group">
+                                        <div class="col-md-2">
+                                            <span class="font-weight-bold text-danger indigo-text"><i class="fas fa-ruler-vertical" aria-hidden="true"></i></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="number" class="form-control-sm" data-suffix="mmHg" value="80" min="0" max="180" step="10" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--Terminating messages and alerts-->
         <br>
         <div class="w3-container w3-dark-grey w3-padding-32">
@@ -1446,13 +1636,17 @@
             evt.currentTarget.firstElementChild.className += " w3-border-red";
         }
     </script>
+
     <script>
-        /*
+        //Input type spinner if input is number
+        $("input[type='number']").inputSpinner();
+    </script>
+    <script>
         $(document).ready(function () {
-            $('#RequiredDate').datepicker();
-            $('#RequiredTime').datepicker();
+            $('#card-transfusion-pre').hide();
+            $('#card-transfusion-progress').hide();
+            $('#card-transfusion-post').hide();
         });
-        */
     </script>
     <script>
         //Update badge with required date and time
@@ -1783,7 +1977,7 @@
                     if (b == 0) {
                         fback = "FFP request has been made with no prior INR results."
                     }
-                    else if (b < 1.1 * a) {
+                    else if (b < 0.9 * a) {
                         fback = "You have chosen to transfuse at a target INR of " + a + " but the patient's last INR was " + b + "."
                     }
                     else {

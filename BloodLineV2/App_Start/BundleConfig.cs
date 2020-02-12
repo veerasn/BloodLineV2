@@ -21,13 +21,15 @@ namespace BloodLineV2
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/umd/popper.js",
-                      "~/Scripts/bootstrap.js"
+                      "~/Scripts/bootstrap.js",
+                      "~/Scripts/bootstrap-slider.js"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/Site.css",
                         "~/Content/bootstrap.css",
-                        "~/Content/w3.css"
+                        "~/Content/w3.css",
+                        "~/Content/css/bootstrap-slider.css"
                       ));
         }
     }

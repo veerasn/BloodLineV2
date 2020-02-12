@@ -565,6 +565,7 @@ namespace BloodLineV2.Controllers
             return View("Details", "_Layout_Patient", prodrequests);
         }
 
+        /*
         public JsonResult GetProcedure(string icd10value, int level)
         {
             var cn = new SqlConnection();
@@ -607,6 +608,7 @@ namespace BloodLineV2.Controllers
                                 select dbValues).ToList();
             return Json(txtItems, JsonRequestBehavior.AllowGet);
         }
+        */
 
         public JsonResult GetProcedureSct2(string sct2value)
         {
