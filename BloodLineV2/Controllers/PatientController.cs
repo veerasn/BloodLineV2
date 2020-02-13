@@ -928,6 +928,21 @@ namespace BloodLineV2.Controllers
             }
         }
 
+        public ActionResult UpdateInterupt(string patid, string packid, int val, int user)
+        {
+            using (BBOrderEntities context = new BBOrderEntities())
+            {
+                Transfusion record = context.Transfusions.Find(packid, patid);
+                record.interupt_reason = val;
+                record.interupt_time = DateTime.Now;
+                record.interupt_user = user;
+                record.current_status = 2;
+                context.SaveChanges();
+
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public JsonResult GetTransfusionDetails(string patid, string packid)
         {
             var cn = new SqlConnection();
@@ -935,6 +950,10 @@ namespace BloodLineV2.Controllers
             string strCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
 
             string queryString = @"SELECT *,
+                                    CONVERT(nvarchar, t.start_time, 100) AS TimeStarted,
+                                    CONVERT(nvarchar, t.interupt_time, 100) AS TimeInterupted,
+                                    CONVERT(nvarchar, t.outcome_time, 100) AS TimeOutcome,
+                                    CONVERT(nvarchar, t.end_time, 100) AS TimeEnded,
                                     DATEDIFF(hour, t.start_time, GETDATE()) AS ElapsedTime
                                     FROM Transfusions t
                                     WHERE t.Patnumber = '" + patid + "' AND t.Prodnum = '" + packid + "'";

@@ -1473,42 +1473,41 @@
                         <!--Transfusion progress-->
                         <div class="card bg-light mb4" id="card-transfusion-progress">
                             <h6 class="card-header">Transfusion progress</h6>
-                            <div class="card-text" id="text-transfusion-progress"></div>
+                            <div class="alert alert-info" role="alert" id="text-transfusion-progress"></div>
                             <div class="card-body">
-                                <button type="button" id="btn-interrupt-transfusion" class="btn btn-primary btn-block">Interrupt Transfusion</button>
+                                <button type="button" id="btn-interupt-transfusion" onclick="interuptTransfusion()" class="btn btn-primary btn-block">Interrupt Transfusion</button>
                                 <hr />
                                 <div id="interupt-transfusion">
-                                    <form>
+                                    <form id="interuptReasons">
                                         <div class="form-group">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason1" value="option1">
+                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason1" value=1>
                                                 <label class="form-check-label" for="interuptReason1">Line blocked</label>
                                             </div>
                                             <div class="form-check ">
-                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason2" value="option2">
+                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason2" value=2>
                                                 <label class="form-check-label" for="interuptReason2">Febrile reaction</label>
                                             </div>
                                             <div class="form-check ">
-                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason1" value="option3">
-                                                <label class="form-check-label" for="interuptReason1">Mild urticurial reaction</label>
+                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason3" value=3>
+                                                <label class="form-check-label" for="interuptReason3">Mild urticurial reaction</label>
                                             </div>
                                             <div class="form-check ">
-                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason2" value="option4">
-                                                <label class="form-check-label" for="interuptReason2">Other reactions requiring TRI</label>
-                                            </div>
-                                        </div>
-                                        <hr />
-                                        <div class="form-group">
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="interuptDecison" id="interuptCheckbox1" value="option1">
-                                                <label class="form-check-label" for="interuptCheckbox1">Recommence transfusion</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="interuptDecision" id="interuptCheckbox2" value="option2">
-                                                <label class="form-check-label" for="interuptCheckbox2">Terminate transfusion</label>
+                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason4" value=4>
+                                                <label class="form-check-label" for="interuptReason4">Other reactions requiring TRI</label>
                                             </div>
                                         </div>
                                     </form>
+                                </div>
+                                <div class="form-group" id="interupt-decision-group">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="interuptDecision" id="interuptCheckbox1" value=1>
+                                        <label class="form-check-label" for="interuptCheckbox1">Recommence transfusion</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="interuptDecision" id="interuptCheckbox2" value=2>
+                                        <label class="form-check-label" for="interuptCheckbox2">Terminate transfusion</label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-footer">
@@ -2464,6 +2463,9 @@
             $('#card-transfusion-progress').hide();
             $('#card-transfusion-post').hide();
             $('#card-transfusion-summary').hide();
+            $("#interupt-transfusion").hide();
+            $("#interupt-decision-group").hide();
+
         });
     </script>
 
@@ -2486,138 +2488,227 @@
                         //Unit is matched to the patient.
                         //Check to see if transfusion has been started for this unit on this patient by interogating BBOrder:Transfusions
                         var uri = "/Patient/GetTransfusionDetails";
+
                         $.getJSON(uri, { patid: x, packid: y }).done(function (data) {
                             var objT = JSON.parse(data);
                             if (objT.length == 0) {
-                                //Transfusion has not commenced, current_status = 0
-                                if (objResults[0].IssueInterval > 4) {
-                                    z.style.backgroundColor = "#FFDB58";
-                                    z.innerHTML = "Unit exceeded time from issue to transfusion (" + objResults[0].IssueInterval + " hours)";
-                                    $('#card-transfusion-pre').hide();
-                                    $('#card-transfusion-progress').hide();
-                                    $('#card-transfusion-post').hide();
-                                    $('#card-transfusion-summary').hide();
+                                //Run function for new transfusions
+                                if (objResults[0].IssueInterval != null) {
+                                    newTransfusion(objResults[0].IssueInterval);
                                 }
                                 else {
-                                    z.style.backgroundColor = "#99C68C";
-                                    z.innerHTML = "Verification passed";
-                                    //Display pre-transfusion monitoring card
-                                    $('#card-transfusion-pre').show();
-                                    $('#card-transfusion-progress').hide();
-                                    $('#card-transfusion-post').hide();
-                                    $('#card-transfusion-summary').hide();
+                                    displayTransfusion(0, "Pack verified but has not been issued", "#F75D59" )
                                 }
+                                
                             }
                             else {
-                                //Function to update modal for transfusions according to transfusion status
-                                var status = objT[0].current_status;
-                                alert("Transfusion in-progress!" + status)
-                                switch (status) {
-                                    case 0: //Transfusion not-commenced
-                                        $('#card-transfusion-pre').show();
-                                        $('#card-transfusion-progress').hide();
-                                        $('#card-transfusion-post').hide();
-                                        $('#card-transfusion-summary').hide();
-                                        break;
-
-                                    case 1: //Transfusion started and in-progress
-                                        
-                                        var str = "<p>Transfusion commenced at: " + objT.start_time
-                                                    + " (T:" + objT.pre_temp/10 + "<sup>o<sup>C,"
-                                                    + " HR:" + objT.pre_pulse + " bpm,"
-                                                    + " BP:" + objT.pre_bp_sys + "/" + objT.pre_bp_dia + " mmHg)</p>"
-                                        $('#text-transfusion-progress').innerHTML = str;
-
-                                        $('#card-transfusion-pre').hide();
-                                        $('#card-transfusion-progress').show();
-                                        $('#card-transfusion-post').show();
-                                        $('#card-transfusion-summary').hide();
-                                        break;
-
-                                    case 2: //Transfusion interrupted
-                                        var str1 = "<p>Transfusion commenced at: " + objT.start_time
-                                            + " (T:" + objT.pre_temp / 10 + "<sup>o<sup>C,"
-                                            + " HR:" + objT.pre_pulse + " bpm,"
-                                            + " BP:" + objT.pre_bp_sys + "/" + objT.pre_bp_dia + " mmHg)</p>"
-
-                                        if (objT.interupt_time != null && objT.interupt_reason != null) {
-                                            var str2 = "<p>Transfusion inetrrupted at: " + objT.interupt_time
-                                                + " due to reason " + objT.interupt_reason + "</p>"
-                                        }
-                                        else {
-                                            var str2 = "";    
-                                        }
-
-                                        if (objT.outcome_time != null && objT.interupt_outcome != null) {
-                                            if (objT.outcome == 1) {
-                                                var str3 = "<p>Transfusion recommenced at: " + objT.outcome_time + "</p>"
-                                            }
-                                            else {
-                                                var str3 = "<p>Transfusion terminated at: " + objT.outcome_time + "</p>"
-                                            }  
-                                        }
-
-                                        $('#text-transfusion-progress').innerHTML = str1 + str2 + str3;
-
-                                        $('#card-transfusion-pre').hide();
-                                        $('#card-transfusion-progress').show();
-                                        $('#card-transfusion-post').show();
-                                        $('#card-transfusion-summary').hide();
-                                        break;
-
-                                    case 3: //Transfusion completed
-                                        var str1 = "<p>Transfusion commenced at: " + objT.start_time
-                                            + " (T:" + objT.pre_temp / 10 + "<sup>o<sup>C,"
-                                            + " HR:" + objT.pre_pulse + " bpm,"
-                                            + " BP:" + objT.pre_bp_sys + "/" + objT.pre_bp_dia + " mmHg)</p>"
-
-                                        if (objT.interupt_time != null && objT.interupt_reason != null) {
-                                            var str2 = "<p>Transfusion inetrrupted at: " + objT.interupt_time
-                                                + " due to reason " + objT.interupt_reason + "</p>"
-                                        }
-                                        else {
-                                            var str2 = "";
-                                        }
-
-                                        if (objT.outcome_time != null && objT.interupt_outcome != null) {
-                                            if (objT.outcome == 1) {
-                                                var str3 = "<p>Transfusion recommenced at: " + objT.outcome_time + "</p>"
-                                            }
-                                            else {
-                                                var str3 = "<p>Transfusion terminated at: " + objT.outcome_time + "</p>"
-                                            }
-                                        }
-
-                                        var str4 = "<p>Transfusion completed at: " + objT.end_time
-                                            + " (T:" + objT.post_temp / 10 + "<sup>o<sup>C,"
-                                            + " HR:" + objT.post_pulse + " bpm,"
-                                            + " BP:" + objT.post_bp_sys + "/" + objT.post_bp_dia + " mmHg)</p>"
-
-                                        $('#text-transfusion-summary').innerHTML = str1 + str2 + str3 + str4;
-
-                                        $('#card-transfusion-pre').hide();
-                                        $('#card-transfusion-progress').hide();
-                                        $('#card-transfusion-post').hide();
-                                        $('#card-transfusion-summary').show();
-                                        break;
-                                }
+                                //Run function for ongoing transfusions
+                                ongoingTransfusion(objT)
                             }
                         });
                     }
                     else {
                         //Unit is not matched to this patient
-                        z.style.backgroundColor = "#F75D59";
-                        z.innerHTML = "Patient and pack do not match";
-                        $('#card-transfusion-pre').hide();
+                        displayTransfusion(0, "Patient and pack do not match", "#F75D59");
                     }
                 });
             }
             else {
                 //Patient RN entered does not match that diplayed on the form
-                z.style.backgroundColor = "#F75D59";
-                z.innerHTML = "Patient entered does not match patient displayed";
-                $('#card-transfusion-pre').hide();
+                displayTransfusion(0, "Patient displayed does not match entered patient RN", "#F75D59");
             }
+        }
+    </script>
+    <script>
+        //Prepare modal transfusion if new transfusion
+        function newTransfusion(interval) {
+            var alert;
+            if (interval > 4) {
+                alert = "Unit exceeded time from issue to transfusion (" + interval + " hours)";
+                displayTransfusion(0, alert, "#FFDB58")
+            }
+            else {
+                alert = "Verification passed. Proceed for transfusion.";
+                displayTransfusion(1, alert, "#99C68C")
+            }
+        }
+    </script>
+    <script>
+        //Prepare modal for ongoing transfusions
+        function ongoingTransfusion(objT) {
+            var progressText = document.getElementById("text-transfusion-progress")
+            var status = objT[0].current_status;
+            var alert = "";
+            var color = "000000";
+            var str = "";
+
+            switch (status) {
+
+                case 1: //Transfusion started and in-progress
+                    str = "<p>Transfusion commenced at: " + objT[0].TimeStarted
+                        + " (T:" + objT[0].pre_temp / 10 + "<sup>o</sup>C,"
+                        + " HR:" + objT[0].pre_pulse + " bpm,"
+                        + " BP:" + objT[0].pre_bp_sys + "/" + objT[0].pre_bp_dia + " mmHg)</p>"
+
+                    progressText.innerHTML = str;
+                    alert = "Transfusion in progress";
+                    color = "#99C68C"
+                    displayTransfusion(2, alert, color)
+                    break;
+
+                case 2: //Transfusion interrupted
+                    str = "<p>Transfusion commenced at: " + objT[0].TimeStarted
+                        + " (T:" + objT[0].pre_temp / 10 + "<sup>o</sup>C,"
+                        + " HR:" + objT[0].pre_pulse + " bpm,"
+                        + " BP:" + objT[0].pre_bp_sys + "/" + objT[0].pre_bp_dia + " mmHg)</p>"
+
+                    if (objT[0].interupt_time != null && objT[0].interupt_reason != null) {
+                        str = str
+                            + "<p>Transfusion interrupted at: " + objT[0].TimeInterupted
+                            + " due to reason " + objT[0].interupt_reason + "</p>"
+                    }
+
+                    progressText.innerHTML = str;
+                    alert = "Transfusion interrupted";
+                    color = "#99C68C";
+                    displayTransfusion(2, alert, color)
+                    break;
+
+                case 3: //Transfusion recommenced
+                    str = "<p>Transfusion commenced at: " + objT[0].TimeStarted
+                        + " (T:" + objT[0].pre_temp / 10 + "<sup>o</sup>C,"
+                        + " HR:" + objT[0].pre_pulse + " bpm,"
+                        + " BP:" + objT[0].pre_bp_sys + "/" + objT[0].pre_bp_dia + " mmHg)</p>"
+
+                    if (objT[0].interupt_time != null && objT[0].interupt_reason != null) {
+                        str = str
+                            + "<p>Transfusion interrupted at: " + objT[0].TimeInterupted
+                            + " due to reason " + objT[0].interupt_reason + "</p>"
+                    }
+
+                    if (objT[0].outcome_time != null && objT[0].interupt_outcome != null) {
+                        if (objT[0].outcome == 1) {
+                            str = str + "<p>Transfusion recommenced at: " + objT[0].TimeOutcome + "</p>"
+                            alert = "Transfusion recommenced after interruption"
+                            color = "#99C68C"
+
+                            $("#interupt-transfusion").hide();
+                            $("#interupt-decision-group").hide();
+                            x.innerHTML = "Interrupt Transfusion";
+                            $("#btn-interupt-transfusion").attr("disabled", false);
+                        }
+                        else {
+                            str = "<p>Transfusion terminated at: " + objT[0].TimeOutcome + "</p>"
+                            alert = "Transfusion terminated after interruption"
+                            color = "#99C68C"
+                        }
+                    }
+
+                    progressText.innerHTML = str;
+                    displayTransfusion(3, alert, color);
+                    break;
+
+                case 4: //Transfusion completed
+                    str = "<p>Transfusion commenced at: " + objT[0].TimeStarted
+                        + " (T:" + objT[0].pre_temp / 10 + "<sup>o</sup>C,"
+                        + " HR:" + objT[0].pre_pulse + " bpm,"
+                        + " BP:" + objT[0].pre_bp_sys + "/" + objT[0].pre_bp_dia + " mmHg)</p>"
+
+                    if (objT[0].interupt_time != null && objT[0].interupt_reason != null) {
+                        str = str
+                            + "<p>Transfusion inetrrupted at: " + objT[0].TimeInterupted
+                            + " due to reason " + objT[0].interupt_reason + "</p>"
+                    }
+
+                    if (objT[0].outcome_time != null && objT[0].interupt_outcome != null) {
+                        if (objT[0].outcome == 1) {
+                            str = str + "<p>Transfusion recommenced at: " + objT[0].TimeOutcome + "</p>"
+                        }
+                        else {
+                            str = str + "<p>Transfusion terminated at: " + objT[0].TimeOutcome + "</p>"
+                        }
+                    }
+
+                    str = str
+                        + "<p>Transfusion completed at: " + objT[0].TimeEnded
+                        + " (T:" + objT[0].post_temp / 10 + "<sup>o</sup>C,"
+                        + " HR:" + objT[0].post_pulse + " bpm,"
+                        + " BP:" + objT[0].post_bp_sys + "/" + objT[0].post_bp_dia + " mmHg)</p>"
+
+                    alert = "Transfusion completed"
+                    color = "#99C68C"
+
+                    displayTransfusion(4, alert, color);
+
+                    $('#text-transfusion-summary').innerHTML = str;
+                    break;
+            }
+
+
+        }
+    </script>
+    <script>
+        function displayTransfusion(status, alert, color) {
+
+            var $pre = $('#card-transfusion-pre');
+            var $progress = $('#card-transfusion-progress');
+            var $post = $('#card-transfusion-post');
+            var $summary = $('#card-transfusion-summary')
+            var $interuptReason = $("#interupt-transfusion")
+            var $interuptOutcome = $("#interupt-decision-group")
+            var $interuptButton = $("#btn-interupt-transfusion")
+            var header = document.getElementById("card-verify-pack");
+
+            header.style.background = color;
+            header.innerHTML = alert;
+
+            switch (status) {
+                case 0://transfusion not allowed
+                    $pre.hide();
+                    $progress.hide();
+                    $post.hide();
+                    $summary.hide();
+                    $break;
+
+                case 1://start transfusion
+                    $pre.show();
+                    $progress.hide();
+                    $post.hide();
+                    $summary.hide();
+                    break;
+
+                case 2://monitor transfusion in progress and allow interruption
+                    $pre.hide();
+                    $progress.show();
+                    $post.hide();
+                    $summary.hide();
+
+                    $interuptReason.hide();
+                    $interuptOutcome.hide();
+                    $interuptButton.innerHTML = "Interrupt Transfusion";
+                    $interuptButton.attr("disabled", false);
+                    break;
+
+                case 3://monitor transfusion after interruption and allow recommencement or termination
+                    $pre.hide();
+                    $progress.show();
+                    $post.hide();
+                    $summary.hide();
+
+                    $interuptReason.hide();
+                    $interuptOutcome.show();
+                    $interuptButton.innerHTML = "Interrupt Transfusion";
+                    $interuptButton.attr("disabled", true);
+                    break;
+
+                case 4://end transfusion
+                    $pre.hide();
+                    $progress.hide();
+                    $post.hide();
+                    $summary.show();
+                    break;
+            }
+
         }
     </script>
     <script>
@@ -2651,10 +2742,65 @@
                 dataType: "json",
                 success: function (r) {
                     alert(r + " record(s) inserted.");
+                    //refresh modal
                     $('#card-transfusion-progress').show()
                 }
             });
         };
+    </script>
+    <script>
+        function interuptTransfusion() {
+
+            var x = document.getElementById("btn-interupt-transfusion");
+            var str = x.innerHTML;
+            
+            if (str == "Interrupt Transfusion") {
+                $("#interupt-transfusion").show();
+                $("#interupt-decision-group").hide();
+                x.innerHTML = "Confirm Interruption";
+                $("#btn-interupt-transfusion").attr("disabled", false);
+            }
+            else if (str == "Confirm Interruption") {
+                //Upload details of interuption
+                $.ajax({
+                    url: "/Patient/UpdateInterupt",
+                    method: "Post",
+                    data: {
+                        patid: document.getElementById("transfuse-recipient-id").value,
+                        packid: document.getElementById("transfuse-pack-id").value,
+                        val: 2,
+                        user: 1
+                    }
+                }).done(function () {
+                    alert("Interupt added.");
+
+                }).error(function () {
+                    alert("Error in adding out interupt");
+                });
+
+                $("#interupt-transfusion").hide();
+                $("#interupt-decision-group").show();
+                x.innerHTML = "Interrupt Transfusion";
+                $("#btn-interupt-transfusion").attr("disabled", true);
+            }
+            
+        }
+    </script>
+    <script>
+        function getRadioVal(form, name) {
+            var val;
+            // get list of radio buttons with specified name
+            var radios = form.elements[name];
+
+            // loop through list of radio buttons
+            for (var i = 0, len = radios.length; i < len; i++) {
+                if (radios[i].checked) { // radio checked?
+                    val = radios[i].value; // if so, hold its value in val
+                    break; // and break out of for loop
+                }
+            }
+            return val; // return value of checked radio or undefined if none checked
+        }
     </script>
     <script>
         // ************************************************
