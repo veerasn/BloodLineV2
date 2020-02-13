@@ -1473,6 +1473,7 @@
                         <!--Transfusion progress-->
                         <div class="card bg-light mb4" id="card-transfusion-progress">
                             <h6 class="card-header">Transfusion progress</h6>
+                            <div class="card-text" id="text-transfusion-progress"></div>
                             <div class="card-body">
                                 <button type="button" id="btn-interrupt-transfusion" class="btn btn-primary btn-block">Interrupt Transfusion</button>
                                 <hr />
@@ -1566,7 +1567,9 @@
                             <div class="card-footer">
                             </div>
                         </div>
-
+                        <div class="card mb-4" id="card-transfusion-summary">
+                            <div class="text-transfusion-summary"></div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -2460,6 +2463,7 @@
             $('#card-transfusion-pre').hide();
             $('#card-transfusion-progress').hide();
             $('#card-transfusion-post').hide();
+            $('#card-transfusion-summary').hide();
         });
     </script>
 
@@ -2479,22 +2483,129 @@
                     count = JSON.parse(data).length;
 
                     if (count != 0) {
-                        if (objResults[0].IssueInterval > 4) {
-                            z.style.backgroundColor = "#FFDB58";
-                            z.innerHTML = "Unit exceeded time from issue to transfusion (" + objResults[0].IssueInterval + " hours)";
-                            $('#card-transfusion-pre').hide();
-                        }
-                        else {
-                            z.style.backgroundColor = "#99C68C";
-                            z.innerHTML = "Verification passed";
-                            //Check if transfusion recorded earlier. If yes, render modal accoring to current status
-                            //If status == 1, populate vital signs and collapse pre-transfusion card, display progress card
- 
-                            //Display pre-transfusion monitoring card
-                            $('#card-transfusion-pre').show();
-                        }
+                        //Unit is matched to the patient.
+                        //Check to see if transfusion has been started for this unit on this patient by interogating BBOrder:Transfusions
+                        var uri = "/Patient/GetTransfusionDetails";
+                        $.getJSON(uri, { patid: x, packid: y }).done(function (data) {
+                            var objT = JSON.parse(data);
+                            if (objT.length == 0) {
+                                //Transfusion has not commenced, current_status = 0
+                                if (objResults[0].IssueInterval > 4) {
+                                    z.style.backgroundColor = "#FFDB58";
+                                    z.innerHTML = "Unit exceeded time from issue to transfusion (" + objResults[0].IssueInterval + " hours)";
+                                    $('#card-transfusion-pre').hide();
+                                    $('#card-transfusion-progress').hide();
+                                    $('#card-transfusion-post').hide();
+                                    $('#card-transfusion-summary').hide();
+                                }
+                                else {
+                                    z.style.backgroundColor = "#99C68C";
+                                    z.innerHTML = "Verification passed";
+                                    //Display pre-transfusion monitoring card
+                                    $('#card-transfusion-pre').show();
+                                    $('#card-transfusion-progress').hide();
+                                    $('#card-transfusion-post').hide();
+                                    $('#card-transfusion-summary').hide();
+                                }
+                            }
+                            else {
+                                //Function to update modal for transfusions according to transfusion status
+                                var status = objT[0].current_status;
+                                alert("Transfusion in-progress!" + status)
+                                switch (status) {
+                                    case 0: //Transfusion not-commenced
+                                        $('#card-transfusion-pre').show();
+                                        $('#card-transfusion-progress').hide();
+                                        $('#card-transfusion-post').hide();
+                                        $('#card-transfusion-summary').hide();
+                                        break;
+
+                                    case 1: //Transfusion started and in-progress
+                                        
+                                        var str = "<p>Transfusion commenced at: " + objT.start_time
+                                                    + " (T:" + objT.pre_temp/10 + "<sup>o<sup>C,"
+                                                    + " HR:" + objT.pre_pulse + " bpm,"
+                                                    + " BP:" + objT.pre_bp_sys + "/" + objT.pre_bp_dia + " mmHg)</p>"
+                                        $('#text-transfusion-progress').innerHTML = str;
+
+                                        $('#card-transfusion-pre').hide();
+                                        $('#card-transfusion-progress').show();
+                                        $('#card-transfusion-post').show();
+                                        $('#card-transfusion-summary').hide();
+                                        break;
+
+                                    case 2: //Transfusion interrupted
+                                        var str1 = "<p>Transfusion commenced at: " + objT.start_time
+                                            + " (T:" + objT.pre_temp / 10 + "<sup>o<sup>C,"
+                                            + " HR:" + objT.pre_pulse + " bpm,"
+                                            + " BP:" + objT.pre_bp_sys + "/" + objT.pre_bp_dia + " mmHg)</p>"
+
+                                        if (objT.interupt_time != null && objT.interupt_reason != null) {
+                                            var str2 = "<p>Transfusion inetrrupted at: " + objT.interupt_time
+                                                + " due to reason " + objT.interupt_reason + "</p>"
+                                        }
+                                        else {
+                                            var str2 = "";    
+                                        }
+
+                                        if (objT.outcome_time != null && objT.interupt_outcome != null) {
+                                            if (objT.outcome == 1) {
+                                                var str3 = "<p>Transfusion recommenced at: " + objT.outcome_time + "</p>"
+                                            }
+                                            else {
+                                                var str3 = "<p>Transfusion terminated at: " + objT.outcome_time + "</p>"
+                                            }  
+                                        }
+
+                                        $('#text-transfusion-progress').innerHTML = str1 + str2 + str3;
+
+                                        $('#card-transfusion-pre').hide();
+                                        $('#card-transfusion-progress').show();
+                                        $('#card-transfusion-post').show();
+                                        $('#card-transfusion-summary').hide();
+                                        break;
+
+                                    case 3: //Transfusion completed
+                                        var str1 = "<p>Transfusion commenced at: " + objT.start_time
+                                            + " (T:" + objT.pre_temp / 10 + "<sup>o<sup>C,"
+                                            + " HR:" + objT.pre_pulse + " bpm,"
+                                            + " BP:" + objT.pre_bp_sys + "/" + objT.pre_bp_dia + " mmHg)</p>"
+
+                                        if (objT.interupt_time != null && objT.interupt_reason != null) {
+                                            var str2 = "<p>Transfusion inetrrupted at: " + objT.interupt_time
+                                                + " due to reason " + objT.interupt_reason + "</p>"
+                                        }
+                                        else {
+                                            var str2 = "";
+                                        }
+
+                                        if (objT.outcome_time != null && objT.interupt_outcome != null) {
+                                            if (objT.outcome == 1) {
+                                                var str3 = "<p>Transfusion recommenced at: " + objT.outcome_time + "</p>"
+                                            }
+                                            else {
+                                                var str3 = "<p>Transfusion terminated at: " + objT.outcome_time + "</p>"
+                                            }
+                                        }
+
+                                        var str4 = "<p>Transfusion completed at: " + objT.end_time
+                                            + " (T:" + objT.post_temp / 10 + "<sup>o<sup>C,"
+                                            + " HR:" + objT.post_pulse + " bpm,"
+                                            + " BP:" + objT.post_bp_sys + "/" + objT.post_bp_dia + " mmHg)</p>"
+
+                                        $('#text-transfusion-summary').innerHTML = str1 + str2 + str3 + str4;
+
+                                        $('#card-transfusion-pre').hide();
+                                        $('#card-transfusion-progress').hide();
+                                        $('#card-transfusion-post').hide();
+                                        $('#card-transfusion-summary').show();
+                                        break;
+                                }
+                            }
+                        });
                     }
                     else {
+                        //Unit is not matched to this patient
                         z.style.backgroundColor = "#F75D59";
                         z.innerHTML = "Patient and pack do not match";
                         $('#card-transfusion-pre').hide();
@@ -2502,6 +2613,7 @@
                 });
             }
             else {
+                //Patient RN entered does not match that diplayed on the form
                 z.style.backgroundColor = "#F75D59";
                 z.innerHTML = "Patient entered does not match patient displayed";
                 $('#card-transfusion-pre').hide();
