@@ -1531,7 +1531,7 @@
                                             <span class="font-weight-bold indigo-text"><i class="fas fa-temperature-high" aria-hidden="true"></i></span>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="number" class="form-control-sm" data-decimals="1" data-suffix="°C" value="37.4" min="35" max="45" step="0.2" />
+                                            <input type="number" id="post-temp" class="form-control-sm"  data-suffix="°C" value="374" min="350" max="450" step="2" />
                                         </div>
                                     </div>
                                 </div>
@@ -1542,7 +1542,7 @@
                                             <span class="font-weight-bold indigo-text"><i class="fas fa-heartbeat" aria-hidden="true"></i></span>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="number" class="form-control-sm" data-suffix="bpm" value="72" min="40" max="160" step="1" />
+                                            <input type="number" id="post-pulse" class="form-control-sm" data-suffix="bpm" value="72" min="40" max="160" step="1" />
                                         </div>
                                     </div>
                                 </div>
@@ -1553,7 +1553,7 @@
                                             <span class="font-weight-bold indigo-text"><i class="fas fa-ruler-vertical" aria-hidden="true"></i></span>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="number" class="form-control-sm" data-suffix="mmHg" value="120" min="0" max="220" step="10" />
+                                            <input type="number" id="post-bp-sys" class="form-control-sm" data-suffix="mmHg" value="120" min="0" max="220" step="10" />
                                         </div>
                                     </div>
                                 </div>
@@ -1564,7 +1564,7 @@
                                             <span class="font-weight-bold text-danger indigo-text"><i class="fas fa-ruler-vertical" aria-hidden="true"></i></span>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="number" class="form-control-sm" data-suffix="mmHg" value="80" min="0" max="180" step="10" />
+                                            <input type="number" id="post-bp-dia" class="form-control-sm" data-suffix="mmHg" value="80" min="0" max="180" step="10" />
                                         </div>
                                     </div>
                                 </div>
@@ -2547,13 +2547,39 @@
             var color = "000000";
             var str = "";
 
-            switch (status) {
-
-                case 1: //Transfusion started and in-progress
-                    str = "<p>Transfusion commenced at: " + objT[0].TimeStarted
+            //Build string to display series of transfusion events
+            var str = str
+                        + "<p>Transfusion commenced at: " + objT[0].TimeStarted
                         + " (T:" + objT[0].pre_temp / 10 + "<sup>o</sup>C,"
                         + " HR:" + objT[0].pre_pulse + " bpm,"
                         + " BP:" + objT[0].pre_bp_sys + "/" + objT[0].pre_bp_dia + " mmHg)</p>"
+
+            if (objT[0].interupt_time != null && objT[0].interupt_reason != null) {
+                str = str
+                    + "<p>Transfusion inetrrupted at: " + objT[0].TimeInterupted
+                    + " due to reason " + objT[0].interupt_reason + "</p>"
+            }
+
+            if (objT[0].outcome_time != null && objT[0].interupt_outcome != null) {
+                if (objT[0].interupt_outcome == 1) {
+                    str = str + "<p>Transfusion recommenced at: " + objT[0].TimeOutcome + "</p>"
+                }
+                else if (objT[0].interupt_outcome == 2) {
+                    str = str + "<p>Transfusion terminated at: " + objT[0].TimeOutcome + "</p>"
+                }
+            }
+
+            if (objT[0].TimeEnded != null) {
+                str = str
+                    + "<p>Transfusion completed at: " + objT[0].TimeEnded
+                    + " (T:" + objT[0].post_temp / 10 + "<sup>o</sup>C,"
+                    + " HR:" + objT[0].post_pulse + " bpm,"
+                    + " BP:" + objT[0].post_sys + "/" + objT[0].post_dia + " mmHg)</p>"
+            }
+
+            switch (status) {
+
+                case 1: //Transfusion started and in-progress
 
                     progressText.innerHTML = str;
                     summaryText.innerHTML = str;
@@ -2563,16 +2589,6 @@
                     break;
 
                 case 2: //Transfusion interrupted
-                    str = "<p>Transfusion commenced at: " + objT[0].TimeStarted
-                        + " (T:" + objT[0].pre_temp / 10 + "<sup>o</sup>C,"
-                        + " HR:" + objT[0].pre_pulse + " bpm,"
-                        + " BP:" + objT[0].pre_bp_sys + "/" + objT[0].pre_bp_dia + " mmHg)</p>"
-
-                    if (objT[0].interupt_time != null && objT[0].interupt_reason != null) {
-                        str = str
-                            + "<p>Transfusion interrupted at: " + objT[0].TimeInterupted
-                            + " due to reason " + objT[0].interupt_reason + "</p>"
-                    }
 
                     progressText.innerHTML = str;
                     summaryText.innerHTML = str;
@@ -2582,30 +2598,16 @@
                     break;
 
                 case 3: //Transfusion recommenced or terminated after interruption
-                    str = "<p>Transfusion commenced at: " + objT[0].TimeStarted
-                        + " (T:" + objT[0].pre_temp / 10 + "<sup>o</sup>C,"
-                        + " HR:" + objT[0].pre_pulse + " bpm,"
-                        + " BP:" + objT[0].pre_bp_sys + "/" + objT[0].pre_bp_dia + " mmHg)</p>"
-
-                    if (objT[0].interupt_time != null && objT[0].interupt_reason != null) {
-                        str = str
-                            + "<p>Transfusion interrupted at: " + objT[0].TimeInterupted
-                            + " due to reason " + objT[0].interupt_reason + "</p>"
-                    }
 
                     if (objT[0].outcome_time != null && objT[0].interupt_outcome != null) {
                         if (objT[0].interupt_outcome == 1) {
-                            str = str + "<p>Transfusion recommenced at: " + objT[0].TimeOutcome + "</p>"
                             alert = "Transfusion recommenced and in progress after interruption"
                             color = "#99C68C"
-
                             displayTransfusion(2, alert, color);
                         }
                         else if (objT[0].interupt_outcome == 2) {
-                            str = str + "<p>Transfusion terminated at: " + objT[0].TimeOutcome + "</p>"
                             alert = "Transfusion terminated after interruption"
                             color = "#99C68C"
-
                             displayTransfusion(4, alert, color);
                         }
                     }
@@ -2614,50 +2616,22 @@
                     summaryText.innerHTML = str;
                     break;
 
+                case 4: //Transfusion stopped and awaiting entry of post-transfusion observations
 
-                case 5: //Transfusion completed
-                    str = str
-                        + "<p>Transfusion commenced at: " + objT[0].TimeStarted
-                        + " (T:" + objT[0].pre_temp / 10 + "<sup>o</sup>C,"
-                        + " HR:" + objT[0].pre_pulse + " bpm,"
-                        + " BP:" + objT[0].pre_bp_sys + "/" + objT[0].pre_bp_dia + " mmHg)</p>"
+                    alert = "Transfusion stopped. Please enter post-transfusion observations and press complete."
+                    color = "#99C68C"
 
-                    if (objT[0].interupt_time != null && objT[0].interupt_reason != null) {
-                        str = str
-                            + "<p>Transfusion inetrrupted at: " + objT[0].TimeInterupted
-                            + " due to reason " + objT[0].interupt_reason + "</p>"
-                    }
+                    displayTransfusion(4, alert, color);
+                    progressText.innerHTML = str;
+                    summaryText.innerHTML = str;
+                    break;
 
-                    if (objT[0].outcome_time != null && objT[0].interupt_outcome != null) {
-                        if (objT[0].interupt_outcome == 1) {
-                            str = str + "<p>Transfusion recommenced at: " + objT[0].TimeOutcome + "</p>"
-                            alert = "Transfusion recommenced and in progress after interruption"
-                            color = "#99C68C"
-
-                            displayTransfusion(2, alert, color);
-                        }
-                        else if (objT[0].interupt_outcome == 2) {
-                            str = str + "<p>Transfusion terminated at: " + objT[0].TimeOutcome + "</p>"
-                            alert = "Transfusion terminated after interruption"
-                            color = "#99C68C"
-
-                            displayTransfusion(4, alert, color);
-                        }
-                    }
-
-                    if (objT[0].TimeEnded != null) {
-                        str = str
-                            + "<p>Transfusion completed at: " + objT[0].TimeEnded
-                            + " (T:" + objT[0].post_temp / 10 + "<sup>o</sup>C,"
-                            + " HR:" + objT[0].post_pulse + " bpm,"
-                            + " BP:" + objT[0].post_bp_sys + "/" + objT[0].post_bp_dia + " mmHg)</p>"
-                    }
-                    
+                case 5: //Transfusion stopped and awaiting entry of post-transfusion observations
 
                     alert = "Transfusion completed"
                     color = "#99C68C"
 
-                    displayTransfusion(4, alert, color);
+                    displayTransfusion(5, alert, color);
                     progressText.innerHTML = str;
                     summaryText.innerHTML = str;
                     break;
@@ -2722,10 +2696,17 @@
                     $stopButton.attr("disabled", true)
                     break;
 
-                case 4://end transfusion
+                case 4://stop transfusion
                     $pre.hide();
                     $progress.hide();
                     $post.show();
+                    $summary.show();
+                    break;
+
+                case 5://Transfusion completed
+                    $pre.hide();
+                    $progress.hide();
+                    $post.hide();
                     $summary.show();
                     break;
             }
@@ -2843,6 +2824,31 @@
 
             }).error(function () {
                 alert("Error in adding out interupt");
+            });
+        }
+    </script>
+    <script>
+        function completeTransfusion() {
+            //Upload details of recommencement or termination
+            $.ajax({
+                url: "/Patient/CompleteTransfusion",
+                method: "Post",
+                data: {
+                    patid: document.getElementById("transfuse-recipient-id").value,
+                    packid: document.getElementById("transfuse-pack-id").value,
+
+                    posttemp: document.getElementById("post-temp").value,
+                    postpulse: document.getElementById("post-pulse").value,
+                    postbps: document.getElementById("post-bp-sys").value,
+                    postbpd: document.getElementById("post-bp-dia").value,
+
+                    user: 1
+                }
+            }).done(function () {
+                alert("Transfusion completed.");
+
+            }).error(function () {
+                alert("Error in completing transfusion");
             });
         }
     </script>

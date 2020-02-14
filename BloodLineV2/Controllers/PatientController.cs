@@ -970,6 +970,26 @@ namespace BloodLineV2.Controllers
             }
         }
 
+        public ActionResult CompleteTransfusion(string patid, string packid, int posttemp, int postpulse, int postbps, int postbpd, int user)
+        {
+            using (BBOrderEntities context = new BBOrderEntities())
+            {
+                Transfusion record = context.Transfusions.Find(packid, patid);
+
+                record.post_temp = posttemp;
+                record.post_pulse = postpulse;
+                record.post_sys = postbps;
+                record.post_dia = postbpd;
+
+                record.end_time = DateTime.Now;
+                record.end_user = user;
+                record.current_status = 5;
+                context.SaveChanges();
+
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public JsonResult GetTransfusionDetails(string patid, string packid)
         {
             var cn = new SqlConnection();
