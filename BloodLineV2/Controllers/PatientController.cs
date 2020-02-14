@@ -943,6 +943,33 @@ namespace BloodLineV2.Controllers
             }
         }
 
+        public ActionResult UpdateDecision(string patid, string packid, int val, int user)
+        {
+            using (BBOrderEntities context = new BBOrderEntities())
+            {
+                Transfusion record = context.Transfusions.Find(packid, patid);
+                record.interupt_outcome = val;
+                record.outcome_time = DateTime.Now;
+                record.interupt_user = user;
+                record.current_status = 3;
+                context.SaveChanges();
+
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult StopTransfusion(string patid, string packid, int val)
+        {
+            using (BBOrderEntities context = new BBOrderEntities())
+            {
+                Transfusion record = context.Transfusions.Find(packid, patid);
+                record.current_status = 4;
+                context.SaveChanges();
+
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public JsonResult GetTransfusionDetails(string patid, string packid)
         {
             var cn = new SqlConnection();
