@@ -42,7 +42,6 @@
             </a>
             <a href="#" class="w3-bar-item w3-button w3-padding" data-toggle="modal" data-target="#transfusion-monitor">
                 <i class="fa fa-procedures"></i>  Transfuse and monitor
-                <span class="badge badge-pill badge-danger" id="transfusion-pending">0</span>
             </a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-allergies"></i>  Adverse event reporting</a>
         </div>
@@ -204,7 +203,7 @@
                     {
                         <i class="fa fa-vial"></i>
                         <i class="fa fa-check"></i>
-                        <sup>@ViewBag.ReqValidDate</sup>
+                        <sup>@Convert.ToDateTime(@ViewBag.ReqValidDate).ToString("dd/MM/yy HH:MM")</sup>
                     }
 
                     @if (ViewBag.InReserve > 0)
@@ -1649,7 +1648,25 @@
         //Input type spinner if input is number
         $("input[type='number']").inputSpinner();
     </script>
+    <script>
+        //Check sample validity
+        $(document).ready(function () {
 
+            var id = document.getElementById("unique-patient-id").innerHTML;
+            var uri = "/Patient/CheckLastTransfusionInterval";
+
+            $.getJSON(uri, { id: id }).done(function (data) {
+                //count = Object.keys(data).length;
+                data = JSON.parse(data);
+                var count = data[0].Count;
+                alert(@ViewBag.diffSample + "|" + @ViewBag.lastTransfusion)
+                if (count > 0) {
+
+                }
+            });
+
+        });
+    </script>
     <script>
         //Update badge with required date and time
         function refreshTimeBadge() {
@@ -2461,7 +2478,7 @@
     </script>
 
     <script>
-        //Prepare modal for transfusion progress
+        //Prepare badge and modal for transfusion progress
         $(document).ready(function () {
             $('#card-transfusion-pre').hide();
             $('#card-transfusion-progress').hide();
@@ -2469,7 +2486,6 @@
             $('#card-transfusion-summary').hide();
             $("#interupt-transfusion").hide();
             $("#interupt-decision-group").hide();
-
         });
     </script>
 
@@ -2556,7 +2572,7 @@
 
             if (objT[0].interupt_time != null && objT[0].interupt_reason != null) {
                 str = str
-                    + "<p>Transfusion inetrrupted at: " + objT[0].TimeInterupted
+                    + "<p>Transfusion interrupted at: " + objT[0].TimeInterupted
                     + " due to reason " + objT[0].interupt_reason + "</p>"
             }
 
@@ -2745,7 +2761,7 @@
                 success: function (r) {
                     alert(r + " record(s) inserted.");
                     //refresh modal
-                    $('#card-transfusion-progress').show()
+                    verifyPack();
                 }
             });
         };
@@ -2775,15 +2791,11 @@
                     }
                 }).done(function () {
                     alert("Interupt added.");
-
+                    //refresh modal
+                    verifyPack();
                 }).error(function () {
-                    alert("Error in adding out interupt");
-                });
 
-                $("#interupt-transfusion").hide();
-                $("#interupt-decision-group").show();
-                x.innerHTML = "Interrupt Transfusion";
-                $("#btn-interupt-transfusion").attr("disabled", true);
+                });
             }
 
         }
@@ -2802,9 +2814,10 @@
                 }
             }).done(function () {
                 alert("Interupt added.");
-
+                //refresh modal
+                verifyPack();
             }).error(function () {
-                alert("Error in adding out interupt");
+
             });
         }
     </script>
@@ -2821,9 +2834,10 @@
                 }
             }).done(function () {
                 alert("Transfusion stopped.");
-
+                //refresh modal
+                verifyPack();
             }).error(function () {
-                alert("Error in adding out interupt");
+
             });
         }
     </script>
@@ -2846,12 +2860,14 @@
                 }
             }).done(function () {
                 alert("Transfusion completed.");
-
+                //refresh modal
+                verifyPack();
             }).error(function () {
-                alert("Error in completing transfusion");
+
             });
         }
     </script>
+
     <script>
         function getRadioVal(form, name) {
             var val;

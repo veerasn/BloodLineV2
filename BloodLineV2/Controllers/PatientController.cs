@@ -82,7 +82,7 @@ namespace BloodLineV2.Controllers
             ViewBag.TestCount = ireq;
 
             string abo = "", rh = "", reqvaliddate = "none";
-            int aboerr = 0, rherr = 0, abserr = 0, abonum = 0, absnum = 0, reqvalid = 0, reqvalidint = 99;
+            int aboerr = 0, rherr = 0, abserr = 0, abonum = 0, absnum = 0, reqvalid = 0, reqvalidint = 99, intSample = 99;
 
             if (ireq > 0)
             {
@@ -124,7 +124,7 @@ namespace BloodLineV2.Controllers
                                 aboerr = 1;
                             }
                             //Check if any sample with ABO determination within last 7 days
-                            if (testrequests[i].RequestDate != null && (DateTime.Today - testrequests[i].RequestDate).Value.Days < 7)
+                            if (testrequests[i].RequestDate != null && (DateTime.Today - testrequests[i].RequestDate).Value.Days < 700)
                             {
                                 reqvalid = reqvalid + 1;
                                 if (reqvaliddate == "none")
@@ -168,12 +168,16 @@ namespace BloodLineV2.Controllers
                     }
                 }
                 ViewData["TestResults"] = res;
-                ViewBag.ReqValidDate = reqvaliddate; 
-                
+                ViewBag.ReqValidDate = reqvaliddate;
+                if(reqvaliddate != "none")
+                {
+                    TimeSpan diffSample = DateTime.Now.Subtract(DateTime.Parse(reqvaliddate));
+                    intSample = Convert.ToInt32(diffSample.TotalHours);
+                }
             }
 
             ViewBag.AboErr = aboerr; ViewBag.RhErr = rherr; ViewBag.AbsErr = abserr; ViewBag.Abonum = abonum; ViewBag.Absnum = absnum;
-            ViewBag.ReqValid = reqvalid; ViewBag.ReqValidInt = reqvalidint;
+            ViewBag.ReqValid = reqvalid; ViewBag.ReqValidInt = reqvalidint; ViewBag.diffSample = intSample;
 
             //Product requests
 
@@ -276,6 +280,28 @@ namespace BloodLineV2.Controllers
             }
 
             ViewBag.Tcount = prodrequests.Count();
+
+            //Check for the last red cell issued and not returned
+            int prodissue = prodrequests.Count(x => x.PRODNUM != null && x.ISSUEDATE != null);
+
+            if (ViewBag.Rccount > 0 && prodissue > 0)
+            {
+                var lastTransfusion = (from p in bbs.PATIENTS
+                                       join r in bbs.REQUESTS on p.PATNUMBER equals r.PATNUMBER
+                                       join rp in bbs.REQUEST_PRODUCT on r.ACCESSNUMBER equals rp.ACCESSNUMBER
+                                       join d in bbs.PRODUCTS on rp.PRODUCTID equals d.PRODUCTID
+                                       where rp.ISSUEDATE != null 
+                                            && rp.PSTATUS != 6 
+                                            && d.PRODCODE.Substring(0,2)=="RC"
+                                            && p.PATNUMBER == id
+                                       select DbFunctions.DiffDays(rp.ISSUEDATE, DateTime.Now)
+                                       ).Min();
+                ViewBag.lastTransfusion = lastTransfusion;
+            }
+            else
+            {
+                ViewBag.lastTransfusion = 99;
+            }
 
             //LMD results for chart
             var result = (
@@ -1004,6 +1030,41 @@ namespace BloodLineV2.Controllers
                                     DATEDIFF(hour, t.start_time, GETDATE()) AS ElapsedTime
                                     FROM Transfusions t
                                     WHERE t.Patnumber = '" + patid + "' AND t.Prodnum = '" + packid + "'";
+
+            SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
+            da.Fill(dt);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+
+            return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CheckLastTransfusionInterval(string id)
+        {
+            var cn = new SqlConnection();
+            var dt = new DataTable();
+            string strCn = ConfigurationManager.ConnectionStrings["BBS"].ToString();
+
+            string queryString = @"SELECT COUNT(rp.PRODUCTID) AS Count
+                                    FROM REQUESTS r
+                                    INNER JOIN REQUEST_PRODUCT rp ON r.ACCESSNUMBER = rp.ACCESSNUMBER
+                                    INNER JOIN PRODUCTS p ON rp.PRODUCTID = p.PRODUCTID
+                                    WHERE  
+	                                LEFT(p.PRODCODE, 2) = 'RC'
+	                                AND DATEDIFF(day, rp.ISSUEDATE, GETDATE()) < 28 
+	                                AND rp.RETURNDATE IS NULL
+	                                AND r.PATNUMBER = '000000000000" + id + "'";
 
             SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
             da.Fill(dt);
