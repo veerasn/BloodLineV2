@@ -21,8 +21,8 @@
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script type="text/html" src="~/Scripts/chart-2.7.1.min.js"></script>
     <script src="~/Scripts/Chart.js"></script>
-    <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script scr="~/Scripts/chartjs-plugin-annotation.js"></script>
     <script src="~/Scripts/tagsinput.js"></script>
@@ -198,14 +198,29 @@
                         }
                     }
                 </div>
-                <div>
-                    @if (ViewBag.ReqValid > 0)
+                <div id="sample-validity-info">
+                    @if (ViewBag.diffSample < 120 && ViewBag.ReqValidDate != "none")
                     {
                         <i class="fa fa-vial"></i>
-                        <i class="fa fa-check"></i>
+                        if (ViewBag.lastTransfusion < 28)
+                        {
+                            if(ViewBag.diffSample > 48)
+                            {
+                                <i class="fa fa-times-circle" style="color:#E74C3C;"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-check-square" style="color:#3498DB;"></i>
+                            }
+                        }
+                        else
+                        {
+                            <i class="fa fa-check-square" style="color:#3498DB;"></i>
+                        }
                         <sup>@Convert.ToDateTime(@ViewBag.ReqValidDate).ToString("dd/MM/yy HH:MM")</sup>
                     }
-
+                </div>
+                <div>
                     @if (ViewBag.InReserve > 0)
                     {
                         <i class="fa fa-first-aid"></i>
@@ -1647,25 +1662,6 @@
     <script>
         //Input type spinner if input is number
         $("input[type='number']").inputSpinner();
-    </script>
-    <script>
-        //Check sample validity
-        $(document).ready(function () {
-
-            var id = document.getElementById("unique-patient-id").innerHTML;
-            var uri = "/Patient/CheckLastTransfusionInterval";
-
-            $.getJSON(uri, { id: id }).done(function (data) {
-                //count = Object.keys(data).length;
-                data = JSON.parse(data);
-                var count = data[0].Count;
-                alert(@ViewBag.diffSample + "|" + @ViewBag.lastTransfusion)
-                if (count > 0) {
-
-                }
-            });
-
-        });
     </script>
     <script>
         //Update badge with required date and time

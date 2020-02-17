@@ -66,12 +66,14 @@ namespace BloodLineV2.ViewModels
             {
                 switch (Convert.ToInt32(MANDATORYXMATCH.HasValue))
                 {
+                    case 0:
+                        { return MANDATORYXMATCH != null ? "1" : "2"; }
                     case 1:
-                        { return MANDATORYXMATCH != null ? "EI Eligible" : "Damn"; }
+                        { return MANDATORYXMATCH != null ? "3" : "4"; }
                     case 2:
-                        { return MANDATORYXMATCH != null ? "EI Forbidden" : "Damn again"; }
+                        { return MANDATORYXMATCH != null ? "5" : "6"; }
                     default:
-                        { return MANDATORYXMATCH != null ? "EI" : "EI ?"; }
+                        { return MANDATORYXMATCH != null ? "7" : "8"; }
                 }
             }
         }

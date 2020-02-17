@@ -124,7 +124,7 @@ namespace BloodLineV2.Controllers
                                 aboerr = 1;
                             }
                             //Check if any sample with ABO determination within last 7 days
-                            if (testrequests[i].RequestDate != null && (DateTime.Today - testrequests[i].RequestDate).Value.Days < 700)
+                            if (testrequests[i].RequestDate != null)
                             {
                                 reqvalid = reqvalid + 1;
                                 if (reqvaliddate == "none")
@@ -1030,41 +1030,6 @@ namespace BloodLineV2.Controllers
                                     DATEDIFF(hour, t.start_time, GETDATE()) AS ElapsedTime
                                     FROM Transfusions t
                                     WHERE t.Patnumber = '" + patid + "' AND t.Prodnum = '" + packid + "'";
-
-            SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
-            da.Fill(dt);
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
-            Dictionary<string, object> row;
-
-            foreach (DataRow dr in dt.Rows)
-            {
-                row = new Dictionary<string, object>();
-                foreach (DataColumn col in dt.Columns)
-                {
-                    row.Add(col.ColumnName, dr[col]);
-                }
-                rows.Add(row);
-            }
-
-            return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult CheckLastTransfusionInterval(string id)
-        {
-            var cn = new SqlConnection();
-            var dt = new DataTable();
-            string strCn = ConfigurationManager.ConnectionStrings["BBS"].ToString();
-
-            string queryString = @"SELECT COUNT(rp.PRODUCTID) AS Count
-                                    FROM REQUESTS r
-                                    INNER JOIN REQUEST_PRODUCT rp ON r.ACCESSNUMBER = rp.ACCESSNUMBER
-                                    INNER JOIN PRODUCTS p ON rp.PRODUCTID = p.PRODUCTID
-                                    WHERE  
-	                                LEFT(p.PRODCODE, 2) = 'RC'
-	                                AND DATEDIFF(day, rp.ISSUEDATE, GETDATE()) < 28 
-	                                AND rp.RETURNDATE IS NULL
-	                                AND r.PATNUMBER = '000000000000" + id + "'";
 
             SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
             da.Fill(dt);
