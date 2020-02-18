@@ -267,6 +267,9 @@
     <Compile Include="Models\Role.cs">
       <DependentUpon>BBOrder.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>BBOrder.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TEST.cs">
       <DependentUpon>LMD.tt</DependentUpon>
     </Compile>

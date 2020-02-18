@@ -22,6 +22,7 @@
         <AssociationConnector Association="BBOrderModel.FK__Product__Categor__4BAC3F29" ManuallyRouted="false" />
         <AssociationConnector Association="BBOrderModel.FK__MemberRol__Membe__5CD6CB2B" ManuallyRouted="false" />
         <AssociationConnector Association="BBOrderModel.FK__MemberRol__RoleI__5DCAEF64" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BBOrderModel.sysdiagram" Width="1.5" PointX="8.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

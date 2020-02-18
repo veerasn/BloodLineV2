@@ -82,7 +82,7 @@ namespace BloodLineV2.Controllers
             ViewBag.TestCount = ireq;
 
             string abo = "", rh = "", reqvaliddate = "none";
-            int aboerr = 0, rherr = 0, abserr = 0, abonum = 0, absnum = 0, reqvalid = 0, reqvalidint = 99, intSample = 99;
+            int aboerr = 0, rherr = 0, abserr = 0, abonum = 0, absnum = 0, reqvalid = 0, reqvalidint = 99, intSample = 999;
 
             if (ireq > 0)
             {
@@ -855,6 +855,7 @@ namespace BloodLineV2.Controllers
             string strCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
 
             string s = id;
+            /*
             string queryString = @"SELECT c.CartID AS CartID, 
 	                                    c.UserID AS UserID, 
 	                                    CONVERT(nvarchar, c.DateCreated, 100) AS DateCreated, 
@@ -870,7 +871,21 @@ namespace BloodLineV2.Controllers
                                     INNER JOIN Item i ON ci.ProductID = i.ProductID
                                     WHERE c.PatientID = '" + id + "' AND c.CheckedIn = 0" +  
                                     "GROUP BY c.CartID, c.UserID, c.DateCreated, c.CheckedOut, c.CheckedIn, c.Urgency, c.[Location], c.[Status] ORDER BY c.DateCreated DESC";
-
+            */
+            
+            string queryString = @"SELECT c.CartID AS CartID, 
+	                                    c.UserID AS UserID, 
+	                                    CONVERT(nvarchar, c.DateCreated, 100) AS DateCreated, 
+                                        DATEDIFF(hour, c.DateCreated, GETDATE()) AS Interval,
+                                        c.CheckedOut AS CheckedOut, 
+                                        c.CheckedIn AS CheckedIn,
+                                        c.Urgency AS Urgency, 
+                                        c.[Location] AS Location, 
+                                        c.[Status] AS Status, 
+                                        c.Items AS Items
+                                    FROM Cart c
+                                    WHERE c.PatientID = '" + id + "' AND c.CheckedIn = 0 " + "ORDER BY c.DateCreated DESC";
+            
             SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
             da.Fill(dt);
             JavaScriptSerializer serializer = new JavaScriptSerializer();

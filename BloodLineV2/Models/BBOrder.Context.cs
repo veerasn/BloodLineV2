@@ -34,5 +34,6 @@ namespace BloodLineV2.Models
         public virtual DbSet<Notice> Notices { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Transfusion> Transfusions { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

@@ -442,7 +442,7 @@ namespace BloodLineV2.Models
                 },
                 new ProductInfo{
                     Id = "T-GSH",
-                    Name = "Group Screen & Hold",
+                    Name = "Group Screen Hold",
                     Charge = 230,
                     Leucodeplete = 0,
                     Irradiate = 0,
