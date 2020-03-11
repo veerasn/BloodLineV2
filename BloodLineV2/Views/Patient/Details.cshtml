@@ -54,8 +54,8 @@
                 <div class="card-body">
                     <h4 class="card-title" id="unique-patient-name">@Html.DisplayFor(model => model.FirstOrDefault().NAME)</h4>
                     <h6 class="card-subtitle mb-2" id="unique-patient-id">@Html.DisplayFor(model => model.FirstOrDefault().PATNUMBERSHORT)</h6>
+                    <h6 class="card-subtitle mb-2" id="unique-patient-location">@Html.DisplayFor(model => model.FirstOrDefault().REFLOCATION)</h6>
                     <p class="card-text">@Html.DisplayFor(model => model.FirstOrDefault().BIRTHDATE) | @Html.DisplayFor(model => model.FirstOrDefault().SEXLONG)</p>
-                    <p class="card-text">@Html.DisplayFor(model => model.FirstOrDefault().REFLOCATION)</p>
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary w3-padding" data-toggle="modal" data-target="#cart">Request (<span class="total-count"></span>)</button>
                         <button class="clear-cart btn btn-danger w3-padding fa fa-trash"></button>
@@ -164,7 +164,6 @@
                         </h5>
                         <div class="card-body">
                             <h1 class="card-title">
-                                <b>@Html.Raw(Model.FirstOrDefault().MANDATORYXMATCH.ToString())</b>
                                 <b>@Html.DisplayFor(model => model.FirstOrDefault().EI)</b>
                             </h1>
                             <h6 class="card-subtitle mb-2"></h6>
@@ -2075,14 +2074,14 @@
             //Populate Cart info
             cart.CartID = UniqueCartID;
             cart.UserId = 1;
-            cart.DateCreated = (currentdate.getMonth() + 1) + "/"
-                + currentdate.getDate() + "/"
-                + currentdate.getFullYear() + " "
+            cart.DateCreated = currentdate.getFullYear() + "-"
+                + (currentdate.getMonth() + 1) + "-"
+                + currentdate.getDate() + " "
                 + currentdate.getHours() + ":"
                 + currentdate.getMinutes();
             cart.CheckedOut = 0;
             cart.Urgency = 1;
-            cart.Location = "6D";
+            cart.Location = document.getElementById("unique-patient-location").innerHTML;
             cart.PatientID = document.getElementById("unique-patient-id").innerHTML;
             cart.PatientName = document.getElementById("unique-patient-name").innerHTML;
             cart.Status = 0;

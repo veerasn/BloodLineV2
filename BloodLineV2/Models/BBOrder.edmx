@@ -77,8 +77,8 @@
           <Property Name="BarredReasonId" Type="int" />
           <Property Name="BarredDate" Type="date" />
           <Property Name="BarredPeriod" Type="int" />
-          <Property Name="CreatedOn" Type="datetime" />
-          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="CreatedOn" Type="smalldatetime" />
+          <Property Name="ModifiedOn" Type="smalldatetime" />
           <Property Name="Specialty" Type="nvarchar" MaxLength="8" />
           <Property Name="PositionId" Type="int" />
           <Property Name="DesignationId" Type="int" />
@@ -110,13 +110,17 @@
           <Property Name="RoleId" Type="int" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="sysdiagrams">
           <Key>
+            
+            
             <PropertyRef Name="diagram_id" />
           </Key>
           <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
@@ -147,7 +151,7 @@
           <Property Name="end_user" Type="int" />
           <Property Name="current_status" Type="int" />
         </EntityType>
-        <Association Name="FK__Cart__UserID__3A4CA8FD">
+        <Association Name="FK__Cart__UserID__24927208">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
           <ReferentialConstraint>
@@ -159,7 +163,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CartItems__CartI__40058253">
+        <Association Name="FK__CartItems__CartI__276EDEB3">
           <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
           <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
           <ReferentialConstraint>
@@ -171,7 +175,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CartItems__Produ__40F9A68C">
+        <Association Name="FK__CartItems__Produ__286302EC">
           <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
           <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
           <ReferentialConstraint>
@@ -183,7 +187,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MemberRol__Membe__5CD6CB2B">
+        <Association Name="FK__Item__CategoryId__1DE57479">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MemberRol__Membe__1BFD2C07">
           <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
           <End Role="MemberRole" Type="Self.MemberRole" Multiplicity="*" />
           <ReferentialConstraint>
@@ -195,7 +211,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MemberRol__RoleI__5DCAEF64">
+        <Association Name="FK__MemberRol__RoleI__1CF15040">
           <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
           <End Role="MemberRole" Type="Self.MemberRole" Multiplicity="*" />
           <ReferentialConstraint>
@@ -207,7 +223,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Notices__CartID__47A6A41B">
+        <Association Name="FK__Notices__CartID__2B3F6F97">
           <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
           <End Role="Notices" Type="Self.Notices" Multiplicity="*" />
           <ReferentialConstraint>
@@ -219,7 +235,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Notices__Categor__489AC854">
+        <Association Name="FK__Notices__Categor__2C3393D0">
           <End Role="Category" Type="Self.Category" Multiplicity="1" />
           <End Role="Notices" Type="Self.Notices" Multiplicity="*" />
           <ReferentialConstraint>
@@ -227,18 +243,6 @@
               <PropertyRef Name="CategoryId" />
             </Principal>
             <Dependent Role="Notices">
-              <PropertyRef Name="CategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Product__Categor__4BAC3F29">
-          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
-          <End Role="Item" Type="Self.Item" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryId" />
-            </Principal>
-            <Dependent Role="Item">
               <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
@@ -252,39 +256,47 @@
           <EntitySet Name="MemberRole" EntityType="Self.MemberRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notices" EntityType="Self.Notices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transfusions" EntityType="Self.Transfusions" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Cart__UserID__3A4CA8FD" Association="Self.FK__Cart__UserID__3A4CA8FD">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [sysdiagrams].[name] AS [name], 
+    [sysdiagrams].[principal_id] AS [principal_id], 
+    [sysdiagrams].[diagram_id] AS [diagram_id], 
+    [sysdiagrams].[version] AS [version], 
+    [sysdiagrams].[definition] AS [definition]
+    FROM [dbo].[sysdiagrams] AS [sysdiagrams]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Cart__UserID__24927208" Association="Self.FK__Cart__UserID__24927208">
             <End Role="Member" EntitySet="Member" />
             <End Role="Cart" EntitySet="Cart" />
           </AssociationSet>
-          <AssociationSet Name="FK__CartItems__CartI__40058253" Association="Self.FK__CartItems__CartI__40058253">
+          <AssociationSet Name="FK__CartItems__CartI__276EDEB3" Association="Self.FK__CartItems__CartI__276EDEB3">
             <End Role="Cart" EntitySet="Cart" />
             <End Role="CartItems" EntitySet="CartItems" />
           </AssociationSet>
-          <AssociationSet Name="FK__CartItems__Produ__40F9A68C" Association="Self.FK__CartItems__Produ__40F9A68C">
+          <AssociationSet Name="FK__CartItems__Produ__286302EC" Association="Self.FK__CartItems__Produ__286302EC">
             <End Role="Item" EntitySet="Item" />
             <End Role="CartItems" EntitySet="CartItems" />
           </AssociationSet>
-          <AssociationSet Name="FK__MemberRol__Membe__5CD6CB2B" Association="Self.FK__MemberRol__Membe__5CD6CB2B">
+          <AssociationSet Name="FK__Item__CategoryId__1DE57479" Association="Self.FK__Item__CategoryId__1DE57479">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MemberRol__Membe__1BFD2C07" Association="Self.FK__MemberRol__Membe__1BFD2C07">
             <End Role="Member" EntitySet="Member" />
             <End Role="MemberRole" EntitySet="MemberRole" />
           </AssociationSet>
-          <AssociationSet Name="FK__MemberRol__RoleI__5DCAEF64" Association="Self.FK__MemberRol__RoleI__5DCAEF64">
+          <AssociationSet Name="FK__MemberRol__RoleI__1CF15040" Association="Self.FK__MemberRol__RoleI__1CF15040">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="MemberRole" EntitySet="MemberRole" />
           </AssociationSet>
-          <AssociationSet Name="FK__Notices__CartID__47A6A41B" Association="Self.FK__Notices__CartID__47A6A41B">
+          <AssociationSet Name="FK__Notices__CartID__2B3F6F97" Association="Self.FK__Notices__CartID__2B3F6F97">
             <End Role="Cart" EntitySet="Cart" />
             <End Role="Notices" EntitySet="Notices" />
           </AssociationSet>
-          <AssociationSet Name="FK__Notices__Categor__489AC854" Association="Self.FK__Notices__Categor__489AC854">
+          <AssociationSet Name="FK__Notices__Categor__2C3393D0" Association="Self.FK__Notices__Categor__2C3393D0">
             <End Role="Category" EntitySet="Category" />
             <End Role="Notices" EntitySet="Notices" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Product__Categor__4BAC3F29" Association="Self.FK__Product__Categor__4BAC3F29">
-            <End Role="Category" EntitySet="Category" />
-            <End Role="Item" EntitySet="Item" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -372,8 +384,8 @@
           <Property Name="BarredReasonId" Type="Int32" />
           <Property Name="BarredDate" Type="DateTime" Precision="0" />
           <Property Name="BarredPeriod" Type="Int32" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="0" />
           <Property Name="Specialty" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
           <Property Name="PositionId" Type="Int32" />
           <Property Name="DesignationId" Type="Int32" />
