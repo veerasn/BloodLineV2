@@ -662,6 +662,7 @@ namespace BloodLineV2.Controllers
                                     WHERE CONTAINS(term, '" + s + "'))" + " ORDER BY term";
 
             SqlDataAdapter da = new SqlDataAdapter(queryString1, strCn);
+            da.SelectCommand.CommandTimeout = 240;
             DataSet sct2 = new DataSet();
             da.Fill(sct2, "dbo.sct2_Procedure");
 
@@ -700,6 +701,7 @@ namespace BloodLineV2.Controllers
                                     WHERE CONTAINS(term, '" + s + "'))" + " ORDER BY term";
 
             SqlDataAdapter da = new SqlDataAdapter(queryString1, strCn);
+            da.SelectCommand.CommandTimeout = 240;
             DataSet sct2 = new DataSet();
             da.Fill(sct2, "dbo.sct2_Disorder");
 

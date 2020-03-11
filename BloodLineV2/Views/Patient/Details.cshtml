@@ -4,7 +4,7 @@
 @model IEnumerable<BloodLineV2.ViewModels.PatientDetailViewModel>
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Html.Raw(Model.FirstOrDefault().NAME.ToString()) + " | " + Html.Raw(Model.FirstOrDefault().PATNUMBERSHORT.ToString());
 }
 
 <html>
@@ -55,6 +55,7 @@
                     <h4 class="card-title" id="unique-patient-name">@Html.DisplayFor(model => model.FirstOrDefault().NAME)</h4>
                     <h6 class="card-subtitle mb-2" id="unique-patient-id">@Html.DisplayFor(model => model.FirstOrDefault().PATNUMBERSHORT)</h6>
                     <p class="card-text">@Html.DisplayFor(model => model.FirstOrDefault().BIRTHDATE) | @Html.DisplayFor(model => model.FirstOrDefault().SEXLONG)</p>
+                    <p class="card-text">@Html.DisplayFor(model => model.FirstOrDefault().REFLOCATION)</p>
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary w3-padding" data-toggle="modal" data-target="#cart">Request (<span class="total-count"></span>)</button>
                         <button class="clear-cart btn btn-danger w3-padding fa fa-trash"></button>
@@ -180,21 +181,21 @@
                 <div>
                     @if (ViewBag.RhErr > 0 || ViewBag.AboErr > 0)
                     {
-                        <p>Discrepancy in blood grouping identified. Please contact the transfusion laboratory if clarification required.</p>
+                        <h6>Discrepancy in blood grouping identified. Please contact the transfusion laboratory if clarification required.</h6>
                     }
                     else
                     {
                         if (ViewBag.Abonum > 1 && Model.FirstOrDefault().PATGROUP != null)
                         {
-                            <p>Blood group confirmed based on two or more determinations.</p>
+                            <h6>Blood group confirmed based on two or more determinations.</h6>
                         }
                         else if (ViewBag.Abonum == 1 && Model.FirstOrDefault().PATGROUP != null)
                         {
-                            <p>Blood group based on single determination. Please submit second sample for confirmation.</p>
+                            <h6>Blood group based on single determination. Please submit second sample for confirmation.</h6>
                         }
                         else
                         {
-                            <p>No valid blood group records available.</p>
+                            <h6>No valid blood group records available.</h6>
                         }
                     }
                 </div>
@@ -204,7 +205,7 @@
                         <i class="fa fa-vial"></i>
                         if (ViewBag.lastTransfusion < 28)
                         {
-                            if(ViewBag.diffSample > 48)
+                            if (ViewBag.diffSample > 48)
                             {
                                 <i class="fa fa-times-circle" style="color:#E74C3C;"></i>
                             }
@@ -219,8 +220,7 @@
                         }
                         <sup>@Convert.ToDateTime(@ViewBag.ReqValidDate).ToString("dd/MM/yy HH:MM")</sup>
                     }
-                </div>
-                <div>
+
                     @if (ViewBag.InReserve > 0)
                     {
                         <i class="fa fa-first-aid"></i>
@@ -846,13 +846,10 @@
             </div>
             <!--When required-->
             <div class="card-header" id="headingOne">
-                <h5 class="mb-0">
-                    <button class="btn btn-outline-info " data-toggle="collapse" data-target="#requiredTime" aria-expanded="true" aria-controls="requiredTime">
-                        When are the products required?
-                        <span class="badge badge-primary" id="badge-required-datetime"></span>
-                    </button>
-
-                </h5>
+                <button class="btn btn-outline-info " data-toggle="collapse" data-target="#requiredTime" aria-expanded="true" aria-controls="requiredTime">
+                    When are the products required?
+                    <span class="badge badge-primary" id="badge-required-datetime"></span>
+                </button>
             </div>
             <div id="requiredTime" class="collapse">
                 <div class="w3-row-padding w3-margin-bottom" id="request-timing">
@@ -1179,18 +1176,18 @@
                                     <th>Code</th>
                                     <th style="display:none">Parameter</th>
                                     <th>Description</th>
-                                    <th>Charge</th>
+                                    <th>Charge (RM)</th>
                                     <th></th>
                                     <th>Units</th>
                                     <th></th>
-                                    <th>Total</th>
+                                    <th>Total (RM)</th>
                                 </tr>
                             </thead>
                             <tbody class="show-cart" id="show-cart">
                                 <!--Inject rows from displayCart js-->
                             </tbody>
                         </table>
-                        <div>Total estimate: RM<span class="total-cart"></span></div>
+                        <h6>Estimated total charge: RM<span class="total-cart"></span></h6>
                         <!--Display all alerts-->
                         <div>
                             <ul class="list-group list-group-flush list-group-item-danger" id="modal-alert" style="list-style:none"></ul>
@@ -2037,7 +2034,7 @@
                     else if (cart[item].id == "T-ABD") { shoppingCart.removeItemFromCartAll("T-ABD"); }
                 }
                 if (i == 0) {
-                    shoppingCart.addItemToCart("T-GSH", "Group Screen Hold", 230, "test", 1);
+                    shoppingCart.addItemToCart("T-GSH", "Group Screen Hold", 40.00, "test", 1);
                     displayCart(0);
                 }
             }
@@ -2049,7 +2046,7 @@
                     if (cart[item].id == "T-GSH" || cart[item].id == "T-ABD") { i = i + 1; }
                 }
                 if (i == 0) {
-                    shoppingCart.addItemToCart("T-ABD", "ABO and RhD typing", 230, "test", 1);
+                    shoppingCart.addItemToCart("T-ABD", "ABO and RhD typing", 27.00, "test", 1);
                     displayCart(0);
                 }
             }
@@ -2072,15 +2069,14 @@
             var carts = new Array();
             var cart = {};
             var currentdate = new Date();
-
             var UniqueCartID = Date.now();
             var items = "";
 
             //Populate Cart info
             cart.CartID = UniqueCartID;
             cart.UserId = 1;
-            cart.DateCreated = currentdate.getDate() + "/"
-                + (currentdate.getMonth() + 1) + "/"
+            cart.DateCreated = (currentdate.getMonth() + 1) + "/"
+                + currentdate.getDate() + "/"
                 + currentdate.getFullYear() + " "
                 + currentdate.getHours() + ":"
                 + currentdate.getMinutes();
@@ -2667,8 +2663,8 @@
             preItem.pre_pulse = document.getElementById("pre-pulse").value;
             preItem.pre_bp_sys = document.getElementById("pre-bp-sys").value;
             preItem.pre_bp_dia = document.getElementById("pre-bp-dia").value;
-            preItem.start_time = currentdate.getDate() + "/"
-                + (currentdate.getMonth() + 1) + "/"
+            preItem.start_time = (currentdate.getMonth() + 1) + "/"
+                + currentdate.getDate() + "/"
                 + currentdate.getFullYear() + " "
                 + currentdate.getHours() + ":"
                 + currentdate.getMinutes();
@@ -2705,13 +2701,15 @@
             }
             else if (str == "Confirm Interruption") {
                 //Upload details of interuption
+                //Need to create another table for interruptions realted to the transfusion episode
+
                 $.ajax({
                     url: "/Patient/UpdateInterupt",
                     method: "Post",
                     data: {
                         patid: document.getElementById("transfuse-recipient-id").value,
                         packid: document.getElementById("transfuse-pack-id").value,
-                        val: 2,
+                        val: 2, //need to change val according to type of reaction
                         user: 1
                     }
                 }).done(function () {
@@ -2993,7 +2991,7 @@
                     + "<td>" + cartArray[i].id + "</td>"
                     + "<td style='display:none;'>" + cartArray[i].parameter + "</td>"
                     + "<td>" + cartArray[i].name + "</td>"
-                    + "<td>" + cartArray[i].price + "</td>"
+                    + "<td>" + cartArray[i].price.toFixed(2) + "</td>"
                     + "<td><div class='input-group input-group-sm col-xs-2 form-horizontal'><div class='btn-group'><button class='minus-item input-group-addon btn btn-outline-primary fa fa-minus' data-id=" + cartArray[i].id + " min='1' max='6'></button>"
                     + "<button class='plus-item btn btn-outline-secondary input-group-addon fa fa-plus' data-id=" + cartArray[i].id + " min='1' max='6'></button></div></div></td>"
                     + "<td>" + cartArray[i].count + "</td>"
