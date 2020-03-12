@@ -10,13 +10,13 @@
 <html>
 <head>
     <title>UMMC Blood Transfusion Information System</title>
-    <script src="https://kit.fontawesome.com/4576929075.js" crossorigin="anonymous"></script>
     <style>
         html, body, h1, h2, h3, h4, h5 {
             font-family: "Raleway", sans-serif
         }
     </style>
     <link href="~/Content/tagsinput.css" rel="stylesheet" />
+    <link href="~/Content/css/all.css" rel="stylesheet">
 
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script type="text/html" src="~/Scripts/chart-2.7.1.min.js"></script>
@@ -27,6 +27,7 @@
     <script scr="~/Scripts/chartjs-plugin-annotation.js"></script>
     <script src="~/Scripts/tagsinput.js"></script>
     <script src="~/Scripts/bootstrap-input-spinner.js"></script>
+    <script src="~/Scripts/JsBarcode.code128.min.js"></script>
 </head>
 
 <body class="w3-light-grey">
@@ -72,7 +73,7 @@
     <div class="w3-main" style="margin-left:300px;margin-top:43px;">
         <!--Patient Name Header-->
         <header class="w3-container">
-            <h5>
+            <h5 id="patient-demographics">
                 <b>
                     <i class="fa fa-heart"></i> @Html.DisplayFor(model => model.FirstOrDefault().NAME) |
                     RN: @Html.DisplayFor(model => model.FirstOrDefault().PATNUMBERSHORT) |
@@ -91,22 +92,22 @@
                             ABO RhD
                             @if (ViewBag.RhErr > 0 || ViewBag.AboErr > 0)
                             {
-                                <i class="fa fa-exclamation"></i>
+                            <i class="fa fa-exclamation" data-toggle="tooltip" title="ABO typing discrepancy found."></i>
                             }
                             else
                             {
-                                if (ViewBag.Abonum == 1)
-                                {
-                                    <i class="fa fa-bars"></i>
-                                }
-                                else if (ViewBag.Abonum > 1)
-                                {
-                                    <i class="fa fa-check-double"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa fa-question"></i>
-                                }
+                            if (ViewBag.Abonum == 1)
+                            {
+                            <i class="fa fa-bars" data-toggle="tooltip" title="Single ABO typing. ABO type unconfirmed."></i>
+                            }
+                            else if (ViewBag.Abonum > 1)
+                            {
+                            <i class="fa fa-check-double" data-toggle="tooltip" title="ABO type confirmed"></i>
+                            }
+                            else
+                            {
+                            <i class="fa fa-question" data-toggle="tooltip" title="No ABO type result available."></i>
+                            }
                             }
                         </h5>
                         <div class="card-body">
@@ -127,26 +128,26 @@
                             Antibodies
                             @if (ViewBag.Absnum > 0 && ViewBag.AbsErr == 0)
                             {
-                                <i class="fa fa-user-shield"></i>
+                            <i class="fa fa-user-shield" data-toggle="tooltip" title="No atypical red cell antibodies found."></i>
                             }
                             else if (ViewBag.AbsErr > 0)
                             {
-                                <i class="fa fa-exclamation"></i>
+                            <i class="fa fa-exclamation" data-toggle="tooltip" title="Atypical red cell antibodies present."></i>
                             }
                             else
                             {
-                                <i class="fa fa-question"></i>
+                            <i class="fa fa-question" data-toggle="tooltip" title="No red cell antibody screen results available."></i>
                             }
                         </h5>
                         <div class="card-body">
                             <h1 class="card-title">
                                 @if (ViewBag.Absnum > 0 || ViewBag.AbsErr > 0)
                                 {
-                                    <b>@Html.DisplayFor(model => model.FirstOrDefault().ABSHORT)</b>
+                                <b>@Html.DisplayFor(model => model.FirstOrDefault().ABSHORT)</b>
                                 }
                                 else
                                 {
-                                    <b>ABNTD</b>
+                                <b>ABNTD</b>
                                 }
                             </h1>
                             <h6 class="card-subtitle mb-2"></h6>
@@ -160,7 +161,7 @@
                 <div class="w3-container">
                     <div class="card border-danger bg-danger">
                         <h5 class="card-header">
-                            EI Eligibility
+                            Electronic RC Issue
                         </h5>
                         <div class="card-body">
                             <h1 class="card-title">
@@ -180,50 +181,50 @@
                 <div>
                     @if (ViewBag.RhErr > 0 || ViewBag.AboErr > 0)
                     {
-                        <h6>Discrepancy in blood grouping identified. Please contact the transfusion laboratory if clarification required.</h6>
+                    <h6>Discrepancy in blood grouping identified. Please contact the transfusion laboratory if clarification required.</h6>
                     }
                     else
                     {
-                        if (ViewBag.Abonum > 1 && Model.FirstOrDefault().PATGROUP != null)
-                        {
-                            <h6>Blood group confirmed based on two or more determinations.</h6>
-                        }
-                        else if (ViewBag.Abonum == 1 && Model.FirstOrDefault().PATGROUP != null)
-                        {
-                            <h6>Blood group based on single determination. Please submit second sample for confirmation.</h6>
-                        }
-                        else
-                        {
-                            <h6>No valid blood group records available.</h6>
-                        }
+                    if (ViewBag.Abonum > 1 && Model.FirstOrDefault().PATGROUP != null)
+                    {
+                    <h6>Blood group confirmed based on two or more determinations.</h6>
+                    }
+                    else if (ViewBag.Abonum == 1 && Model.FirstOrDefault().PATGROUP != null)
+                    {
+                    <h6>Blood group based on single determination. Please submit second sample for confirmation.</h6>
+                    }
+                    else
+                    {
+                    <h6>No valid blood group records available.</h6>
+                    }
                     }
                 </div>
                 <div id="sample-validity-info">
                     @if (ViewBag.diffSample < 120 && ViewBag.ReqValidDate != "none")
                     {
-                        <i class="fa fa-vial"></i>
-                        if (ViewBag.lastTransfusion < 28)
-                        {
-                            if (ViewBag.diffSample > 48)
-                            {
-                                <i class="fa fa-times-circle" style="color:#E74C3C;"></i>
-                            }
-                            else
-                            {
-                                <i class="fa fa-check-square" style="color:#3498DB;"></i>
-                            }
-                        }
-                        else
-                        {
-                            <i class="fa fa-check-square" style="color:#3498DB;"></i>
-                        }
-                        <sup>@Convert.ToDateTime(@ViewBag.ReqValidDate).ToString("dd/MM/yy HH:MM")</sup>
+                    <i class="fa fa-vial" data-toggle="tooltip" title="Sample < 5 days old stored  in transfusion lab."></i>
+                    if (ViewBag.lastTransfusion < 28)
+                    {
+                    if (ViewBag.diffSample > 48)
+                    {
+                    <i class="fa fa-times-circle" style="color:#E74C3C;" data-toggle="tooltip" title="Available sample invalid for crossmatch."></i>
+                    }
+                    else
+                    {
+                    <i class="fa fa-check-square" style="color:#3498DB;" data-toggle="tooltip" title="Available sample valid for crossmatch. No additional samples required."></i>
+                    }
+                    }
+                    else
+                    {
+                    <i class="fa fa-check-square" style="color:#3498DB;" data-toggle="tooltip" title="Available sample valid for crossmatch. No additional samples required."></i>
+                    }
+                    <sup>@Convert.ToDateTime(@ViewBag.ReqValidDate).ToString("dd/MM/yy HH:MM")</sup>
                     }
 
                     @if (ViewBag.InReserve > 0)
                     {
-                        <i class="fa fa-first-aid"></i>
-                        <sup>@ViewBag.InReserve</sup>
+                    <i class="fa fa-first-aid" data-toggle="tooltip" title="Remaining red cell units in reserve ."></i>
+                    <sup>@ViewBag.InReserve</sup>
                     }
                 </div>
             </div>
@@ -233,33 +234,33 @@
         <div class="w3-container">
             @if (ViewBag.iHgb > 0)
             {
-                <div class="w3-quarter">
-                    <canvas id="bar-chart-hgb" width="50" height="50"></canvas>
-                </div>
+            <div class="w3-quarter">
+                <canvas id="bar-chart-hgb" width="50" height="50"></canvas>
+            </div>
             }
             @if (ViewBag.iPlt > 0)
             {
-                <div class="w3-quarter">
-                    <canvas id="bar-chart-plt" width="50" height="50"></canvas>
-                </div>
+            <div class="w3-quarter">
+                <canvas id="bar-chart-plt" width="50" height="50"></canvas>
+            </div>
             }
             @if (ViewBag.iInr > 0)
             {
-                <div class="w3-quarter">
-                    <canvas id="bar-chart-inr" width="50" height="50"></canvas>
-                </div>
+            <div class="w3-quarter">
+                <canvas id="bar-chart-inr" width="50" height="50"></canvas>
+            </div>
             }
             @if (ViewBag.iApt > 0)
             {
-                <div class="w3-quarter">
-                    <canvas id="bar-chart-apt" width="50" height="50"></canvas>
-                </div>
+            <div class="w3-quarter">
+                <canvas id="bar-chart-apt" width="50" height="50"></canvas>
+            </div>
             }
         </div>
         <!--Hb chart-->
         @if (ViewBag.iHgb > 0)
         {
-            <script type="text/javascript">
+        <script type="text/javascript">
                 var hgb_x = @Html.Raw(Json.Encode(ViewBag.xHb))
                 var hgb_y = @Html.Raw(Json.Encode(ViewBag.yHb))
                 var mcv_y = @Html.Raw(Json.Encode(ViewBag.yMcv))
@@ -323,12 +324,12 @@
                         }
                     }
                 });
-            </script>
+        </script>
         }
         <!--Plt chart-->
         @if (ViewBag.iPlt > 0)
         {
-            <script tyep="text/javascript">
+        <script tyep="text/javascript">
                 var plt_x = @Html.Raw(Json.Encode(ViewBag.xPlt))
                 var plt_y = @Html.Raw(Json.Encode(ViewBag.yPlt))
 
@@ -385,12 +386,12 @@
                         }
                     }
                 });
-            </script>
+        </script>
         }
         <!--INR chart-->
         @if (ViewBag.iInr > 0)
         {
-            <script tyep="text/javascript">
+        <script tyep="text/javascript">
                 var inr_x = @Html.Raw(Json.Encode(ViewBag.xInr))
                 var inr_y = @Html.Raw(Json.Encode(ViewBag.yInr))
 
@@ -447,12 +448,12 @@
                         }
                     }
                 });
-            </script>
+        </script>
         }
         <!--APT chart-->
         @if (ViewBag.iApt > 0)
         {
-            <script tyep="text/javascript">
+        <script type="text/javascript">
                 var apt_x = @Html.Raw(Json.Encode(ViewBag.xApt))
                 var apt_y = @Html.Raw(Json.Encode(ViewBag.yApt))
 
@@ -509,7 +510,7 @@
                         }
                     }
                 });
-            </script>
+        </script>
         }
         <!-- Review results and transfusions -->
         <div class="w3-container">
@@ -526,71 +527,71 @@
                         <div class="panel-body w3-light-gray">
                             @if (ViewBag.TestCount > 0)
                             {
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Date </th>
-                                            <th></th>
-                                            <th>ABO</th>
-                                            <th>Rh</th>
-                                            <th>DAT</th>
-                                            <th>Ab screen</th>
-                                            <th>Ab ID</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @{var res = ViewData["TestResults"] as string[,];
-                                            for (int row = 0; row < res.GetLength(0); row++)
-                                            {
-                                                <tr>
-                                                    @for (int column = 0; column < res.GetLength(1); column++)
-                                                    {
-                                                        switch (column)
-                                                        {
-                                                            case 2:
-                                                                if (res[row, column] != null)
-                                                                {
-                                                                    <td><i class="fa fa-vial"></i><sup>@res[row, column]</sup></td>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <td>@res[row, column]</td>
-                                                                };
-                                                                break;
-
-                                                            case 6:
-                                                                if (res[row, column] != null && res[row, column].Contains("POS"))
-                                                                {
-                                                                    <td><b><font color="red">@res[row, column]</font></b></td>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <td>@res[row, column]</td>
-                                                                };
-                                                                break;
-
-                                                            case 7:
-                                                                if (res[row, column] != null)
-                                                                {
-                                                                    <td><i class="fa fa-exclamation"></i></td>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <td>@res[row, column]</td>
-                                                                };
-                                                                break;
-
-                                                            default:
-                                                                <td>@res[row, column]</td>
-                                                                break;
-                                                        }
-                                                    }
-                                                </tr>
-                                            }
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Date </th>
+                                        <th></th>
+                                        <th>ABO</th>
+                                        <th>Rh</th>
+                                        <th>DAT</th>
+                                        <th>Ab screen</th>
+                                        <th>Ab ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{var res = ViewData["TestResults"] as string[,];
+                                    for (int row = 0; row < res.GetLength(0); row++)
+                                    {
+                                    <tr>
+                                        @for (int column = 0; column < res.GetLength(1); column++)
+                                        {
+                                        switch (column)
+                                        {
+                                        case 2:
+                                        if (res[row, column] != null)
+                                        {
+                                        <td><i class="fa fa-vial"></i><sup>@res[row, column]</sup></td>
                                         }
-                                    </tbody>
-                                </table>
+                                        else
+                                        {
+                                        <td>@res[row, column]</td>
+                                        };
+                                        break;
+
+                                        case 6:
+                                        if (res[row, column] != null && res[row, column].Contains("POS"))
+                                        {
+                                        <td><b><font color="red">@res[row, column]</font></b></td>
+                                        }
+                                        else
+                                        {
+                                        <td>@res[row, column]</td>
+                                        };
+                                        break;
+
+                                        case 7:
+                                        if (res[row, column] != null)
+                                        {
+                                        <td><i class="fa fa-exclamation"></i></td>
+                                        }
+                                        else
+                                        {
+                                        <td>@res[row, column]</td>
+                                        };
+                                        break;
+
+                                        default:
+                                        <td>@res[row, column]</td>
+                                        break;
+                                        }
+                                        }
+                                    </tr>
+                                    }
+                                    }
+                                </tbody>
+                            </table>
                             }
                         </div>
                     </div>
@@ -603,11 +604,11 @@
                             <span class="badge badge-pill badge-primary">@ViewBag.Rccount</span>
                             @if (ViewBag.Rccount > 0)
                             {
-                                <i class="fa fa-vial"></i> @ViewBag.Reserved
-                                <i class="fa fa-clipboard-check"></i> @ViewBag.Issued
-                                <i class="fa fa-procedures"></i> @ViewBag.Transfused
-                                <i class="fa fa-tag"></i> @ViewBag.Returned
-                                <i class="fa fa-allergies"></i> @ViewBag.Reaction
+                            <i class="fa fa-vial" data-toggle="tooltip" title="Reservation"></i> @ViewBag.Reserved
+                            <i class="fa fa-clipboard-check" data-toggle="tooltip" title="Issued"></i> @ViewBag.Issued
+                            <i class="fa fa-procedures" data-toggle="tooltip" title="Transfused"></i> @ViewBag.Transfused
+                            <i class="fa fa-tag" data-toggle="tooltip" title="Returned"></i> @ViewBag.Returned
+                            <i class="fa fa-allergies" data-toggle="tooltip" title="Transfusion reaction"></i> @ViewBag.Reaction
                             }
                         </h5>
                     </div>
@@ -615,59 +616,59 @@
                         <div class="panel-body w3-light-gray">
                             @if (ViewBag.Rccount > 0)
                             {
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Request Time & Date</th>
-                                            <th>Type</th>
-                                            <th>Pack ID</th>
-                                            <th>History</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            if (item.PRODNUM != null && item.PRODCODE.Substring(0, 2) == "RC")
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Request Time & Date</th>
+                                        <th>Type</th>
+                                        <th>Pack ID</th>
+                                        <th>History</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                    if (item.PRODNUM != null && item.PRODCODE.Substring(0, 2) == "RC")
+                                    {
+                                    <tr>
+                                        <td>@item.ACCESSNUMBER</td>
+                                        <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
+                                        <td>@item.PRODCODE</td>
+                                        <td>@item.PRODNUM</td>
+                                        <td>
+                                            @if (item.RESERVDATE != null && item.ReservIntDay < 8)
                                             {
-                                                <tr>
-                                                    <td>@item.ACCESSNUMBER</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
-                                                    <td>@item.PRODCODE</td>
-                                                    <td>@item.PRODNUM</td>
-                                                    <td>
-                                                        @if (item.RESERVDATE != null && item.ReservIntDay < 8)
-                                                        {
-                                                            <i class="fa fa-file-prescription"></i>
-                                                            <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
-                                                        }
-                                                        @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
-                                                        {
-                                                            <i class="fa fa-vials"></i>
-                                                            <sup>@item.XMATCHDATE.Value.ToString("HH:mm") d:@item.XmatchIntDay</sup>
-                                                        }
-                                                        @if (item.ISSUEDATE != null && item.IssueIntDay < 8)
-                                                        {
-                                                            <i class="fa fa-clipboard-check"></i>
-                                                            <sup>@item.ISSUEDATE.Value.ToString("HH:mm") d:@item.IssueIntDay</sup>
-                                                        }
-                                                        @if (item.RETURNDATE != null && item.ReturnIntDay < 8)
-                                                        {
-                                                            <i class="fa fa-tag"></i>
-                                                            <sup>@item.RETURNDATE.Value.ToString("HH:mm") d:@item.ReturnIntDay</sup>
-                                                        }
-                                                    </td>
-                                                    <td>
-                                                        @if (item.TRANSREACTION != null)
-                                                        {
-                                                            <i class="fa fa-allergies"></i>
-                                                        }
-                                                    </td>
-                                                </tr>
+                                            <i class="fa fa-file-prescription" data-toggle="tooltip" title="Reservation"></i>
+                                            <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
                                             }
-                                        }
-                                    </tbody>
-                                </table>
+                                            @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
+                                            {
+                                            <i class="fa fa-vials" data-toggle="tooltip" title="Crossmatch"></i>
+                                            <sup>@item.XMATCHDATE.Value.ToString("HH:mm") d:@item.XmatchIntDay</sup>
+                                            }
+                                            @if (item.ISSUEDATE != null && item.IssueIntDay < 8)
+                                            {
+                                            <i class="fa fa-clipboard-check" data-toggle="tooltip" title="Issued"></i>
+                                            <sup>@item.ISSUEDATE.Value.ToString("HH:mm") d:@item.IssueIntDay</sup>
+                                            }
+                                            @if (item.RETURNDATE != null && item.ReturnIntDay < 8)
+                                            {
+                                            <i class="fa fa-tag" data-toggle="tooltip" title="Returned"></i>
+                                            <sup>@item.RETURNDATE.Value.ToString("HH:mm") d:@item.ReturnIntDay</sup>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.TRANSREACTION != null)
+                                            {
+                                            <i class="fa fa-allergies" data-toggle="tooltip" title="Transfusion reaction"></i>
+                                            }
+                                        </td>
+                                    </tr>
+                                    }
+                                    }
+                                </tbody>
+                            </table>
                             }
                         </div>
                     </div>
@@ -680,10 +681,10 @@
                             <span class="badge badge-pill badge-primary">@ViewBag.Plcount</span>
                             @if (ViewBag.Plcount > 0)
                             {
-                                <i class="fa fa-clipboard-check"></i> @ViewBag.PlIssued
-                                <i class="fa fa-procedures"></i> @ViewBag.PlTransfused
-                                <i class="fa fa-tag"></i> @ViewBag.PlReturned
-                                <i class="fa fa-allergies"></i> @ViewBag.Reaction
+                            <i class="fa fa-clipboard-check" data-toggle="tooltip" title="Issued"></i> @ViewBag.PlIssued
+                            <i class="fa fa-procedures" data-toggle="tooltip" title="Transfused"></i> @ViewBag.PlTransfused
+                            <i class="fa fa-tag" data-toggle="tooltip" title="Returned"></i> @ViewBag.PlReturned
+                            <i class="fa fa-allergies" data-toggle="tooltip" title="Transfusion reaction"></i> @ViewBag.Reaction
                             }
                         </h5>
                     </div>
@@ -691,59 +692,59 @@
                         <div class="panel-body w3-light-gray">
                             @if (ViewBag.Plcount > 0)
                             {
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Request Time & Date</th>
-                                            <th>Type</th>
-                                            <th>Pack ID</th>
-                                            <th>History</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            if (item.PRODNUM != null && item.PRODCODE.Substring(0, 2) == "PL")
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Request Time & Date</th>
+                                        <th>Type</th>
+                                        <th>Pack ID</th>
+                                        <th>History</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                    if (item.PRODNUM != null && item.PRODCODE.Substring(0, 2) == "PL")
+                                    {
+                                    <tr>
+                                        <td>@item.ACCESSNUMBER</td>
+                                        <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
+                                        <td>@item.PRODCODE</td>
+                                        <td>@item.PRODNUM</td>
+                                        <td>
+                                            @if (item.RESERVDATE != null && item.ReservIntDay < 8)
                                             {
-                                                <tr>
-                                                    <td>@item.ACCESSNUMBER</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
-                                                    <td>@item.PRODCODE</td>
-                                                    <td>@item.PRODNUM</td>
-                                                    <td>
-                                                        @if (item.RESERVDATE != null && item.ReservIntDay < 8)
-                                                        {
-                                                            <i class="fa fa-file-prescription"></i>
-                                                            <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
-                                                        }
-                                                        @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
-                                                        {
-                                                            <i class="fa fa-vials"></i>
-                                                            <sup>@item.XMATCHDATE.Value.ToString("HH:mm") d:@item.XmatchIntDay</sup>
-                                                        }
-                                                        @if (item.ISSUEDATE != null && item.IssueIntDay < 8)
-                                                        {
-                                                            <i class="fa fa-clipboard-check"></i>
-                                                            <sup>@item.ISSUEDATE.Value.ToString("HH:mm") d:@item.IssueIntDay</sup>
-                                                        }
-                                                        @if (item.RETURNDATE != null && item.ReturnIntDay < 8)
-                                                        {
-                                                            <i class="fa fa-tag"></i>
-                                                            <sup>@item.RETURNDATE.Value.ToString("HH:mm") d:@item.ReturnIntDay</sup>
-                                                        }
-                                                    </td>
-                                                    <td>
-                                                        @if (item.TRANSREACTION != null)
-                                                        {
-                                                            <i class="fa fa-allergies"></i>
-                                                        }
-                                                    </td>
-                                                </tr>
+                                            <i class="fa fa-file-prescription" data-toggle="tooltip" title="Reservation"></i>
+                                            <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
                                             }
-                                        }
-                                    </tbody>
-                                </table>
+                                            @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
+                                            {
+                                            <i class="fa fa-vials" data-toggle="tooltip" title="Crossmatch"></i>
+                                            <sup>@item.XMATCHDATE.Value.ToString("HH:mm") d:@item.XmatchIntDay</sup>
+                                            }
+                                            @if (item.ISSUEDATE != null && item.IssueIntDay < 8)
+                                            {
+                                            <i class="fa fa-clipboard-check" data-toggle="tooltip" title="Issued"></i>
+                                            <sup>@item.ISSUEDATE.Value.ToString("HH:mm") d:@item.IssueIntDay</sup>
+                                            }
+                                            @if (item.RETURNDATE != null && item.ReturnIntDay < 8)
+                                            {
+                                            <i class="fa fa-tag" data-toggle="tooltip" title="Returned"></i>
+                                            <sup>@item.RETURNDATE.Value.ToString("HH:mm") d:@item.ReturnIntDay</sup>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.TRANSREACTION != null)
+                                            {
+                                            <i class="fa fa-allergies" data-toggle="tooltip" title="Transfusion reaction"></i>
+                                            }
+                                        </td>
+                                    </tr>
+                                    }
+                                    }
+                                </tbody>
+                            </table>
                             }
                         </div>
                     </div>
@@ -756,10 +757,10 @@
                             <span class="badge badge-pill badge-primary">@ViewBag.Fpcount</span>
                             @if (ViewBag.Fpcount > 0)
                             {
-                                <i class="fa fa-clipboard-check"></i> @ViewBag.FpIssued
-                                <i class="fa fa-procedures"></i> @ViewBag.FpTransfused
-                                <i class="fa fa-tag"></i> @ViewBag.FpReturned
-                                <i class="fa fa-allergies"></i> @ViewBag.Reaction
+                            <i class="fa fa-clipboard-check" data-toggle="tooltip" title="Issued"></i> @ViewBag.FpIssued
+                            <i class="fa fa-procedures" data-toggle="tooltip" title="Transfused"></i> @ViewBag.FpTransfused
+                            <i class="fa fa-tag" data-toggle="tooltip" title="Returned"></i> @ViewBag.FpReturned
+                            <i class="fa fa-allergies" data-toggle="tooltip" title="Transfusion reaction"></i> @ViewBag.Reaction
                             }
                         </h5>
                     </div>
@@ -767,59 +768,59 @@
                         <div class="panel-body w3-light-gray">
                             @if (ViewBag.Fpcount > 0)
                             {
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Request Time & Date</th>
-                                            <th>Type</th>
-                                            <th>Pack ID</th>
-                                            <th>History</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            if (item.PRODNUM != null && (item.PRODCODE.Substring(0, 2) == "FF" || item.PRODCODE.Substring(0, 2) == "CR"))
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Request Time & Date</th>
+                                        <th>Type</th>
+                                        <th>Pack ID</th>
+                                        <th>History</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                    if (item.PRODNUM != null && (item.PRODCODE.Substring(0, 2) == "FF" || item.PRODCODE.Substring(0, 2) == "CR"))
+                                    {
+                                    <tr>
+                                        <td>@item.ACCESSNUMBER</td>
+                                        <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
+                                        <td>@item.PRODCODE</td>
+                                        <td>@item.PRODNUM</td>
+                                        <td>
+                                            @if (item.RESERVDATE != null && item.ReservIntDay < 8)
                                             {
-                                                <tr>
-                                                    <td>@item.ACCESSNUMBER</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
-                                                    <td>@item.PRODCODE</td>
-                                                    <td>@item.PRODNUM</td>
-                                                    <td>
-                                                        @if (item.RESERVDATE != null && item.ReservIntDay < 8)
-                                                        {
-                                                            <i class="fa fa-file-prescription"></i>
-                                                            <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
-                                                        }
-                                                        @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
-                                                        {
-                                                            <i class="fa fa-vials"></i>
-                                                            <sup>@item.XMATCHDATE.Value.ToString("HH:mm") d:@item.XmatchIntDay</sup>
-                                                        }
-                                                        @if (item.ISSUEDATE != null && item.IssueIntDay < 8)
-                                                        {
-                                                            <i class="fa fa-clipboard-check"></i>
-                                                            <sup>@item.ISSUEDATE.Value.ToString("HH:mm") d:@item.IssueIntDay</sup>
-                                                        }
-                                                        @if (item.RETURNDATE != null && item.ReturnIntDay < 8)
-                                                        {
-                                                            <<i class="fa fa-tag"></i>
-                                                            <sup>@item.RETURNDATE.Value.ToString("HH:mm") d:@item.ReturnIntDay</sup>
-                                                        }
-                                                    </td>
-                                                    <td>
-                                                        @if (item.TRANSREACTION != null)
-                                                        {
-                                                            <i class="fa fa-allergies"></i>
-                                                        }
-                                                    </td>
-                                                </tr>
+                                            <i class="fa fa-file-prescription" data-toggle="tooltip" title="Reservation"></i>
+                                            <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
                                             }
-                                        }
-                                    </tbody>
-                                </table>
+                                            @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
+                                            {
+                                            <i class="fa fa-vials" data-toggle="tooltip" title="Crossmatch"></i>
+                                            <sup>@item.XMATCHDATE.Value.ToString("HH:mm") d:@item.XmatchIntDay</sup>
+                                            }
+                                            @if (item.ISSUEDATE != null && item.IssueIntDay < 8)
+                                            {
+                                            <i class="fa fa-clipboard-check" data-toggle="tooltip" title="Issued"></i>
+                                            <sup>@item.ISSUEDATE.Value.ToString("HH:mm") d:@item.IssueIntDay</sup>
+                                            }
+                                            @if (item.RETURNDATE != null && item.ReturnIntDay < 8)
+                                            {
+                                            <<i class="fa fa-tag" data-toggle="tooltip" title="Returned"></i>
+                                            <sup>@item.RETURNDATE.Value.ToString("HH:mm") d:@item.ReturnIntDay</sup>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.TRANSREACTION != null)
+                                            {
+                                            <i class="fa fa-allergies" data-toggle="tooltip" title="Transfusion reaction"></i>
+                                            }
+                                        </td>
+                                    </tr>
+                                    }
+                                    }
+                                </tbody>
+                            </table>
                             }
                         </div>
                     </div>
@@ -946,30 +947,30 @@
                             <tbody>
                                 @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
                                 {
-                                    if (bloodProduct.Id.Substring(0, 2).Contains("T-") &&
-                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
-                                    {
-                                        <tr>
-                                            <td>
-                                                <a href="#0" class="button add-to-cart" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id data-parameter='@bloodProduct.Parameter'>Request</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Id
-                                            </td>
-                                            <td>
-                                                <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Name
-                                                @if (bloodProduct.Filelocation != "none")
-                                                {
-                                                    <a href="@bloodProduct.Filelocation" target="_blank">
-                                                        <sup><i class="fa fa-info"></i></sup>
-                                                    </a>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
+                                if (bloodProduct.Id.Substring(0, 2).Contains("T-") &&
+                                (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                {
+                                <tr>
+                                    <td>
+                                        <a href="#0" class="button add-to-cart" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id data-parameter='@bloodProduct.Parameter'>Request</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Id
+                                    </td>
+                                    <td>
+                                        <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Name
+                                        @if (bloodProduct.Filelocation != "none")
+                                        {
+                                        <a href="@bloodProduct.Filelocation" target="_blank">
+                                            <sup><i class="fa fa-info" data-toggle="tooltip" title="Additional info"></i></sup>
+                                        </a>
+                                        }
+                                    </td>
+                                </tr>
+                                }
                                 }
                             </tbody>
                         </table>
@@ -979,7 +980,7 @@
                 <div id="Rbc" class="w3-container request" style="display:none">
                     <h6>
                         Select suitable products and required quantity. Remember that the minimum number of RBC units should be transfused to
-                        achieve the desired response. Refer to <a href="@Url.Action("Guidelines_rbc","ProductInfo")" target="_blank"><b>Guidelines for Red Cell Use</b></a> to aid your transfusion decision.
+                        achieve the desired response. Refer to <a href="@Url.Action(" Guidelines_rbc","ProductInfo")" target="_blank"><b>Guidelines for Red Cell Use</b></a> to aid your transfusion decision.
                     </h6>
                     <p id="alert_redcell" style="color: orangered"></p>
                     <p id="redcell" style="color: orangered"></p>
@@ -998,42 +999,42 @@
                             <tbody>
                                 @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
                                 {
-                                    if (bloodProduct.Id.Substring(0, 2).Contains("RC") &&
-                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
-                                    {
-                                        <tr>
-                                            <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id data-parameter='@bloodProduct.Parameter'>Request</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Id
-                                            </td>
-                                            <td>
-                                                <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Name
-                                                @if (bloodProduct.Filelocation != "none")
-                                                {
-                                                    <a href="@Url.Action("Index","ProductInfo",new {id = bloodProduct.Id })" target="_blank">
-                                                        <sup><i class="fa fa-info"></i></sup>
-                                                    </a>
-                                                }
-                                                @if (bloodProduct.Irradiate == 1)
-                                                {
-                                                    <a href="@Url.Action("Modifications","ProductInfo",new {id = "IRR" })" target="_blank">
-                                                        <sup><i class="fa fa-radiation"></i></sup>
-                                                    </a>
-                                                }
-                                                @if (bloodProduct.Leucodeplete == 1)
-                                                {
-                                                    <a href="@Url.Action("Modifications","ProductInfo",new {id = "LD" })" target="_blank">
-                                                        <sup><i class="fa fa-filter"></i></sup>
-                                                    </a>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
+                                if (bloodProduct.Id.Substring(0, 2).Contains("RC") &&
+                                (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                {
+                                <tr>
+                                    <td>
+                                        <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id data-parameter='@bloodProduct.Parameter'>Request</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Id
+                                    </td>
+                                    <td>
+                                        <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Name
+                                        @if (bloodProduct.Filelocation != "none")
+                                        {
+                                        <a href="@Url.Action(" Index","ProductInfo",new {id=bloodProduct.Id })" target="_blank">
+                                            <sup><i class="fa fa-info" data-toggle="tooltip" title="Additional info"></i></sup>
+                                        </a>
+                                        }
+                                        @if (bloodProduct.Irradiate == 1)
+                                        {
+                                        <a href="@Url.Action(" Modifications","ProductInfo",new {id="IRR" })" target="_blank">
+                                            <sup><i class="fa fa-radiation" data-toggle="tooltip" title="Irradiation possible"></i></sup>
+                                        </a>
+                                        }
+                                        @if (bloodProduct.Leucodeplete == 1)
+                                        {
+                                        <a href="@Url.Action(" Modifications","ProductInfo",new {id="LD" })" target="_blank">
+                                            <sup><i class="fa fa-filter" data-toggle="tooltip" title="Leucoreduced"></i></sup>
+                                        </a>
+                                        }
+                                    </td>
+                                </tr>
+                                }
                                 }
                             </tbody>
                         </table>
@@ -1043,7 +1044,7 @@
                 <!--Platelet requests-->
                 <div id="Platelet" class="w3-container request" style="display:none">
                     <h6>
-                        Select suitable products and required quantity. Refer to <a href="@Url.Action("Guidelines_plt","ProductInfo")" target="_blank"><b>Guidelines for Platelet Use</b></a> to aid your transfusion decision.
+                        Select suitable products and required quantity. Refer to <a href="@Url.Action(" Guidelines_plt","ProductInfo")" target="_blank"><b>Guidelines for Platelet Use</b></a> to aid your transfusion decision.
                     </h6>
                     <p id="alert_platelet" style="color: orangered"></p>
                     <p id="platelet" style="color: orangered"></p>
@@ -1061,42 +1062,42 @@
                             <tbody>
                                 @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
                                 {
-                                    if (bloodProduct.Id.Substring(0, 2).Contains("PL") &&
-                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
-                                    {
-                                        <tr>
-                                            <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id data-parameter='@bloodProduct.Parameter'>Request</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Id
-                                            </td>
-                                            <td>
-                                                <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Name
-                                                @if (bloodProduct.Filelocation != "none")
-                                                {
-                                                    <a href="@Url.Action("Index","ProductInfo",new {id = bloodProduct.Id })" target="_blank">
-                                                        <sup><i class="fa fa-info"></i></sup>
-                                                    </a>
-                                                }
-                                                @if (bloodProduct.Irradiate == 1)
-                                                {
-                                                    <a href="@Url.Action("Modifications","ProductInfo",new {id = "IRR" })" target="_blank">
-                                                        <sup><i class="fa fa-radiation"></i></sup>
-                                                    </a>
-                                                }
-                                                @if (bloodProduct.Leucodeplete == 1)
-                                                {
-                                                    <a href="@Url.Action("Modifications","ProductInfo",new {id = "LD" })" target="_blank">
-                                                        <sup><i class="fa fa-filter"></i></sup>
-                                                    </a>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
+                                if (bloodProduct.Id.Substring(0, 2).Contains("PL") &&
+                                (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                {
+                                <tr>
+                                    <td>
+                                        <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication" onclick="updateIndication('@bloodProduct.Parameter')" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id data-parameter='@bloodProduct.Parameter'>Request</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Id
+                                    </td>
+                                    <td>
+                                        <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Name
+                                        @if (bloodProduct.Filelocation != "none")
+                                        {
+                                        <a href="@Url.Action(" Index","ProductInfo",new {id=bloodProduct.Id })" target="_blank">
+                                            <sup><i class="fa fa-info" data-toggle="tooltip" title="Additional info"></i></sup>
+                                        </a>
+                                        }
+                                        @if (bloodProduct.Irradiate == 1)
+                                        {
+                                        <a href="@Url.Action(" Modifications","ProductInfo",new {id="IRR" })" target="_blank">
+                                            <sup><i class="fa fa-radiation" data-toggle="tooltip" title="Irradiation possible"></i></sup>
+                                        </a>
+                                        }
+                                        @if (bloodProduct.Leucodeplete == 1)
+                                        {
+                                        <a href="@Url.Action(" Modifications","ProductInfo",new {id="LD" })" target="_blank">
+                                            <sup><i class="fa fa-filter" data-toggle="tooltip" title="Leucoreduced"></i></sup>
+                                        </a>
+                                        }
+                                    </td>
+                                </tr>
+                                }
                                 }
                             </tbody>
                         </table>
@@ -1105,7 +1106,7 @@
                 <!--Plasma products and derivatives requests-->
                 <div id="Plasma" class="w3-container request" style="display:none">
                     <h6>
-                        Select suitable products and required quantity. Refer to <a href="@Url.Action("Guidelines_ffp","ProductInfo")"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
+                        Select suitable products and required quantity. Refer to <a href="@Url.Action(" Guidelines_ffp","ProductInfo")"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
                     </h6>
                     <p id="alert_ffp" style="color: orangered"></p>
                     <p id="alert_cryoprecipitate" style="color: orangered"></p>
@@ -1125,31 +1126,31 @@
                             <tbody>
                                 @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
                                 {
-                                    if (bloodProduct.Id.Substring(0, 2).Contains("PP") &&
-                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
-                                    {
-                                        <tr>
-                                            <td>
-                                                <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication"
-                                                   onclick="updateIndication('@bloodProduct.Parameter')" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id data-parameter='@bloodProduct.Parameter'>Request</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Id
-                                            </td>
-                                            <td>
-                                                <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
-                                            </td>
-                                            <td>
-                                                @bloodProduct.Name
-                                                @if (bloodProduct.Filelocation != "none")
-                                                {
-                                                    <a href="@Url.Action("Index","ProductInfo",new {id = bloodProduct.Id })" target="_blank">
-                                                        <sup><i class="fa fa-info"></i></sup>
-                                                    </a>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
+                                if (bloodProduct.Id.Substring(0, 2).Contains("PP") &&
+                                (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                {
+                                <tr>
+                                    <td>
+                                        <a href="#0" class="button add-to-cart" data-toggle="modal" data-target="#pick-indication"
+                                           onclick="updateIndication('@bloodProduct.Parameter')" data-name='@bloodProduct.Name' data-price=@bloodProduct.Charge data-id=@bloodProduct.Id data-parameter='@bloodProduct.Parameter'>Request</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Id
+                                    </td>
+                                    <td>
+                                        <a href="#0" class="button btn-info" data-toggle="modal" data-target="#product-info" onclick="productInfo('@bloodProduct.Id')">Info</a>
+                                    </td>
+                                    <td>
+                                        @bloodProduct.Name
+                                        @if (bloodProduct.Filelocation != "none")
+                                        {
+                                        <a href="@Url.Action(" Index","ProductInfo",new {id=bloodProduct.Id })" target="_blank">
+                                            <sup><i class="fa fa-info" data-toggle="tooltip" title="Additional info"></i></sup>
+                                        </a>
+                                        }
+                                    </td>
+                                </tr>
+                                }
                                 }
                             </tbody>
                         </table>
@@ -1193,11 +1194,11 @@
                         </div>
                     </div>
                     <!--
-                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button onclick="confirmRequest()" type="button" class="btn btn-primary" id="confirm-request">Confirm request</button>
-                </div>
-                -->
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button onclick="confirmRequest()" type="button" class="btn btn-primary" id="confirm-request">Confirm request</button>
+                    </div>
+                    -->
                     <hr />
                     <div>
                         <ul class="list-group list-group-flush list-group-item-danger" id="warning-confirm-request" style="list-style:none"></ul>
@@ -1206,9 +1207,9 @@
                         <!--Insert btCartNew only when request is cleared-->
                     </div>
                     <!--div>
-                    <input class="btn-default" type="button" id="btnCartNew" value="Save" />
-                    <input class="btn-default" type="button" id="btnAddItems" value="Save" />
-                <div-->
+                        <input class="btn-default" type="button" id="btnCartNew" value="Save" />
+                        <input class="btn-default" type="button" id="btnAddItems" value="Save" />
+                    <div-->
                 </div>
             </div>
         </div>
@@ -1293,10 +1294,10 @@
                         <!--Insert cards using js-->
                         <div id="demo" class="carousel slide" data-ride="carousel" data-interval="15000">
                             <!-- Indicators>
-                        <ol-- class="carousel-indicators" id="requests-carousel-indicator">
-                            <li data-target="#demo" data-slide-to="0" class="active">1</li>
-                            <li data-target="#demo" data-slide-to="1">2</li>
-                        </ol-->
+                            <ol-- class="carousel-indicators" id="requests-carousel-indicator">
+                                <li data-target="#demo" data-slide-to="0" class="active">1</li>
+                                <li data-target="#demo" data-slide-to="1">2</li>
+                            </ol-->
                             <div class="carousel-inner">
                                 <div id="requests-carousel-inner">
                                     <!--Insert carousel contents by js-->
@@ -1312,6 +1313,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <div id="sample-barcode" hidden>
+                            <svg id="barcode"></svg>
+                        </div>
                         <button type="button" class="btn btn-default" data-dismiss="modal">
                             Close
                         </button>
@@ -2290,7 +2294,7 @@
                 for (var j = 0; j < arrItem.length; j++) {
                     listItems += "<li class='list-group-item'>" + arrItem[j] + "</li>"
                 }
-                
+
                 x += carouselHead + "<div class='card bg-light' >"
                     + "<div class='card-body pb-3' >"
                     + "<div class='card-header'>"
@@ -2317,7 +2321,8 @@
                     + "</div>"
                     + "</div>"
                     + "<div class='card-footer'>"
-                    + "<i class='fas fa-print fa-lg text-primary pr-4'></i>" + fasyringe
+                    + "&nbsp;&nbsp;&nbsp;&nbsp;<button class='btn btn-outline-primary' type='button' onclick = 'printDiv(" + objResults[i].CartID + ")' id='print-" + objResults[i].CartID + "'>Print</button>"
+                    + "&nbsp;&nbsp;&nbsp;&nbsp;" + fasyringe
                     + "<small class='text-muted text-right'>" + footer + "</small>"
                     + "</div>"
                     + "</div>"
@@ -2327,8 +2332,29 @@
 
             document.getElementById("requests-carousel-inner").innerHTML = x;
         }
-
     </script>
+    <script>
+        //Print division
+        function printDiv(val) {
+            JsBarcode("#barcode", val, {
+                width: 1,
+                height: 25,
+                fontSize: 10
+            });
+            var divContents = document.getElementById("sample-barcode").innerHTML;
+            var divDemographics = document.getElementById("patient-demographics").innerHTML;
+            var a = window.open('', '', 'height=500, width=500');
+            a.document.write('<html>');
+            a.document.write('<body>');
+            a.document.write(divContents);
+            a.document.write('<hr/>')
+            a.document.write(divDemographics);
+            a.document.write('</body></html>');
+            a.document.close();
+            a.print();
+        }
+    </script>
+
     <script>
         function toggleSubmitReq(val) {
             var x = document.getElementById("request-" + val);
