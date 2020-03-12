@@ -2336,22 +2336,52 @@
     <script>
         //Print division
         function printDiv(val) {
-            JsBarcode("#barcode", val, {
-                width: 1,
-                height: 25,
-                fontSize: 10
+            var uri = "/Patient/GetPrintItems";
+            $.getJSON(uri, { id: val }).done(function (data) {
+                var count;
+                var objResults = JSON.parse(data);
+                count = JSON.parse(data).length;
+                if (count > 0 && objResults[0].SampleID != null) {
+                    var sid = objResults[0].SampleID;
+                    var loc = objResults[0].Location;
+                    var ar = objResults[0].Items.split(';');
+
+                    //Create SampleId barcode
+                    JsBarcode("#barcode", sid, {
+                        width: 1,
+                        height: 25,
+                        fontSize: 10
+                    });
+
+                    var divContents = document.getElementById("sample-barcode").innerHTML;
+                    var divDemographics = document.getElementById("patient-demographics").innerHTML;
+
+                    var a = window.open('', '', 'height=500, width=500');
+                    a.document.write('<html>');
+                    a.document.write('<body>');
+                    a.document.write(divContents);
+                    a.document.write('<hr/>')
+                    a.document.write(divDemographics);
+                    a.document.write(' | ')
+                    a.document.write(loc);
+                    a.document.write('<hr/>')
+                    for (var i = 0; i < ar.length; i++) {
+                        a.document.write(ar[i]);
+                        a.document.write('<br/>')
+                    }
+                    a.document.write('<hr/>')
+                    for (var i = 0; i < count; i++) {
+                        a.document.write(objResults[i].NoticeText);
+                        a.document.write('<br/>')
+                    }
+                    a.document.write('</body></html>');
+                    a.document.close();
+                    a.print();
+                }
+                else {
+                    alert("Request has not been aknowledged by TD-Synergy.");
+                }
             });
-            var divContents = document.getElementById("sample-barcode").innerHTML;
-            var divDemographics = document.getElementById("patient-demographics").innerHTML;
-            var a = window.open('', '', 'height=500, width=500');
-            a.document.write('<html>');
-            a.document.write('<body>');
-            a.document.write(divContents);
-            a.document.write('<hr/>')
-            a.document.write(divDemographics);
-            a.document.write('</body></html>');
-            a.document.close();
-            a.print();
         }
     </script>
 
