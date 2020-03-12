@@ -132,7 +132,7 @@
                             }
                             else if (ViewBag.AbsErr > 0)
                             {
-                            <i class="fa fa-exclamation" data-toggle="tooltip" title="Atypical red cell antibodies present."></i>
+                            <i class="fa fa-exclamation" data-toggle="tooltip" title="Atypical red cell antibodies present. @Html.DisplayFor(model => model.FirstOrDefault().ANTIBODIES)"></i>
                             }
                             else
                             {
@@ -635,7 +635,7 @@
                                         <td>@item.ACCESSNUMBER</td>
                                         <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
                                         <td>@item.PRODCODE</td>
-                                        <td>@item.PRODNUM</td>
+                                        <td><span data-toggle="tooltip" title="@item.PRODGROUP, Expiry: @item.EXPDATE.Value.ToString("dd/MM/yyyy")">@item.PRODNUM</span></td>
                                         <td>
                                             @if (item.RESERVDATE != null && item.ReservIntDay < 8)
                                             {
@@ -711,7 +711,7 @@
                                         <td>@item.ACCESSNUMBER</td>
                                         <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
                                         <td>@item.PRODCODE</td>
-                                        <td>@item.PRODNUM</td>
+                                        <td><span data-toggle="tooltip" title="@item.PRODGROUP, Expiry: @item.EXPDATE.Value.ToString("dd/MM/yyyy")">@item.PRODNUM</span></td>
                                         <td>
                                             @if (item.RESERVDATE != null && item.ReservIntDay < 8)
                                             {
@@ -787,7 +787,7 @@
                                         <td>@item.ACCESSNUMBER</td>
                                         <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
                                         <td>@item.PRODCODE</td>
-                                        <td>@item.PRODNUM</td>
+                                        <td><span data-toggle="tooltip" title="@item.PRODGROUP, Expiry: @item.EXPDATE.Value.ToString("dd/MM/yyyy")">@item.PRODNUM</span></td>
                                         <td>
                                             @if (item.RESERVDATE != null && item.ReservIntDay < 8)
                                             {

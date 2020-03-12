@@ -176,6 +176,8 @@ namespace BloodLineV2.ViewModels
         //Product
         public string PRODNUM { get; set; }
         public string PRODCODE { get; set; }
+        public string PRODGROUP { get; set; }
+        public Nullable<System.DateTime> EXPDATE { get; set; }
 
         //BB Order
         public DateTime RequiredDate { get; set; }
