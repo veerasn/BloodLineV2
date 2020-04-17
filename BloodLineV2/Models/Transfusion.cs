@@ -14,6 +14,12 @@ namespace BloodLineV2.Models
     
     public partial class Transfusion
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Transfusion()
+        {
+            this.Interupts = new HashSet<Interupt>();
+        }
+    
         public int TransfusionId { get; set; }
         public string Prodnum { get; set; }
         public string Patnumber { get; set; }
@@ -35,5 +41,9 @@ namespace BloodLineV2.Models
         public Nullable<System.DateTime> end_time { get; set; }
         public Nullable<int> end_user { get; set; }
         public Nullable<int> current_status { get; set; }
+        public Nullable<int> interupt_num { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Interupt> Interupts { get; set; }
     }
 }

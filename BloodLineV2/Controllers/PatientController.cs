@@ -981,6 +981,24 @@ namespace BloodLineV2.Controllers
 
         public ActionResult UpdateInterupt(string patid, string packid, int val, int user)
         {
+            //Insert record in Interupt table
+            string strCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
+            SqlConnection bbOrder = new SqlConnection(strCn);
+            bbOrder.Open();
+
+            string queryString = "INSERT INTO Interupts (Prodnum, Patnumber,interupt_time, interupt_reason, interupt_user) "
+                                    + "VALUES (@prodnum, @patnumber, @time,@reason,@user)";
+            SqlCommand cmdInterupt = new SqlCommand(queryString, bbOrder);
+            cmdInterupt.Parameters.AddWithValue("@prodnum", packid);
+            cmdInterupt.Parameters.AddWithValue("@patnumber", patid);
+            DateTime dateTimeNow = DateTime.Now;
+            cmdInterupt.Parameters.AddWithValue("@time", dateTimeNow);
+            cmdInterupt.Parameters.AddWithValue("@reason", val);
+            cmdInterupt.Parameters.AddWithValue("@user", user);
+            cmdInterupt.ExecuteNonQuery();
+            bbOrder.Close();
+
+            //Update transfusion record with last interuption details
             using (BBOrderEntities context = new BBOrderEntities())
             {
                 Transfusion record = context.Transfusions.Find(packid, patid);
@@ -996,6 +1014,23 @@ namespace BloodLineV2.Controllers
 
         public ActionResult UpdateDecision(string patid, string packid, int val, int user)
         {
+            //Update record in Interupt table 
+            string strCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
+            SqlConnection bbOrder = new SqlConnection(strCn);
+            bbOrder.Open();
+
+            string queryString = "UPDATE Interupts SET outcome_time = @time, interupt_outcome = @outcome, outcome_user = @user "
+                                    + "WHERE Prodnum = @prodnum AND Patnumber = @patnumber AND interupt_outcome IS NULL";
+            SqlCommand cmdInterupt = new SqlCommand(queryString, bbOrder);
+            cmdInterupt.Parameters.AddWithValue("@prodnum", packid);
+            cmdInterupt.Parameters.AddWithValue("@patnumber", patid);
+            DateTime dateTimeNow = DateTime.Now;
+            cmdInterupt.Parameters.AddWithValue("@time", dateTimeNow);
+            cmdInterupt.Parameters.AddWithValue("@outcome", val);
+            cmdInterupt.Parameters.AddWithValue("@user", user);
+            cmdInterupt.ExecuteNonQuery();
+            bbOrder.Close();
+
             using (BBOrderEntities context = new BBOrderEntities())
             {
                 Transfusion record = context.Transfusions.Find(packid, patid);

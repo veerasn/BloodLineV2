@@ -28,6 +28,7 @@ namespace BloodLineV2.Models
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<CartItem> CartItems { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Interupt> Interupts { get; set; }
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<MemberRole> MemberRoles { get; set; }

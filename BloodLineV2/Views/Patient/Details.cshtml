@@ -1412,7 +1412,7 @@
                                     <form id="interuptReasons">
                                         <div class="form-group">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason1" value=1>
+                                                <input class="form-check-input" type="radio" name="interuptReason" id="interuptReason1" value=1 checked>
                                                 <label class="form-check-label" for="interuptReason1">Line blocked</label>
                                             </div>
                                             <div class="form-check ">
@@ -1432,13 +1432,14 @@
                                 </div>
                                 <div class="form-group" id="interupt-decision-group">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="interuptDecision" id="interuptCheckbox1" value=1>
+                                        <input class="form-check-input" type="radio" name="interuptDecision" id="interuptCheckbox1" value=1 checked>
                                         <label class="form-check-label" for="interuptCheckbox1">Recommence transfusion</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="interuptDecision" id="interuptCheckbox2" value=2>
                                         <label class="form-check-label" for="interuptCheckbox2">Terminate transfusion</label>
                                     </div>
+                                    <!--Add option to either recommence or terminate transfusion-->
                                     <button type="button" id="btn-recommence-transfusion" onclick="recommenceTransfusion()" class="btn btn-primary">Confirm decision</button>
                                 </div>
                             </div>
@@ -1574,6 +1575,16 @@
             document.getElementById(requestName).style.display = "block";
             evt.currentTarget.firstElementChild.className += " w3-border-red";
         }
+    </script>
+    <script>
+        function displayRadioValue(radioname) {
+            var ele = document.getElementsByName(radioname);
+
+            for (i = 0; i < ele.length; i++) {
+                if (ele[i].checked)
+                    return ele[i].value;
+            }
+        } 
     </script>
 
     <script>
@@ -2718,9 +2729,9 @@
             preItem.pre_pulse = document.getElementById("pre-pulse").value;
             preItem.pre_bp_sys = document.getElementById("pre-bp-sys").value;
             preItem.pre_bp_dia = document.getElementById("pre-bp-dia").value;
-            preItem.start_time = (currentdate.getMonth() + 1) + "/"
-                + currentdate.getDate() + "/"
-                + currentdate.getFullYear() + " "
+            preItem.start_time = currentdate.getFullYear() + "-"
+                + (currentdate.getMonth() + 1) + "-"
+                + currentdate.getDate() + " "
                 + currentdate.getHours() + ":"
                 + currentdate.getMinutes();
             preItem.start_user = 1;
@@ -2747,6 +2758,7 @@
 
             var x = document.getElementById("btn-interupt-transfusion");
             var str = x.innerHTML;
+            var radiovalue = displayRadioValue('interuptReason');
 
             if (str == "Interrupt Transfusion") {
                 $("#interupt-transfusion").show();
@@ -2756,15 +2768,13 @@
             }
             else if (str == "Confirm Interruption") {
                 //Upload details of interuption
-                //Need to create another table for interruptions realted to the transfusion episode
-
                 $.ajax({
                     url: "/Patient/UpdateInterupt",
                     method: "Post",
                     data: {
                         patid: document.getElementById("transfuse-recipient-id").value,
                         packid: document.getElementById("transfuse-pack-id").value,
-                        val: 2, //need to change val according to type of reaction
+                        val: radiovalue, //need to change val according to type of reaction
                         user: 1
                     }
                 }).done(function () {
@@ -2780,6 +2790,7 @@
     </script>
     <script>
         function recommenceTransfusion() {
+            var radiovalue = displayRadioValue('interuptDecision');
             //Upload details of recommencement or termination
             $.ajax({
                 url: "/Patient/UpdateDecision",
@@ -2787,7 +2798,7 @@
                 data: {
                     patid: document.getElementById("transfuse-recipient-id").value,
                     packid: document.getElementById("transfuse-pack-id").value,
-                    val: 2,
+                    val: radiovalue,
                     user: 1
                 }
             }).done(function () {

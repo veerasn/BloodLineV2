@@ -213,6 +213,9 @@
     <Compile Include="Models\DICT_TESTS.cs">
       <DependentUpon>BBS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Interupt.cs">
+      <DependentUpon>BBOrder.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Item.cs">
       <DependentUpon>BBOrder.tt</DependentUpon>
     </Compile>
@@ -419,13 +422,6 @@
     <Content Include="Models\BBProduct.edmx.diagram">
       <DependentUpon>BBProduct.edmx</DependentUpon>
     </Content>
-    <EntityDeploy Include="Models\BBOrder.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BBOrder.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\BBOrder.edmx.diagram">
-      <DependentUpon>BBOrder.edmx</DependentUpon>
-    </Content>
     <Content Include="Content\webfonts\fa-brands-400.eot" />
     <Content Include="Content\webfonts\fa-brands-400.ttf" />
     <Content Include="Content\webfonts\fa-brands-400.woff" />
@@ -438,6 +434,13 @@
     <Content Include="Content\webfonts\fa-solid-900.ttf" />
     <Content Include="Content\webfonts\fa-solid-900.woff" />
     <Content Include="Content\webfonts\fa-solid-900.woff2" />
+    <EntityDeploy Include="Models\BBOrder.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BBOrder.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BBOrder.edmx.diagram">
+      <DependentUpon>BBOrder.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
