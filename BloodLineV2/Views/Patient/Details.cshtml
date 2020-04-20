@@ -2549,26 +2549,30 @@
             var alert = "";
             var color = "000000";
             var str = "";
+            var i;
 
             //Build string to display series of transfusion events
             var str = str
                         + "<p>Transfusion commenced at: " + objT[0].TimeStarted
                         + " (T:" + objT[0].pre_temp / 10 + "<sup>o</sup>C,"
                         + " HR:" + objT[0].pre_pulse + " bpm,"
-                        + " BP:" + objT[0].pre_bp_sys + "/" + objT[0].pre_bp_dia + " mmHg)</p>"
+                + " BP:" + objT[0].pre_bp_sys + "/" + objT[0].pre_bp_dia + " mmHg)</p>"
 
-            if (objT[0].interupt_time != null && objT[0].interupt_reason != null) {
-                str = str
-                    + "<p>Transfusion interrupted at: " + objT[0].TimeInterupted
-                    + " due to reason " + objT[0].interupt_reason + "</p>"
-            }
-
-            if (objT[0].outcome_time != null && objT[0].interupt_outcome != null) {
-                if (objT[0].interupt_outcome == 1) {
-                    str = str + "<p>Transfusion recommenced at: " + objT[0].TimeOutcome + "</p>"
+            //Loop through records to display interupts
+            for (i = 0; i < objT.length; i++) {
+                if (objT[i].interupt_time != null && objT[i].interupt_reason != null) {
+                    str = str
+                        + "<p>Transfusion interrupted at: " + objT[i].TimeInterupted
+                        + " due to reason " + objT[i].interupt_reason + "</p>"
                 }
-                else if (objT[0].interupt_outcome == 2) {
-                    str = str + "<p>Transfusion terminated at: " + objT[0].TimeOutcome + "</p>"
+
+                if (objT[i].outcome_time != null && objT[i].interupt_outcome != null) {
+                    if (objT[i].interupt_outcome == 1) {
+                        str = str + "<p>Transfusion recommenced at: " + objT[i].TimeOutcome + "</p>"
+                    }
+                    else if (objT[i].interupt_outcome == 2) {
+                        str = str + "<p>Transfusion terminated at: " + objT[i].TimeOutcome + "</p>"
+                    }
                 }
             }
 

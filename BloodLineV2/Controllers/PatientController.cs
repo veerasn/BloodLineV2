@@ -1082,13 +1082,18 @@ namespace BloodLineV2.Controllers
             var dt = new DataTable();
             string strCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
 
-            string queryString = @"SELECT *,
+            string queryString = @"SELECT DISTINCT t.TransfusionId, t.Prodnum, t.Patnumber, t.pre_temp, t.pre_pulse, 
+	                                t.pre_bp_sys, t.pre_bp_dia, t.post_temp, t.post_pulse, t.post_sys, t.post_dia, 
+	                                t.end_user, t.current_status, t.interupt_num,
+                                    iPat.interupt_time, iPat.outcome_time, iPat.interupt_reason, iPat.interupt_outcome,
                                     CONVERT(nvarchar, t.start_time, 100) AS TimeStarted,
-                                    CONVERT(nvarchar, t.interupt_time, 100) AS TimeInterupted,
-                                    CONVERT(nvarchar, t.outcome_time, 100) AS TimeOutcome,
+                                    CONVERT(nvarchar, iPat.interupt_time, 100) AS TimeInterupted,
+                                    CONVERT(nvarchar, iPat.outcome_time, 100) AS TimeOutcome,
                                     CONVERT(nvarchar, t.end_time, 100) AS TimeEnded,
                                     DATEDIFF(hour, t.start_time, GETDATE()) AS ElapsedTime
                                     FROM Transfusions t
+                                    LEFT JOIN Interupts iPat ON iPat.Patnumber = t.Patnumber
+                                    LEFT JOIN Interupts iProd ON iProd.Prodnum = t.Prodnum
                                     WHERE t.Patnumber = '" + patid + "' AND t.Prodnum = '" + packid + "'";
 
             SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
