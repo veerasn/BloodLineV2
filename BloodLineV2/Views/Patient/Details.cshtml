@@ -2549,6 +2549,7 @@
             var alert = "";
             var color = "000000";
             var str = "";
+            var reason = "";
             var i;
 
             //Build string to display series of transfusion events
@@ -2561,9 +2562,25 @@
             //Loop through records to display interupts
             for (i = 0; i < objT.length; i++) {
                 if (objT[i].interupt_time != null && objT[i].interupt_reason != null) {
+
+                    switch (objT[i].interupt_reason) {
+                        case 1:
+                            reason = "line blockage.";
+                            break;
+                        case 2:
+                            reason = "febrile reaction.";
+                            break;
+                        case 3:
+                            reason = "allergic reaction.";
+                            break;
+                        case 4:
+                            reason = "moderate to severe adverse reaction requiring investigation.";
+                            break;
+                    }
+
                     str = str
                         + "<p>Transfusion interrupted at: " + objT[i].TimeInterupted
-                        + " due to reason " + objT[i].interupt_reason + "</p>"
+                        + " due to " + reason + "</p>"
                 }
 
                 if (objT[i].outcome_time != null && objT[i].interupt_outcome != null) {
@@ -2606,13 +2623,14 @@
 
                 case 3: //Transfusion recommenced or terminated after interruption
 
-                    if (objT[0].outcome_time != null && objT[0].interupt_outcome != null) {
-                        if (objT[0].interupt_outcome == 1) {
+                    var j = objT.length - 1; //Go to last interupt record
+                    if (objT[j].outcome_time != null && objT[j].interupt_outcome != null) {
+                        if (objT[j].interupt_outcome == 1) {
                             alert = "Transfusion recommenced and in progress after interruption"
                             color = "#99C68C"
                             displayTransfusion(2, alert, color);
                         }
-                        else if (objT[0].interupt_outcome == 2) {
+                        else if (objT[j].interupt_outcome == 2) {
                             alert = "Transfusion terminated after interruption"
                             color = "#99C68C"
                             displayTransfusion(4, alert, color);
@@ -2633,7 +2651,7 @@
                     summaryText.innerHTML = str;
                     break;
 
-                case 5: //Transfusion stopped and awaiting entry of post-transfusion observations
+                case 5: //Transfusion completed
 
                     alert = "Transfusion completed"
                     color = "#99C68C"
@@ -2806,11 +2824,12 @@
                     user: 1
                 }
             }).done(function () {
-                alert("Interupt added.");
-                //refresh modal
+                alert("Interupt updated.");
+                //refresh modal and toggle back button to Interrupt Transfusion
+                document.getElementById("btn-interupt-transfusion").innerHTML = "Interrupt Transfusion"
                 verifyPack();
             }).error(function () {
-
+                alert("Error in updating.");
             });
         }
     </script>
