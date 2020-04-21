@@ -2447,7 +2447,8 @@
                 url: "/Patient/UpdateCheckedOut",
                 method: "Post",
                 data: {
-                    id: val
+                    id: val,
+                    user: 1
                 }
             }).done(function () {
                 alert("Cart " + val + " checked out.");

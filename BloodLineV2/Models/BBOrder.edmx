@@ -24,6 +24,7 @@
           <Property Name="PatientName" Type="varchar" MaxLength="255" />
           <Property Name="Status" Type="smallint" Nullable="false" />
           <Property Name="Items" Type="varchar" MaxLength="512" />
+          <Property Name="CheckedOutID" Type="int" />
         </EntityType>
         <EntityType Name="CartItems">
           <Key>
@@ -359,6 +360,7 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <NavigationProperty Name="Member" Relationship="Self.FK__Cart__UserID__24927208" FromRole="Cart" ToRole="Member" />
           <NavigationProperty Name="CartItems" Relationship="Self.FK__CartItems__CartI__276EDEB3" FromRole="Cart" ToRole="CartItems" />
           <NavigationProperty Name="Notices" Relationship="Self.FK__Notices__CartID__2B3F6F97" FromRole="Cart" ToRole="Notices" />
+          <Property Name="CheckedOutID" Type="Int32" />
         </EntityType>
         <EntityType Name="CartItem">
           <Key>
@@ -682,6 +684,7 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <EntitySetMapping Name="Carts">
             <EntityTypeMapping TypeName="BBOrderModel.Cart">
               <MappingFragment StoreEntitySet="Cart">
+                <ScalarProperty Name="CheckedOutID" ColumnName="CheckedOutID" />
                 <ScalarProperty Name="CartID" ColumnName="CartID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />

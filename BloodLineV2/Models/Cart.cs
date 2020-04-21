@@ -36,6 +36,7 @@ namespace BloodLineV2.Models
         public string PatientName { get; set; }
         public short Status { get; set; }
         public string Items { get; set; }
+        public Nullable<int> CheckedOutID { get; set; }
     
         public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

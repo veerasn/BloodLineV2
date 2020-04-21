@@ -915,13 +915,14 @@ namespace BloodLineV2.Controllers
             return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult UpdateCheckedOut(long id)
+        public ActionResult UpdateCheckedOut(long id, int user)
         {
             using (BBOrderEntities context = new BBOrderEntities())
             {
                 Cart record = context.Carts.Find(id);
                 record.CheckedOut = 1;
                 record.CheckedOutTime = DateTime.Now;
+                record.CheckedOutID = user;
                 context.SaveChanges();
 
                 return Json(true, JsonRequestBehavior.AllowGet);
