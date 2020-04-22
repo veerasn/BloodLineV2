@@ -309,11 +309,14 @@
     <Content Include="Content\images\LD.jpg" />
     <Content Include="Content\images\novoseven.jpg" />
     <Content Include="Content\images\octaplex.png" />
-    <Content Include="Content\images\plap.jpg" />
-    <Content Include="Content\images\rcsag.jpg" />
+    <Content Include="Content\images\plap_1.jpg" />
+    <Content Include="Content\images\pl_transfusion.jpg" />
+    <Content Include="Content\images\rc.jpg" />
+    <Content Include="Content\images\rcsag_ld.jpg" />
     <Content Include="Content\images\rcwb-1.jpg" />
     <Content Include="Content\images\rcwb.jpg" />
-    <Content Include="Content\images\rdp.jpg" />
+    <Content Include="Content\images\rc_transfusion.jpg" />
+    <Content Include="Content\images\rdp_1.jpg" />
     <Content Include="Content\images\wash.jpg" />
     <Content Include="Content\prism.css" />
     <Content Include="Content\tagsinput.css" />
