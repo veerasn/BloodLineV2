@@ -12,7 +12,7 @@
             <div class="card h-100 bg-warning text-white">
                 <img class="card-img" src='@Url.Content(Model.FirstOrDefault().image1_link)' />
                 <div class="card-body">
-                    <h1><b>@Html.DisplayFor(model => model.FirstOrDefault().prod_bloodline)</b></h1>
+                    <h1><b>@Html.Raw(Model.FirstOrDefault().prodname_abr.ToString())</b></h1>
                     <h6>@Html.DisplayFor(model => model.FirstOrDefault().prodname_full)</h6>
                 </div>
                 <div class="card-footer">

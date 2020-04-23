@@ -305,10 +305,15 @@
     <Content Include="Content\images\blood transfusion.jpg" />
     <Content Include="Content\images\crypp.jpg" />
     <Content Include="Content\images\FFP transfusion.jpg" />
+    <Content Include="Content\images\ffp.jpg" />
     <Content Include="Content\images\ffprd.jpg" />
-    <Content Include="Content\images\LD.jpg" />
+    <Content Include="Content\images\ffp_transfusion.jpg" />
+    <Content Include="Content\images\im.jpg" />
+    <Content Include="Content\images\iv.jpg" />
+    <Content Include="Content\images\iv_bolus.jpg" />
+    <Content Include="Content\images\ld.jpg" />
     <Content Include="Content\images\novoseven.jpg" />
-    <Content Include="Content\images\octaplex.png" />
+    <Content Include="Content\images\octaplex.jpg" />
     <Content Include="Content\images\plap_1.jpg" />
     <Content Include="Content\images\pl_transfusion.jpg" />
     <Content Include="Content\images\rc.jpg" />
@@ -317,6 +322,7 @@
     <Content Include="Content\images\rcwb.jpg" />
     <Content Include="Content\images\rc_transfusion.jpg" />
     <Content Include="Content\images\rdp_1.jpg" />
+    <Content Include="Content\images\rhesonativ.jpg" />
     <Content Include="Content\images\wash.jpg" />
     <Content Include="Content\prism.css" />
     <Content Include="Content\tagsinput.css" />
