@@ -53,7 +53,7 @@
     </div>
     <!--Information on process-->
     <div class="col-md-12 mb-4">
-        <div class="card">
+        <div class="card border-info">
             <div class="card-body">
                 <h6 class="card-text">
                     @Html.Raw(Model.FirstOrDefault().text.ToString())
@@ -63,9 +63,9 @@
     </div>
     <!--When to request-->
     <div class="col-md-12 mb-4">
-        <div class="card">
-            <div class="card-header"><h2>When to request</h2></div>
-            <div class="card-body">
+        <div class="card border-info">
+            <div class="card-header border-info bg-info"><h5>When to request</h5></div>
+            <div class="card-body border-info">
                 @Html.Raw(Model.FirstOrDefault().indication.ToString())
             </div>
         </div>

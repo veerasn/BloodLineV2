@@ -14,6 +14,7 @@ using BloodLineV2.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft;
 using System.Windows;
+using MySql.Data.MySqlClient;
 
 namespace BloodLineV2.Controllers
 {
@@ -57,8 +58,32 @@ namespace BloodLineV2.Controllers
 
             if (Patient == null)
             {
-                return HttpNotFound();
                 //Amend to allow search on eMR and return patient demographics if record not found in TDBB
+                string connStr = "server=172.17.180.157;user=bborder;database=mariadb;port=3307;password=Bb@123456";
+                MySqlConnection conn = new MySqlConnection(connStr);
+                try
+                {
+                    conn.Open();
+
+                    string sql = "SELECT RN, namapesakit, tarikhlahir, kodjantina FROM pmi_pesakit WHERE RN = '" + id + "'";
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+
+                    while (rdr.Read())
+                    {
+                        string ptrn = rdr[0].ToString();
+                    }
+                    rdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+
+                conn.Close();
+
+                //return HttpNotFound();
+                
             }
 
             //Test requests
