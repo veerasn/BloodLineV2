@@ -56,34 +56,52 @@ namespace BloodLineV2.Controllers
 
             BBSPATIENT Patient = bbs.PATIENTS.Find(id);
 
+            string abo = "", rh = "", reqvaliddate = "none";
+            int aboerr = 0, rherr = 0, abserr = 0, abonum = 0, absnum = 0, reqvalid = 0, reqvalidint = 99, intSample = 999;
+
             if (Patient == null)
             {
                 //Amend to allow search on eMR and return patient demographics if record not found in TDBB
-                string connStr = "server=172.17.180.157;user=bborder;database=mariadb;port=3307;password=Bb@123456";
+                string connStr = "server=172.17.180.157;user=bborder;database=dataehas;port=3307;password=Bb@123456";
                 MySqlConnection conn = new MySqlConnection(connStr);
                 try
                 {
                     conn.Open();
 
-                    string sql = "SELECT RN, namapesakit, tarikhlahir, kodjantina FROM pmi_pesakit WHERE RN = '" + id + "'";
+                    var idShort = id.TrimStart(new char[] {'0'}); //Trim leading 0 before quering eMR
+                    int numRows = 0;
+
+                    string sql = "SELECT RN, namapesakit, tarikhlahir, kodjantina FROM pmi_pesakit WHERE RN = '" + idShort + "'";
                     MySqlCommand cmd = new MySqlCommand(sql, conn);
                     MySqlDataReader rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
-                        string ptrn = rdr[0].ToString();
+                        numRows++;
+
+                        ViewBag.PtRN = idShort;
+                        ViewBag.PtName = rdr[1].ToString();
+                        var oDate = Convert.ToDateTime(rdr[2].ToString());
+                        ViewBag.PtDob = oDate.ToString("dd MMMM yyyy");
+                        ViewBag.PtAge = (DateTime.Today - Convert.ToDateTime(rdr[2].ToString())).TotalDays;
+                        ViewBag.PtLoc = 'U';
+                        ViewBag.PtSex = rdr[3].ToString();
                     }
+
                     rdr.Close();
+
+                    if (numRows == 0)
+                    {
+                        return HttpNotFound();
+                    }                  
                 }
+
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
                 }
 
                 conn.Close();
-
-                //return HttpNotFound();
-                
             }
 
             //Test requests
@@ -105,9 +123,6 @@ namespace BloodLineV2.Controllers
             //Create array for populating results table
             int ireq = testrequests.Select(x => x.AccessNumber).Distinct().Count();
             ViewBag.TestCount = ireq;
-
-            string abo = "", rh = "", reqvaliddate = "none";
-            int aboerr = 0, rherr = 0, abserr = 0, abonum = 0, absnum = 0, reqvalid = 0, reqvalidint = 99, intSample = 999;
 
             if (ireq > 0)
             {
@@ -273,6 +288,16 @@ namespace BloodLineV2.Controllers
                     RETURNDATE = x.Returndate,
                     TRANSREACTION = x.Transreaction
                 });
+
+            if (prodrequests.Count() > 0)
+            {
+                ViewBag.PtRN = prodrequests.FirstOrDefault().PATNUMBERSHORT;
+                ViewBag.PtName = prodrequests.FirstOrDefault().NAME;
+                ViewBag.PtDob = prodrequests.FirstOrDefault().BIRTHDATE.Value.ToString("dd MMMM yyyy");
+                ViewBag.PtAge = prodrequests.FirstOrDefault().AGE;
+                ViewBag.PtSex = prodrequests.FirstOrDefault().SEXLONG;
+                ViewBag.PtLoc = prodrequests.FirstOrDefault().LOCCODE;
+            }
 
             if (prodrequests.Count(x => x.PRODNUM != null) > 0)
             {

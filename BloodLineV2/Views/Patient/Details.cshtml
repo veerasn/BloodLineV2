@@ -4,7 +4,7 @@
 @model IEnumerable<BloodLineV2.ViewModels.PatientDetailViewModel>
 
 @{
-    ViewBag.Title = Html.Raw(Model.FirstOrDefault().NAME.ToString()) + " | " + Html.Raw(Model.FirstOrDefault().PATNUMBERSHORT.ToString());
+    ViewBag.Title = ViewBag.PtName + " | " + ViewBag.PtRN;
 }
 
 <html>
@@ -53,10 +53,10 @@
                     Patient Info
                 </h5>
                 <div class="card-body">
-                    <h4 class="card-title" id="unique-patient-name">@Html.DisplayFor(model => model.FirstOrDefault().NAME)</h4>
-                    <h6 class="card-subtitle mb-2" id="unique-patient-id">@Html.DisplayFor(model => model.FirstOrDefault().PATNUMBERSHORT)</h6>
-                    <h6 class="card-subtitle mb-2" id="unique-patient-location">@Html.DisplayFor(model => model.FirstOrDefault().REFLOCATION)</h6>
-                    <p class="card-text">@Html.DisplayFor(model => model.FirstOrDefault().BIRTHDATE) | @Html.DisplayFor(model => model.FirstOrDefault().SEXLONG)</p>
+                    <h4 class="card-title" id="unique-patient-name">@ViewBag.PtName</h4>
+                    <h6 class="card-subtitle mb-2" id="unique-patient-id">@ViewBag.PtRN</h6>
+                    <h6 class="card-subtitle mb-2" id="unique-patient-location">@ViewBag.PtLoc</h6>
+                    <p class="card-text">@ViewBag.PtDob | @ViewBag.PtSex</p>
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary w3-padding" data-toggle="modal" data-target="#cart">Request (<span class="total-count"></span>)</button>
                         <button class="clear-cart btn btn-danger w3-padding fa fa-trash"></button>
@@ -75,90 +75,82 @@
         <header class="w3-container">
             <h5 id="patient-demographics">
                 <b>
-                    <i class="fa fa-heart"></i> @Html.DisplayFor(model => model.FirstOrDefault().NAME) |
-                    RN: @Html.DisplayFor(model => model.FirstOrDefault().PATNUMBERSHORT) |
-                    DOB: @Html.DisplayFor(model => model.FirstOrDefault().BIRTHDATE)  |
-                    Sex: @Html.DisplayFor(model => model.FirstOrDefault().SEXLONG)
+                    <i class="fa fa-heart"></i> @ViewBag.PtName |
+                    RN: @ViewBag.PtRN |
+                    DOB: @ViewBag.PtDob | 
+                    Sex: @ViewBag.PtSex
                 </b>
             </h5>
         </header>
         <!--Patient Result Summary-->
-        <div class="w3-row">
-            <div class="w3-third">
-                <!--ABO and RhD results-->
-                <div class="w3-container">
+        <div class="w3-container">
+            <div class="card-group mb-4">
+                <!--ABO and RhD-->
+                <div class="card">
                     <div class="card border-info bg-info">
                         <h5 class="card-header">
                             ABO RhD
                             @if (ViewBag.RhErr > 0 || ViewBag.AboErr > 0)
                             {
-                            <i class="fa fa-exclamation" data-toggle="tooltip" title="ABO typing discrepancy found."></i>
+                                <i class="fa fa-exclamation" data-toggle="tooltip" title="ABO typing discrepancy found."></i>
                             }
                             else
                             {
-                            if (ViewBag.Abonum == 1)
-                            {
-                            <i class="fa fa-bars" data-toggle="tooltip" title="Single ABO typing. ABO type unconfirmed."></i>
-                            }
-                            else if (ViewBag.Abonum > 1)
-                            {
-                            <i class="fa fa-check-double" data-toggle="tooltip" title="ABO type confirmed"></i>
-                            }
-                            else
-                            {
-                            <i class="fa fa-question" data-toggle="tooltip" title="No ABO type result available."></i>
-                            }
+                                if (ViewBag.Abonum == 1)
+                                {
+                                    <i class="fa fa-bars" data-toggle="tooltip" title="Single ABO typing. ABO type unconfirmed."></i>
+                                }
+                                else if (ViewBag.Abonum > 1)
+                                {
+                                    <i class="fa fa-check-double" data-toggle="tooltip" title="ABO type confirmed"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-question" data-toggle="tooltip" title="No ABO type result available."></i>
+                                }
                             }
                         </h5>
                         <div class="card-body">
                             <h1 class="card-title">
                                 <b>@Html.DisplayFor(model => model.FirstOrDefault().PATGROUP) </b>
                             </h1>
-                            <h6 class="card-subtitle mb-2"></h6>
-                            <p class="card-text"></p>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="w3-third">
-                <!--ABS results-->
-                <div class="w3-container">
+                <!--ABS-->
+                <div class="card">
                     <div class="card border-warning bg-warning">
                         <h5 class="card-header">
                             Antibodies
                             @if (ViewBag.Absnum > 0 && ViewBag.AbsErr == 0)
                             {
-                            <i class="fa fa-user-shield" data-toggle="tooltip" title="No atypical red cell antibodies found."></i>
+                                <i class="fa fa-user-shield" data-toggle="tooltip" title="No atypical red cell antibodies found."></i>
                             }
                             else if (ViewBag.AbsErr > 0)
                             {
-                            <i class="fa fa-exclamation" data-toggle="tooltip" title="Atypical red cell antibodies present. @Html.DisplayFor(model => model.FirstOrDefault().ANTIBODIES)"></i>
+                                <i class="fa fa-exclamation" data-toggle="tooltip" title="Atypical red cell antibodies present. @Html.DisplayFor(model => model.FirstOrDefault().ANTIBODIES)"></i>
                             }
                             else
                             {
-                            <i class="fa fa-question" data-toggle="tooltip" title="No red cell antibody screen results available."></i>
+                                <i class="fa fa-question" data-toggle="tooltip" title="No red cell antibody screen results available."></i>
                             }
                         </h5>
                         <div class="card-body">
                             <h1 class="card-title">
                                 @if (ViewBag.Absnum > 0 || ViewBag.AbsErr > 0)
                                 {
-                                <b>@Html.DisplayFor(model => model.FirstOrDefault().ABSHORT)</b>
+                                    <b>@Html.DisplayFor(model => model.FirstOrDefault().ABSHORT)</b>
                                 }
                                 else
                                 {
-                                <b>ABNTD</b>
+                                    <b>ABNTD</b>
                                 }
                             </h1>
-                            <h6 class="card-subtitle mb-2"></h6>
-                            <p class="card-text"></p>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="w3-third">
-                <!--XM Status-->
-                <div class="w3-container">
+                <!--EI-->
+                <div class="card">
                     <div class="card border-danger bg-danger">
                         <h5 class="card-header">
                             Electronic RC Issue
@@ -167,14 +159,12 @@
                             <h1 class="card-title">
                                 <b>@Html.DisplayFor(model => model.FirstOrDefault().EI)</b>
                             </h1>
-                            <h6 class="card-subtitle mb-2"></h6>
-                            <p class="card-text"></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+        
         <div class="w3-row-padding w3-margin-bottom">
             <!--Notifications and alerts-->
             <div class="w3-container w3-light-gray">
@@ -894,8 +884,6 @@
                     </div>
                     <div class="w3-quarter">
                         <div class="w3-container w3-light-blue w3-padding-small">
-                            @Html.TextBoxFor(model => model.First().RequiredDate, new { id = "RequiredDate", @onchange = "refreshTimeBadge();", @type = "date", @class = "form-control datepicker", @Value = Model.First().RequiredDate.ToString("dd-mm-yyyy") })
-                            @Html.TextBoxFor(model => model.First().RequiredTime, new { id = "RequiredTime", @onchange = "refreshTimeBadge();", @type = "time", @class = "form-control datepicker", @Value = Model.First().RequiredTime.ToString("hh:mm") })
                         </div>
                     </div>
                 </div>
@@ -948,7 +936,7 @@
                                 @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
                                 {
                                 if (bloodProduct.Id.Substring(0, 2).Contains("T-") &&
-                                (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                (ViewBag.PtAge >= bloodProduct.Lowerage && ViewBag.PtAge <= bloodProduct.Upperage))
                                 {
                                 <tr>
                                     <td>
@@ -1000,7 +988,7 @@
                                 @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
                                 {
                                 if (bloodProduct.Id.Substring(0, 2).Contains("RC") &&
-                                (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                (@ViewBag.PtAge >= bloodProduct.Lowerage && ViewBag.PtAge <= bloodProduct.Upperage))
                                 {
                                 <tr>
                                     <td>
@@ -1063,7 +1051,7 @@
                                 @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
                                 {
                                 if (bloodProduct.Id.Substring(0, 2).Contains("PL") &&
-                                (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                (@ViewBag.PtAge >= bloodProduct.Lowerage && @ViewBag.PtAge <= bloodProduct.Upperage))
                                 {
                                 <tr>
                                     <td>
@@ -1127,7 +1115,7 @@
                                 @foreach (ProductInfo bloodProduct in ViewBag.ProductInfo)
                                 {
                                 if (bloodProduct.Id.Substring(0, 2).Contains("PP") &&
-                                (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                (@ViewBag.PtAge >= bloodProduct.Lowerage && ViewBag.PtAge <= bloodProduct.Upperage))
                                 {
                                 <tr>
                                     <td>
