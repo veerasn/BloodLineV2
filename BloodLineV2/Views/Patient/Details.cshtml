@@ -846,13 +846,16 @@
                     <div class="card bg-info border-info" id="request-timing">
                         <div class="w3-container w3-hover-text-light-gray w3-padding-2">
                             <div class="radio">
-                                <label><input type="radio" name="optUrgency" onchange="updateRequiredDate(10)">Immediate</label>
+                                <label><input type="radio" name="optUrgency" value="1" onchange="updateRequiredDate(10)">Immediate</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="optUrgency" onchange="updateRequiredDate(30)">Urgent</label>
+                                <label><input type="radio" name="optUrgency" value="2" onchange="updateRequiredDate(30)">Urgent</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="optUrgency" checked onchange="updateRequiredDate(180)">Scheduled</label>
+                                <label><input type="radio" name="optUrgency" value="3" onchange="updateRequiredDate(180)">Scheduled</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optUrgency" value="4" onchange="updateRequiredDate(120)">Test only</label>
                             </div>
                         </div>
                     </div>
@@ -887,6 +890,11 @@
                             @Html.TextBox("Test Date", null, new { id = "RequiredDate", @onchange = "refreshTimeBadge();", @type = "date", @class = "datepicker" })
                             @Html.TextBox("Test Time", null, new { id = "RequiredTime", @onchange = "refreshTimeBadge();", @type = "time", @class = "datepicker" })
                         </div>
+                    </div>
+                </div>
+                <div class="card" id="time-required-note">
+                    <div class="card-body">
+                        <div class="card-text" id="time-required-text">Note</div>
                     </div>
                 </div>
             </div>
@@ -1663,6 +1671,44 @@
             document.getElementById("RequiredDate").value = date;
             document.getElementById("RequiredTime").value = time;
             refreshTimeBadge();
+
+            var radiovalue = displayRadioValue('optUrgency');
+            var x;
+            //Only test required
+            if (radiovalue == 4) {
+                x = "Transfusion testing only with no products required.Turnaround time for results is dependant of test type ordered.";
+            }
+            //Products required
+            else {
+                switch (val) {
+                    case 10:
+                        x = "Uncrossmatched group O+ red cell units will be issued upon receipt of blood sample, unless a current valid sample and "
+                            + "result is already available in the laboratory. Risk of haemolytic transfusion reaction from presence of atypical "
+                            + "antibodies will need to be considered. Use of RhD+ units in female of childbearing potential may pose risk of "
+                            + "RhD alloimmunisation and haemolytic disease of newborn in subsequent pregnancy. The attending doctor should weigh "
+                            + "the risks and benefits of using such a product in the context of the patient's condition.";
+                        break;
+                    case 30:
+                        x = "ABO and RhD group specific blood will be issued within 15 minutes of sample receipt. Immediate release "
+                            + "by electronic issue is possible if the patient is eligible for EI and a current valid sample is already "
+                            + "available in the laboratory. Risk of haemolytic transfusion reaction from presence of atypical "
+                            + "antibodies will need to be considered when transfusing patients that have not been red cell antibody screened.";
+                        break;
+                    case 180:
+                        x = "Group specific ABO and RhD matched, crossmatched negative or electronic issued blood will be made available within 3 hours "
+                            + "of receipt of sample. Delay in issuing time may occur in the event that the patient is positive for antibody screening "
+                            + "and antigen negative blood need to be supplied.";
+                        break;
+                    default:
+                        x = "Group specific ABO and RhD matched, crossmatched negative or electronic issued blood will be made available within 3 hours "
+                            + "of receipt of sample. Delay in issuing time may occur in the event that the patient is positive for antibody screening "
+                            + "and antigen negative blood need to be supplied.";
+                        break;
+                }
+            }
+
+            //Update note on time required
+            document.getElementById("time-required-text").innerHTML = x;
         }
     </script>
 
