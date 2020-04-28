@@ -62,7 +62,7 @@ namespace BloodLineV2.Controllers
             if (Patient == null)
             {
                 //Amend to allow search on eMR and return patient demographics if record not found in TDBB
-                string connStr = "server=172.17.180.157;user=bborder;database=dataehas;port=3307;password=Bb@123456";
+                string connStr = @"server=172.17.180.157;user=bborder;database=dataehas;port=3307;password=Bb@123456";
                 MySqlConnection conn = new MySqlConnection(connStr);
                 try
                 {
@@ -71,8 +71,9 @@ namespace BloodLineV2.Controllers
                     var idShort = id.TrimStart(new char[] {'0'}); //Trim leading 0 before quering eMR
                     int numRows = 0;
 
-                    string sql = "SELECT RN, namapesakit, tarikhlahir, kodjantina FROM pmi_pesakit WHERE RN = '" + idShort + "'";
+                    string sql = "SELECT RN, namapesakit, tarikhlahir, kodjantina FROM pmi_pesakit WHERE RN = ?idParam";
                     MySqlCommand cmd = new MySqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("?idParam", idShort);
                     MySqlDataReader rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())

@@ -416,7 +416,7 @@ namespace BloodLineV2.Models
                     Irradiate = 0,
                     Upperage = 99999,
                     Lowerage = 0,
-                    Filelocation = "none",
+                    Filelocation = "a",
                     Comments = "Test consists of ABO and RhD typing only. Reflexes to additional tests if ABO or RhD discrepancies is identified and Rh phenotyping if patient is found to be RhD-",
                     Parameter = "test",
                     Content = "",

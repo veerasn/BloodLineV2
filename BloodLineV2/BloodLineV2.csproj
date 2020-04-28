@@ -339,6 +339,7 @@
     <Content Include="Content\css\bootstrap-slider.min.css" />
     <Content Include="Content\css\select2.css" />
     <Content Include="Content\css\select2.min.css" />
+    <Content Include="Content\images\ABD.jpg" />
     <Content Include="Content\images\antiD.jpg" />
     <Content Include="Content\images\blood transfusion.jpg" />
     <Content Include="Content\images\crypp.jpg" />
@@ -346,6 +347,7 @@
     <Content Include="Content\images\ffp.jpg" />
     <Content Include="Content\images\ffprd.jpg" />
     <Content Include="Content\images\ffp_transfusion.jpg" />
+    <Content Include="Content\images\ih_manual.jpg" />
     <Content Include="Content\images\im.jpg" />
     <Content Include="Content\images\irr.jpg" />
     <Content Include="Content\images\iv.jpg" />
@@ -625,6 +627,7 @@
     <Content Include="Views\ProductInfo\Modifications.cshtml" />
     <Content Include="Views\ProductInfo\Guidelines_rbc.cshtml" />
     <Content Include="Views\ProductInfo\Guidelines_plt.cshtml" />
+    <Content Include="Views\ProductInfo\Tests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

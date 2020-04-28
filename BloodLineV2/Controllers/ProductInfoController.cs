@@ -23,6 +23,18 @@ namespace BloodLineV2.Views.ProductInfo
         }
 
         // GET: ProductInfo
+        public ActionResult Tests(string id)
+        {
+            var searchString = id;
+            var products = (from p in bbproduct.Product_Info select p);
+
+            products = products.Where(p => p.prod_bloodline.Contains(searchString));
+
+            return View(products);
+        }
+
+
+        // GET: ProductInfo
         public ActionResult Modifications(string id)
         {
             var searchString = id;
@@ -32,6 +44,7 @@ namespace BloodLineV2.Views.ProductInfo
 
             return View(products);
         }
+
 
         // GET: ProductInfo
         public ActionResult Guidelines_rbc()

@@ -894,7 +894,7 @@
                 </div>
                 <div class="card" id="time-required-note">
                     <div class="card-body">
-                        <div class="card-text" id="time-required-text">Note</div>
+                        <div class="card-text" id="time-required-text"></div>
                     </div>
                 </div>
             </div>
@@ -962,7 +962,7 @@
                                         @bloodProduct.Name
                                         @if (bloodProduct.Filelocation != "none")
                                         {
-                                        <a href="@bloodProduct.Filelocation" target="_blank">
+                                        <a href="@Url.Action("Tests","ProductInfo",new {id=bloodProduct.Id })" target="_blank">
                                             <sup><i class="fa fa-info" data-toggle="tooltip" title="Additional info"></i></sup>
                                         </a>
                                         }
