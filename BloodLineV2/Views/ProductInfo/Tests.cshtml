@@ -48,6 +48,10 @@
                     <div class="alert alert-info">
                         @Html.Raw(Model.FirstOrDefault().contraindication.ToString())
                     </div>
+                    <h4 class="card-title">Availability and estimated turnaround</h4>
+                    <div class="alert alert-info">
+                        @Html.Raw(Model.FirstOrDefault().dosage.ToString())
+                    </div>
                 </div>
                 <div class="card-footer">
                     +

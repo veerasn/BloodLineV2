@@ -14,7 +14,12 @@ namespace BloodLineV2.ViewModels
         public string PATNUMBER { get; set; }
         public string PATNUMBERSHORT
         {
-            get { return PATNUMBER != null ? PATNUMBER.TrimStart(new Char[] {'0'}) : ""; }
+            get
+            {
+                var x = PATNUMBER.TrimStart(new char[] { '0' });
+                x = x.PadLeft(8, '0');
+                return PATNUMBER != null ? x : "";
+            }
         }
         public string NAME { get; set; }
         [DisplayFormat(DataFormatString = "{0: dd MMM yyyy}")]

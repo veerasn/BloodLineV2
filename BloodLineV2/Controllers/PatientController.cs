@@ -69,6 +69,8 @@ namespace BloodLineV2.Controllers
                     conn.Open();
 
                     var idShort = id.TrimStart(new char[] {'0'}); //Trim leading 0 before quering eMR
+                    idShort = idShort.PadLeft(8, '0'); //Pad string with 0 so that it can query eMR with a 8 character string
+
                     int numRows = 0;
 
                     string sql = "SELECT RN, namapesakit, tarikhlahir, kodjantina FROM pmi_pesakit WHERE RN = ?idParam";
@@ -97,9 +99,8 @@ namespace BloodLineV2.Controllers
                     }                  
                 }
 
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
+                catch (Exception ex){
+                    //Console.WriteLine(ex.ToString());
                 }
 
                 conn.Close();
@@ -297,7 +298,7 @@ namespace BloodLineV2.Controllers
                 ViewBag.PtDob = prodrequests.FirstOrDefault().BIRTHDATE.Value.ToString("dd MMMM yyyy");
                 ViewBag.PtAge = prodrequests.FirstOrDefault().AGE;
                 ViewBag.PtSex = prodrequests.FirstOrDefault().SEXLONG;
-                ViewBag.PtLoc = prodrequests.FirstOrDefault().LOCCODE;
+                ViewBag.PtLoc = prodrequests.FirstOrDefault().REFLOCATION;
             }
 
             if (prodrequests.Count(x => x.PRODNUM != null) > 0)
