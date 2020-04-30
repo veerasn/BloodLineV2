@@ -987,7 +987,7 @@ namespace BloodLineV2.Controllers
             var dt = new DataTable();
             string strCn = ConfigurationManager.ConnectionStrings["BBS"].ToString();
 
-            string queryString = @"SELECT RIGHT(r.PATNUMBER, 8) AS PatientID, 
+            string queryString = @"SELECT SUBSTRING(r.PATNUMBER, PATINDEX('%[^0]%', r.PATNUMBER+'.'), LEN(r.PATNUMBER)) AS PatientID, 
 	                                    p.PRODCODE,
                                         p.ABO, 
                                         p.RHFACTOR,
@@ -997,7 +997,7 @@ namespace BloodLineV2.Controllers
                                     FROM REQUESTS r
                                     INNER JOIN REQUEST_PRODUCT rp ON r.ACCESSNUMBER = rp.ACCESSNUMBER
                                     INNER JOIN PRODUCTS p ON rp.PRODUCTID = p.PRODUCTID
-                                    WHERE RIGHT(r.PATNUMBER, 8) = '" + patid + "' AND p.PRODNUM = '" + packid +"'";
+                                    WHERE SUBSTRING(r.PATNUMBER, PATINDEX('%[^0]%', r.PATNUMBER+'.'), LEN(r.PATNUMBER)) = '" + patid + "' AND p.PRODNUM = '" + packid +"'";
 
             SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
             da.Fill(dt);
