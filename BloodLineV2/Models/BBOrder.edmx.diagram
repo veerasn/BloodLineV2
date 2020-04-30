@@ -4,8 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ee7f788f84f0407eb4b545d2e1a261d2" Name="Diagram1">
-        <EntityTypeShape EntityType="BBOrderModel.Cart" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+      <Diagram DiagramId="363c42750d2040d9aa7db1c53a3d5dcb" Name="Diagram1">
+        <EntityTypeShape EntityType="BBOrderModel.Cart" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BBOrderModel.CartItem" Width="1.5" PointX="5.25" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="BBOrderModel.Category" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BBOrderModel.Interupt" Width="1.5" PointX="11" PointY="4" IsExpanded="true" />

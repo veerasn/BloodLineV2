@@ -24,7 +24,7 @@ namespace BloodLineV2.Models
         public long CartID { get; set; }
         public int UserID { get; set; }
         public System.DateTime DateCreated { get; set; }
-        public Nullable<int> SampleID { get; set; }
+        public Nullable<long> SampleID { get; set; }
         public Nullable<System.DateTime> SampleTransmitTime { get; set; }
         public short CheckedOut { get; set; }
         public Nullable<System.DateTime> CheckedOutTime { get; set; }

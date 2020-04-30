@@ -2433,6 +2433,27 @@
     </script>
 
     <script>
+        function printEmr(val) {
+            var uri = "/Patient/GetPrintItems";
+            $.getJSON(uri, { id: val }).done(function (data) {
+                var count;
+                var objResults = JSON.parse(data);
+                count = JSON.parse(data).length;
+                if (count > 0 && objResults[0].SampleID != null) {
+                    var sid = objResults[0].SampleID;
+                    var ip = '172.018.008.123'
+                    var url = "http://ipesakit.ppum.icare.net/httprequest/integrasi/PrintOrderStickerrBB.asp?ordernumber="
+                                + sid + "& terminal=" + ip;
+                    window.open(url);
+                }
+                else {
+                    alert("Request has not been aknowledged by TD-Synergy.");
+                }
+            });
+        }
+    </script>
+
+    <script>
         function toggleSubmitReq(val) {
             var x = document.getElementById("request-" + val);
             if (x.style.display === "none") {
@@ -2458,7 +2479,8 @@
                     if (count == 1 && objResults[0].SampleID != null) {
                         if (x == objResults[0].PatientID && y == objResults[0].SampleID) {
                             var html = "<i class='fas fa-thumbs-up fa-sm text-primary pr-4'></i>";
-                            //Update Cart as CheckedOut if patientID and sampleID matches i.e.valid sample has been taken
+                            //Print sample label and Update Cart as CheckedOut if patientID and sampleID matches i.e.valid sample has been taken
+                            printEmr(val);
                             checkedOut(val);
 
                         } else {

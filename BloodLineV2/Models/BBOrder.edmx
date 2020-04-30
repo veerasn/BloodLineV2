@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BBOrderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="BBOrderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cart">
           <Key>
             <PropertyRef Name="CartID" />
@@ -12,7 +12,7 @@
           <Property Name="CartID" Type="bigint" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
-          <Property Name="SampleID" Type="int" />
+          <Property Name="SampleID" Type="bigint" />
           <Property Name="SampleTransmitTime" Type="datetime" />
           <Property Name="CheckedOut" Type="smallint" Nullable="false" />
           <Property Name="CheckedOutTime" Type="datetime" />
@@ -334,7 +334,8 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
             <End Role="Notices" EntitySet="Notices" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BBOrderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -345,7 +346,7 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <Property Name="CartID" Type="Int64" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="SampleID" Type="Int32" />
+          <Property Name="SampleID" Type="Int64" />
           <Property Name="SampleTransmitTime" Type="DateTime" Precision="3" />
           <Property Name="CheckedOut" Type="Int16" Nullable="false" />
           <Property Name="CheckedOutTime" Type="DateTime" Precision="3" />
@@ -357,10 +358,10 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <Property Name="PatientName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="Int16" Nullable="false" />
           <Property Name="Items" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="CheckedOutID" Type="Int32" />
           <NavigationProperty Name="Member" Relationship="Self.FK__Cart__UserID__24927208" FromRole="Cart" ToRole="Member" />
           <NavigationProperty Name="CartItems" Relationship="Self.FK__CartItems__CartI__276EDEB3" FromRole="Cart" ToRole="CartItems" />
           <NavigationProperty Name="Notices" Relationship="Self.FK__Notices__CartID__2B3F6F97" FromRole="Cart" ToRole="Notices" />
-          <Property Name="CheckedOutID" Type="Int32" />
         </EntityType>
         <EntityType Name="CartItem">
           <Key>
@@ -397,8 +398,8 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <Property Name="outcome_time" Type="DateTime" Precision="3" />
           <Property Name="interupt_user" Type="Int32" />
           <Property Name="outcome_user" Type="Int32" />
-          <NavigationProperty Name="Transfusion" Relationship="Self.FK__Interupts__49C3F6B7" FromRole="Interupts" ToRole="Transfusions" />
           <Property Name="interupt_reason" Type="Int32" />
+          <NavigationProperty Name="Transfusion" Relationship="Self.FK__Interupts__49C3F6B7" FromRole="Interupts" ToRole="Transfusions" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -684,7 +685,6 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <EntitySetMapping Name="Carts">
             <EntityTypeMapping TypeName="BBOrderModel.Cart">
               <MappingFragment StoreEntitySet="Cart">
-                <ScalarProperty Name="CheckedOutID" ColumnName="CheckedOutID" />
                 <ScalarProperty Name="CartID" ColumnName="CartID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
@@ -700,6 +700,7 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
                 <ScalarProperty Name="PatientName" ColumnName="PatientName" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Items" ColumnName="Items" />
+                <ScalarProperty Name="CheckedOutID" ColumnName="CheckedOutID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -727,7 +728,6 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <EntitySetMapping Name="Interupts">
             <EntityTypeMapping TypeName="BBOrderModel.Interupt">
               <MappingFragment StoreEntitySet="Interupts">
-                <ScalarProperty Name="interupt_reason" ColumnName="interupt_reason" />
                 <ScalarProperty Name="InteruptID" ColumnName="InteruptID" />
                 <ScalarProperty Name="Prodnum" ColumnName="Prodnum" />
                 <ScalarProperty Name="Patnumber" ColumnName="Patnumber" />
@@ -736,6 +736,7 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
                 <ScalarProperty Name="outcome_time" ColumnName="outcome_time" />
                 <ScalarProperty Name="interupt_user" ColumnName="interupt_user" />
                 <ScalarProperty Name="outcome_user" ColumnName="outcome_user" />
+                <ScalarProperty Name="interupt_reason" ColumnName="interupt_reason" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
