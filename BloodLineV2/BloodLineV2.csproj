@@ -347,6 +347,7 @@
     <Content Include="Content\images\ffp.jpg" />
     <Content Include="Content\images\ffprd.jpg" />
     <Content Include="Content\images\ffp_transfusion.jpg" />
+    <Content Include="Content\images\icons8-youtube-30.png" />
     <Content Include="Content\images\ih_manual.jpg" />
     <Content Include="Content\images\im.jpg" />
     <Content Include="Content\images\irr.jpg" />
@@ -367,6 +368,17 @@
     <Content Include="Content\images\rc_transfusion.jpg" />
     <Content Include="Content\images\rdp_1.jpg" />
     <Content Include="Content\images\rhesonativ.jpg" />
+    <Content Include="Content\images\SafeTransfusion_1.jpg" />
+    <Content Include="Content\images\SafeTransfusion_10.jpg" />
+    <Content Include="Content\images\SafeTransfusion_11.jpg" />
+    <Content Include="Content\images\SafeTransfusion_2.jpg" />
+    <Content Include="Content\images\SafeTransfusion_3.jpg" />
+    <Content Include="Content\images\SafeTransfusion_4.jpg" />
+    <Content Include="Content\images\SafeTransfusion_5.jpg" />
+    <Content Include="Content\images\SafeTransfusion_6.jpg" />
+    <Content Include="Content\images\SafeTransfusion_7.jpg" />
+    <Content Include="Content\images\SafeTransfusion_8.jpg" />
+    <Content Include="Content\images\SafeTransfusion_9.jpg" />
     <Content Include="Content\images\wash.jpg" />
     <Content Include="Content\prism.css" />
     <Content Include="Content\tagsinput.css" />
@@ -494,6 +506,7 @@
     <Content Include="Models\BBOrder.edmx.diagram">
       <DependentUpon>BBOrder.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\pdf\ATR_management_flow_v4r3.pdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
@@ -629,10 +642,10 @@
     <Content Include="Views\ProductInfo\Guidelines_rbc.cshtml" />
     <Content Include="Views\ProductInfo\Guidelines_plt.cshtml" />
     <Content Include="Views\ProductInfo\Tests.cshtml" />
+    <Content Include="Views\ProductInfo\Safe_transfusion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\pdf\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

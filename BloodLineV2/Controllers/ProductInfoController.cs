@@ -41,6 +41,7 @@ namespace BloodLineV2.Views.ProductInfo
             var products = (from p in bbproduct.Modifications select p);
 
             products = products.Where(p => p.modification_code.Contains(searchString));
+            ViewBag.Title = "Modifications - " + id;
 
             return View(products);
         }
@@ -49,14 +50,18 @@ namespace BloodLineV2.Views.ProductInfo
         // GET: ProductInfo
         public ActionResult Guidelines_rbc()
         {
-            
             return View();
         }
 
         // GET: ProductInfo
         public ActionResult Guidelines_plt()
         {
+            return View();
+        }
 
+        // GET: ProductInfo
+        public ActionResult Safe_transfusion()
+        {
             return View();
         }
     }

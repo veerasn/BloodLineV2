@@ -1,0 +1,298 @@
+﻿
+@{
+    ViewBag.Title = "Safe transfusion, always";
+    Layout = "~/Views/Shared/_Layout_Patient.cshtml";
+}
+<h1>Safe Transfusion, Saves Lives</h1>
+
+<!--1-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_1.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>1. Assess patient and obtain consent</b></h4>
+            <div class="card-body">
+                <p class="card-text">
+                    Assessment on the need for blood transfusion must always be made carefully,
+                    with due consideration given to the patient’s condition and laboratory parameters.
+                    Reference to available guidelines may help with the decision.
+                    The need for transfusion should be discussed with the patient or his immediate caretaker,
+                    and <b>informed consent</b> obtained. Patient information leaflets to aid in the consent process can be obtained
+                    here.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--2-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_2.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>2. Decide on type and amount of blood product</b></h4>
+            <div class="card-body">
+                <p class="card-text">
+                    Doctors prescribing blood products should be familiar with the range of products available at the blood bank
+                    and their specific indications. Information sheets for commonly used blood products are available and should be referred to.
+                    Always specify any special requirements (e.g.
+                    <a href="@Url.Action("Modifications","ProductInfo",new {id="IRR" })" target="_blank"><span style="color:blue">irradiation</span></a>,
+                    <a href="@Url.Action("Modifications","ProductInfo",new {id="LD" })" target="_blank"><span style="color:blue">leucoreduced</span></a>,
+                    <a href="@Url.Action("Modifications","ProductInfo",new {id="WASH" })" target="_blank"><span style="color:blue">washed</span></a>).
+                    The number of units to be transfused should be the minimum required to achieve a clinical outcome.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--3-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_3.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>3. Complete blood transfusion request form</b></h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        The electronic request or physical request form for blood transfusion is an important clinical record and legal document.
+                        The person making the request should be clearly stated. The <b>clinical diagnosis</b>, <b>reason for transfusion</b>,
+                        <b>type of product requested</b> and <b>number of units</b> required should be entered. Electronic requests will not proceed without
+                        the requisite information provided. Requests received at the laboratory accompanied by physical request forms but without the
+                        requisite information will be rejected
+                    </p>
+                    <p>
+                        State <b>how quickly</b> the blood is required in order that the patient gets ‘the right blood at the right time’.
+                        Most surgical procedures do not require blood transfusion and only a Group, screen and hold (GSH) is needed.
+                        Refer to the Maximum Surgical Blood Order Schedule (MSBOS) for guidance on how many cross-matched units of
+                        blood is recommended for a procedure or if GSH would suffice. If the patient is eligible, blood may be issued
+                        by Electronic Issue (EI). Always <b>state the expected time and date of the procedure</b>.
+                    </p>
+                    <p>Incompletely filled request forms can be rejected and may cause delay in testing and transfusion.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--4-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_4.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>4. Identify patient</b></h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        Correct patient identification is of utmost importance in blood transfusion.
+                        Incorrectly identifying a patient and obtaining the blood sample from a wrong patient may result in
+                        ‘wrong blood transfused to the patient’ and may have catastrophic consequences from a
+                        haemolytic transfusion reaction.
+                    </p>
+                    <p>
+                        Any patient having a sample taken for pre-transfusion testing should have an identification wristband.
+                        Before obtaining the sample, ask the patient to state their full name and date of birth and confirm that
+                        this matches the identification on the wristband and request form.
+                        In a patient who cannot communicate, identification information can be taken from the wristband.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--5-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_5.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>5. Obtain blood sample for pre-transfusion testing</b></h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        Obtain an adequate volume of sample after correctly identifying the patient.
+                        Refer to relevant test or product info sheets for amount of blood rquired.
+                        <b>Label the sample tube at the patient’s bedside after the blood sample has been taken.</b>
+                        Never pre-label tubes! Verify that the label matches the identification on the patient’s wristband as
+                        well as the label on the request form.
+                        Document the name of the person taking the sample on the request form together with signature if a physical form is used.
+                        Transport the sample together with the request form to the transfusion laboratory without delay.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--6-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_6.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>6. Pre-transfusion testing in the laboratory</b></h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        There are several steps in pre-transfusion testing which may vary depending on the patient, 
+                        type of product requested, urgency and results of testing. Due to the variable process, 
+                        a definite turn around time cannot be specified. 
+                        In most cases, a minimum of ABO and RhD grouping with antibody screening would be performed. 
+                        For routine testing, this may take 2 to 3 hours depending on laboratory test workload. 
+                        If an antibody screen is found positive, additional time and sample would be required for 
+                        antibody identification. 
+                        The time taken to resolve the antibody will depend on the complexity of results.  
+                    </p>
+                    <p>
+                        It is important that the degree of urgency for blood transfusion is communicated effectively to the
+                        laboratory so that an informed decision can be made on how best to supply suitable blood for the patient
+                        within the ‘right time’. 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--7-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_7.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>7. Collect and transport blood products </b></h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        Authorised persons should collect blood from the transfusion laboratory. 
+                        A blood collection form should always be submitted when collecting. 
+                        Blood products require care and lose their efficacy if handled incorrectly. 
+                        Refer to product information sheet for guidance on how they are to be handled. 
+                        All blood products should be transported promptly in approved blood transport containers.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--8-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_8.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>8. Prepare the patient for transfusion</b></h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        Patients planned for a blood transfusion should be placed in a ‘non-isolated area’ to facilitate monitoring 
+                        and quick response if there was an adverse reaction. 
+                        <b>Non-urgent transfusions should always be in-progress during normal working hours when staffing is adequate.</b> 
+                        A suitably sized freely flowing venous access device should have been inserted into the patient before 
+                        collecting the blood from the transfusion laboratory. 
+                        This is to minimize as much as possible the time the product is ‘out of controlled storage’.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--9-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_9.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>9. Check identity, inspect blood pack and administer</b></h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        The administering of blood is the last of the link to the get the ‘right blood to the right patient’. 
+                        It is essential that the checks below be performed at the patient’s bedside before commencing the 
+                        transfusion. If any discrepancies are noted, the unit must not be transfused and the transfusion 
+                        laboratory contacted immediately.
+                        Advice on administration of blood products can be obtained from the respective product information 
+                        sheet.
+                    </p>
+                    <ul class="list-group">
+                        <li class="list-group-item">Are the patient identification details identical on the patient’s wristband, 
+                        compatibility label on the blood pack and the blood compatibility form provided by the transfusion laboratory?</li>
+                        <li class="list-group-item">Do these details match what the patient says  (if able to communicate) 
+                        when asked for full name and date of birth?</li>
+                        <li class="list-group-item">Is the expiry date printed on the blood pack still valid?</li>
+                        <li class="list-group-item">Does the pack have any unusual discolouration or clots?</li>
+                        <li class="list-group-item">Does the pack meet specified requirements for the patient e.g. irradiated, leucoreduced?  </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--10-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_10.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>10. Monitor patient</b></h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        Blood transfusions are associated with a variety of adverse effects that can manifest immediately, 
+                        during the transfusion or be delayed until after the transfusion is complete. 
+                        Patients should be monitored carefully as per recommendations. 
+                        Advice on monitoring intervals is available from the respective product information sheets.
+                    </p>
+                    <p>
+                        Those administering blood transfusion should always be vigilant for signs and symptoms that portend 
+                        a transfusion reaction. Mild fever and urticuria are common adverse reactions that can be managed by 
+                        slowing the infusion and treating with antipyretics or antihistamines. 
+                        Other symptoms such as respiratory distress, pain at the transfusion site, loin pain, backache, high fever, 
+                        hypotension and severe urticuria could be warnings of a serious transfusion reaction.</p>
+                    <p> 
+                        If a severe reaction is suspected, stop the transfusion; keep the venous access line open with saline and 
+                        call for medical help. Inform the transfusion laboratory immediately. Information on recognition and initial
+                        management of transfusion reactions is available for 
+                        <a href="@Url.Content("~/Content/pdf/ATR_management_flow_v4r3.pdf")"><span style="color:blue">download</span></a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--11-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_11.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>11. Document and check response</b></h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        All steps in the transfusion process should be documented clearly in the patient’s clinical and nursing 
+                        notes. The consequences of blood transfusion such as transfusion errors and transfusion-transmitted infections 
+                        may not become apparent until several months later. A clearly recorded process greatly facilitates investigations 
+                        and quality-improvement processes.
+                    </p>
+                    <p>
+                        Patients should also be monitored for effectiveness of the transfusion. Post transfusion blood counts 
+                        would be advised to monitor response to a blood transfusion.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
