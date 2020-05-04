@@ -64,5 +64,11 @@ namespace BloodLineV2.Views.ProductInfo
         {
             return View();
         }
+
+        // GET: ProductInfo
+        public ActionResult Atr_fever()
+        {
+            return View();
+        }
     }
 }

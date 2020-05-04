@@ -341,6 +341,7 @@
     <Content Include="Content\css\select2.min.css" />
     <Content Include="Content\images\ABD.jpg" />
     <Content Include="Content\images\antiD.jpg" />
+    <Content Include="Content\images\atr_fever.jpg" />
     <Content Include="Content\images\blood transfusion.jpg" />
     <Content Include="Content\images\crypp.jpg" />
     <Content Include="Content\images\FFP transfusion.jpg" />
@@ -643,6 +644,7 @@
     <Content Include="Views\ProductInfo\Guidelines_plt.cshtml" />
     <Content Include="Views\ProductInfo\Tests.cshtml" />
     <Content Include="Views\ProductInfo\Safe_transfusion.cshtml" />
+    <Content Include="Views\ProductInfo\Atr_fever.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

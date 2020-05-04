@@ -1,0 +1,142 @@
+﻿
+@model IEnumerable<BloodLineV2.Models.Modification>
+
+@{
+    ViewBag.Title = "Fever";
+    Layout = "~/Views/Shared/_Layout_Patient.cshtml";
+}
+
+<div class="row row-cols-1 row-cols-sm-1">
+
+    <!--Title card-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-warning text-white">
+            <img class="card-img" src="~/Content/images/atr_fever.jpg" />
+            <div class="card-body">
+                <h1><b>Fever, chills and rigors</b></h1>
+                <h6>Elevation of body temperature > 38<sup>o</sup>C or +1<sup>o</sup>C from baseline and/or chills and rigors </h6>
+            </div>
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+    <!--Possible causes-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-info text-white">
+            <div class="card-body">
+                <h4 class="card-title">Possible cause</h4>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">Febrile non-haemolytic transfusion reaction (FNHTR)</li>
+                        <li class="list-group-item list-group-item-primary">Haemolytic transfusion reaction (HTR)</li>
+                        <li class="list-group-item list-group-item-primary">Bacterial contamination</li>
+                    </ul>
+                </div>
+                <h6 class="card-text"></h6>
+            </div>
+        </div>
+    </div>
+    <!--Immediate actions-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-info text-white">
+            <div class="card-body">
+                <h4 class="card-title">Immediate actions</h4>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-danger">Stop transfusion</li>
+                        <li class="list-group-item list-group-item-danger">Maintain IV access</li>
+                        <li class="list-group-item list-group-item-danger">Check vital signs</li> 
+                        <li class="list-group-item list-group-item-danger">Re-check patient ID and product label</li>
+                        <li class="list-group-item list-group-item-danger">Notify medical-officer</li>
+                        <li class="list-group-item list-group-item-danger">Notify transfusion laboratory</li>
+                    </ul>
+                </div>
+                <h6 class="card-text"></h6>
+            </div>
+        </div>
+    </div>
+    <!--Information on process-->
+    <div class="col-md-12 mb-4">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white">Febrile non-haemolytic (FNHTR) vs. haemolytic transfusion reactions (HTR)</div>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        Fever is common with blood transfusions and can occur in 1-2% of all transfusion episodes.
+                        Most of the events occur as a result of cytokines and pyrogens released by residual leucocytes in red cell
+                        and platelet products. Antibodies to neutrophils, either present in the patient or transfused product may also
+                        precipitate a febrile episode. Fever resulting from these aetiologies is not due to red cell haemolysis and
+                        is therefore termed febrile non-haemolytic transfusion reaction (FNHTR). The use of leuco-reduced red cells and platelets significantly reduces the incidence although it does not
+                        completely eliminate it.
+                    </p>
+                    <p>
+                        Fever is also an early manifestation of haemolytic transfusion reaction (HTR) or bacterial contamination.
+                        Therefore, the occurrence of fever during transfusion must be carefully assessed before any decision to
+                        continue transfusion is made. Failure of early recognition of severe HTR and institution of supportive treatment
+                        can lead to fatal consequences.
+                    </p>
+                    
+                    <p>
+                        The most common cause of fatal HTR is an ABO mismatched transfusion, arising from identification or test error.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Interventions-->
+    <div class="jumbotron col-md-12 mb-4">
+        <h4>Assessment, investigations and management</h4>
+        <div class="card col-md-12 border-info">
+            <div class="card-header border-info bg-info">38-39<sup>o</sup>C with no other symptoms</div>
+            <div class="card-body border-info">
+                <h4 class="card-title">Timing</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">During or up to 4 hours after transfusion </li>
+                </ul>
+
+                <h4 class="card-title">Investigation</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">No testing required </li>
+                </ul>
+
+                <h4 class="card-title">Management</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Restart transfusion at slow rate and monitor </li>
+                    <li class="list-group-item">Consider anti-pyretics</li>
+                    <li class="list-group-item">Consider washed cellular products in patients with repeated FNHTR</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card col-md-12 border-danger">
+            <div class="card-header bg-danger">Less than 39<sup>o</sup>C with other symptoms (e.g. low BP, pain) or > 39<sup>o</sup>C</div>
+            <div class="card-body">
+                <div class="card-title">Timing</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Usually within first 15 minutes but may be delayed </li>
+                </ul>
+
+                <div class="card-title">Investigations</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Send samples to TMD (6ml blood in EDTA + 3 ml blood in plain tube) </li>
+                    <li class="list-group-item">Return blood bag and attached giving set to TMD </li>
+                    <li class="list-group-item">Blood C&S </li>
+                    <li class="list-group-item">If haemolysis is suspected, check FBC, electrolytes, bilirubin, creatinine, LDH, DIC screen, haptoglobin </li>
+                </ul>
+
+                <div class="card-title">Management</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Do not restart transfusion </li>
+                    <li class="list-group-item">Monitor for hypotension, renal failure and DIC</li>
+                    <li class="list-group-item">Commence broad spectrum antibiotics if bacterial contamination suspected</li>
+                    <li class="list-group-item">Consult with haematologist or transfusion medicine specialist if HTR suspected</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    
+    
+</div>
+
