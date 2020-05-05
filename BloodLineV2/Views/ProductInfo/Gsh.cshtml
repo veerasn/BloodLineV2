@@ -1,0 +1,166 @@
+﻿
+
+@{
+    ViewBag.Title = "GSH";
+    Layout = "~/Views/Shared/_Layout_Patient.cshtml";
+}
+
+<div class="row row-cols-1 row-cols-sm-1">
+
+    <!--Title card-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-warning text-white">
+            <img class="card-img" src="~/Content/images/gsh1.jpg" />
+            <div class="card-body">
+                <h1><b>GSH or GXM for my patient planned for surgery? </b></h1>
+                <h6>GSH: Group, screen and hold</h6>
+                <h6>GXM: Group and cross-match</h6>
+                <h6>EI: Electronic issue</h6>
+            </div>
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+    <!--GSH-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-info text-white">
+            <div class="card-body">
+                <h4 class="card-title" style="font-weight:bold">GSH</h4>
+                <h5 class="card-text">Test performed</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">ABO & RhD typing</li>
+                        <li class="list-group-item list-group-item-primary">Antibody screening</li>
+                    </ul>
+                </div>
+                <h5 class="card-text">Indication</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            GSH will be performed if there is any chance that the patient may require blood,
+                            but the likelihood of the patient actually being transfused is low (e.g. LSCS, minor surgery).
+                            Blood will not be crossmatched and reserved if the antibody screen is negative. When required,
+                            blood will be issued by EI if the patient is eligible and if not by serological crossmatch.
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="card-text">Precautions</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            If a patient has been recently transfused or is pregnant, the antibody screen result is only valid
+                            for 48 hours as new antibodies may develop from the potential sensitizing event.
+                        </li>
+                    </ul>
+                </div>
+                <h6 class="card-text"></h6>
+            </div>
+        </div>
+    </div>
+    <!--GXM-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-info text-white">
+            <div class="card-body">
+                <h4 class="card-title" style="font-weight:bold">GXM</h4>
+                <h5 class="card-text">Test performed</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">ABO & RhD typing</li>
+                        <li class="list-group-item list-group-item-primary">Antibody screening</li>
+                        <li class="list-group-item list-group-item-primary">Crossmatching by AHG technique</li>
+                    </ul>
+                </div>
+                <h5 class="card-text">Indication</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            Only performed if the patient has high likelihood of requiring transfusion and is not 
+                            EI eligible.
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="card-text">Precautions</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            Cross-matched units are kept reserved for 24 hours only unless a request for extension is made.
+                            The crossmatched unit is only valid to a maximum of 72 hours if the patient has not been recently
+                            transfused, and 48 hours if red cells had been transfused. 
+                        </li>
+                    </ul>
+                </div>
+                <h6 class="card-text"></h6>
+            </div>
+        </div>
+    </div>
+    <div class="card-group col-md-12 mb-4">
+        <div class="card col-md-6">
+            <img class="card-img" src="~/Content/images/gsh2.jpg" />
+            <div class="card-footer">
+                The purpose of antibody screening (ABS) is to identify if the patient may have any atypical antibodies to
+                red cell antigens other than anti-A/B. Patient plasma is added to a series of specific group O screening cells,
+                incubated and checked for agglutination after addition of anti-human globulin (AHG).
+                A negative ABS indicates that the patient is unlikely (>99%) to have any atypical antibodies and transfusion
+                with any ABO matched red cell is safe.
+            </div>
+        </div>
+        <div class="card col-md-6">
+            <img class="card-img" src="~/Content/images/gsh3.jpg" />
+            <div class="card-footer">
+                In a cross-match test, a sample from the donor red cell unit planned for transfusion is mixed with patient plasma, 
+                incubated and checked for agglutination after addition of AHG. The AHG cross-match offers an additional layer of 
+                safety and may identify antibodies that could have been missed with the ABS such as antibodies to low incidence 
+                antigens.
+            </div>
+        </div>
+    </div>
+    <!--Information on process-->
+    <div class="col-md-12 mb-4">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white" style="font-weight:bold">Antibody screening and crossmatching</div>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        Ensuring ABO blood group compatibility is of utmost importance when transfusing red cells. 
+                        However, apart from the antigens of the ABO group, red cells also express numerous other blood group 
+                        antigens (eg. Rh, MNS, Kidd, Duffy). Currently, there are over 300 different antigens from 38 
+                        blood group systems that are recognised on the red cell surface.  Antibodies may develop to these antigens. 
+                        When transfusing red cells, it is therefore important to ensure that in addition to ABO matching, 
+                        the patient does not have any atypical antibodies i.e. not anti-A or –B, present in their plasma that may 
+                        react with the transfused cells and cause haemolysis.
+                    </p>
+                    <p>
+                        GSH is a laboratory procedure where the patient’s ABO and RhD group is determined, followed by a screening
+                        test (hence the term group and screen) to identify if the patient’s plasma has any atypical antibodies
+                        that may react with red cell antigens. A negative antibody screen means that there are no identifiable 
+                        clinically significant atypical antibodies present in the patient, and therefore the patient can be safely 
+                        transfused any ABO-matched red cell. No testing of the patient’s plasma against the donor red cell unit is 
+                        required, provided ABO grouping of both patient and donor is correct. However, if the antibody screen is 
+                        positive, further testing is performed to identify the red cell antigen that the antibody reacts with. 
+                        Red cells negative for the antigen is then released for transfusion.
+                    </p>
+                    <p>
+                        In contrast, in a cross-match (XM), the patient’s plasma is tested against the donor red cell unit to
+                        simulate what would happen in-vitro. If there is a reaction, it is called an incompatible cross-match and
+                        the blood unit cannot be used for transfusion. The disadvantage of XM is that blood units have to be
+                        physically removed from storage, tested with the patient’s sample and kept in reserve for the patient for a 
+                        stipulated time. If the reserved unit is not used, the unit is cancelled and returned to storage. 
+                        Excessive cross matching for patients where there is little likelihood of transfusion, 
+                        causes wastage of time and money performing the cross-match as well as problems with red cell 
+                        inventory management and product deterioration from frequent transfer between unmatched and matched 
+                        inventories.
+                    </p>
+                    <p>
+                        GXM should therefore be ordered only when there is high (i.e. more than 10%) chance of the cross-matched 
+                        blood being transfused. For all other cases where although there is chance that the patient may require 
+                        red cell transfusion, but the chance is low, GSH would suffice. GSH has been shown to be a clinically safe 
+                        practice.  The maximum surgical blood order schedule (MSBOS) provides a useful guideline when deciding 
+                        between GSH and GXM for elective surgical procedures.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

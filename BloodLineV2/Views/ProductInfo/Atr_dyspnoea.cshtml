@@ -1,0 +1,150 @@
+﻿
+
+@{
+    ViewBag.Title = "Dyspnoea";
+    Layout = "~/Views/Shared/_Layout_Patient.cshtml";
+}
+
+<div class="row row-cols-1 row-cols-sm-1">
+
+    <!--Title card-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-warning text-white">
+            <img class="card-img" src="~/Content/images/atr_dyspnoea_sq.jpg" />
+            <div class="card-body">
+                <h1><b>Dyspnoea </b></h1>
+                <h6>or decrease in SpO2 to < 90% (and change of at least 5% from baseline)</h6>
+            </div>
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+    <!--Possible causes-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-info text-white">
+            <div class="card-body">
+                <h4 class="card-title">Possible cause</h4>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">Transfusion associated cardiac overload (TACO)</li>
+                        <li class="list-group-item list-group-item-primary">Transfusion related acute lung injury (TRALI)</li>
+                        <li class="list-group-item list-group-item-primary">Acute haemolytic transfusion reaction (HTR)</li>
+                        <li class="list-group-item list-group-item-primary">Bacterial contamination</li>
+                        <li class="list-group-item list-group-item-primary">Anaphylaxis</li>
+                    </ul>
+                </div>
+                <h6 class="card-text"></h6>
+            </div>
+        </div>
+    </div>
+    <!--Immediate actions-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-info text-white">
+            <div class="card-body">
+                <h4 class="card-title">Immediate actions</h4>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-danger">Stop transfusion</li>
+                        <li class="list-group-item list-group-item-danger">Maintain IV access</li>
+                        <li class="list-group-item list-group-item-danger">Check vital signs</li>
+                        <li class="list-group-item list-group-item-danger">Re-check patient ID against product label</li>
+                        <li class="list-group-item list-group-item-danger">Notify medical-officer</li>
+                        <li class="list-group-item list-group-item-danger">Notify transfusion laboratory</li>
+                    </ul>
+                </div>
+                <h6 class="card-text"></h6>
+            </div>
+        </div>
+    </div>
+    <!--Information on process-->
+    <div class="col-md-12 mb-4">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white">Dyspnoea and transfusion reactions </div>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        Dyspnoea accompanied by arterial oxygen desaturation during blood transfusion may occur as a result of 
+                        transfusion related events such as TRALI, TACO, HTR, bacterial sepsis and anaphylaxis or may be transfusion 
+                        unrelated such as pulmonary venous embolism or myocardial infaction. 
+                    </p>
+                    <p>
+                        The rapid identification of the underlying cause is important for appropriate management. 
+                        Acute HTR and bacterial sepsis usually occurs within the first 15 minutes of transfusion and tends to be 
+                        accompanied by fever and hypotension. TRALI may likewise be associated with fever, chills and hypotension 
+                        but more commonly occurs within 1 to 2 hours after the end of transfusion and characteristically shows 
+                        bilateral pulmonary infiltrates on CXR. 
+                    </p>
+                    <p>
+                        Anti-leucocyte antbodies and biological response modifiers present in transfused plasma is implicated in 
+                        TRALI. TACO is often confused with TRALI as they both may present with pulmonary infiltrates and dyspnoea. 
+                        Hypertension is however more frequent with TACO together with raised CVP. 
+                    </p>
+                    <p>
+                        In anaphylaxis, bronchospasms and laryngeal oedema with severe hypotension are prominent symptoms.
+                        Fever and pulmonary oedema are not associated with anaphylaxis.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Interventions-->
+    <div class="jumbotron col-md-12 mb-4">
+        <h4 style="font-weight:bold">Assessment, investigations and management</h4>
+        <div class="card col-md-12 border-info">
+            <div class="card-header border-info bg-info" style="color:white; font-weight:bold">Investigations</div>
+            <div class="card-body border-info">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Chest X-Ray</li>
+                    <li class="list-group-item">Arterial Blood Gas</li>
+                    <li class="list-group-item">
+                        Send samples to TMD (6ml blood in EDTA + 3 ml blood in plain tube)
+                    </li>
+                    <li class="list-group-item">
+                        Return blood bag and attached giving set to TMD
+                    </li>
+                    <li class="list-group-item">
+                        FBC, electrolytes, bilirubin, creatinine, LDH, DIC screen, haptoglobin if HTR is suspected
+                    </li>
+                    <li class="list-group-item">
+                        Serum haptoglobin and IgA if anaphylaxis suspected
+                    </li>
+                    <li class="list-group-item">
+                        Serum BNP during acute episode if TACO suspected
+                    </li>
+                    <li class="list-group-item">
+                        Blood C&S if bacterial contamination suspected
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <br />
+        <div class="card col-md-12 border-warning">
+            <div class="card-header bg-warning" style="color:white; font-weight:bold">
+                Management
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Do not restart transfusion </li>
+                    <li class="list-group-item">Assess CXR for bilateral pulmonary infiltrates</li>
+                    <li class="list-group-item">
+                        If TRALI (occurs within 6 hours of transfusion), consider respiratory and inotrope support
+                    </li>
+                    <li class="list-group-item">
+                        If TACO (occurs late during or after transfusion, raised JVP and BNP), treat with diuretics and O2 support
+                    </li>
+                    <li class="list-group-item">
+                        Adrenaline (1:1000) at 0.2 – 0.5 ml im. or iv. under cardiac monitoring if anaphylaxis suspected
+                    </li>
+                    <li class="list-group-item">
+                        Monitor for hypotension, renal failure and DIC
+                    </li>
+                    <li class="list-group-item">
+                        Commence broad spectrum antibiotics if bacterial contamination suspected
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,179 @@
+﻿
+
+@{
+    ViewBag.Title = "Emergency";
+    Layout = "~/Views/Shared/_Layout_Patient.cshtml";
+}
+
+<div class="row row-cols-1 row-cols-sm-1">
+
+    <!--Title card-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-warning text-white">
+            <img class="card-img" src="~/Content/images/emergency1.jpg" />
+            <div class="card-body">
+                <h1><b>Emergency transfusion </b></h1>
+                <h6>Uncross-matched or incompatible blood</h6>
+            </div>
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+    <!--EI-->
+    <div class="col-md-8 mb-4">
+        <div class="card h-100 bg-info text-white">
+            <div class="card-body">
+                <h4 class="card-title" style="font-weight:bold">Immediate release</h4>
+                <h5 class="card-text">Blood supplied</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            Uncrossmatched
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            O+ red cells (RC)
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="card-text">Procedure for request</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-danger">
+                            Obtain pre-transfusion blood sample (3 ml in EDTA tube) and send by- hand to TMD with request form
+                        </li>
+                        <li class="list-group-item list-group-item-danger">
+                            If A&E, transfuse the 2 units of O+ RC already available in A&E fridge
+                        </li>
+                        <li class="list-group-item list-group-item-danger">
+                            Further 2-4 units of O+ RC will be supplied by TMD on receipt of pre-transfusion sample and request
+                        </li>
+                        <li class="list-group-item list-group-item-danger">
+                            If MTP activated, MTP pack (containing 2-4 O+RC, 4 AB+ FFP and 4 A/B+ PC) will be released
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="card-text">Important note</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            Maximum of 4 unit uncross-matched O+ RC will be issued pending confirmation of patient ABO group
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            All ‘safe O’ units issued in emergencies are RhD+, as RhD- blood is not common in Malaysia
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="card-text">Safety profile</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            Uncross-matched O+ RC is safe in terms of ABO compatibility
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            The risk of HTR due to non-ABO antibodies however cannot be excluded since antibody screening and cross-matching is not performed
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            RhD- women of child bearing age may be subjected to risk of HDN in future if they develop anti-D antibodies from transfusion of RhD+ blood
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Information on process-->
+    <div class="col-md-12 mb-4">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white" style="font-weight:bold">Use of emergency issued red cells</div>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        Routine pre-transfusion testing includes ABO/RhD typing, antibody screening and cross matching.
+                        Additional testing may be required if there are typing discrepancies or if the antibody screen is positive.
+                        This extensive testing is required in order to ensure that no unexpected haemolytic transfusion reactions
+                        occur. Pre-transfusion testing does not prevent transfusion adverse events unrelated to red cell haemolysis.
+                    </p>
+                    <p>
+                        In the majority of patients, sufficient time is available to complete the repertoire of tests.
+                        Routine testing may practically take 1-3 hours, depending on laboratory workload.
+                        This process is unsuitable when blood is required immediately or at short notice.
+                        In emergency situations, the procedure often has to be abbreviated or sometimes circumvented
+                        completely to ensure supply of blood in a timely fashion and to save the patient’s life.
+                        Emergency blood may be released either as immediate uncross-matched safe ‘O’ or if time permits
+                        (usually about 10 minutes) as ABO type-specific red cells.
+                    </p>
+                    <p>
+                        The clinician responsible for the patient must assess how urgently the transfusion is required and
+                        communicate this to the medical-officer and technician at the blood bank.
+                        Good communication is vital and facilitates appropriate blood product provision for the patient in a timely
+                        manner.
+                    </p>
+                    <p>
+                        A pre-transfusion sample must be obtained from the patient prior to commencing transfusion of
+                        uncross-matched blood.  The blood bank will not be able to identify the patient’s true ABO group or perform
+                        antibody screening if only a post-transfusion sample is obtained, as this sample will contain both patient
+                        and transfused blood.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--How safe?-->
+    <div class="col-md-12 mb-4">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white" style="font-weight:bold">How safe is uncross-matched blood?</div>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        The immediate risk of transfusing uncross-matched red cell units arises from the possibility that the
+                        patient may have as yet unidentified circulating red cell antibodies that can cause a haemolytic
+                        transfusion reaction (HTR). Acute haemolysis from such antibodies is uncommon.
+                        Anti-A and anti–B are the most severe which is prevented by provision of group O red cells until the
+                        ABO group has been determined. Examples of other antibodies capable of causing severe immediate HTR
+                        include antibodies against H, Jk, Vel, PP1Pk and Rh.
+                        The presence of these non-A/B antibodies only becomes apparent after antibody screening and
+                        cross-matching is performed. Nonetheless, in emergency non-elective situations, it is agreed that
+                        transfusing uncross-matched blood is generally safe.
+                        Transfusing RhD+ blood to RhD- patients will result in 20-50% of patients developing anti-D,
+                        which poses the risk of haemolytic disease of newborn. In women of child-bearing potential
+                        who receive RhD+ emergency transfusions, red cell exchanges with RhD- blood and
+                        RhIg prophylaxis may be required after the patient has been stabilized.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Transfusing XM incompatible-->
+    <div class="col-md-12 mb-4">
+        <div class="card-group col-md-12">
+            <div class="card h-100 bg-warning text-white col-md-4">
+                <img class="card-img" src="~/Content/images/emergency3.jpg" />
+                <div class="card-footer">
+                    +
+                </div>
+            </div>
+            <div class="card border-info col-md-8">
+                <div class="card-header bg-info text-white" style="font-weight:bold">Transfusing the cross-match incompatible patient</div>
+                <div class="card-body">
+                    <div class="card-text">
+                        <p>
+                            On occasions, it may sometimes become necessary to transfuse blood to patients despite the red cell units
+                            being cross-match incompatible. This may happen in emergency situations where the patient may have
+                            antibodies to high-incidence antigens (e.g. anti-H in Bombay phenotype) or they harbour multiple
+                            antibodies (e.g. AIHA) that make procuring of compatible antigen negative units within a short timeframe
+                            untenable.
+                            In this circumstance, the decision to transfuse should be driven by the clinical picture of the patient,
+                            taking into account age, cardio-respiratory reserve, rate of blood loss or haemolysis and co-morbid
+                            conditions.
+                            Patients should be transfused before the possibility for irreversible damage due to hypoxia manifests
+                            itself. Close communication should always be established early between the clinician caring for the patient
+                            and the transfusion service, to ascertain the situation and ensure that appropriate blood can be supplied.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

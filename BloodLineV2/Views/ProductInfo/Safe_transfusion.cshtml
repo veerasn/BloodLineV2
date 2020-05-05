@@ -66,11 +66,16 @@
                         requisite information will be rejected
                     </p>
                     <p>
-                        State <b>how quickly</b> the blood is required in order that the patient gets ‘the right blood at the right time’.
-                        Most surgical procedures do not require blood transfusion and only a Group, screen and hold (GSH) is needed.
+                        State <a href="@Url.Action("Emergency","ProductInfo")" target="_blank"><span style="color:blue"><b>how quickly</b></span></a> the blood is required in order that the patient gets ‘the right blood at the right time’.
+                        Most surgical procedures do not require blood transfusion and only a 
+                        <a href="@Url.Action("Gsh","ProductInfo")" target="_blank"><span style="color:blue">Group, screen and hold (GSH)</span></a> 
+                        is needed.
                         Refer to the Maximum Surgical Blood Order Schedule (MSBOS) for guidance on how many cross-matched units of
-                        blood is recommended for a procedure or if GSH would suffice. If the patient is eligible, blood may be issued
-                        by Electronic Issue (EI). Always <b>state the expected time and date of the procedure</b>.
+                        blood is recommended for a procedure or if 
+                        <a href="@Url.Action("Gsh","ProductInfo")" target="_blank"><span style="color:blue">GSH</span></a> would suffice. 
+                        If the patient is eligible, blood may be issuedby 
+                        <a href="@Url.Action("Ei","ProductInfo")" target="_blank"><span style="color:blue">Electronic Issue (EI)</span></a>. 
+                        Always <b>state the expected time and date of the procedure</b>.
                     </p>
                     <p>Incompletely filled request forms can be rejected and may cause delay in testing and transfusion.</p>
                 </div>
@@ -223,13 +228,13 @@
                         sheet.
                     </p>
                     <ul class="list-group">
-                        <li class="list-group-item">Are the patient identification details identical on the patient’s wristband, 
+                        <li class="list-group-item list-group-item-primary">Are the patient identification details identical on the patient’s wristband, 
                         compatibility label on the blood pack and the blood compatibility form provided by the transfusion laboratory?</li>
-                        <li class="list-group-item">Do these details match what the patient says  (if able to communicate) 
+                        <li class="list-group-item list-group-item-primary">Do these details match what the patient says  (if able to communicate) 
                         when asked for full name and date of birth?</li>
-                        <li class="list-group-item">Is the expiry date printed on the blood pack still valid?</li>
-                        <li class="list-group-item">Does the pack have any unusual discolouration or clots?</li>
-                        <li class="list-group-item">Does the pack meet specified requirements for the patient e.g. irradiated, leucoreduced?  </li>
+                        <li class="list-group-item list-group-item-primary">Is the expiry date printed on the blood pack still valid?</li>
+                        <li class="list-group-item list-group-item-primary">Does the pack have any unusual discolouration or clots?</li>
+                        <li class="list-group-item list-group-item-primary">Does the pack meet specified requirements for the patient e.g. irradiated, leucoreduced?  </li>
                     </ul>
                 </div>
             </div>

@@ -70,5 +70,35 @@ namespace BloodLineV2.Views.ProductInfo
         {
             return View();
         }
+
+        // GET: ProductInfo
+        public ActionResult Atr_urticuria()
+        {
+            return View();
+        }
+
+        // GET: ProductInfo
+        public ActionResult Atr_dyspnoea()
+        {
+            return View();
+        }
+
+        // GET: ProductInfo
+        public ActionResult Gsh()
+        {
+            return View();
+        }
+
+        // GET: ProductInfo
+        public ActionResult Ei()
+        {
+            return View();
+        }
+
+        // GET: ProductInfo
+        public ActionResult Emergency()
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,141 @@
+﻿
+
+@{
+    ViewBag.Title = "EI";
+    Layout = "~/Views/Shared/_Layout_Patient.cshtml";
+}
+
+<div class="row row-cols-1 row-cols-sm-1">
+
+    <!--Title card-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-warning text-white">
+            <img class="card-img" src="~/Content/images/ei.jpg" />
+            <div class="card-body">
+                <h1><b>EI / E-XM </b></h1>
+                <h6>EI: Electronic Issue</h6>
+                <h6>E-XM: Electronic Crossmatch</h6>
+            </div>
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+    <!--EI-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-info text-white">
+            <div class="card-body">
+                <h4 class="card-title" style="font-weight:bold">Electronic Issue (EI)</h4>
+                <h5 class="card-text">Test performed</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">ABO & RhD typing</li>
+                        <li class="list-group-item list-group-item-primary">
+                            Antibody screening
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            Confirmation of ABO & RhD typing by computer verification against results from another sample or historical records
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            Verification of negative red cell antibody status and its validity by computer
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            Verification of compatibility at issue by a validated computer system
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="card-text">Indication</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            EI is applicable to all patients who satisfy its exact requirements. 
+                            The decision to issue blood by EI or GXM will be made at the laboratory. 
+                            The requesting doctor need not choose between EI and GXM. 
+                            The request procedure for blood will remain the same as before.
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="card-text">Precautions</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            If a patient has been recently transfused, the antibody screen result is only valid for 48 hours
+                            as new antibodies may develop from the potential sensitizing event.
+                            A new sample must be submitted after 48 hours from transfusion if additional
+                            red cell transfusions are required. Patients with sickle cell disease or having undergone 
+                            ABO mismatched transplant are also excluded.
+                        </li>
+                    </ul>
+                </div>
+                <h6 class="card-text"></h6>
+            </div>
+        </div>
+    </div>
+    <!--GXM-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-info text-white">
+            <img class="card-img" src="~/Content/images/ei2.jpg" />
+            <div class="card-footer">
+                <p>
+                    If all components of identification and testing have been assured to be correct, then a final physical
+                    crossmatch can be omitted and the blood unit for transfusion can be released based on computer verification of
+                    ABO group and absence of current and previously identified red cell antibodies.
+                </p>
+                <p>
+                    Electronic Issue (EI) is the selection and issue of red cell units where compatibility is determined by the
+                    laboratory information system without physical serological testing of donor cells against patient plasma.
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--Information on process-->
+    <div class="col-md-12 mb-4">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white" style="font-weight:bold">What is Electronic Issue (EI)</div>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        Electronic Issue (EI), also known as Electronic Crossmatch (E-XM) in some centres has been introduced 
+                        into routine operation at the Blood Bank in UMMC beginning January 2020, the first in Malaysia. 
+                        EI is widely practised in developed transfusion laboratories worldwide.
+                        This is a convenient, efficient and safe process of providing compatible red cell units without 
+                        direct serological crossmatch of the recipient’s plasma against donor red blood cells 
+                        (GXM: Group & Crossmatch).
+
+                    </p>
+                    <p>
+                        EI allows for any patient with a confirmed blood group determined from at least 2 separate blood samples,
+                        no history of antibodies and a negative antibody screen to be crossmatched instantaneously to an inventory
+                        of red cells units that have been regrouped to confirm the blood group of the donor and ensure compatibility.
+                        Correct blood typing and determination of antibody status is facilitated by automation and validated computer 
+                        verification steps.
+                    </p>
+                    <p>
+                        Patients who do not satisfy defined criteria for EI will not be eligible for red cell issue by EI. 
+                        These patient groups will include cases where blood group determination is only from one sample, 
+                        an antibody screen is positive or where there have been red cell antibodies detected previously. 
+                        Patients with sickle cell disease or undergone a recent ABO mismatched solid organ or haematopoietic 
+                        stem cell transplant are also ineligible as are infants below 4 months of age. 
+                        Such patients will continue to be issued red cells after a serological crossmatch.
+                    </p>
+                    <p>
+                        There is no change to sample volume requirements from a GXM. Children aged 5-24 months require 1 ml each
+                        in two EDTA microtainer tubes while all others require 3 ml blood in one EDTA tube. Double determination of ABO 
+                        and RhD type is mandatory for patients to be eligible for EI. Therefore, it is strongly encouraged that at least 
+                        two samples taken at different time points, preferably by two different individuals is submitted to the transfusion 
+                        laboratory for new patients with no historical blood type results available. 
+                        This also adds an additional layer of safety and prevents patient misidentification errors.
+                    </p>
+                    <p>
+                        The use of EI in eligible patients will significantly shorten time to issue upon confirming red cell 
+                        transfusion. As opposed to 45 minutes for a full AHG crossmatch, red cells can be issued immediately 
+                        upon request by EI to eligible patients. 
+                        Red cell units issued by EI will be identified as such on both the recipient label and blood issue form. 
+                        Patients that are ineligible for EI will continue to have blood issued using the conventional approach of GXM. 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -341,13 +341,23 @@
     <Content Include="Content\css\select2.min.css" />
     <Content Include="Content\images\ABD.jpg" />
     <Content Include="Content\images\antiD.jpg" />
-    <Content Include="Content\images\atr_fever.jpg" />
+    <Content Include="Content\images\atr_dyspnoea_sq.jpg" />
+    <Content Include="Content\images\atr_fever_sq.jpg" />
+    <Content Include="Content\images\atr_urticuria_sq.jpg" />
     <Content Include="Content\images\blood transfusion.jpg" />
     <Content Include="Content\images\crypp.jpg" />
+    <Content Include="Content\images\ei.jpg" />
+    <Content Include="Content\images\ei2.jpg" />
+    <Content Include="Content\images\emergency1.jpg" />
+    <Content Include="Content\images\emergency2.jpg" />
+    <Content Include="Content\images\emergency3.jpg" />
     <Content Include="Content\images\FFP transfusion.jpg" />
     <Content Include="Content\images\ffp.jpg" />
     <Content Include="Content\images\ffprd.jpg" />
     <Content Include="Content\images\ffp_transfusion.jpg" />
+    <Content Include="Content\images\gsh1.jpg" />
+    <Content Include="Content\images\gsh2.jpg" />
+    <Content Include="Content\images\gsh3.jpg" />
     <Content Include="Content\images\icons8-youtube-30.png" />
     <Content Include="Content\images\ih_manual.jpg" />
     <Content Include="Content\images\im.jpg" />
@@ -645,6 +655,11 @@
     <Content Include="Views\ProductInfo\Tests.cshtml" />
     <Content Include="Views\ProductInfo\Safe_transfusion.cshtml" />
     <Content Include="Views\ProductInfo\Atr_fever.cshtml" />
+    <Content Include="Views\ProductInfo\Atr_urticuria.cshtml" />
+    <Content Include="Views\ProductInfo\Atr_dyspnoea.cshtml" />
+    <Content Include="Views\ProductInfo\Gsh.cshtml" />
+    <Content Include="Views\ProductInfo\Ei.cshtml" />
+    <Content Include="Views\ProductInfo\Emergency.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
