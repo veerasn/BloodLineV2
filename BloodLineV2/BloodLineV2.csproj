@@ -518,6 +518,7 @@
       <DependentUpon>BBOrder.edmx</DependentUpon>
     </Content>
     <Content Include="Content\pdf\ATR_management_flow_v4r3.pdf" />
+    <Content Include="Content\pdf\MSBOS.pdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
@@ -660,6 +661,7 @@
     <Content Include="Views\ProductInfo\Gsh.cshtml" />
     <Content Include="Views\ProductInfo\Ei.cshtml" />
     <Content Include="Views\ProductInfo\Emergency.cshtml" />
+    <Content Include="Views\ProductInfo\Msbos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

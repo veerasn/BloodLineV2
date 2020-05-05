@@ -100,5 +100,11 @@ namespace BloodLineV2.Views.ProductInfo
         {
             return View();
         }
+
+        // GET: ProductInfo
+        public ActionResult Msbos()
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,82 @@
+﻿
+
+@{
+    ViewBag.Title = "MSBOS";
+    Layout = "~/Views/Shared/_Layout_Patient.cshtml";
+}
+
+<div class="row row-cols-1 row-cols-sm-1">
+
+    <!--Title card-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-warning text-white">
+            <img class="card-img" src="~/Content/images/emergency1.jpg" />
+            <div class="card-body">
+                <h1><b>MSBOS and pre-operative blood requests </b></h1>
+                <h6>MSBOS: Maximum surgical blood order schedule</h6>
+            </div>
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+    <!--Information on process-->
+    <div class="col-md-8 mb-4">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white" style="font-weight:bold">What to consider when making an elective pre-operative blood request</div>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        Transfusion of incompatible red cells can lead to haemolytic transfusion reactions that can have serious
+                        and sometimes fatal consequences. In order to ensure compatibility, several pre-transfusion tests are
+                        performed on the patient samples, which include ABO and RhD typing, antibody screening and cross-matching.
+                        Cross-matching of blood that is not transfused however consumes blood bank resources unnecessarily,
+                        increases the blood inventory that must be maintained, and increases the number of units that become
+                        outdated.
+                    </p>
+                    <p>
+                        Cross-matching requests therefore should be limited to cases where there is a high likelihood of the
+                        patient requiring transfusion during or post-surgery as a result of sudden massive blood loss.
+                        A <a href="@Url.Action("Gsh","ProductInfo")" target="_blank"><span style="color:blue">Group, screen and hold (GSH)</span></a> or
+                        <a href="@Url.Action("Ei","ProductInfo")" target="_blank"><span style="color:blue">Electronic Issue (EI)</span></a>
+                        is safe for cases where transfusion of red cells
+                        is a remote possibility i.e. less than 10% of patients undergoing the procedure will require red cell transfusion.
+                        GSH and EI have been shown to be a clinically safe practice.
+                    </p>
+                    <p>
+                        The Maximum Surgical Blood Order Schedule (MSBOS) serves to provide guidance on whether a GSH should suffice
+                        for a specified procedure or if red cell units should be cross-matched.
+                        This guide is developed based on analysis of usage of blood for the various procedures over a period.
+                        It should be emphasized that the MSBOS serves as a guide and patient-specific deviations may sometimes be
+                        necessary, taking into account the patient’s pre-operative haemoglobin, co-morbid conditions and
+                        surgeon-defined anticipated blood loss.
+                        Anaesthesists and surgeons would be advised to state clearly in their request if a deviation from the MSBOS is anticipated,
+                        in order to ensure that the transfusion service is prepared for any eventualities.
+                    </p>
+                    <p>
+                        Timely receipt of the patient sample at the blood bank is crucial in order to ensure that pre-transfusion
+                        testing is completed prior to commencement of the procedure. The transfusion service requires that samples
+                        arrive at least 12 hours, and preferably 24 hours prior to the scheduled procedure time.
+                        This would provide sufficient time for the laboratory to complete its testing and select suitable red cell
+                        units, especially if an unusual blood group or antibody had been identified.
+                        The transfusion service may also advice postponement of procedures in special circumstances where
+                        suitable red cell units cannot be found in time.
+                    </p>
+                    <p>
+                        In order to reduce the occurrence of such unanticipated cases
+                        (e.g. rare blood group, high-incidence antibodies), it would be prudent for doctors to request for
+                        blood grouping and antibody screening (GSH) when the patient is first booked as well as submit
+                        another sample prior to the procedure. The availability of two blood grouping results with a negative
+                        antibody screen may also allow
+                        <a href="@Url.Action("Ei","ProductInfo")" target="_blank"><span style="color:blue">EI</span></a>
+                        for the patient.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="embed-responsive embed-responsive-4by3">
+        <iframe class="embed-responsive-item" src="~/Content/pdf/MSBOS.pdf"></iframe>
+    </div>
+</div>
+
