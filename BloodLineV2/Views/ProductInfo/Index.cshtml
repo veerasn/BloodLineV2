@@ -164,9 +164,26 @@
         arr = str.split("|");
 
         var txt = "";
+        var code;
 
         for (i = 0; i < arr.length; i++) {
-            txt += "<a href='#' class='list-group-item list-group-item-action'>" + arr[i] + "</a>";
+
+            switch (arr[i]) {
+                case 'Leucodepleted':
+                    code = '@Url.Action("Modifications", "ProductInfo", new { id = "LD" })';
+                    break;
+                case 'Irradiated':
+                    code = '@Url.Action("Modifications", "ProductInfo", new { id = "IRR" })';
+                    break;
+                case 'Washed':
+                    code = '@Url.Action("Modifications", "ProductInfo", new { id = "WASH" })';
+                    break;
+                default:
+                    code = '';
+                    break;
+            }
+
+            txt += "<a href='" + code + "' class='list-group-item list-group-item-action'>" + arr[i] + "</a>";
         }
         document.getElementById("list-modifications").innerHTML = txt;
     })
