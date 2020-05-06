@@ -346,6 +346,7 @@
     <Content Include="Content\images\atr_urticuria_sq.jpg" />
     <Content Include="Content\images\blood transfusion.jpg" />
     <Content Include="Content\images\crypp.jpg" />
+    <Content Include="Content\images\ebt.jpg" />
     <Content Include="Content\images\ei.jpg" />
     <Content Include="Content\images\ei2.jpg" />
     <Content Include="Content\images\emergency1.jpg" />
@@ -520,6 +521,7 @@
     </Content>
     <Content Include="Content\pdf\ATR_management_flow_v4r3.pdf" />
     <Content Include="Content\pdf\MSBOS.pdf" />
+    <Content Include="Content\pdf\EBT_Compatibility.pdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
