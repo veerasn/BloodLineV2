@@ -522,6 +522,7 @@
     <Content Include="Content\pdf\ATR_management_flow_v4r3.pdf" />
     <Content Include="Content\pdf\MSBOS.pdf" />
     <Content Include="Content\pdf\EBT_Compatibility.pdf" />
+    <Content Include="Content\pdf\HLA.pdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
