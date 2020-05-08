@@ -12,7 +12,7 @@ namespace BloodLineV2.Views.ProductInfo
         private readonly BBProductsEntities bbproduct = new BBProductsEntities();
 
         // GET: ProductInfo
-        public ActionResult Index(string id)
+        public ActionResult Products(string id)
         {
             var searchString = id;
             var products = (from p in bbproduct.Product_Info select p);

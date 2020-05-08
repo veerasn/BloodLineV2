@@ -984,6 +984,8 @@
                     <h6>
                         Select suitable products and required quantity. Remember that the minimum number of RBC units should be transfused to
                         achieve the desired response. Refer to <a href="@Url.Action("Guidelines_rbc","ProductInfo")" target="_blank"><b>Guidelines for Red Cell Use</b></a> to aid your transfusion decision.
+                        Supply of requested product is subject to clinical needs assessment and availability, and may be substituted with an equivalent product at the discretion
+                        of the transfusion service. 
                     </h6>
                     <p id="alert_redcell" style="color: orangered"></p>
                     <p id="redcell" style="color: orangered"></p>
@@ -1019,7 +1021,7 @@
                                         @bloodProduct.Name
                                         @if (bloodProduct.Filelocation != "none")
                                         {
-                                        <a href="@Url.Action("Index","ProductInfo",new {id=bloodProduct.Id })" target="_blank">
+                                        <a href="@Url.Action("Products","ProductInfo",new {id=bloodProduct.Id })" target="_blank">
                                             <sup><i class="fa fa-info" data-toggle="tooltip" title="Additional info"></i></sup>
                                         </a>
                                         }
@@ -1048,6 +1050,8 @@
                 <div id="Platelet" class="w3-container request" style="display:none">
                     <h6>
                         Select suitable products and required quantity. Refer to <a href="@Url.Action("Guidelines_plt","ProductInfo")" target="_blank"><b>Guidelines for Platelet Use</b></a> to aid your transfusion decision.
+                        Supply of requested product is subject to clinical needs assessment and availability, and may be substituted with an equivalent product at the discretion
+                        of the transfusion service.
                     </h6>
                     <p id="alert_platelet" style="color: orangered"></p>
                     <p id="platelet" style="color: orangered"></p>
@@ -1082,7 +1086,7 @@
                                         @bloodProduct.Name
                                         @if (bloodProduct.Filelocation != "none")
                                         {
-                                        <a href="@Url.Action("Index","ProductInfo",new {id=bloodProduct.Id })" target="_blank">
+                                        <a href="@Url.Action("Products","ProductInfo",new {id=bloodProduct.Id })" target="_blank">
                                             <sup><i class="fa fa-info" data-toggle="tooltip" title="Additional info"></i></sup>
                                         </a>
                                         }
@@ -1110,6 +1114,8 @@
                 <div id="Plasma" class="w3-container request" style="display:none">
                     <h6>
                         Select suitable products and required quantity. Refer to <a href="@Url.Action("Guidelines_ffp","ProductInfo")"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
+                        Supply of requested product is subject to clinical needs assessment and availability, and may be substituted with an equivalent product at the discretion
+                        of the transfusion service.
                     </h6>
                     <p id="alert_ffp" style="color: orangered"></p>
                     <p id="alert_cryoprecipitate" style="color: orangered"></p>
@@ -1147,7 +1153,7 @@
                                         @bloodProduct.Name
                                         @if (bloodProduct.Filelocation != "none")
                                         {
-                                        <a href="@Url.Action("Index","ProductInfo",new {id=bloodProduct.Id })" target="_blank">
+                                        <a href="@Url.Action("Products","ProductInfo",new {id=bloodProduct.Id })" target="_blank">
                                             <sup><i class="fa fa-info" data-toggle="tooltip" title="Additional info"></i></sup>
                                         </a>
                                         }

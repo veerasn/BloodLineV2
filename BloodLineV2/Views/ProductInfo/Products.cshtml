@@ -84,6 +84,15 @@
                 <h6 class="card-text">
                     @Html.Raw(Model.FirstOrDefault().testing.ToString())
                 </h6>
+                <h6>
+                    <!--Request form if HLA compatible product-->
+                    @if (Model.FirstOrDefault().prod_bloodline.ToString().Contains("HLA"))
+                    {
+                        <a href="@Url.Content("~/Content/pdf/HLA.pdf")" target="_blank">
+                            <span style="color:blue">Request form for HLA-compatible platelets</span>
+                        </a>
+                    }
+                </h6>
             </div>
             <div class="card-footer border-info">
                 <h4>Minimum sample requirements</h4>
