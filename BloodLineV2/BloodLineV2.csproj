@@ -366,6 +366,7 @@
     <Content Include="Content\images\iv.jpg" />
     <Content Include="Content\images\iv_bolus.jpg" />
     <Content Include="Content\images\ld.jpg" />
+    <Content Include="Content\images\mtp.jpg" />
     <Content Include="Content\images\novoseven.jpg" />
     <Content Include="Content\images\octaplex.jpg" />
     <Content Include="Content\images\plap_1.jpg" />
@@ -523,6 +524,7 @@
     <Content Include="Content\pdf\MSBOS.pdf" />
     <Content Include="Content\pdf\EBT_Compatibility.pdf" />
     <Content Include="Content\pdf\HLA.pdf" />
+    <Content Include="Content\pdf\Mtp_1.pdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
@@ -666,6 +668,7 @@
     <Content Include="Views\ProductInfo\Ei.cshtml" />
     <Content Include="Views\ProductInfo\Emergency.cshtml" />
     <Content Include="Views\ProductInfo\Msbos.cshtml" />
+    <Content Include="Views\ProductInfo\Mtp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

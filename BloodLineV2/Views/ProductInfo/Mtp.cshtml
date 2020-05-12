@@ -1,0 +1,337 @@
+﻿
+
+@{
+    ViewBag.Title = "MTP";
+    Layout = "~/Views/Shared/_Layout_Patient.cshtml";
+}
+
+<div class="row row-cols-1 row-cols-sm-1">
+
+    <!--Title card-->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-warning text-white">
+            <img class="card-img" src="~/Content/images/mtp.jpg" />
+            <div class="card-body">
+                <h1><b>Massive Haemorrhage</b></h1>
+                <h6>Activating, monitoring and deactivating a Massive transfusion protocol (MTP)</h6>
+            </div>
+            <div class="card-footer">
+                +
+            </div>
+        </div>
+    </div>
+    <!--EI-->
+    <div class="col-md-8 mb-4">
+        <div class="card h-100 bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-text"><span style="font-weight:bold">Assess:</span> Consultant or senior specialist determines that patient meets criteria for MTP activation</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            Actual or anticipated loss of half of total blood volume (about 2L in an adult) within 4 hours or
+                            at rate of >150ml per minute with haemodynamically instability
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            Severe thoracic, abdominal, pelvic or multiple long bone trauma
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            Major obstetric, gastrointestinal or surgical bleeding
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="card-text"><span style="font-weight:bold">Baseline:</span> Take blood samples for laboratory tests</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-danger">
+                            Haematology and coagulation: FBC, PT, APTT, Fibrinogen
+                        </li>
+                        <li class="list-group-item list-group-item-danger">
+                            Biochemistry: Electrocytes (Na, K, Ca, PO4), ABG
+                        </li>
+                        <li class="list-group-item list-group-item-danger">
+                            Transfusion: GSH (ABO, RhD typing and Antibody screening)
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="card-text"><span style="font-weight:bold">Alerts:</span> Notify transfusion service of MTP Activation</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            Notify Transfusion laboratory technician by hotline (only available in Trauma and Emergency)
+                            or by calling extension 2258 to activate MTP
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            Provide contact of person in the managing team who shall act as liason with transfusion service
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            Alert Transfusion medicine medical-officer or specialist on-call for further advice
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="card-text"><span style="font-weight:bold">Initiate:</span> Consultant or senior specialist initiates MTP </h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            Send request for MTP together with pre-transfusion sample by hand to transfusion laboratory
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            Consider tranexamic acid in trauma patients
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            First MTP pack will be issued immediately by laboratory technician on receipt of request form
+                            and pre-transfusion sample
+                            <br />
+                            <ul>
+                                <li>4 units O RhD+ Red cells (RCSAG)</li>
+                                <li>4 units A or AB Thawed 5-day plasma (FFP5D)</li>
+                                <li>
+                                    4 units Random donor platelet (RDP) or 1 unit Single donor platelet (PLLR)
+                                    -group and type depending on availability
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            Cryoprecipitate may be supplied if fibrinogen &lt;1g/L or in post-partum haemorrhage
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="card-text"><span style="font-weight:bold">Monitor and reassess:</span></h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            Continually monitor patient for control of bleeding
+                        </li>
+                        <li class="list-group-item list-group-item-primary">
+                            Additional MTP packs will be issued if bleeding uncontrolled and clinical assessment indicates continued need
+                            unless 'stand down' of MTP issued
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="card-text"><span style="font-weight:bold">Deactivate MTP:</span></h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">
+                            Inform transfusion laboratory once bleeding controlled to 'stand down' and cease MTP preparation
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Information on MTP-->
+    <div class="col-md-4 mb-4">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white" style="font-weight:bold">Points to monitor</div>
+            <div class="card-body">
+                <h5 class="card-text" style="font-weight:bold">Optimise</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul>
+                        <li>Oxygenation</li>
+                        <li>Cardiac output</li>
+                        <li>Tissue perfusion</li>
+                        <li>Metabolic state</li>
+                    </ul>
+                </div>
+                <h5 class="card-text" style="font-weight:bold">Monitor (every 30-60 min)</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul>
+                        <li>Full blood count</li>
+                        <li>Coagulation screen</li>
+                        <li>Ionised Calcium</li>
+                        <li>Arterial blood gas</li>
+                    </ul>
+                </div>
+                <h5 class="card-text" style="font-weight:bold">Try aiming for</h5>
+                <div class="list-group list-group-flush" id="list-possible-cause">
+                    <ul>
+                        <li>Temperature &gt; 35<sup>0</sup>C</li>
+                        <li>pH &gt; 7.2</li>
+                        <li>Base excess &lt; -6</li>
+                        <li>Lactate &lt; 4 mmol/L</li>
+                        <li>Ca<sup>++</sup> &gt; 1.1 mmol/L</li>
+                        <li>Platelet &gt; 50 x 10<sup>9</sup>/L</li>
+                        <li>PT/APTT &le; 1.5X normal</li>
+                        <li>INR &le; 1.5</li>
+                        <li>Fibrinogen &gt; 1.0 g/L</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 mb-4">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white" style="font-weight:bold">Use of emergency issued red cells</div>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        Bleeding may occur in the context of trauma, surgery or post-partum. Supportive resuscitative measures
+                        with haemodynamic support and appropriate blood transfusion is adequate is a majority of cases.
+                        However, in some cases, the haemorrhage may become uncontrolled and life threatening needing massive
+                        blood transfusion.
+                    </p>
+                    <p>
+                        Massive transfusion may be defined based on the amount of actual or anticipated blood loss or on the
+                        rate and amount of blood transfused. In general, a loss of one blood volume within 24 hours or a transfusion
+                        of more than 10 units of red cells would be considered as massive. Recognising that retrospective assessment
+                        after 24 hours is not optimal, massive transfusion would already need to be considered where the amount of blood
+                        loss exceeds half of total blood volume (>2 liters in an adult) within 4 hours or the rate exceeds 150 ml/min.
+                        The following clinical assessment as described by rge Amrican College of Surgeons (ACS) may aid in the
+                        classification of haemorrhagic shock.
+                    </p>
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr>Class of haemorrhagic shock</tr>
+                        </thead>
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">I</th>
+                                <th scope="col" colspan="3">II</th>
+                                <th scope="col">III</th>
+                                <th scope="col">IV</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Blood loss (ml)</th>
+                                <td class="table-danger">&lt; 750</td>
+                                <td class="table-warning">750 - 1500</td>
+                                <td class="table-warning">1500 - 2000</td>
+                                <td class="table-warning">&gt; 2000</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Blood loss (% blood volume)</th>
+                                <td class="table-danger">&lt; 15</td>
+                                <td class="table-warning">15 - 30</td>
+                                <td class="table-warning">30 - 40</td>
+                                <td class="table-warning">&gt; 40</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Pulse rate (per minute)</th>
+                                <td class="table-danger">&lt; 100</td>
+                                <td class="table-warning">100 - 120</td>
+                                <td class="table-warning">120 - 140</td>
+                                <td class="table-warning">&gt; 140</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Blood pressure</th>
+                                <td class="table-danger">Normal</td>
+                                <td class="table-warning">Normal</td>
+                                <td class="table-warning">Decreased</td>
+                                <td class="table-warning">Decreased</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Pulse pressure (mmHg)</th>
+                                <td class="table-danger">Normal or increased</td>
+                                <td class="table-warning">Decreased</td>
+                                <td class="table-warning">Decreased</td>
+                                <td class="table-warning">Decreased</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Respiratory rate (per minute)</th>
+                                <td class="table-danger">14 - 20</td>
+                                <td class="table-warning">20 - 30</td>
+                                <td class="table-warning">30 - 40</td>
+                                <td class="table-warning">&gt; 35</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Urine output (% ml/hour)</th>
+                                <td class="table-danger">&gt; 30</td>
+                                <td class="table-warning">20 - 30</td>
+                                <td class="table-warning">5 - 15</td>
+                                <td class="table-warning">Negligible</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Central nervous system/ mental status/th>
+                                <td class="table-danger">Slightly anxious</td>
+                                <td class="table-warning">Mildly anxious</td>
+                                <td class="table-warning">Anxious, confused</td>
+                                <td class="table-warning">Confused, lethargic</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        The clinician responsible for the patient must assess how urgently the transfusion is required and
+                        communicate this to the medical-officer and technician at the blood bank.
+                        Good communication is vital and facilitates appropriate blood product provision for the patient in a timely
+                        manner.
+                    </p>
+                    <p>
+                        A pre-transfusion sample must be obtained from the patient prior to commencing transfusion of
+                        uncross-matched blood.  The blood bank will not be able to identify the patient’s true ABO group or perform
+                        antibody screening if only a post-transfusion sample is obtained, as this sample will contain both patient
+                        and transfused blood.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Criteria for MTP pdf-->
+
+    <!--Timing-->
+    <div class="col-md-3 mb-4">
+        <img src="~/Content/images/emergency2.jpg" class="img-fluid" alt="Responsive image">
+    </div>
+    <div class="col-md-9 mb-4">
+        
+    </div>
+    <!--How safe?-->
+    <div class="col-md-12 mb-4">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white" style="font-weight:bold">How safe is uncross-matched blood?</div>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        The immediate risk of transfusing uncross-matched red cell units arises from the possibility that the
+                        patient may have as yet unidentified circulating red cell antibodies that can cause a haemolytic
+                        transfusion reaction (HTR). Acute haemolysis from such antibodies is uncommon.
+                        Anti-A and anti–B are the most severe which is prevented by provision of group O red cells until the
+                        ABO group has been determined. Examples of other antibodies capable of causing severe immediate HTR
+                        include antibodies against H, Jk, Vel, PP1Pk and Rh.
+                        The presence of these non-A/B antibodies only becomes apparent after antibody screening and
+                        cross-matching is performed. Nonetheless, in emergency non-elective situations, it is agreed that
+                        transfusing uncross-matched blood is generally safe.
+                        Transfusing RhD+ blood to RhD- patients will result in 20-50% of patients developing anti-D,
+                        which poses the risk of haemolytic disease of newborn. In women of child-bearing potential
+                        who receive RhD+ emergency transfusions, red cell exchanges with RhD- blood and
+                        RhIg prophylaxis may be required after the patient has been stabilized.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Transfusing XM incompatible-->
+    <div class="col-md-12 mb-4">
+        <div class="card-group col-md-12">
+            <div class="card h-100 bg-warning text-white col-md-4">
+                <img class="card-img" src="~/Content/images/emergency3.jpg" />
+                <div class="card-footer">
+                    +
+                </div>
+            </div>
+            <div class="card border-info col-md-8">
+                <div class="card-header bg-info text-white" style="font-weight:bold">Transfusing the cross-match incompatible patient</div>
+                <div class="card-body">
+                    <div class="card-text">
+                        <p>
+                            On occasions, it may sometimes become necessary to transfuse blood to patients despite the red cell units
+                            being cross-match incompatible. This may happen in emergency situations where the patient may have
+                            antibodies to high-incidence antigens (e.g. anti-H in Bombay phenotype) or they harbour multiple
+                            antibodies (e.g. AIHA) that make procuring of compatible antigen negative units within a short timeframe
+                            untenable.
+                            In this circumstance, the decision to transfuse should be driven by the clinical picture of the patient,
+                            taking into account age, cardio-respiratory reserve, rate of blood loss or haemolysis and co-morbid
+                            conditions.
+                            Patients should be transfused before the possibility for irreversible damage due to hypoxia manifests
+                            itself. Close communication should always be established early between the clinician caring for the patient
+                            and the transfusion service, to ascertain the situation and ensure that appropriate blood can be supplied.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
