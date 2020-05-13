@@ -525,6 +525,7 @@
     <Content Include="Content\pdf\EBT_Compatibility.pdf" />
     <Content Include="Content\pdf\HLA.pdf" />
     <Content Include="Content\pdf\Mtp_1.pdf" />
+    <Content Include="Content\pdf\Patient_information.pdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
@@ -669,6 +670,7 @@
     <Content Include="Views\ProductInfo\Emergency.cshtml" />
     <Content Include="Views\ProductInfo\Msbos.cshtml" />
     <Content Include="Views\ProductInfo\Mtp.cshtml" />
+    <Content Include="Views\ProductInfo\Elective_surgery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

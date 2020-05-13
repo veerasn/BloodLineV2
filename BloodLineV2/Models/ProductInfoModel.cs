@@ -601,13 +601,6 @@ namespace BloodLineV2.Models
                 },
                 new Indication
                 {
-                    Id= 1009,
-                    Caption = "Other",
-                    Parameter = "redcell",
-                    Level = 140
-                },
-                new Indication
-                {
                     Id= 2001,
                     Caption = "Prophylactic transfusion to prevent spontaneous bleeding in a stable patient with platelet count less than 10 x 10^9/L",
                     Parameter = "platelet",
@@ -623,91 +616,105 @@ namespace BloodLineV2.Models
                 new Indication
                 {
                     Id= 2003,
-                    Caption = "Active bleeding or pre-procedure with platelet count less than 50 x 10^9/L",
+                    Caption = "Active bleeding with platelet count less than 50 x 10^9/L",
                     Parameter = "platelet",
                     Level = 50
                 },
                 new Indication
                 {
                     Id= 2004,
-                    Caption = "Active bleeding or pre-procedure involving an enclosed space (e.g. intracranial, opthalmic) with platelet count less than 100 x 10^9/L",
+                    Caption = "Active bleeding or involving an enclosed space (e.g. intracranial, opthalmic) with platelet count less than 100 x 10^9/L",
                     Parameter = "platelet",
                     Level = 100
                 },
                 new Indication
                 {
                     Id= 2005,
-                    Caption = "Pre-procedure or bleeding patient who has taken a recent dose of anti-platelet medications, or with documented platelet dysfunction.",
+                    Caption = "Active bleeding in a patient who has taken a recent dose of anti-platelet medications, or with documented platelet dysfunction.",
                     Parameter = "platelet",
                     Level = 150
                 },
-                new Indication
+                 new Indication
                 {
                     Id= 2006,
-                    Caption = "Massive bleeding requiring multiple blood transfusions",
+                    Caption = "Pre-procedure with platelet count less than 50 x 10^9/L",
+                    Parameter = "platelet",
+                    Level = 50
+                },
+                new Indication
+                {
+                    Id= 2007,
+                    Caption = "Pre-procedure involving an enclosed space (e.g. intracranial, opthalmic) with platelet count less than 100 x 10^9/L",
+                    Parameter = "platelet",
+                    Level = 100
+                },
+                new Indication
+                {
+                    Id= 2008,
+                    Caption = "Pre-procedure in a patient who has taken a recent dose of anti-platelet medications, or with documented platelet dysfunction.",
                     Parameter = "platelet",
                     Level = 150
                 },
                 new Indication
                 {
                     Id= 2009,
-                    Caption = "Other",
+                    Caption = "Massive bleeding requiring multiple blood transfusions",
                     Parameter = "platelet",
                     Level = 150
                 },
                 new Indication
                 {
                     Id= 3001,
-                    Caption = "INR >1.6 and the patient is currently bleeding or pre-procedure and NOT a candidate for vitamin K",
+                    Caption = "INR >1.6 and the patient is bleeding and NOT a candidate for vitamin K",
                     Parameter = "ffp",
                     Level = 1.6
                 },
                 new Indication
                 {
                     Id= 3002,
+                    Caption = "INR >1.6 and the patient is planned for a procedure and NOT a candidate for vitamin K",
+                    Parameter = "ffp",
+                    Level = 1.6
+                },
+                new Indication
+                {
+                    Id= 3003,
                     Caption = "Massive bleeding requiring multiple RBC transfusion",
                     Parameter = "ffp",
                     Level = 0.9
                 },
                 new Indication
                 {
-                    Id= 3003,
+                    Id= 3004,
                     Caption = "Plasma required for therapeutic plasma exchange",
                     Parameter = "ffp",
                     Level = 0.9
                 },
                 new Indication
                 {
-                    Id= 3004,
+                    Id= 3005,
                     Caption = "Congenital deficiency of coagulation factor not routinely replaceable with factor concentrates (e.g. FXI)",
                     Parameter = "ffp",
                     Level = 0.9
                 },
                 new Indication
                 {
-                    Id= 3009,
-                    Caption = "Other",
-                    Parameter = "ffp",
-                    Level = 0.9
-                },
-                new Indication
-                {
                     Id= 4001,
-                    Caption = "Fibrinogen < 1.5g/L and active bleeding or pre-procedure",
+                    Caption = "Fibrinogen < 1.5g/L with active bleeding",
                     Parameter = "cryoprecipitate",
                     Level = 1.5
                 },
                 new Indication
                 {
                     Id= 4002,
-                    Caption = "Congenital deficiency of von Willebrand Factor, Fibrinogen or FXIII",
+                    Caption = "Fibrinogen < 1.5g/L and patient planned for a procedure",
                     Parameter = "cryoprecipitate",
-                    Level = 6
+                    Level = 1.5
                 },
                 new Indication
                 {
-                    Id= 4009,
-                    Caption = "Other",
+                    Id= 4003,
+                    Caption = "Congenital deficiency of von Willebrand Factor, Fibrinogen or FXIII",
                     Parameter = "cryoprecipitate",
                     Level = 6
                 },
@@ -720,10 +727,45 @@ namespace BloodLineV2.Models
                 },
                 new Indication
                 {
-                    Id= 5009,
-                    Caption = "Other",
-                    Parameter = "cryosupernatant",
-                    Level = 0.9
+                    Id= 6001,
+                    Caption = "Routine antenatal anti-D prophylaxis (RAADP) in RhD- mother at antenatal visit (post 28-weeks)",
+                    Parameter = "anti-D",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 6002,
+                    Caption = "RAADP in RhD- mother following a pregnancy event e.g. abortion (pre-28 weeks)",
+                    Parameter = "anti-D",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 6003,
+                    Caption = "RAADP in RhD- mother following a pregnancy event e.g. APH, abortion (post-28 weeks)",
+                    Parameter = "anti-D",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 6004,
+                    Caption = "RAADP in RhD- mother following delivery of a RhD+ neonate",
+                    Parameter = "anti-D",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 6005,
+                    Caption = "Anti-D prophylaxis for RhD+ platelet transfusion to RhD- patient",
+                    Parameter = "anti-D",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 6006,
+                    Caption = "Anti-D prophylaxis for inadvertant transfusion of RhD+ red cells to a RhD- patient",
+                    Parameter = "anti-D",
+                    Level = 1.5
                 }
             };
         }

@@ -1,0 +1,198 @@
+﻿
+@{
+    ViewBag.Title = "Elective surgery";
+    Layout = "~/Views/Shared/_Layout_Patient.cshtml";
+}
+<h1>Guidelines for requesting blood for elective surgery</h1>
+
+<!--Introduction-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-12">
+            <h4 class="card-header text text-white border-info bg-info"><b>Introduction</b></h4>
+            <div class="card-body">
+                <p class="card-text">
+                    Often blood for elective surgery is requested one day prior to the scheduled date of surgery and
+                    sometimes even in the same morning. Although compatible blood will be available for most patients,
+                    such late requests can create a problem when the patient requires a rare blood group, including RhD
+                    negative or antigen typed blood. Furthermore, when blood inventories are low, prioritization of cases are required and the transfusion unit
+                    will not be able to supply blood for all elective and non-urgent requests.
+                </p>
+                <p>
+                    The following provides a guide to how blood should be requested pre-operatively in order to ensure patient 
+                    safety and avoid disruptions to the planned surgery.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--1-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_1.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>1. At booking visit</b></h4>
+            <div class="card-body">
+                <p class="card-text">
+                    Send a request for 
+                    <a href="@Url.Action("Gsh","ProductInfo")" target="_blank"><span style="color:blue">Group, screen and hold (GSH)</span></a>.</p>
+                <p>
+                    The electronic request or blood request form must be filled in completely. Essential details include;
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">Complete diagnosis</li>
+                        <li class="list-group-item list-group-item-primary">Procedure name</li>
+                        <li class="list-group-item list-group-item-primary">Scheduled date of surgery</li>
+                        <li class="list-group-item list-group-item-primary">Requesting doctor's particulars</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--2-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_4.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>2. On admission</b></h4>
+            <div class="card-body">
+                <p class="card-text">
+                    Send a new sample, preferably one day prior to the surgery for 
+                    <a href="@Url.Action("Gsh","ProductInfo")" target="_blank"><span style="color:blue">Crossmatch or Group, screen and hold (GSH)</span></a>,
+                    according to recommendations provided by the
+                    <a href="@Url.Action("Msbos","ProductInfo")" target="_blank"><span style="color:blue">Maximum Surgical Blood Order Schedule (MSBOS)</span></a>.
+                    Surgical procedures which only require a Group and Screen will not have blood cross-matched but blood
+                    will be made available if and when required. For eligible patients, blood may be released by
+                    <a href="@Url.Action("Ei","ProductInfo")" target="_blank"><span style="color:blue">Electronic Issue (EI)</span></a>.
+                </p>
+                <p>
+                    The electronic request or blood request form must be filled in completely. Essential details include;
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-primary">Complete diagnosis</li>
+                        <li class="list-group-item list-group-item-primary">Procedure name</li>
+                        <li class="list-group-item list-group-item-primary">Scheduled date of surgery</li>
+                        <li class="list-group-item list-group-item-primary">Requesting doctor's particulars</li>
+                    </ul>
+                </p>
+                <p>
+                    Please alert the transfusion service if the case is expected to be complicated and there is anticipated
+                    excessive blood loss, or the patient's premorbid conditions require blood transfusion at higher thresholds.
+                </p>
+                <p>
+                    Adequate volume of sample must be sent for the number of units requested. 
+                    One EDTA sample (3mls) is usually adequate for crossmatch of 4 units of blood. 
+                    If significant antibodies are present, more samples may be required.  
+                    The transfusion unit will advise accordingly.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--3-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_2.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>3. RhD- patients</b></h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        RhD- blood is rare and limited units are available for emergency situations only.
+                        If negative units are required for an elective procedure, the transfusion unit must be informed 7
+                        working days in advance. Suitable blood donors will be contacted to donate the required number of units
+                        before the scheduled date of surgery.
+                    </p>
+
+                    <p>
+                        If the surgeon insists on proceeding with an elective surgery despite short notice and
+                        non-availability of RhD- units, RhD+ blood wil be issued if blood is required. The following will need to
+                        be considered in such a situation.
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-primary">
+                                <h5 class="mb-1">Non-immunised males and female patients with no child-bearing potential</h5>
+                                <h6 class="mb-1">
+                                    All patients from this category  shall receive
+                                    RhD+ red cells. The use of RhD+ red cells is safe in this situation but exposes the
+                                    patient to developing an anti-D later which may complicate future transfusions.
+                                </h6>
+                            </li>
+                            <li class="list-group-item list-group-item-primary">
+                                <h5 class="mb-1">Female patients with child bearing potential</h5>
+                                <h6 class="mb-1">
+                                    Women from this category shall receive a maximum of 4 RhD- red cells (if available in stock).
+                                    Surgeons will be advised on the consequence of proceeding with surgery.
+                                    If the patient develops a major bleed, we will be forced to release RhD+ red cells once
+                                    available stocks are depleted. The development of anti-D secondary to transfusion can be
+                                    disastrous for future pregnancies due to Haemolytic Disease of Newborn.
+                                </h6>
+                            </li>
+                            <li class="list-group-item list-group-item-primary">
+                                <h5 class="mb-1">RhD- patients with pre-existing anti-D </h5>
+                                <h6 class="mb-1">
+                                    These patients cannot be taken into elective surgery without prior arrangements 
+                                    being made for procurement of adequate RhD- red cell units. 
+                                    Surgeons and anaesthetists who insist on taking the patients into surgery do so at their 
+                                    own risk as the Transfusion Department cannot guarantee supply of RhD- red cell units for them. 
+                                    Use of RhD+ red cells in this patient population with lead to a severe 
+                                    Haemolytic Transfusion Reaction.
+                                </h6>
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--4-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_9.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>4. Patients with rare blood groups</b></h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        In situations where patients require blood groups like Bombay or specific antigen typed blood, 
+                        a longer period may be required to procure blood from the National or 
+                        International Rare Blood Group Registry. The transfusion service will liase with the necessary 
+                        authorities and advice accordingly on the time required for procurement of adequate blood units. 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--5-->
+<div class="card border-info mb-3" style="max-width: 1080px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/Content/images/SafeTransfusion_6.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <h4 class="card-header text text-white border-info bg-info"><b>5. Patients with significant red cell antibodies</b></h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>
+                        When a red cell antibody is detected in a patient, investigations will be performed to identify the 
+                        antibody. If a significant antibody is detected, the patient will require units that are negative for 
+                        that antigen. Availability of such units varies depending on the type of antigen free blood required. 
+                        The transfusion unit will advise accordingly on the time period required to complete a search and make 
+                        compatible blood units available.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

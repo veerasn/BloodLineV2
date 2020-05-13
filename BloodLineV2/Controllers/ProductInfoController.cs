@@ -90,6 +90,12 @@ namespace BloodLineV2.Views.ProductInfo
         }
 
         // GET: ProductInfo
+        public ActionResult Elective_surgery()
+        {
+            return View();
+        }
+
+        // GET: ProductInfo
         public ActionResult Ei()
         {
             return View();

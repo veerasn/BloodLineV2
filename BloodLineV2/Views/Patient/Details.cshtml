@@ -894,6 +894,8 @@
                         <div class="w3-container w3-padding-small">
                             @Html.TextBox("Test Date", null, new { id = "RequiredDate", @onchange = "refreshTimeBadge();", @type = "date", @class = "datepicker" })
                             @Html.TextBox("Test Time", null, new { id = "RequiredTime", @onchange = "refreshTimeBadge();", @type = "time", @class = "datepicker" })
+                            <hr />
+                            <a href="@Url.Action("Elective_surgery","ProductInfo")" target="_blank"><span style="color:blue">Requesting blood for elective surgery</span></a>
                         </div>
                     </div>
                 </div>
@@ -1999,7 +2001,9 @@
                 sessionStorage.setItem("alert_" + c + "", fback);
             }
             //indication
-            document.getElementById(c).innerHTML = "Indication (" + c + "): " + d;
+            if (c == 'redcell' || c == 'platelet' || c == 'ffp' || c == 'cryoprecipitate') {
+                document.getElementById(c).innerHTML = "Indication (" + c + "): " + d;
+            }
             sessionStorage.setItem("indication_" + c, "Indication (" + c + "): " + d);
 
             displayIndication();
