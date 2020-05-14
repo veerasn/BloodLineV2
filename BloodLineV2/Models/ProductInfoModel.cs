@@ -560,21 +560,21 @@ namespace BloodLineV2.Models
                 new Indication
                 {
                     Id= 1001,
-                    Caption = "Hb less than 70 g/L in a hemodynamically stable ICU patient.",
+                    Caption = "Hb &lt; 70 g/L in a hemodynamically stable ICU patient.",
                     Parameter = "redcell",
                     Level = 70
                 },
                 new Indication
                 {
                     Id= 1002,
-                    Caption = "Hb less than 80 g/L in a non- ICU patient with symptomatic anaemia.",
+                    Caption = "Hb &lt; 80 g/L in a non- ICU patient with symptomatic anaemia.",
                     Parameter = "redcell",
                     Level = 80
                 },
                 new Indication
                 {
                     Id= 1003,
-                    Caption = "Hb less than 100 g/L in a patient experiencing acute ischaemiac cardiovascular disease (e.g. angina pectoris, acute myocardial infarction).",
+                    Caption = "Hb &lt; 100 g/L in a patient experiencing acute ischaemiac cardiovascular disease (e.g. angina pectoris, acute myocardial infarction).",
                     Parameter = "redcell",
                     Level = 100
                 },
@@ -602,28 +602,28 @@ namespace BloodLineV2.Models
                 new Indication
                 {
                     Id= 2001,
-                    Caption = "Prophylactic transfusion to prevent spontaneous bleeding in a stable patient with platelet count less than 10 x 10^9/L",
+                    Caption = "Prophylactic transfusion to prevent spontaneous bleeding in a stable patient with platelet count &lt; 10 x 10<sup>9</sup>/L",
                     Parameter = "platelet",
                     Level = 10
                 },
                 new Indication
                 {
                     Id= 2002,
-                    Caption = "Prophylactic transfusion to prevent spontaneous bleeding in patient with consumptive state (e.g. high fever, sepsis, DIC, splenomegaly) and platelet count less than 20 x 10^9/L",
+                    Caption = "Prophylactic transfusion to prevent spontaneous bleeding in patient with consumptive state (e.g. high fever, sepsis, DIC, splenomegaly) and platelet count &lt; 20 x 10<sup>9</sup>/L",
                     Parameter = "platelet",
                     Level = 20
                 },
                 new Indication
                 {
                     Id= 2003,
-                    Caption = "Active bleeding with platelet count less than 50 x 10^9/L",
+                    Caption = "Active bleeding with platelet count &lt; 50 x 10<sup>9</sup>/L",
                     Parameter = "platelet",
                     Level = 50
                 },
                 new Indication
                 {
                     Id= 2004,
-                    Caption = "Active bleeding or involving an enclosed space (e.g. intracranial, opthalmic) with platelet count less than 100 x 10^9/L",
+                    Caption = "Active bleeding involving an enclosed space (e.g. intracranial, opthalmic) with platelet count &lt; 100 x 10<sup>9</sup>/L",
                     Parameter = "platelet",
                     Level = 100
                 },
@@ -637,14 +637,14 @@ namespace BloodLineV2.Models
                  new Indication
                 {
                     Id= 2006,
-                    Caption = "Pre-procedure with platelet count less than 50 x 10^9/L",
+                    Caption = "Pre-procedure with platelet count &lt; 50 x 10<sup>9</sup>/L",
                     Parameter = "platelet",
                     Level = 50
                 },
                 new Indication
                 {
                     Id= 2007,
-                    Caption = "Pre-procedure involving an enclosed space (e.g. intracranial, opthalmic) with platelet count less than 100 x 10^9/L",
+                    Caption = "Pre-procedure involving an enclosed space (e.g. intracranial, opthalmic) with platelet count &lt; 100 x 10<sup>9</sup>/L",
                     Parameter = "platelet",
                     Level = 100
                 },
@@ -665,14 +665,14 @@ namespace BloodLineV2.Models
                 new Indication
                 {
                     Id= 3001,
-                    Caption = "INR >1.6 and the patient is bleeding and NOT a candidate for vitamin K",
+                    Caption = "INR >1.6 in a bleeding patient and NOT due to warfarin anticoagulation or Vitamin K deficiency",
                     Parameter = "ffp",
                     Level = 1.6
                 },
                 new Indication
                 {
                     Id= 3002,
-                    Caption = "INR >1.6 and the patient is planned for a procedure and NOT a candidate for vitamin K",
+                    Caption = "INR >1.6 in a patient planned for a procedure and NOT due to warfarin anticoagulation or Vitamin K deficiency",
                     Parameter = "ffp",
                     Level = 1.6
                 },
@@ -766,7 +766,93 @@ namespace BloodLineV2.Models
                     Caption = "Anti-D prophylaxis for inadvertant transfusion of RhD+ red cells to a RhD- patient",
                     Parameter = "anti-D",
                     Level = 1.5
-                }
+                },
+                new Indication
+                {
+                    Id= 7001,
+                    Caption = "Warfarin reversal in critically bleeding patient with prolonged INR and after administration of iv. Vitamin K",
+                    Parameter = "3F-PCC",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 7002,
+                    Caption = "Warfarin reversal in a patient planned for a procedure with prolonged INR and after administration of iv. Vitamin K",
+                    Parameter = "3F-PCC",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 8001,
+                    Caption = "Warfarin reversal in critically bleeding patient with prolonged INR and after administration of iv. Vitamin K",
+                    Parameter = "4F-PCC",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 8002,
+                    Caption = "Warfarin reversal in a patient planned for a procedure with prolonged INR and after administration of iv. Vitamin K",
+                    Parameter = "4F-PCC",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 8003,
+                    Caption = "Reversal attempt of anticoagulation with anti-Xa DOAC (Rivaroxaban, Apixaban) in a patient planned for surgery or critically bleeding",
+                    Parameter = "4F-PCC",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 8004,
+                    Caption = "Reversal attempt of anticoagulation with Darbigatran in a patient planned for surgery or is critically bleeding patient, where Idarucizumab is not available",
+                    Parameter = "4F-PCC",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 8005,
+                    Caption = "Off-label use in critically bleeding patients post-surgery or trauma with deranged coagulation results. "
+                                + "Use requires approval by haematologist/ transfusion medicine specialist.",
+                    Parameter = "4F-PCC",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 9001,
+                    Caption = "Treatment of patient with Haemophilia A",
+                    Parameter = "F8",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 9002,
+                    Caption = "Treatment of patient with von Willebrand Disease",
+                    Parameter = "F8",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 1101,
+                    Caption = "Treatment of patient with Haemophilia and FVIII/IX inhibitor",
+                    Parameter = "FVIIa",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 1102,
+                    Caption = "Treatment of patient with congenital FVII deficiency",
+                    Parameter = "FVIIa",
+                    Level = 1.5
+                },
+                new Indication
+                {
+                    Id= 1103,
+                    Caption = "Off-label use in uncontrolled bleeding despite standard resuscitation efforts. " 
+                               + " Use requires approval by at least 2 consultants, one of whom shall be a haematologist/ transfusion medicine specialist.",
+                    Parameter = "FVIIa",
+                    Level = 1.5
+                },
             };
         }
 
