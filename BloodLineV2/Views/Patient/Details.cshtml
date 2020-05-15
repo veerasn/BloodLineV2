@@ -895,7 +895,7 @@
                             @Html.TextBox("Test Date", null, new { id = "RequiredDate", @onchange = "refreshTimeBadge();", @type = "date", @class = "datepicker" })
                             @Html.TextBox("Test Time", null, new { id = "RequiredTime", @onchange = "refreshTimeBadge();", @type = "time", @class = "datepicker" })
                             <hr />
-                            <a href="@Url.Action("Elective_surgery","ProductInfo")" target="_blank"><span style="color:blue">Requesting blood for elective surgery</span></a>
+                            <a id="request-link" href="@Url.Action("Elective_surgery","ProductInfo")" target="_blank" style="color:blue">Requesting blood for elective surgery</a>
                         </div>
                     </div>
                 </div>
@@ -1692,6 +1692,7 @@
             var input_date = $("#update-required-date :input");
             var input_time = $("#update-required-time :input");
             var input_cal = $("#update-required-calendar :input");
+            var a = document.getElementById('request-link');
 
             var x;
             //Only test required
@@ -1713,6 +1714,8 @@
                         input_date.prop('disabled', true);
                         input_time.prop('disabled', true);
                         input_cal.prop('disabled', true);
+                        a.href = "@Url.Action("Emergency", "ProductInfo")";
+                        a.innerHTML = "Emergency transfusions";
                         break;
                     case 30:
                         x = "ABO and RhD group specific blood will be issued within 15 minutes of sample receipt. Immediate release "
@@ -1722,6 +1725,8 @@
                         input_date.prop('disabled', true);
                         input_time.prop('disabled', true);
                         input_cal.prop('disabled', true);
+                        a.href = "@Url.Action("Emergency", "ProductInfo")";
+                        a.innerHTML = "Emergency transfusions";
                         break;
                     case 180:
                         x = "Group specific ABO and RhD matched, crossmatched negative or electronic issued blood will be made available within 3 hours "
@@ -1730,6 +1735,8 @@
                         input_date.prop('disabled', false);
                         input_time.prop('disabled', false);
                         input_cal.prop('disabled', false);
+                        a.href = "@Url.Action("Elective_surgery", "ProductInfo")";
+                        a.innerHTML = "Requesting blood for elective surgery";
                         break;
                     default:
                         x = "Group specific ABO and RhD matched, crossmatched negative or electronic issued blood will be made available within 3 hours "
@@ -1738,6 +1745,8 @@
                         input_date.prop('disabled', false);
                         input_time.prop('disabled', false);
                         input_cal.prop('disabled', false);
+                        a.href = "@Url.Action("Elective_surgery", "ProductInfo")";
+                        a.innerHTML = "Requesting blood for elective surgery";
                         break;
                 }
             }
