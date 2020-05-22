@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BBOrderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BBOrderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cart">
           <Key>
             <PropertyRef Name="CartID" />
@@ -25,6 +25,7 @@
           <Property Name="Status" Type="smallint" Nullable="false" />
           <Property Name="Items" Type="varchar" MaxLength="512" />
           <Property Name="CheckedOutID" Type="int" />
+          <Property Name="RequiredTime" Type="datetime" />
         </EntityType>
         <EntityType Name="CartItems">
           <Key>
@@ -334,8 +335,7 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
             <End Role="Notices" EntitySet="Notices" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BBOrderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -362,6 +362,7 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <NavigationProperty Name="Member" Relationship="Self.FK__Cart__UserID__24927208" FromRole="Cart" ToRole="Member" />
           <NavigationProperty Name="CartItems" Relationship="Self.FK__CartItems__CartI__276EDEB3" FromRole="Cart" ToRole="CartItems" />
           <NavigationProperty Name="Notices" Relationship="Self.FK__Notices__CartID__2B3F6F97" FromRole="Cart" ToRole="Notices" />
+          <Property Name="RequiredTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="CartItem">
           <Key>
@@ -685,6 +686,7 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <EntitySetMapping Name="Carts">
             <EntityTypeMapping TypeName="BBOrderModel.Cart">
               <MappingFragment StoreEntitySet="Cart">
+                <ScalarProperty Name="RequiredTime" ColumnName="RequiredTime" />
                 <ScalarProperty Name="CartID" ColumnName="CartID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />

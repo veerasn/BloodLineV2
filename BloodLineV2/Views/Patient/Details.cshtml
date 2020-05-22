@@ -2177,11 +2177,12 @@
                 + currentdate.getHours() + ":"
                 + currentdate.getMinutes();
             cart.CheckedOut = 0;
-            cart.Urgency = 1;
+            cart.Urgency = displayRadioValue("optUrgency");
             cart.Location = document.getElementById("unique-patient-location").innerHTML;
             cart.PatientID = document.getElementById("unique-patient-id").innerHTML;
             cart.PatientName = document.getElementById("unique-patient-name").innerHTML;
             cart.Status = 0;
+            cart.RequiredTime = document.getElementById("badge-required-datetime").innerHTML;
 
 
             $("#tblConfirmRequest tbody tr").each(function () {
