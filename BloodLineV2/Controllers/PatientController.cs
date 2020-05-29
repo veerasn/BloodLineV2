@@ -1212,11 +1212,12 @@ namespace BloodLineV2.Controllers
                                     CONVERT(nvarchar, c.CheckedOutTime, 100) AS CheckedOutTime,
                                     c.CheckedOutID, 
                                     CONVERT(nvarchar, c.RequiredTime, 100) AS RequiredTime, 
-                                    c.Urgency, c.[Location], c.Items, ct.CategoryName, n.NoticeText
+                                    CONVERT(nvarchar, c.CheckedInTime, 100) AS CheckedInTime,
+                                    c.Urgency, c.[Location], c.Items, ct.CategoryId, ct.CategoryName, n.NoticeText
                                     FROM Cart c
                                     INNER JOIN Notices n ON c.CartID = n.CartID
                                     INNER JOIN Category ct ON n.CategoryId = ct.CategoryId
-                                    WHERE c.SampleID = " + id + " ORDER BY ct.CategoryId";
+                                    WHERE n.NoticeText IS NOT NULL AND n.CategoryId != 4 AND c.SampleID = " + id + " ORDER BY ct.CategoryId";
 
             SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
             da.Fill(dt);

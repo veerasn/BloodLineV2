@@ -1241,7 +1241,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-info">
-                        <div class="modal-title" id="RequestDetailsModalLabel">Request Details</div>
+                        <div class="modal-title" id="RequestDetailsModalLabel" style="font-weight:bold; color:white">Request Details</div>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -1249,7 +1249,7 @@
                     <div class="modal-body">
                         <div>
                             <ul class="list-inline" id="list-request-details-items">
-                                <!--List Items-->
+                                <!--Inline list Items-->
                             </ul>
                         </div>
                         <table class=" table table-striped" id="table-request-details">
@@ -1265,9 +1265,9 @@
                             </tbody>
                         </table>
                         <div>
-                            <ul class="list-group list-group-flush list-group-item-danger" id="list-request-details" style="list-style:none">
-                                <!--List Notices-->
-                            </ul>
+                            <dl class="row" id="list-request-details">
+                                <!--Definition list for notices and alerts-->
+                            </dl>
                         </div>
                     </div>
                 </div>
@@ -1650,26 +1650,73 @@
 
             $.getJSON(uri, { id: id }).done(function (data) {
                 var count;
-                count = JSON.parse(data).length;
+                var objResults, listItems, listNotices, row;
+                listItems = "";
+                listNotices = "";
+                row = "";
 
+                $("#RequestDetailsModalLabel").text("Request Details: " + id);
+                //Clear any previous records
+                $("#list-request-details").empty().append(listNotices);
+                $("#list-request-details-items").empty().append(listItems);
+                $("#rem-1").remove();
+                $("#rem-2").remove();
+                $("#rem-3").remove();
+                $("#rem-4").remove();
+
+                count = JSON.parse(data).length;
+                //Records available for request
                 if (count > 0) {
-                    var objResults, listItems, listNotices;
-                    listItems = "";
-                    listNotices = "";
 
                     objResults = JSON.parse(data);
-                    $("#RequestDetailsModalLabel").text("Request Details: " + objResults[0].SampleID);
+
+                    var rCol, rText;
+                    switch (objResults[0].Urgency) {
+                        case 1:
+                            rCol = "danger";
+                            rText = "Immediate";
+                            break;
+                        case 2:
+                            rCol = "warning";
+                            rText = "Urgent";
+                            break;
+                        case 3:
+                            rCol = "info";
+                            rText = "Scheduled"
+                            break;
+                        case 4:
+                            rCol = "light";
+                            rText = "Test only";
+                            break;
+                        default:
+                            rCol = "light";
+                            rText = ""
+                    }
 
                     //List of activities and time
-                    var row = "<tr class='table-info'><td>Request created</td><td>" + objResults[0].DateCreated + "</td><td>" + objResults[0].UserID + "</td></tr>"
-                        + "<tr class='table-danger'><td>Request submitted</td><td>" + objResults[0].CheckedOutTime + "</td><td>" + objResults[0].CheckedOutID + "</td></tr>"
-                        + "<tr class='table-warning'><td>Required time</td><td>" + objResults[0].RequiredTime + "</td><td>" + objResults[0].Urgency + "</td></tr>"
+                    row = "<tr class='table-primary' id='rem-1'><td>Request created</td><td>" + objResults[0].DateCreated + "</td><td>" + objResults[0].UserID + "</td></tr>"
+                        + "<tr class='table-secondary' id='rem-2'><td>Request submitted</td><td>" + objResults[0].CheckedOutTime + "</td><td>" + objResults[0].CheckedOutID + "</td></tr>"
+                        + "<tr class='table-success' id='rem-3'><td>Request received</td><td>" + objResults[0].CheckedInTime + "</td><td></td></tr>"
+                        + "<tr class='table-" + rCol + "' id='rem-4'><td>Required time</td><td>" + objResults[0].RequiredTime + "</td><td>" + rText + "</td></tr>"
+
                     $("#table-request-details tr:last").after(row);
 
-                    //List notices and alerts
+                    //Definition list notices and alerts
+                    var init = 0;
+                    var c; 
                     for (var i = 0; i < objResults.length; i++) {
-                        listNotices = "<li class='list-group-item'>" + objResults[i].CategoryName + ": "  + objResults[i].NoticeText + "</li>"
+                        c = objResults[i].CategoryId;
+                        if (init == c) {
+                            listNotices = "<dt class='col-sm-2'></dt>"
+                                + "<dd class='col-sm-10'>" + objResults[i].NoticeText + "</dd>";
+                        }
+                        else {
+                            listNotices = "<dt class='col-sm-2'>" + objResults[i].CategoryName + "</dt>"
+                                + "<dd class='col-sm-10'>" + objResults[i].NoticeText + "</dd>";
+                        }
+
                         $("#list-request-details").append(listNotices);
+                        init = c;
                     }
                     
                     //Convert Item string into array and make a list
@@ -1678,10 +1725,6 @@
                         listItems = "<li class='list-inline-item'>" + arrItem[j] + "</li>"
                         $("#list-request-details-items").append(listItems);
                     }
-                }
-                else {
-                    $(".modal-body #bookId").val(count);
-                    $("#list-request-details").empty().append(listNotices);
                 }
             });
         });
