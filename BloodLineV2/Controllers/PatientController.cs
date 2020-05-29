@@ -1199,5 +1199,41 @@ namespace BloodLineV2.Controllers
 
             return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetRequestDetails(long id)
+        {
+            var cn = new SqlConnection();
+            var dt = new DataTable();
+            string strCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
+
+            long s = id;
+            string queryString = @"SELECT c.CartID, c.SampleID, c.PatientID, c.PatientName, c.DateCreated, c.UserID,
+                                    c.CheckedOutTime, c.CheckedOutID, c.RequiredTime, c.Urgency,
+                                    c.[Location], c.Items, ct.CategoryName, n.NoticeText
+                                    FROM Cart c
+                                    INNER JOIN Notices n ON c.CartID = n.CartID
+                                    INNER JOIN Category ct ON n.CategoryId = ct.CategoryId
+                                    WHERE c.SampleID = " + id + " ORDER BY ct.CategoryId";
+
+            SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
+            da.Fill(dt);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+
+            return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }
