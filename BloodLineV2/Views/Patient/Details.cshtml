@@ -1241,13 +1241,17 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-info">
-                        <h4 class="modal-title" id="RequestDetailsModalLabel">Request Details</h4>
+                        <div class="modal-title" id="RequestDetailsModalLabel">Request Details</div>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" name="bookId" id="bookId" value="" />
+                        <div>
+                            <ul class="list-inline" id="list-request-details-items">
+                                <!--List Items-->
+                            </ul>
+                        </div>
                         <table class=" table table-striped" id="table-request-details">
                             <thead class="thead-light">
                                 <tr>
@@ -1654,10 +1658,9 @@
                     listNotices = "";
 
                     objResults = JSON.parse(data);
+                    $("#RequestDetailsModalLabel").text("Request Details: " + objResults[0].SampleID);
 
-                    $(".modal-body #bookId").val(objResults[0].SampleID);
-                    $("RequestDetailsModalLabel").innerHTML = "Request Details: " + objResults[0].SampleID;
-
+                    //List of activities and time
                     var row = "<tr class='table-info'><td>Request created</td><td>" + objResults[0].DateCreated + "</td><td>" + objResults[0].UserID + "</td></tr>"
                         + "<tr class='table-danger'><td>Request submitted</td><td>" + objResults[0].CheckedOutTime + "</td><td>" + objResults[0].CheckedOutID + "</td></tr>"
                         + "<tr class='table-warning'><td>Required time</td><td>" + objResults[0].RequiredTime + "</td><td>" + objResults[0].Urgency + "</td></tr>"
@@ -1672,8 +1675,8 @@
                     //Convert Item string into array and make a list
                     var arrItem = objResults[0].Items.split(";");
                     for (var j = 0; j < arrItem.length; j++) {
-                        listItems += "<li class='list-group-item'>" + arrItem[j] + "</li>"
-                        $("#list-request-details").append(listItems);
+                        listItems = "<li class='list-inline-item'>" + arrItem[j] + "</li>"
+                        $("#list-request-details-items").append(listItems);
                     }
                 }
                 else {

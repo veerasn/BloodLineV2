@@ -1207,9 +1207,12 @@ namespace BloodLineV2.Controllers
             string strCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
 
             long s = id;
-            string queryString = @"SELECT c.CartID, c.SampleID, c.PatientID, c.PatientName, c.DateCreated, c.UserID,
-                                    c.CheckedOutTime, c.CheckedOutID, c.RequiredTime, c.Urgency,
-                                    c.[Location], c.Items, ct.CategoryName, n.NoticeText
+            string queryString = @"SELECT c.CartID, c.SampleID, c.PatientID, c.PatientName, c.UserID,
+                                    CONVERT(nvarchar,c.DateCreated, 100) AS DateCreated, 
+                                    CONVERT(nvarchar, c.CheckedOutTime, 100) AS CheckedOutTime,
+                                    c.CheckedOutID, 
+                                    CONVERT(nvarchar, c.RequiredTime, 100) AS RequiredTime, 
+                                    c.Urgency, c.[Location], c.Items, ct.CategoryName, n.NoticeText
                                     FROM Cart c
                                     INNER JOIN Notices n ON c.CartID = n.CartID
                                     INNER JOIN Category ct ON n.CategoryId = ct.CategoryId
