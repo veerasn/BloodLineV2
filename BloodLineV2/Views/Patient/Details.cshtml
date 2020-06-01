@@ -1693,10 +1693,14 @@
                             rText = ""
                     }
 
+                    var x = objResults[0].CheckedOutTime;
+                    var y = objResults[0].CheckedOutID;
+                    var z = objResults[0].CheckedInTime;
+
                     //List of activities and time
                     row = "<tr class='table-primary' id='rem-1'><td>Request created</td><td>" + objResults[0].DateCreated + "</td><td>" + objResults[0].UserID + "</td></tr>"
-                        + "<tr class='table-secondary' id='rem-2'><td>Request submitted</td><td>" + objResults[0].CheckedOutTime + "</td><td>" + objResults[0].CheckedOutID + "</td></tr>"
-                        + "<tr class='table-success' id='rem-3'><td>Request received</td><td>" + objResults[0].CheckedInTime + "</td><td></td></tr>"
+                        + "<tr class='table-secondary' id='rem-2'><td>Request submitted</td><td>" + x + "</td><td>" + y + "</td></tr>"
+                        + "<tr class='table-success' id='rem-3'><td>Request received</td><td>" + z + "</td><td></td></tr>"
                         + "<tr class='table-" + rCol + "' id='rem-4'><td>Required time</td><td>" + objResults[0].RequiredTime + "</td><td>" + rText + "</td></tr>"
 
                     $("#table-request-details tr:last").after(row);

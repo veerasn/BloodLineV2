@@ -1,0 +1,147 @@
+﻿@model BloodLineV2.Models.Cart
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout_Patient.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Cart</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SampleID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SampleID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SampleTransmitTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SampleTransmitTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckedOut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckedOut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckedOutTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckedOutTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckedIn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckedIn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckedInTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckedInTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Urgency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Urgency)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PatientID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PatientID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PatientName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PatientName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Items)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Items)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckedOutID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckedOutID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequiredTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequiredTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.FirstName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CartID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
