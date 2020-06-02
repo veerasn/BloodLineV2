@@ -77,7 +77,7 @@
                     }
                     @if (item.CheckedIn == 1)
                     {
-                        <i class="fa fa-registered" style="color:cornflowerblue" data-toggle="tooltip" title="@item.CheckedInTime.Value.ToString("dd/MM/yy HH:mm")"></i>
+                        <i class="fa fa-barcode" style="color:black" data-toggle="tooltip" title="@item.CheckedInTime.Value.ToString("dd/MM/yy HH:mm")"></i>
                     }
                 </td>
                 <td>
@@ -132,9 +132,13 @@
                 <td colspan="6" style="font-size:x-small">
                     @{
 
-                        for(var i =0; i < item.rc; i++)
+                        for (var i = 0; i < item.rc; i++)
                         {
                             <i class="fa fa-square" style="color:crimson"></i>
+                        }
+                        for (var i = 0; i < item.pl; i++)
+                        {
+                            <i class="fa fa-square" style="color:orange"></i>
                         }
 
                     }

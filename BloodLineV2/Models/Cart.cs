@@ -51,10 +51,18 @@ namespace BloodLineV2.Models
         {
             get
             {
-                return Items !=null ? CountProduct(Items) : 0;
+                return Items !=null ? CountProduct(Items, "(RC") : 0;
             }
         }
-                
+
+        public int pl
+        {
+            get
+            {
+                return Items != null ? CountProduct(Items, "(PL") : 0;
+            }
+        }
+
         public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CartItem> CartItems { get; set; }
@@ -62,7 +70,7 @@ namespace BloodLineV2.Models
         public virtual ICollection<Notice> Notices { get; set; }
 
 
-        public int CountProduct (string temp)
+        public int CountProduct (string temp, string prod)
         {
             int i = 0;
             int j = 0;
@@ -70,7 +78,7 @@ namespace BloodLineV2.Models
             {
                 if(s.Length > 5){
                     j = Int16.Parse(s.Substring(s.Length - 1));
-                    if (s.Contains("(RC"))
+                    if (s.Contains(prod))
                     {
                        i = i + j;
                     }
