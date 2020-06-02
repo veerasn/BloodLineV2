@@ -5,6 +5,13 @@
     Layout = "~/Views/Shared/_Layout_Patient.cshtml";
 }
 
+<head>
+    <title>UMMC Blood Transfusion Information System</title>
+
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+</head>
+
 <h2>Blood requests </h2>
 
 <table class="table table-striped table-sm">
@@ -14,7 +21,7 @@
                 Creation Date
             </th>
             <th>
-                Status
+
             </th>
             <th>
                 Location
@@ -28,6 +35,9 @@
             <th>
                 Patient Name
             </th>
+            <th>
+                Urgency
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -35,7 +45,7 @@
         {
             switch (item.Urgency)
             {
-                    case 1:
+                case 1:
                     @:<tr class='table-danger'>
                         break;
 
@@ -57,7 +67,7 @@
                 }
 
                 <td>
-                    @item.DateCreated.ToString("dd/MM/yyyy HH:mm")         
+                    @item.DateCreated.ToString("dd/MM/yyyy HH:mm")
                 </td>
                 <!-- Display status-->
                 <td>
@@ -73,8 +83,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Location)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SampleID)
+                <td class="tooltip-request-details" id=@item.SampleID>
+                    <a href="#" data-toggle="modal" data-id=@item.CartID data-target="#request-details" class="showRequestDetails">
+                        @item.CartID | @item.SampleID
+                    </a>
                 </td>
                 <td>
                     @Html.ActionLink(item.PatientID, "Details", "Patient", new { id = item.PatientID.PadLeft(20, '0') }, null)
@@ -82,10 +94,183 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PatientName)
                 </td>
+                <td>
+                    @if(item.RequiredInterval <= 0)
+                    {
+                        <i class="fa fa-stopwatch" style="color:crimson"></i>
+                    }
+                    else
+                    {
+                        <div class="progress" style="margin-bottom: 0 !important">
+                            @{var rInt = item.RequiredInterval; }
+                            @if (rInt < 120)
+                            {
+                                <div class="progress-bar bg-danger" style="width: @((2880 - rInt)*100/2880)%"></div>
+                            }
+                            else if (rInt >= 120 && rInt < 480)
+                            {
+                                <div class="progress-bar bg-warning" style="width: @((2880 - rInt)*100/2880)%"></div>
+                            }
+                            else if (rInt >= 480 && rInt < 1440)
+                            {
+                                <div class="progress-bar bg-primary" style="width: @((2880 - rInt)*100/2880)%"></div>
+                            }
+                            else if (rInt >= 1440 && rInt < 2880)
+                            {
+                                <div class="progress-bar bg-success" style="width: @((2880 - rInt)*100/2880)%"></div>
+                            }
+                            else if (rInt >= 2880)
+                            {
+                                <div class="progress-bar" style="width: 0%"></div>
+                            }
+                        </div>
+                    }
+                    
+                </td>
             @:</tr>
             <tr class="table-light">
-                <td colspan="6"style="font-size:x-small">@Html.DisplayFor(modelItem => item.Items)</td>
+                <td colspan="6" style="font-size:x-small">
+                    @{
+
+                        for(var i =0; i < item.rc; i++)
+                        {
+                            <i class="fa fa-square" style="color:crimson"></i>
+                        }
+
+                    }
+                    @Html.DisplayFor(modelItem => item.Items)
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<!--Modal form - Request Details-->
+<div class="modal fade" id="request-details" tabindex="-1" role="dialog" aria-labelledby="RequestDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <div class="modal-title" id="RequestDetailsModalLabel" style="font-weight:bold; color:white">Request Details</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <ul class="list-inline" id="list-request-details-items">
+                        <!--Inline list Items-->
+                    </ul>
+                </div>
+                <table class=" table table-striped" id="table-request-details">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Activity</th>
+                            <th>Time</th>
+                            <th>Doctor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr></tr>
+                    </tbody>
+                </table>
+                <div>
+                    <dl class="row" id="list-request-details">
+                        <!--Definition list for notices and alerts-->
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        $(document).on("click", ".showRequestDetails", function () {
+            var id = $(this).data('id');
+            var uri = "/Order/GetRequestDetails";
+
+            $.getJSON(uri, { id: id }).done(function (data) {
+                var count;
+                var objResults, listItems, listNotices, row;
+                listItems = "";
+                listNotices = "";
+                row = "";
+
+                $("#RequestDetailsModalLabel").text("Request Details: " + id);
+                //Clear any previous records
+                $("#list-request-details").empty().append(listNotices);
+                $("#list-request-details-items").empty().append(listItems);
+                $("#rem-1").remove();
+                $("#rem-2").remove();
+                $("#rem-3").remove();
+                $("#rem-4").remove();
+
+                count = JSON.parse(data).length;
+                //Records available for request
+                if (count > 0) {
+
+                    objResults = JSON.parse(data);
+
+                    var rCol, rText;
+                    switch (objResults[0].Urgency) {
+                        case 1:
+                            rCol = "danger";
+                            rText = "Immediate";
+                            break;
+                        case 2:
+                            rCol = "warning";
+                            rText = "Urgent";
+                            break;
+                        case 3:
+                            rCol = "info";
+                            rText = "Scheduled"
+                            break;
+                        case 4:
+                            rCol = "light";
+                            rText = "Test only";
+                            break;
+                        default:
+                            rCol = "light";
+                            rText = ""
+                    }
+
+                    var x = objResults[0].CheckedOutTime;
+                    var y = objResults[0].CheckedOutID;
+                    var z = objResults[0].CheckedInTime;
+
+                    //List of activities and time
+                    row = "<tr class='table-primary' id='rem-1'><td>Request created</td><td>" + objResults[0].DateCreated + "</td><td>" + objResults[0].UserID + "</td></tr>"
+                        + "<tr class='table-secondary' id='rem-2'><td>Request submitted</td><td>" + x + "</td><td>" + y + "</td></tr>"
+                        + "<tr class='table-success' id='rem-3'><td>Request received</td><td>" + z + "</td><td></td></tr>"
+                        + "<tr class='table-" + rCol + "' id='rem-4'><td>Required time</td><td>" + objResults[0].RequiredTime + "</td><td>" + rText + "</td></tr>"
+
+                    $("#table-request-details tr:last").after(row);
+
+                    //Definition list notices and alerts
+                    var init = 0;
+                    var c;
+                    for (var i = 0; i < objResults.length; i++) {
+                        c = objResults[i].CategoryId;
+                        if (init == c) {
+                            listNotices = "<dt class='col-sm-2'></dt>"
+                                + "<dd class='col-sm-10'>" + objResults[i].NoticeText + "</dd>";
+                        }
+                        else {
+                            listNotices = "<dt class='col-sm-2'>" + objResults[i].CategoryName + "</dt>"
+                                + "<dd class='col-sm-10'>" + objResults[i].NoticeText + "</dd>";
+                        }
+
+                        $("#list-request-details").append(listNotices);
+                        init = c;
+                    }
+
+                    //Convert Item string into array and make a list
+                    var arrItem = objResults[0].Items.split(";");
+                    for (var j = 0; j < arrItem.length; j++) {
+                        listItems = "<li class='list-inline-item'>" + arrItem[j] + "</li>"
+                        $("#list-request-details-items").append(listItems);
+                    }
+                }
+            });
+        });
+
+</script>

@@ -38,11 +38,49 @@ namespace BloodLineV2.Models
         public string Items { get; set; }
         public Nullable<int> CheckedOutID { get; set; }
         public Nullable<System.DateTime> RequiredTime { get; set; }
-    
+
+        public double RequiredInterval
+        {
+            get
+            {
+                return RequiredTime != null ? RequiredTime.Value.Subtract(DateTime.Now).TotalMinutes  : 4320;
+            }
+        }
+
+        public int rc
+        {
+            get
+            {
+                return CountProduct(Items);
+            }
+        }
+                
+
         public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CartItem> CartItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notice> Notices { get; set; }
+
+
+        public int CountProduct (string temp)
+        {
+            int i = 0;
+            foreach (string s in temp.Split(';'))
+            {
+                if (s.Contains("(RC"))
+                {
+                   i = i + 1;
+                }
+                else
+                {
+                   i = i + 0;
+                }
+            }
+
+            return i;
+        }
+
     }
+   
 }

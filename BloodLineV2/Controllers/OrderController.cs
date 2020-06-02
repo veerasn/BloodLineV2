@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Configuration;
 using System.Linq;
+using System.Web.Script.Serialization;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BloodLineV2.Models;
+using MySql.Data.MySqlClient;
 
 namespace BloodLineV2.Controllers
 {
@@ -127,6 +131,44 @@ namespace BloodLineV2.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public JsonResult GetRequestDetails(long id)
+        {
+            var cn = new SqlConnection();
+            var dt = new DataTable();
+            string strCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
+
+            long s = id;
+            string queryString = @"SELECT c.CartID, c.SampleID, c.PatientID, c.PatientName, c.UserID,
+                                    CONVERT(nvarchar,c.DateCreated, 100) AS DateCreated, 
+                                    CONVERT(nvarchar, c.CheckedOutTime, 100) AS CheckedOutTime,
+                                    c.CheckedOutID, 
+                                    CONVERT(nvarchar, c.RequiredTime, 100) AS RequiredTime, 
+                                    CONVERT(nvarchar, c.CheckedInTime, 100) AS CheckedInTime,
+                                    c.Urgency, c.[Location], c.Items, ct.CategoryId, ct.CategoryName, n.NoticeText
+                                    FROM Cart c
+                                    INNER JOIN Notices n ON c.CartID = n.CartID
+                                    INNER JOIN Category ct ON n.CategoryId = ct.CategoryId
+                                    WHERE n.NoticeText IS NOT NULL AND c.CartID = " + id + " ORDER BY ct.CategoryId";
+
+            SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
+            da.Fill(dt);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+
+            return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
         }
     }
 }
