@@ -38,6 +38,26 @@ namespace BloodLineV2.Controllers
                 {
                     carts = carts.Where(c => c.PatientName.Contains(searchString)||c.Location.Contains(searchString));
                 }
+                else if (Regex.IsMatch(searchString, "^[#A-Z ]+$", RegexOptions.IgnoreCase))
+                {
+                    switch (searchString.TrimStart('#'))
+                    {
+                        case "rc":
+                            carts = carts.Where(c => c.NumberRc > 0);
+                            break;
+                        case "pl":
+                            carts = carts.Where(c => c.NumberPl > 0);
+                            break;
+                        case "pp":
+                            carts = carts.Where(c => c.NumberPp > 0);
+                            break;
+                        case "gs":
+                            carts = carts.Where(c => c.NumberGs > 0);
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 else
                 {
                     carts = carts.Where(c => c.Location.Contains(searchString));

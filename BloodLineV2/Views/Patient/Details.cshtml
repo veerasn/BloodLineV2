@@ -2300,6 +2300,10 @@
             var currentdate = new Date();
             var UniqueCartID = Date.now();
             var items = "";
+            var rc = 0;
+            var pl = 0;
+            var pp = 0;
+            var gs = 0;
 
             //Populate Cart info
             cart.CartID = UniqueCartID;
@@ -2320,11 +2324,32 @@
 
             $("#tblConfirmRequest tbody tr").each(function () {
                 var row = $(this);
+                var prod = row.find("TD").eq(0).html();
+                var num = row.find("TD").eq(5).html();
+
+                if (prod.includes("RC")) {
+                    rc = rc + num;
+                }
+                else if (prod.includes("PL")) {
+                    pl = pl + num;
+                }
+                else if (prod.includes("PP")) {
+                    pp = pp + num;
+                }
+                else if (prod.includes("GSH")) {
+                    gs = gs + num;
+                }
+
                 items = items
                         + row.find("TD").eq(2).html() + " ("
-                        + row.find("TD").eq(0).html() + ") - "
-                        + row.find("TD").eq(5).html() + ";";
+                        + prod + ") - "
+                        + num + ";";
             });
+
+            cart.NumberRc = rc;
+            cart.NumberPl = pl;
+            cart.NumberPp = pp;
+            cart.NumberGs = gs;
             cart.Items = items;
             carts.push(cart);
 

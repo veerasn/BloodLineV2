@@ -43,55 +43,21 @@ namespace BloodLineV2.Models
         {
             get
             {
-                return RequiredTime != null ? RequiredTime.Value.Subtract(DateTime.Now).TotalMinutes  : 4320;
+                return RequiredTime != null ? RequiredTime.Value.Subtract(DateTime.Now).TotalMinutes : 4320;
             }
         }
 
-        public int rc
-        {
-            get
-            {
-                return Items !=null ? CountProduct(Items, "(RC") : 0;
-            }
-        }
 
-        public int pl
-        {
-            get
-            {
-                return Items != null ? CountProduct(Items, "(PL") : 0;
-            }
-        }
-
+        public Nullable<int> NumberRc { get; set; }
+        public Nullable<int> NumberPl { get; set; }
+        public Nullable<int> NumberPp { get; set; }
+        public Nullable<int> NumberGs { get; set; }
+    
         public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CartItem> CartItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notice> Notices { get; set; }
 
-
-        public int CountProduct (string temp, string prod)
-        {
-            int i = 0;
-            int j = 0;
-            foreach (string s in temp.Split(';'))
-            {
-                if(s.Length > 5){
-                    j = Int16.Parse(s.Substring(s.Length - 1));
-                    if (s.Contains(prod))
-                    {
-                       i = i + j;
-                    }
-                    else
-                    {
-                       i = i + 0;
-                    }
-                }
-            }
-
-            return i;
-        }
-
     }
-   
 }

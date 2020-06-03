@@ -26,6 +26,10 @@
           <Property Name="Items" Type="varchar" MaxLength="512" />
           <Property Name="CheckedOutID" Type="int" />
           <Property Name="RequiredTime" Type="datetime" />
+          <Property Name="NumberRc" Type="int" />
+          <Property Name="NumberPl" Type="int" />
+          <Property Name="NumberPp" Type="int" />
+          <Property Name="NumberGs" Type="int" />
         </EntityType>
         <EntityType Name="CartItems">
           <Key>
@@ -363,6 +367,10 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <NavigationProperty Name="CartItems" Relationship="Self.FK__CartItems__CartI__276EDEB3" FromRole="Cart" ToRole="CartItems" />
           <NavigationProperty Name="Notices" Relationship="Self.FK__Notices__CartID__2B3F6F97" FromRole="Cart" ToRole="Notices" />
           <Property Name="RequiredTime" Type="DateTime" Precision="3" />
+          <Property Name="NumberRc" Type="Int32" />
+          <Property Name="NumberPl" Type="Int32" />
+          <Property Name="NumberPp" Type="Int32" />
+          <Property Name="NumberGs" Type="Int32" />
         </EntityType>
         <EntityType Name="CartItem">
           <Key>
@@ -686,6 +694,10 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <EntitySetMapping Name="Carts">
             <EntityTypeMapping TypeName="BBOrderModel.Cart">
               <MappingFragment StoreEntitySet="Cart">
+                <ScalarProperty Name="NumberGs" ColumnName="NumberGs" />
+                <ScalarProperty Name="NumberPp" ColumnName="NumberPp" />
+                <ScalarProperty Name="NumberPl" ColumnName="NumberPl" />
+                <ScalarProperty Name="NumberRc" ColumnName="NumberRc" />
                 <ScalarProperty Name="RequiredTime" ColumnName="RequiredTime" />
                 <ScalarProperty Name="CartID" ColumnName="CartID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />

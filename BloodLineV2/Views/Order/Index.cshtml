@@ -21,20 +21,6 @@
     </p>
 }
 
-@using (Html.BeginForm())
-{
-    <div class="form-group">
-        <div class="radio-inline">
-            @Html.RadioButton("choose-product", "RC", true, new { id = "rc" }) RC
-        </div>
-        <div class="radio-inline">
-            @Html.RadioButton("choose-product", "PL", new { id = "pl" }) PL
-        </div>
-    </div>
-
-    <input type="submit" value="Search" />
-}
-
 
 <table class="table table-striped table-sm">
     <thead>
@@ -153,16 +139,29 @@
                     <tr class="table-light">
                         <td colspan="6" style="font-size:x-small">
                             @{
-
-                                for (var i = 0; i < item.rc; i++)
+                                if (item.NumberRc.HasValue)
                                 {
-                                    <i class="fa fa-square" style="color:crimson"></i>
-                                }
-                                for (var i = 0; i < item.pl; i++)
-                                {
-                                    <i class="fa fa-square" style="color:orange"></i>
+                                    for (var i = 0; i < item.NumberRc; i++)
+                                    {
+                                        <i class="fa fa-square" style="color:crimson"></i>
+                                    }
                                 }
 
+                                if (item.NumberPl.HasValue)
+                                {
+                                    for (var i = 0; i < item.NumberPl; i++)
+                                    {
+                                        <i class="fa fa-square" style="color:orange"></i>
+                                    }
+                                }
+
+                                if (item.NumberPp.HasValue)
+                                {
+                                    for (var i = 0; i < item.NumberPp; i++)
+                                    {
+                                        <i class="fa fa-square" style="color:yellowgreen"></i>
+                                    }
+                                }
                             }
                             @Html.DisplayFor(modelItem => item.Items)
                         </td>
