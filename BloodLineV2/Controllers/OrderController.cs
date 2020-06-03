@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
 using System.Web.Script.Serialization;
+using System.Text.RegularExpressions;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -19,9 +20,30 @@ namespace BloodLineV2.Controllers
         private BBOrderEntities db = new BBOrderEntities();
 
         // GET: Order
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            var carts = db.Carts.Include(c => c.Member);
+            var carts = db.Carts.Include(c => c.Member).Where(c => c.Status == 0);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                if (Regex.IsMatch(searchString, "^[0-9 ]+$"))
+                {
+                    carts = carts.Where(c => c.PatientID.Contains(searchString));
+                }
+                else if (Regex.IsMatch(searchString, "^[SC0-9 ]+$", RegexOptions.IgnoreCase))
+                {
+                    carts = carts.Where(c => c.PatientID.Contains(searchString));
+                }
+                else if(Regex.IsMatch(searchString, "^[A-Z ]+$", RegexOptions.IgnoreCase))
+                {
+                    carts = carts.Where(c => c.PatientName.Contains(searchString)||c.Location.Contains(searchString));
+                }
+                else
+                {
+                    carts = carts.Where(c => c.Location.Contains(searchString));
+                }   
+            }
+
             return View(carts.OrderByDescending(c=>c.CartID).ToList());
         }
 
