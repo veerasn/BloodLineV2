@@ -22,14 +22,14 @@
 }
 
 
-<table class="table table-striped table-sm">
+<table class="table table-striped table-sm table-responsive-sm">
     <thead>
         <tr>
             <th>
                 Creation Date
             </th>
             <th>
-
+                <!--Icons for sample status-->
             </th>
             <th>
                 Location
@@ -42,6 +42,9 @@
             </th>
             <th>
                 Patient Name
+            </th>
+            <th>
+                <!--Icon for review status-->
             </th>
             <th>
                 Urgency
@@ -103,6 +106,38 @@
                 @Html.DisplayFor(modelItem => item.PatientName)
             </td>
             <td>
+                @{string dp;
+                    switch (item.ReviewStatus)
+                    {
+
+                        case 1:
+                            dp = "fa-eye";
+                            break;
+
+                        case 2:
+                            dp = "fa-check";
+                            break;
+
+                        case 3:
+                            dp = "fa-phone";
+                            break;
+
+                        case 4:
+                            dp = "fa-times";
+                            break;
+
+                        default:
+                            dp = "none";
+                            break;
+                    };
+
+                    if (dp != "none")
+                    {
+                        <i class="fa @dp" style="color:Highlight" data-toggle="tooltip" title="@item.ReviewedTime.Value.ToString("dd/MM/yy HH:mm")"></i>
+                    }
+                }
+            </td>
+            <td>
                 @if (item.RequiredInterval <= 0)
                 {
                     <i class="fa fa-stopwatch" style="color:crimson"></i>
@@ -111,8 +146,8 @@
                 {
                     <div class="progress" style="margin-bottom: 0 !important">
                         @{var rInt = item.RequiredInterval; }
-                        @if (rInt < 120)
-                        {
+                    @if (rInt < 120)
+                    {
                             <div class="progress-bar bg-danger" style="width: @((2880 - rInt)*100/2880)%"></div>
                         }
                         else if (rInt >= 120 && rInt < 480)
@@ -222,7 +257,6 @@
                         </span>
                         <span id="request-review-details">
                             <!--Update message depending on status-->
-                            Request reviewed and approved by 1 at 04/06/20 10:11
                         </span>
                     </h6>
                 </div>
@@ -397,19 +431,19 @@
                 var user = objResults[0].ReviewedID;
                 switch (status) {
                     case 1:
-                        text = time + ': Viewed by ' + user;
+                        text = 'Viewed by ' + user + ' at ' + time;
                         break;
                     case 2:
-                        text = time + ': Approved by ' + user;
+                        text = 'Approved by ' + user + ' at ' + time;
                         break;
                     case 3:
-                        text = time + ': Pending decision. Contact TMD for clarification.';
+                        text = 'Reviewed by ' + user + ' at ' + time + ' and pending decision';
                         break;
                     case 4:
-                        text = time + ': Not approved. Contact TMD for clarification.';
+                        text = 'Reviewed by ' + user + ' at ' + time  + ' and not approved.';
                         break;
                     default:
-                        text = 'Pending';
+                        text = '';
                         break;
                 }
                 $('#request-review-details').text(text);
