@@ -1213,6 +1213,8 @@ namespace BloodLineV2.Controllers
                                     c.CheckedOutID, 
                                     CONVERT(nvarchar, c.RequiredTime, 100) AS RequiredTime, 
                                     CONVERT(nvarchar, c.CheckedInTime, 100) AS CheckedInTime,
+                                    c.ReviewStatus, c.ReviewedID,
+                                    CONVERT(nvarchar, c.ReviewedTime, 100) AS ReviewedTime,
                                     c.Urgency, c.[Location], c.Items, ct.CategoryId, ct.CategoryName, n.NoticeText
                                     FROM Cart c
                                     INNER JOIN Notices n ON c.CartID = n.CartID

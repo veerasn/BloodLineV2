@@ -105,7 +105,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PatientName)
             </td>
-            <td>
+            <td id="rowid-@item.CartID">
                 @{string dp;
                     switch (item.ReviewStatus)
                     {
@@ -426,27 +426,37 @@
             if (count > 0) {
                 objResults = JSON.parse(data);
                 var text = '';
+                var dp = 'none';
                 var status = objResults[0].ReviewStatus;
                 var time = objResults[0].ReviewedTime;
                 var user = objResults[0].ReviewedID;
                 switch (status) {
                     case 1:
                         text = 'Viewed by ' + user + ' at ' + time;
+                        dp = 'fa-eye';
                         break;
                     case 2:
                         text = 'Approved by ' + user + ' at ' + time;
+                        dp = 'fa-check';
                         break;
                     case 3:
                         text = 'Reviewed by ' + user + ' at ' + time + ' and pending decision';
+                        dp = 'fa-phone';
                         break;
                     case 4:
-                        text = 'Reviewed by ' + user + ' at ' + time  + ' and not approved.';
+                        text = 'Reviewed by ' + user + ' at ' + time + ' and not approved.';
+                        dp = 'fa-times';
                         break;
                     default:
                         text = '';
+                        dp = 'none';
                         break;
                 }
                 $('#request-review-details').text(text);
+                if (dp != "none")
+                {
+                    $('#rowid-' + id).html("<i class='fa " + dp + "' style='color:Highlight' data-toggle='tooltip' title='" + time + "'></i>");
+                }
             }
         });
     }

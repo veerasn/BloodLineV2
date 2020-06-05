@@ -1265,6 +1265,13 @@
                             </tbody>
                         </table>
                         <div>
+                            <h6>
+                                <span id="request-review-details">
+                                    <!--Update message depending on status-->
+                                </span>
+                            </h6>
+                        </div>
+                        <div>
                             <dl class="row" id="list-request-details">
                                 <!--Definition list for notices and alerts-->
                             </dl>
@@ -1663,6 +1670,7 @@
                 $("#rem-2").remove();
                 $("#rem-3").remove();
                 $("#rem-4").remove();
+                $('#request-review-details').html('');
 
                 count = JSON.parse(data).length;
                 //Records available for request
@@ -1704,6 +1712,36 @@
                         + "<tr class='table-" + rCol + "' id='rem-4'><td>Required time</td><td>" + objResults[0].RequiredTime + "</td><td>" + rText + "</td></tr>"
 
                     $("#table-request-details tr:last").after(row);
+
+                    //Update request-review-details based on review status
+                    var status = objResults[0].ReviewStatus;
+                    var time = objResults[0].ReviewedTime;
+                    switch (status) {
+                        case 2:
+                            text = 'Request reviewed and approved at ' + time;
+                            dp = 'fa-check';
+                            break;
+                        case 3:
+                            text = 'Request reviewed at ' + time + ' and in consideration. Please contact TMD for clarification.';
+                            dp = 'fa-phone';
+                            break;
+                        case 4:
+                            text = 'Request reviewed at ' + time + ' and cannot be approved. Please contact TMD for further information.';
+                            dp = 'fa-times';
+                            break;
+                        default:
+                            text = '';
+                            dp = 'none';
+                            break;
+                    }
+                    
+                    if (dp != "none") {
+                        $('#request-review-details').html("<i class='fa " + dp + "' style='color:Highlight'></i>" + text);
+                    }
+                    else {
+                        $('#request-review-details').html('');
+                    }
+
 
                     //Definition list notices and alerts
                     var init = 0;
