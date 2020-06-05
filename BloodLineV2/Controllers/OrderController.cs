@@ -188,6 +188,8 @@ namespace BloodLineV2.Controllers
                                     c.CheckedOutID, 
                                     CONVERT(nvarchar, c.RequiredTime, 100) AS RequiredTime, 
                                     CONVERT(nvarchar, c.CheckedInTime, 100) AS CheckedInTime,
+                                    c.ReviewStatus, c.ReviewedID,
+                                    CONVERT(nvarchar, c.ReviewedTime, 100) AS ReviewedTime,
                                     c.Urgency, c.[Location], c.Items, ct.CategoryId, ct.CategoryName, n.NoticeText
                                     FROM Cart c
                                     INNER JOIN Notices n ON c.CartID = n.CartID
@@ -212,5 +214,53 @@ namespace BloodLineV2.Controllers
 
             return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult UpdateReviewStatus(long id, Int16 status, int user)
+        {
+            using (BBOrderEntities context = new BBOrderEntities())
+            {
+                Cart record = context.Carts.Find(id);
+                record.ReviewStatus = status;
+                record.ReviewedTime = DateTime.Now;
+                record.ReviewedID = user;
+                context.SaveChanges();
+
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult GetReviewStatusDetails(long id)
+        {
+            var cn = new SqlConnection();
+            var dt = new DataTable();
+            string strCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
+
+            long s = id;
+            string queryString = @"SELECT 
+                                    c.ReviewStatus, c.ReviewedID,
+                                    CONVERT(nvarchar, c.ReviewedTime, 100) AS ReviewedTime
+                                    FROM Cart c
+                                    WHERE c.ReviewStatus IS NOT NULL AND c.CartID = " + id;
+
+            SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
+            da.Fill(dt);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+
+            return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }

@@ -30,6 +30,9 @@
           <Property Name="NumberPl" Type="int" />
           <Property Name="NumberPp" Type="int" />
           <Property Name="NumberGs" Type="int" />
+          <Property Name="ReviewStatus" Type="smallint" />
+          <Property Name="ReviewedID" Type="int" />
+          <Property Name="ReviewedTime" Type="datetime" />
         </EntityType>
         <EntityType Name="CartItems">
           <Key>
@@ -371,6 +374,9 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <Property Name="NumberPl" Type="Int32" />
           <Property Name="NumberPp" Type="Int32" />
           <Property Name="NumberGs" Type="Int32" />
+          <Property Name="ReviewStatus" Type="Int16" />
+          <Property Name="ReviewedID" Type="Int32" />
+          <Property Name="ReviewedTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="CartItem">
           <Key>
@@ -694,6 +700,9 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <EntitySetMapping Name="Carts">
             <EntityTypeMapping TypeName="BBOrderModel.Cart">
               <MappingFragment StoreEntitySet="Cart">
+                <ScalarProperty Name="ReviewedTime" ColumnName="ReviewedTime" />
+                <ScalarProperty Name="ReviewedID" ColumnName="ReviewedID" />
+                <ScalarProperty Name="ReviewStatus" ColumnName="ReviewStatus" />
                 <ScalarProperty Name="NumberGs" ColumnName="NumberGs" />
                 <ScalarProperty Name="NumberPp" ColumnName="NumberPp" />
                 <ScalarProperty Name="NumberPl" ColumnName="NumberPl" />

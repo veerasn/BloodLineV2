@@ -47,17 +47,18 @@ namespace BloodLineV2.Models
             }
         }
 
-
         public Nullable<int> NumberRc { get; set; }
         public Nullable<int> NumberPl { get; set; }
         public Nullable<int> NumberPp { get; set; }
         public Nullable<int> NumberGs { get; set; }
+        public Nullable<short> ReviewStatus { get; set; }
+        public Nullable<int> ReviewedID { get; set; }
+        public Nullable<System.DateTime> ReviewedTime { get; set; }
     
         public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CartItem> CartItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notice> Notices { get; set; }
-
     }
 }

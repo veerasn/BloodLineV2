@@ -200,24 +200,33 @@
                         <tr></tr>
                     </tbody>
                 </table>
-                <div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
-                    <label class="btn btn-outline-info">
-                        <input type="radio" name="review-status" value="0" checked>
-                        <i class="fa fa-eye"></i>
-                    </label>
-                    <label class="btn btn-outline-info">
-                        <input type="radio" name="review-status" value="1" >
-                        <i class="fa fa-check"></i>
-                    </label>
-                    <label class="btn btn-outline-info">
-                        <input type="radio" name="review-status" value="2">
-                        <i class="fa fa-phone"></i>
-                    </label>
-                    <label class="btn btn-outline-info">
-                        <input type="radio" name="review-status" value="3">
-                        <i class="fa fa-times"></i>
-                    </label>
+                <div>
+                    <h6> 
+                        <span class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
+                            <label class="btn btn-outline-info">
+                                <input type="radio" name="rb-review-status" value="1">
+                                <i class="fa fa-eye"></i>
+                            </label>
+                            <label class="btn btn-outline-info">
+                                <input type="radio" name="rb-review-status" value="2">
+                                <i class="fa fa-check"></i>
+                            </label>
+                            <label class="btn btn-outline-info">
+                                <input type="radio" name="rb-review-status" value="3">
+                                <i class="fa fa-phone"></i>
+                            </label>
+                            <label class="btn btn-outline-info">
+                                <input type="radio" name="rb-review-status" value="4">
+                                <i class="fa fa-times"></i>
+                            </label>
+                        </span>
+                        <span id="request-review-details">
+                            <!--Update message depending on status-->
+                            Request reviewed and approved by 1 at 04/06/20 10:11
+                        </span>
+                    </h6>
                 </div>
+                
                 <div>
                     <dl class="row" id="list-request-details">
                         <!--Definition list for notices and alerts-->
@@ -284,7 +293,8 @@
                 var z = objResults[0].CheckedInTime;
 
                 //Update review-status button if any review activity has occurred
-                updateCheckRadioValue('review-status', '2');
+                displayRequestReviewDetails(id);
+                updateRadioValueId('rb-review-status', id); //Assign id for each radiobutton as CartId
 
                 //List of activities and time
                 row = "<tr class='table-primary' id='rem-1'><td>Request created</td><td>" + objResults[0].DateCreated + "</td><td>" + objResults[0].UserID + "</td></tr>"
@@ -335,16 +345,75 @@
 </script>
 
 <script>
-    function updateCheckRadioValue(radioname, value) {
+    function updateRadioValueId(radioname, id) {
         var ele = document.getElementsByName(radioname);
 
         for (i = 0; i < ele.length; i++) {
-            if (ele[i].value == value) {
-                ele[i].checked = true;
-            }
-            else {
-                ele[i].checked = false;
-            }
+            ele[i].id = id;
         }
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on("change", "input[name='rb-review-status']", function (e) {
+            var id = e.target.id;
+            var status = e.target.value;
+
+            $.ajax({
+                url: "/Order/UpdateReviewStatus",
+                method: "Post",
+                data: {
+                    id: id,
+                    status: status,
+                    user: 1
+                }
+            }).done(function () {
+                alert("Review status for " + id + " modified.");
+                //Update #request-review-details
+                displayRequestReviewDetails(id);
+
+            }).error(function () {
+                alert("Error in modifying review status");
+            });
+        });
+
+    });
+
+</script>
+<script>
+    function displayRequestReviewDetails(id) {
+        var uri = "/Order/GetReviewStatusDetails";
+        $.getJSON(uri, { id: id }).done(function (data) {
+
+            count = JSON.parse(data).length;
+            //Records available for request
+            if (count > 0) {
+                objResults = JSON.parse(data);
+                var text = '';
+                var status = objResults[0].ReviewStatus;
+                var time = objResults[0].ReviewedTime;
+                var user = objResults[0].ReviewedID;
+                switch (status) {
+                    case 1:
+                        text = time + ': Viewed by ' + user;
+                        break;
+                    case 2:
+                        text = time + ': Approved by ' + user;
+                        break;
+                    case 3:
+                        text = time + ': Pending decision. Contact TMD for clarification.';
+                        break;
+                    case 4:
+                        text = time + ': Not approved. Contact TMD for clarification.';
+                        break;
+                    default:
+                        text = 'Pending';
+                        break;
+                }
+                $('#request-review-details').text(text);
+            }
+        });
     }
 </script>
