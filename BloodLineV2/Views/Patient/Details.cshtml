@@ -539,50 +539,59 @@
                                         @{var res = ViewData["TestResults"] as string[,];
                                             for (int row = 0; row < res.GetLength(0); row++)
                                             {
-                                                <tr>
-                                                    @for (int column = 0; column < res.GetLength(1); column++)
-                                                    {
-                                                        switch (column)
-                                                        {
-                                                            case 2:
-                                                                if (res[row, column] != null)
-                                                                {
-                                                                    <td><i class="fa fa-vial"></i><sup>@res[row, column]</sup></td>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <td>@res[row, column]</td>
-                                                                };
-                                                                break;
+                                        <tr>
+                                            @for (int column = 0; column < res.GetLength(1); column++)
+                                            {
+                                                switch (column)
+                                                {
+                                                        case 0:
+                                                            <td class="tooltip-request-details" id=@res[row, column]>
+                                                                <a href="#" data-toggle="modal" data-id=@res[row, column] data-target="#request-details" class="showRequestDetails">
+                                                                    @res[row, column]
+                                                                </a>
+                                                            </td>
+                                                           break;
 
-                                                            case 6:
-                                                                if (res[row, column] != null && res[row, column].Contains("POS"))
-                                                                {
-                                                                    <td><b><font color="red">@res[row, column]</font></b></td>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <td>@res[row, column]</td>
-                                                                };
-                                                                break;
 
-                                                            case 7:
-                                                                if (res[row, column] != null)
-                                                                {
-                                                                    <td><i class="fa fa-exclamation"></i></td>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <td>@res[row, column]</td>
-                                                                };
-                                                                break;
-
-                                                            default:
+                                                        case 2:
+                                                            if (res[row, column] != null)
+                                                            {
+                                                                <td><i class="fa fa-vial"></i><sup>@res[row, column]</sup></td>
+                                                            }
+                                                            else
+                                                            {
                                                                 <td>@res[row, column]</td>
-                                                                break;
-                                                        }
+                                                            };
+                                                            break;
+
+                                                        case 6:
+                                                            if (res[row, column] != null && res[row, column].Contains("POS"))
+                                                            {
+                                                                <td><b><font color="red">@res[row, column]</font></b></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@res[row, column]</td>
+                                                            };
+                                                            break;
+
+                                                        case 7:
+                                                            if (res[row, column] != null)
+                                                            {
+                                                                <td><i class="fa fa-exclamation"></i></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>@res[row, column]</td>
+                                                            };
+                                                            break;
+
+                                                        default:
+                                                            <td>@res[row, column]</td>
+                                                            break;
                                                     }
-                                                </tr>
+                                                }
+                                        </tr>
                                             }
                                         }
                                     </tbody>
@@ -707,7 +716,11 @@
                                             if (item.PRODNUM != null && item.PRODCODE.Substring(0, 2) == "PL")
                                             {
                                                 <tr>
-                                                    <td>@item.ACCESSNUMBER</td>
+                                                    <td class="tooltip-request-details" id=@item.ACCESSNUMBER>
+                                                        <a href="#" data-toggle="modal" data-id=@item.ACCESSNUMBER data-target="#request-details" class="showRequestDetails">
+                                                            @item.ACCESSNUMBER
+                                                        </a>
+                                                    </td>
                                                     <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
                                                     <td>@item.PRODCODE</td>
                                                     <td><span data-toggle="tooltip" title="@item.PRODGROUP, Expiry: @item.EXPDATE.Value.ToString("dd/MM/yyyy")">@item.PRODNUM</span></td>
@@ -783,7 +796,11 @@
                                             if (item.PRODNUM != null && (item.PRODCODE.Substring(0, 2) == "FF" || item.PRODCODE.Substring(0, 2) == "CR"))
                                             {
                                                 <tr>
-                                                    <td>@item.ACCESSNUMBER</td>
+                                                    <td class="tooltip-request-details" id=@item.ACCESSNUMBER>
+                                                        <a href="#" data-toggle="modal" data-id=@item.ACCESSNUMBER data-target="#request-details" class="showRequestDetails">
+                                                            @item.ACCESSNUMBER
+                                                        </a>
+                                                    </td>
                                                     <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
                                                     <td>@item.PRODCODE</td>
                                                     <td><span data-toggle="tooltip" title="@item.PRODGROUP, Expiry: @item.EXPDATE.Value.ToString("dd/MM/yyyy")">@item.PRODNUM</span></td>
@@ -1736,7 +1753,7 @@
                     }
                     
                     if (dp != "none") {
-                        $('#request-review-details').html("<i class='fa " + dp + "' style='color:Highlight'></i>" + text);
+                        $('#request-review-details').html("<i class='fa " + dp + "' style='color:red'></i><span style='padding-left:1em'><sup>" + text + "</sup></span>");
                     }
                     else {
                         $('#request-review-details').html('');
