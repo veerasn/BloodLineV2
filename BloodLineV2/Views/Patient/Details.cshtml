@@ -2418,6 +2418,11 @@
                 success: function (r) {
                     //alert(r + " record(s) inserted.");
                     if (r > 0) {
+                        //Update request to emr and get sample ID
+                        var emr = "http://172.18.8.163:7001/httprequest/integrasi/int_postBloodBackOrder.asp?CartID=" + UniqueCartID
+                        $.post(emr, function (response) {
+                            alert(response);
+                        });
                         //Update cart items if cart has been succesfully added
                         updateCartItems(UniqueCartID)
                     }
