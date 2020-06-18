@@ -993,7 +993,7 @@ namespace BloodLineV2.Controllers
                                         p.RHFACTOR,
                                         p.EXPDATE,
                                         DATEDIFF(hour, rp.ISSUEDATE, GETDATE()) AS IssueInterval,
-                                        rp.ACCESSNUMBER
+                                        rp.ACCESSNUMBER AS SampleID
                                     FROM REQUESTS r
                                     INNER JOIN REQUEST_PRODUCT rp ON r.ACCESSNUMBER = rp.ACCESSNUMBER
                                     INNER JOIN PRODUCTS p ON rp.PRODUCTID = p.PRODUCTID

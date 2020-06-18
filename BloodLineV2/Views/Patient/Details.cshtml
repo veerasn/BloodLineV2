@@ -1422,6 +1422,9 @@
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control" id="transfuse-pack-id" placeholder="Scan blood pack's ID" aria-label="Scan blood pack's ID" aria-describedby="basic-addon2">
                                 </div>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" id="transfuse-sample-id" placeholder="Sample ID" aria-label="Sample ID" aria-describedby="basic-addon2">
+                                </div>
                                 <button type="button" onclick="verifyPack()" class="btn btn-outline-dark" id="submit-transfuse-pack">Submit</button>
                             </div>
                         </div>
@@ -2817,9 +2820,9 @@
 
                     if (count != 0) {
                         //Unit is matched to the patient.
+                        $('#transfuse-sample-id').val(objResults[0].SampleID);
                         //Check to see if transfusion has been started for this unit on this patient by interogating BBOrder:Transfusions
                         var uri = "/Patient/GetTransfusionDetails";
-
                         $.getJSON(uri, { patid: x, packid: y }).done(function (data) {
                             var objT = JSON.parse(data);
                             if (objT.length == 0) {
@@ -3071,6 +3074,7 @@
             var currentdate = new Date();
             preItem.Patnumber = document.getElementById("transfuse-recipient-id").value;
             preItem.Prodnum = document.getElementById("transfuse-pack-id").value;
+            preItem.SampleID = document.getElementById("transfuse-sample-id").value;
             preItem.pre_temp = document.getElementById("pre-temp").value;
             preItem.pre_pulse = document.getElementById("pre-pulse").value;
             preItem.pre_bp_sys = document.getElementById("pre-bp-sys").value;

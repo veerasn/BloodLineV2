@@ -261,6 +261,5 @@ namespace BloodLineV2.Controllers
             return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
         }
 
-
     }
 }

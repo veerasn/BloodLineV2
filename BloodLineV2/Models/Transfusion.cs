@@ -42,6 +42,7 @@ namespace BloodLineV2.Models
         public Nullable<int> end_user { get; set; }
         public Nullable<int> current_status { get; set; }
         public Nullable<int> interupt_num { get; set; }
+        public Nullable<long> SampleID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Interupt> Interupts { get; set; }
