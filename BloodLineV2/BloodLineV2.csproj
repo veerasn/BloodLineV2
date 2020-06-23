@@ -323,6 +323,7 @@
       <DependentUpon>BBOrder.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\OrderDetailViewModel.cs" />
     <Compile Include="ViewModels\PatientDetailViewModel.cs" />
     <Compile Include="Controllers\ProductInfoController.cs" />
   </ItemGroup>

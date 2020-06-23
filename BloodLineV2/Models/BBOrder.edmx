@@ -33,6 +33,7 @@
           <Property Name="ReviewStatus" Type="smallint" />
           <Property Name="ReviewedID" Type="int" />
           <Property Name="ReviewedTime" Type="datetime" />
+          <Property Name="NumberTest" Type="int" />
         </EntityType>
         <EntityType Name="CartItems">
           <Key>
@@ -378,6 +379,7 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <Property Name="ReviewStatus" Type="Int16" />
           <Property Name="ReviewedID" Type="Int32" />
           <Property Name="ReviewedTime" Type="DateTime" Precision="3" />
+          <Property Name="NumberTest" Type="Int32" />
         </EntityType>
         <EntityType Name="CartItem">
           <Key>
@@ -702,6 +704,7 @@ warning 6002: The table/view 'BBOrder.dbo.sysdiagrams' does not have a primary k
           <EntitySetMapping Name="Carts">
             <EntityTypeMapping TypeName="BBOrderModel.Cart">
               <MappingFragment StoreEntitySet="Cart">
+                <ScalarProperty Name="NumberTest" ColumnName="NumberTest" />
                 <ScalarProperty Name="ReviewedTime" ColumnName="ReviewedTime" />
                 <ScalarProperty Name="ReviewedID" ColumnName="ReviewedID" />
                 <ScalarProperty Name="ReviewStatus" ColumnName="ReviewStatus" />

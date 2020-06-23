@@ -2362,6 +2362,7 @@
             var pl = 0;
             var pp = 0;
             var gs = 0;
+            var ts = 0;
 
             //Populate Cart info
             cart.CartID = UniqueCartID;
@@ -2398,6 +2399,10 @@
                     gs = gs + num;
                 }
 
+                if (prod.includes("T-")) {
+                    ts = ts + num;
+                }
+
                 items = items
                         + row.find("TD").eq(2).html() + " ("
                         + prod + ") - "
@@ -2408,6 +2413,7 @@
             cart.NumberPl = pl;
             cart.NumberPp = pp;
             cart.NumberGs = gs;
+            cart.NumberTest = ts;
             cart.Items = items;
             carts.push(cart);
 
@@ -2692,6 +2698,13 @@
                     a.document.write('</body></html>');
                     a.document.close();
                     a.print();
+
+                    //Update request as checked out if no tests are required and there is no sample to send
+                    if (objResults[0].NumberTest == 0) {
+                        var cid = objResults[0].CartID;
+                        printEmr(cid);
+                        checkedOut(cid);
+                    }
                 }
                 else {
                     alert("Request has not been aknowledged by TD-Synergy.");
@@ -2778,11 +2791,14 @@
                 }
             }).done(function () {
                 alert("Cart " + val + " checked out.");
-                //Check out
-                //Change syringe icon to vial and inactivate toggle for patient and sample verifications
-                document.getElementById("sample-status-" + val).innerHTML = "<i class='fas fa-vials fa-lg text-danger pr-4'></i>";
-                document.getElementById("sample-status-" + val).setAttribute("onclick", "");
-                document.getElementById("request-" + val).setAttribute("style", "display:none")
+                //Check out request
+                //Change syringe icon to vial and inactivate toggle for patient and sample verifications only if sample required
+                var ele = document.getElementById("sample-status-" + val);
+                if (ele) {
+                    ele.innerHTML = "<i class='fas fa-vials fa-lg text-danger pr-4'></i>";
+                    ele.setAttribute("onclick", "");
+                    document.getElementById("request-" + val).setAttribute("style", "display:none")
+                }
 
             }).error(function () {
                 alert("Error in checking out cart");

@@ -11,6 +11,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BloodLineV2.Models;
+using BloodLineV2.ViewModels;
 using MySql.Data.MySqlClient;
 
 namespace BloodLineV2.Controllers
@@ -22,6 +23,16 @@ namespace BloodLineV2.Controllers
         // GET: Order
         public ActionResult Index(string searchString)
         {
+            /*var carts = db.Carts.SelectMany
+            (
+                cart => db.Transfusions.Where(transfusion => cart.SampleID == transfusion.SampleID).DefaultIfEmpty(),
+                (cart, transfusion) => new
+                {
+                    Cart = cart,
+                    Transfusion = transfusion
+                }
+            ).Include(c => c.Member).Where(c => c.Status == 0); */
+
             var carts = db.Carts.Include(c => c.Member).Where(c => c.Status == 0);
 
             if (!string.IsNullOrEmpty(searchString))
@@ -63,10 +74,10 @@ namespace BloodLineV2.Controllers
                     carts = carts.Where(c => c.Location.Contains(searchString));
                 }   
             }
-
-            return View(carts.OrderByDescending(c=>c.CartID).ToList());
+            return View(carts.OrderByDescending(c=>c.CartID).ToList().AsEnumerable());
         }
 
+       
         // GET: Order/Details/5
         public ActionResult Details(long? id)
         {

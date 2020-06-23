@@ -944,7 +944,8 @@ namespace BloodLineV2.Controllers
                                         c.Urgency AS Urgency, 
                                         c.[Location] AS Location, 
                                         c.[Status] AS Status, 
-                                        c.Items AS Items
+                                        c.Items AS Items,
+                                        c.NumberTest AS NumberTest
                                     FROM Cart c
                                     WHERE c.PatientID = '" + id + "' AND c.CheckedIn = 0 " + "ORDER BY c.DateCreated DESC";
             
@@ -1176,7 +1177,7 @@ namespace BloodLineV2.Controllers
 
             long s = id;
             string queryString = @"SELECT c.CartID, c.SampleID, c.PatientID, c.PatientName, 
-                                    c.[Location], c.Items, n.CategoryId, n.NoticeText
+                                    c.[Location], c.Items, c.NumberTest, n.CategoryId, n.NoticeText
                                     FROM Cart c
                                     INNER JOIN Notices n ON c.CartID = n.CartID
                                     WHERE n.CategoryId !=4 AND c.CartID = " + id;
