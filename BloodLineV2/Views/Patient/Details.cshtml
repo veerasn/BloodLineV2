@@ -2588,9 +2588,15 @@
                         if (objResults[i].CheckedOut == 0) {
                             fasyringe = "<span id = 'sample-status-" + objResults[i].CartID + "' onclick = 'toggleSubmitReq(" + objResults[i].CartID + ")'><i class='fas fa-syringe fa-lg text-danger pr-4'></i></span>"
                         }
+                        //Changed to allow reprinting even after first print
+                        else if (objResults[i].CheckedOut == 1) {
+                            fasyringe = "<span id = 'sample-status-" + objResults[i].CartID + "' onclick = 'toggleSubmitReq(" + objResults[i].CartID + ")'><i class='fas fa-vials fa-lg text-danger pr-4'></i></span>"
+                        }
+                        /*
                         else if (objResults[i].CheckedOut == 1) {
                             fasyringe = "<span id = 'sample-status-" + objResults[i].CartID + "' onclick = ''><i class='fas fa-vials fa-lg text-danger pr-4'></i></span>"
                         }
+                        */
                         else {
                             fasyringe = "";
                         }

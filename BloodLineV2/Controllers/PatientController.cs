@@ -947,7 +947,7 @@ namespace BloodLineV2.Controllers
                                         c.Items AS Items,
                                         c.NumberTest AS NumberTest
                                     FROM Cart c
-                                    WHERE c.PatientID = '" + id + "' AND c.CheckedIn = 0 " + "ORDER BY c.DateCreated DESC";
+                                    WHERE c.PatientID = '" + id + "' AND DATEDIFF(hour, c.DateCreated, GETDATE()) < 72 AND c.CheckedIn = 0 " + "ORDER BY c.DateCreated DESC";
             
             SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
             da.Fill(dt);
@@ -987,6 +987,8 @@ namespace BloodLineV2.Controllers
             var cn = new SqlConnection();
             var dt = new DataTable();
             string strCn = ConfigurationManager.ConnectionStrings["BBS"].ToString();
+            //Remove leading 0 from PatId
+            string newPatId = patid.TrimStart('0');
 
             string queryString = @"SELECT SUBSTRING(r.PATNUMBER, PATINDEX('%[^0]%', r.PATNUMBER+'.'), LEN(r.PATNUMBER)) AS PatientID, 
 	                                    p.PRODCODE,
@@ -998,7 +1000,7 @@ namespace BloodLineV2.Controllers
                                     FROM REQUESTS r
                                     INNER JOIN REQUEST_PRODUCT rp ON r.ACCESSNUMBER = rp.ACCESSNUMBER
                                     INNER JOIN PRODUCTS p ON rp.PRODUCTID = p.PRODUCTID
-                                    WHERE SUBSTRING(r.PATNUMBER, PATINDEX('%[^0]%', r.PATNUMBER+'.'), LEN(r.PATNUMBER)) = '" + patid + "' AND p.PRODNUM = '" + packid +"'";
+                                    WHERE SUBSTRING(r.PATNUMBER, PATINDEX('%[^0]%', r.PATNUMBER+'.'), LEN(r.PATNUMBER)) = '" + newPatId + "' AND p.PRODNUM = '" + packid +"'";
 
             SqlDataAdapter da = new SqlDataAdapter(queryString, strCn);
             da.Fill(dt);
@@ -1135,7 +1137,7 @@ namespace BloodLineV2.Controllers
             var cn = new SqlConnection();
             var dt = new DataTable();
             string strCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
-
+         
             string queryString = @"SELECT DISTINCT t.TransfusionId, t.Prodnum, t.Patnumber, t.pre_temp, t.pre_pulse, 
 	                                t.pre_bp_sys, t.pre_bp_dia, t.post_temp, t.post_pulse, t.post_sys, t.post_dia, 
 	                                t.end_user, t.current_status, t.interupt_num,
