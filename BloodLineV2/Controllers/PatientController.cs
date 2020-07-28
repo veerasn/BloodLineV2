@@ -1128,9 +1128,58 @@ namespace BloodLineV2.Controllers
                 record.current_status = 5;
                 context.SaveChanges();
 
+                UpdateTdbbTransfusionRecords(packid, patid);
+
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
+
         }
+
+        public void UpdateTdbbTransfusionRecords(string packid, string patid)
+        {
+            string oCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
+            SqlConnection oConnection = new SqlConnection(oCn);
+
+            var oQry = "SELECT * FROM Transfusions "
+                            + "WHERE Prodnum = '" + packid + "' AND Patnumber = '" + patid + "'";
+            SqlCommand oCmd = new SqlCommand(oQry, oConnection);
+            oConnection.Open();
+
+            SqlDataReader reader = oCmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+
+                string bCn = ConfigurationManager.ConnectionStrings["BBSLOCAL"].ToString();
+                SqlConnection bConnection = new SqlConnection(bCn);
+                SqlTransaction transaction;
+
+                bConnection.Open();
+                transaction = bConnection.BeginTransaction();
+
+                try
+                {
+                    while (reader.Read())
+                    {
+                        var bQry = "INSERT INTO PATIENT_TRANS_DATA(PRODUCTID,PATNUMBER)VALUES(1234,'" + reader.GetString(1) + "')";
+                        new SqlCommand(bQry, bConnection, transaction).ExecuteNonQuery();
+                    }
+                    transaction.Commit();
+                }
+
+                catch (SqlException)
+                {
+                    transaction.Rollback();
+                }
+
+                bConnection.Close();
+
+            }
+
+            oConnection.Close();
+
+        }
+
 
         public JsonResult GetTransfusionDetails(string patid, string packid)
         {
@@ -1242,7 +1291,6 @@ namespace BloodLineV2.Controllers
 
             return Json(serializer.Serialize(rows), JsonRequestBehavior.AllowGet);
         }
-
 
     }
 }

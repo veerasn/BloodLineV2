@@ -1672,7 +1672,9 @@
     </script>
     <script>
         $(document).on("click", ".showRequestDetails", function () {
-            var id = $(this).data('id');
+            //Truncate ID to exclude first 3 digits to remove prefix added by EGIS
+            var startstring = 3;
+            var id = $(this).data('id').substring(startstring);
             var uri = "/Patient/GetRequestDetails";
 
             $.getJSON(uri, { id: id }).done(function (data) {
