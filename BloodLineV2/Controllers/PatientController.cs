@@ -1140,8 +1140,13 @@ namespace BloodLineV2.Controllers
             string oCn = ConfigurationManager.ConnectionStrings["BBOrder"].ToString();
             SqlConnection oConnection = new SqlConnection(oCn);
 
-            var oQry = "SELECT * FROM Transfusions "
+            var oQry = "SELECT Prodnum, Patnumber,"
+                            + "start_time,pre_temp,pre_pulse,pre_bp_sys, pre_bp_dia,"
+                            + "end_time,post_temp,post_pulse,post_sys,post_dia,"
+                            + "interupt_reason "
+                            + "FROM Transfusions "
                             + "WHERE Prodnum = '" + packid + "' AND Patnumber = '" + patid + "'";
+
             SqlCommand oCmd = new SqlCommand(oQry, oConnection);
             oConnection.Open();
 
@@ -1161,8 +1166,51 @@ namespace BloodLineV2.Controllers
                 {
                     while (reader.Read())
                     {
-                        var bQry = "INSERT INTO PATIENT_TRANS_DATA(PRODUCTID,PATNUMBER)VALUES(1234,'" + reader.GetString(1) + "')";
-                        new SqlCommand(bQry, bConnection, transaction).ExecuteNonQuery();
+                        //Retrieve PRODUCTID from PRODUCTS
+                        
+                        //Update pack status in PATIENT_TRANS_DATA
+                        string bQry = "INSERT INTO PATIENT_TRANS_DATA("
+                                        + "PRODUCTID,PATNUMBER,"
+                                        + "BEGINLOGUSERID,BEGINLOGDATE,BEGINDATE,BEGINTEMP,BEGINPULSE,BEGINPRESSURE,"
+                                        + "ENDLOGUSERID,ENDLOGDATE,ENDDATE,ENDTEMP,ENDPULSE,ENDPRESSURE,ENDVOLUME,TRANSREACTION"
+                                        + ")"
+                                        + "VALUES (@productid,@patnumber,"
+                                        + "@beginloguserid,@beginlogdate,@begindate,@begintemp,@beginpulse,@beginpressure,"
+                                        + "@endloguserid,@endlogdate,@enddate,@endtemp,@endpulse,@endpressure,@endvolume,@transreaction"
+                                        + ")";
+
+                        SqlCommand cmdInsert = new SqlCommand(bQry, bConnection, transaction);
+                        cmdInsert.Parameters.AddWithValue("@productid", 999);
+                        cmdInsert.Parameters.AddWithValue("@patnumber", reader.GetString(1).PadLeft(20,'0'));
+                        cmdInsert.Parameters.AddWithValue("@beginloguserid", "WARDS");
+                        cmdInsert.Parameters.AddWithValue("@beginlogdate", reader.GetDateTime(2));
+                        cmdInsert.Parameters.AddWithValue("@begindate", reader.GetDateTime(2));
+                        cmdInsert.Parameters.AddWithValue("@begintemp", reader.GetInt32(3).ToString());
+                        cmdInsert.Parameters.AddWithValue("@beginpulse", reader.GetInt32(4).ToString());
+                        cmdInsert.Parameters.AddWithValue("@beginpressure", reader.GetInt32(5).ToString() + "/" + reader.GetInt32(6).ToString());
+                        cmdInsert.Parameters.AddWithValue("@endloguserid", "WARDS");
+                        cmdInsert.Parameters.AddWithValue("@endlogdate", reader.GetDateTime(7));
+                        cmdInsert.Parameters.AddWithValue("@enddate", reader.GetDateTime(7));
+                        cmdInsert.Parameters.AddWithValue("@endtemp", reader.GetInt32(8).ToString());
+                        cmdInsert.Parameters.AddWithValue("@endpulse", reader.GetInt32(9).ToString());
+                        cmdInsert.Parameters.AddWithValue("@endpressure", reader.GetInt32(10).ToString() + "/" + reader.GetInt32(11).ToString());
+                        cmdInsert.Parameters.AddWithValue("@endvolume", "NA");
+
+                        if (!reader.IsDBNull(12))
+                        {
+                            cmdInsert.Parameters.AddWithValue("@transreaction", reader.GetInt32(12).ToString());
+                        }
+                        else
+                        {
+                            cmdInsert.Parameters.AddWithValue("@transreaction", "NULL");
+                        }
+
+                        cmdInsert.ExecuteNonQuery();
+
+                        //Update pack status in REQUEST_PRODUCT
+
+                        //Update pack status in PRODUCTS
+
                     }
                     transaction.Commit();
                 }
