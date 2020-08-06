@@ -1167,7 +1167,8 @@ namespace BloodLineV2.Controllers
                     while (reader.Read())
                     {
                         //Retrieve PRODUCTID from PRODUCTS
-                        
+                        int productid = GetProductId(packid);
+
                         //Update pack status in PATIENT_TRANS_DATA
                         string bQry = "INSERT INTO PATIENT_TRANS_DATA("
                                         + "PRODUCTID,PATNUMBER,"
@@ -1180,7 +1181,7 @@ namespace BloodLineV2.Controllers
                                         + ")";
 
                         SqlCommand cmdInsert = new SqlCommand(bQry, bConnection, transaction);
-                        cmdInsert.Parameters.AddWithValue("@productid", 999);
+                        cmdInsert.Parameters.AddWithValue("@productid", productid);
                         cmdInsert.Parameters.AddWithValue("@patnumber", reader.GetString(1).PadLeft(20,'0'));
                         cmdInsert.Parameters.AddWithValue("@beginloguserid", "WARDS");
                         cmdInsert.Parameters.AddWithValue("@beginlogdate", reader.GetDateTime(2));
@@ -1226,6 +1227,46 @@ namespace BloodLineV2.Controllers
 
             oConnection.Close();
 
+        }
+
+        public int GetProductId(string packid)
+        {
+            string pQry = "SELECT p.PRODUCTID "
+                            + "FROM PRODUCTS p "
+                            + "INNER JOIN REQUEST_PRODUCT rp ON p.PRODUCTID = rp.PRODUCTID "
+                            + "INNER JOIN REQUESTS r ON rp.ACCESSNUMBER = r.ACCESSNUMBER "
+                            + "WHERE p.PRODNUM = @packid AND rp.PSTATUS = 3";
+            int productid = 0;
+
+            string bCn = ConfigurationManager.ConnectionStrings["BBS"].ToString();
+
+            using(SqlConnection con = new SqlConnection(bCn))
+            {
+                SqlCommand cmdGetProductID = new SqlCommand();
+                cmdGetProductID.Connection = con;
+                cmdGetProductID.CommandText = pQry;
+                cmdGetProductID.CommandType = CommandType.Text;
+
+                SqlParameter paraPackid = new SqlParameter();
+                paraPackid.ParameterName = "@packid";
+                paraPackid.SqlDbType = SqlDbType.NVarChar;
+                paraPackid.Direction = ParameterDirection.Input;
+                paraPackid.Value = packid;
+
+                cmdGetProductID.Parameters.Add(paraPackid);
+
+                try
+                {
+                    con.Open();
+                    productid = (int)cmdGetProductID.ExecuteScalar();
+                }
+                catch (Exception ex )
+                {
+
+                }
+
+                return productid;
+            }
         }
 
 
