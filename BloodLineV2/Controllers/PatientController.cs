@@ -1197,20 +1197,64 @@ namespace BloodLineV2.Controllers
                         cmdInsert.Parameters.AddWithValue("@endpressure", reader.GetInt32(10).ToString() + "/" + reader.GetInt32(11).ToString());
                         cmdInsert.Parameters.AddWithValue("@endvolume", "NA");
 
+                        string tr;
+                        int pstatus;
+
                         if (!reader.IsDBNull(12))
                         {
-                            cmdInsert.Parameters.AddWithValue("@transreaction", reader.GetInt32(12).ToString());
+                            pstatus = 9;
+
+                            //Recode reaction type before inserting into TDBB
+                            int rxn = reader.GetInt32(12);
+                            switch (rxn)
+                            {
+                                case 1:
+                                    tr = "PAIN2";
+                                    break;
+                                case 2:
+                                    tr = "FEVE1";
+                                    break;
+                                case 3:
+                                    tr = "FLUSH";
+                                    break;
+                                case 4:
+                                    tr = "HYPO";
+                                    break;
+                                default:
+                                    tr = "none";
+                                    break;
+                            }
+
+                            cmdInsert.Parameters.AddWithValue("@transreaction", tr);
                         }
                         else
                         {
-                            cmdInsert.Parameters.AddWithValue("@transreaction", "NULL");
+                            pstatus = 4;
+                            tr = "NULL";
+                            cmdInsert.Parameters.AddWithValue("@transreaction", tr);
                         }
 
                         cmdInsert.ExecuteNonQuery();
 
                         //Update pack status in REQUEST_PRODUCT
+                        string rpQry = "UPDATE REQUEST_PRODUCT "
+                                        + "SET PSTATUS = " + pstatus + ", "
+                                        + "RETURNUID = 'WARDS', "
+                                        + "RETURNDATE = '" + reader.GetDateTime(7) + "', "
+                                        + "RETURNFROM = 'LABO', "
+                                        + "TRANSREACTION = '" + tr + "' "
+                                        + "WHERE PRODUCTID = " + productid + " AND PSTATUS = 3";
+                        SqlCommand cmdUpdateRp = new SqlCommand(rpQry, bConnection, transaction);
+                        cmdUpdateRp.ExecuteNonQuery();
 
                         //Update pack status in PRODUCTS
+                        string prQry = "UPDATE PRODUCTS "
+                                        + "SET PSTATUS = " + pstatus + ", "
+                                        + "DATETRANS = '" + reader.GetDateTime(7) + "', "
+                                        + "FRIDGEID = NULL "
+                                        + "WHERE PRODUCTID = " + productid;
+                        SqlCommand cmdUpdatePr = new SqlCommand(prQry, bConnection, transaction);
+                        cmdUpdatePr.ExecuteNonQuery();
 
                     }
                     transaction.Commit();
